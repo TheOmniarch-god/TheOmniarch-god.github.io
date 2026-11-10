@@ -34,13 +34,41 @@
     var featuredOrder=['TOUZI','Ullasseu','mc人祖','OSOT','diouer','毛民0906 (AI)'];
     var covers={'TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','mc人祖':'hope-gu','OSOT':'footless-bird','diouer':'bai-ning-bing-study','毛民0906 (AI)':'air-bubble-fish'};
     var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n;});var f=D.files.find(function(x){return x.id===covers[n];});if(!a||!f)return '';var nFiles=count(a.id);return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong><span>'+nFiles+' imported file'+(nFiles===1?'':'s')+(f.method==='collection-labelled AI'?' · AI-labelled':'')+'</span></a>';}).join('');
-    var panels=D.categories.filter(function(c){return c.id!=='ai';}).map(function(c){
-      var files=D.files.filter(function(f){return c.id==='volumes'?!!f.volume:f.categories.includes(c.id);});
-      var subs=subjects(files).filter(function(s){return subjectKinds[s]===c.id;});
-      var content=c.id==='volumes'?'<li>'+link('images-volumes','Browse volumes 1–6')+'</li><li>'+link('images-volume-1','Volume 1: Demonic Nature Never Changes')+'</li><li>'+link('images-volume-unassigned','Images without a volume assignment')+'</li>':c.id==='others'?'<li>'+link('images-ai','AI-labelled images')+'</li><li>'+link('images-fan-takes','Fan reinterpretations')+'</li>':c.id==='scenes'||c.id==='fan-takes'?files.slice(0,5).map(function(f){return '<li>'+link('images-file-'+f.id,f.title)+'</li>';}).join(''):subs.map(function(sub){return '<li>'+link('images-subject-'+slug(sub),'Images of '+sub)+'</li>';}).join('');
-      return '<section class="collection-panel"><h4>'+link('images-'+c.id,c.title)+'</h4>'+(content?'<ul>'+content+'</ul>':'<p>'+e(c.description)+'</p>')+'</section>';
-    }).join('');
-    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+'<div class="collection-panels">'+panels+'</div>'+heading('Available artwork',link('images-recent','All images →'))+cards(D.files.slice(-6));
+    var catN=function(id){return D.files.filter(function(f){return id==='volumes'?!!f.volume:f.categories.includes(id);}).length;};
+    var subN=function(s){return D.files.filter(function(f){return f.subjects.includes(s);}).length;};
+    var subLinks=function(kind){return Object.keys(subjectKinds).filter(function(s){return subjectKinds[s]===kind;}).map(function(s){return {id:'images-subject-'+slug(s),title:'Images of '+s,n:subN(s)};}).filter(function(x){return x.n>0;});};
+    var item=function(it){return '<li>'+link(it.id,it.title)+'<small>'+it.n+'</small></li>';};
+    var groups=[
+      {title:'Characters',id:'images-characters',children:[{id:'images-characters',title:'All character artwork',n:catN('characters')}].concat(subLinks('characters'))},
+      {title:'Gu & cultivation',children:[
+        {id:'images-gu',title:'Gu Worms',n:catN('gu')},
+        {id:'images-gu-houses',title:'Gu Houses & constructs',n:catN('gu-houses')},
+        {id:'images-ranks',title:'Gu Masters & ranks',n:catN('ranks')},
+        {id:'images-cultivation',title:'Cultivation & apertures',n:catN('cultivation')},
+        {id:'images-objects',title:'Objects & treasures',n:catN('objects')}
+      ]},
+      {title:'World & places',children:[
+        {id:'images-locations',title:'Locations & world',n:catN('locations')},
+        {id:'images-factions',title:'Factions & clans',n:catN('factions')},
+        {id:'images-maps',title:'Maps & diagrams',n:catN('maps')},
+        {id:'images-legends',title:'The Legends of Ren Zu',n:catN('legends')}
+      ]},
+      {title:'Events & scenes',id:'images-scenes',children:[{id:'images-scenes',title:'Battles & scenes',n:catN('scenes')}]},
+      {title:'Creatures & beasts',id:'images-beasts',children:[{id:'images-beasts',title:'Creatures & beasts',n:catN('beasts')}]},
+      {title:'Adaptations & fan takes',id:'images-fan-takes',children:[{id:'images-fan-takes',title:'Fan reinterpretations',n:catN('fan-takes')}]},
+      {title:'Story placement',id:'images-volumes',children:[
+        {id:'images-volumes',title:'Browse volumes 1–6',n:catN('volumes')},
+        {id:'images-volume-1',title:'Volume 1: Demonic Nature Never Changes',n:D.files.filter(function(f){return f.volume==='volume-1';}).length},
+        {id:'images-volume-unassigned',title:'Without a volume assignment',n:D.files.filter(function(f){return !f.volume;}).length}
+      ]},
+      {title:'Other collections',children:[
+        {id:'images-others',title:'Others',n:catN('others')},
+        {id:'images-ai',title:'AI-labelled artwork',n:catN('ai')},
+        {id:'images-recent',title:'All imported artwork',n:D.files.length}
+      ]}
+    ];
+    var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4><ul>'+g.children.map(item).join('')+'</ul></section>';}).join('')+'</div>';
+    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+tree+heading('Available artwork',link('images-recent','All images →'))+cards(D.files.slice(-6));
   }
   function detail(f){
     var a=artist(f.artist);
@@ -59,6 +87,14 @@
     5:'<p>Commonly described by readers (approximate, uncited): the world’s deep history and the existence above 九转 (the Great Dao) come into play; the serial’s true scale becomes legible to the protagonist for the first time. Boundaries unverified on this wiki.</p>',
     6:'<p>Commonly described by readers (approximate, uncited): late published chapters, deeply debated in the fandom — the serial ended without a published conclusion when 不苦 went on hiatus in 2019 at chapter 2,334, so every theory about how far Volume 6 reaches is exactly that: a theory. Boundaries unverified on this wiki.</p>'
   };
+  var emptyKnowledge={
+    ranks:{h:'Gu Masters & ranks',p:'Power in 蛊真人 is measured in 转 (revolves/ranks) — from 一转 (first revolve, beyond which no one without an opened aperture qualifies as a Gu Master) through to 九转, with legendary powers (大道) and the world’s rarest masters above them, the Venerables (尊者). Each revolve deepens a Master’s primeval essence and the quality of Gu they can refine and control. The story itself introduces the ranking system and inherited ranks in its early chapters (this wiki’s Chapter 7 brief covers rank inheritances), but the full rank table has not yet been cited on this wiki.'},
+    cultivation:{h:'Cultivation & apertures',p:'Cultivation (修真) in 蛊真人 begins at the Aperture Opening Ceremony, when a child’s aptitude is assessed and a primeval aperture is refined — the mark of a potential Gu Master. Advancement is bought with primeval stones (元石), dangerous killer moves (杀招) and endless refining of Gu from spirits and insects; the story treats every rank as something that must be paid for, in resources and very often in lives. This wiki has Aperture Opening Ceremony and Aptitude Grades articles; the full system has not yet been cited here, so the prose above is general background, not a reference table.'},
+    factions:{h:'Factions & clans',p:'The cultivation world of 蛊真人 is organized around clans, lineages and alliances rather than states. The protagonist is born into the Gu Yue clan of Gu Yue Village on Qing Mao Mountain, and the Bai clan is another documented family on this wiki; above and around these sit the larger powers of the Five Regions — academies, alliances and great houses contending for primeval stones and legendary Gu. Specific rankings, histories, symbols and member rosters of these factions are not yet cited on this wiki; do not quote this page as a fact sheet.'},
+    objects:{h:'Objects & treasures',p:'Treasures in 蛊真人 range from primeval stones (元石) — the raw currency of cultivation — to legendary Gu such as the Spring Autumn Cicada (春秋蝉), inherited killer moves, contracts and artifacts of the great houses. Artwork in this bucket would include artifact studies, treasure showcases and resource still-lifes; none are imported yet. Symbols of office and clan inheritance would live here too.'},
+    maps:{h:'Maps & diagrams',p:'No depiction of the Five Regions (五域 — 北疆 the Northland, 东荒 the Eastern Wilds, 西漠 the Western Desert, 南疆 the Southern Wilds, 中州 the Central State) or of Gu Yue Village and Qing Mao Mountain exists in this collection yet. Cartography of the setting is rare even in fan material. When reviewed maps are imported they will appear here with source labels — placement will never be guessed from resemblance.'}
+  };
+  function emptyBackground(id){var k=emptyKnowledge[id];if(!k)return '';return '<section class="collection-note"><h3 style="margin-top:26px">'+e(k.h)+' — general knowledge, not cited on this wiki</h3><p>'+k.p+'</p><p class="collection-note">Background supplied so this page is never blank. It is uncited; verify against a copy of the text before quoting. Artwork placement, when imports arrive, follows source labels only.</p></section>';}
   function volumeBackground(v){return knownAboutNovel+'<section class="collection-note"><h3 style="margin-top:26px">What Volume '+v+' covers (general knowledge)</h3>'+(volumeKnowledge[v]||'')+'<p class="collection-note">Everything in this block is uncited, volume boundaries are approximate community knowledge, and none of it replaces the source. Check against a verified copy of the text before quoting. Artwork placement remains strictly filename-labelled.</p></section>';}
   function page(sl){
     if(sl==='images')return home();
@@ -82,10 +118,10 @@
       panels+='<section class="collection-panel"><h4>'+link('images-volume-unassigned','Not yet assigned')+'</h4><p>'+D.files.filter(function(f){return !f.volume;}).length+' imported files have no verified volume placement.</p></section>';
       return heading('Browse by volume')+'<div class="collection-panels">'+panels+'</div>';
     }else if(sl.startsWith('images-subject-')){files=files.filter(function(f){return f.subjects.some(function(s){return 'images-subject-'+slug(s)===sl;});});
-    }else if(sl!=='images-recent'){var cat=D.categories.find(function(c){return 'images-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'');}}
+    }else if(sl!=='images-recent'){var cat=D.categories.find(function(c){return 'images-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
     return intro+(sl.startsWith('images-subject-')?'':subjectIndex(files,cat?cat.id:null))+heading('Media in this collection')+'<label class="collection-search">Search this collection<input id="collection-file-search" type="search" placeholder="Title, subject or artist…"></label><p id="collection-result-count" role="status"></p><div id="collection-results" data-files="'+e(files.map(function(f){return f.id;}).join(','))+'"></div>';
   }
-  window.renderImagesGallery=function(sl){current=sl||'images';return '<section class="collection-library"><nav class="collection-nav" aria-label="Image collections">'+link('images','Images')+link('images-artists','Artists')+link('images-characters','Characters')+link('images-volumes','Volumes')+link('images-recent','All imported artwork')+'</nav><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+D.files.length+' images available. Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
+  window.renderImagesGallery=function(sl){current=sl||'images';return '<section class="collection-library"><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+D.files.length+' images available. Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
   function fillFiles(q){var el=document.getElementById('collection-results');if(!el)return;var ids=el.dataset.files.split(',');var files=D.files.filter(function(f){return ids.includes(f.id)&&(f.title+' '+f.subjects.join(' ')+' '+artist(f.artist).name).toLowerCase().includes((q||'').toLowerCase());});document.getElementById('collection-result-count').textContent=files.length+' imported image files';el.innerHTML=files.length?cards(files):'<div class="collection-empty"><h4>No imported artwork here yet</h4><p>The category is part of the agreed structure. Source review and importing are still in progress; this does not mean the source folder has no artwork.</p>'+link('images','Back to Images')+'</div>';}
   window.renderArticleArtLinks=function(article){
     var files=D.files.filter(function(f){return f.subjects.some(function(s){return s.toLowerCase()===article.t.toLowerCase();});});

@@ -1203,7 +1203,7 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 
 /* Category-led visual archive — encyclopedia palette, readable editorial hierarchy. */
 .collection-library{--collection-line:var(--tg-border-color-interactive);font-size:14px;line-height:1.65;clear:both;margin:20px 0 36px;color:var(--tg-color-base)}
-.collection-nav{display:flex;gap:8px 24px;flex-wrap:wrap;border-bottom:1px solid var(--collection-line);padding:0 0 14px}.collection-nav a{font-size:13px;font-weight:600;text-decoration:none!important}.collection-warning{display:flex;gap:12px;justify-content:space-between;align-items:center;margin:14px 0 22px;font-size:11px;color:var(--tg-color-subtle)}.collection-warning label{white-space:nowrap}.collection-warning input{accent-color:var(--tg-color-progressive)}
+.collection-warning{display:flex;gap:12px;justify-content:space-between;align-items:center;margin:14px 0 22px;font-size:11px;color:var(--tg-color-subtle)}.collection-warning label{white-space:nowrap}.collection-warning input{accent-color:var(--tg-color-progressive)}
 .collection-summary{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin:12px 0 26px}.collection-summary p{font-family:'Poppins',sans-serif!important;font-size:23px;margin:0}.collection-summary span{font-size:11px;color:var(--tg-color-subtle)}.collection-summary b{padding:0 7px}
 .collection-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:32px 0 16px;padding-bottom:9px;border-bottom:1px solid var(--collection-line)}.collection-heading h3{font:600 25px/1.2 'Poppins',sans-serif!important;margin:0;color:var(--tg-color-emphasized)}.collection-heading>a,.collection-heading>span{font-size:11px}.collection-heading>span{color:var(--tg-color-subtle)}
 .collection-featured{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}.collection-feature{position:relative;display:block;background:var(--tg-color-surface-2);border:1px solid var(--collection-line);border-radius:7px;overflow:hidden;text-decoration:none!important;transition:transform .18s}.collection-feature:hover{transform:translateY(-3px)}.collection-feature>img{width:100%;height:170px;object-fit:contain;display:block}.collection-feature>div{padding:13px 14px;border-top:2px solid var(--tg-color-progressive)}.collection-feature strong{display:block;font:600 21px 'Poppins',sans-serif!important;color:var(--tg-color-emphasized)}.collection-feature span{display:block;font-size:10px;margin-top:4px;color:var(--tg-color-subtle)}
@@ -1237,10 +1237,10 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 .collection-caption{padding:10px 0 14px}
 .collection-caption h4{font-size:18px!important}.collection-caption p{font-size:13px}
 .collection-badges{display:none}
-.collection-warning{font-size:12px}.collection-nav a{font-size:14px}
+.collection-warning{font-size:12px}
 .collection-footer{font-size:12px}
 @media(max-width:800px){.collection-featured{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.collection-feature>img,.collection-feature .collection-monogram{width:85px;height:85px}}
-@media(max-width:600px){.collection-panels{columns:1}.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}.collection-feature>img,.collection-feature .collection-monogram{width:100px;height:100px}.collection-panel{margin-bottom:20px}.collection-panel ul{font-size:16px}.collection-heading h3{font-size:24px!important}.collection-picture{height:155px}.collection-nav{gap:10px 18px}}
+@media(max-width:600px){.collection-panels{columns:1}.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}.collection-feature>img,.collection-feature .collection-monogram{width:100px;height:100px}.collection-panel{margin-bottom:20px}.collection-panel ul{font-size:16px}.collection-heading h3{font-size:24px!important}.collection-picture{height:155px}}
 /* Screenshot-led Images experience: large artist tiles, category panels, media wall. */
 .collection-library{font-family:'Poppins',sans-serif;font-size:16px}
 .collection-heading{justify-content:center;border:0;position:relative;gap:18px;margin:28px 0 18px}
@@ -1267,7 +1267,6 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 .collection-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.68);color:#f3e6c8;padding:9px 10px;text-align:center;pointer-events:none}
 .collection-caption h4{font:400 15px/1.3 'Poppins',sans-serif!important;color:inherit;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .collection-caption p{font:13px 'Poppins',sans-serif!important;color:#e4c799;margin:4px 0}.collection-caption small{display:block;font-size:12px;line-height:1.4;color:#e4dcc6}
-.collection-nav button{font:inherit;font-size:14px;color:var(--tg-color-link);border:0;padding:0;background:none;cursor:pointer}
 .art-viewer{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;color:#eee;background:#080808;overflow:auto;z-index:1000}
 .art-viewer::backdrop{background:#000}.art-viewer-toolbar{position:absolute;right:14px;top:12px;z-index:2;display:flex;gap:8px}
 .art-viewer button{color:#fff;background:rgba(20,20,20,.7);border:1px solid #666;border-radius:5px;min-width:44px;min-height:44px;font-size:28px;cursor:pointer}
@@ -1283,3 +1282,17 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 @media(max-width:800px){.collection-featured{grid-template-columns:repeat(3,minmax(0,1fr))}.collection-feature>img{width:100%;height:auto}.collection-subcategory-columns{columns:2}}
 @media(max-width:600px){.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}.collection-feature strong{font-size:15px!important}.collection-feature>img{width:100%;height:auto;aspect-ratio:1}.collection-panel ul{font-size:16px}.collection-subcategory-columns{columns:1}.collection-card{flex-basis:calc(var(--art-ratio)*125px);min-width:85px}.collection-picture{height:180px}.collection-caption{padding:7px}.collection-caption h4{font-size:13px!important}.collection-caption p,.collection-caption small{font-size:11px}.art-viewer-stage{height:68dvh;padding:55px 8px 15px}.art-viewer-info{min-height:32dvh;padding:20px}.art-viewer-prev,.art-viewer-next{top:33dvh}.collection-heading>a{font-size:11px}}
 #search-close{position:absolute;right:12px;top:12px;width:42px;height:42px;border:0;background:transparent;color:#bdbdc8;font-size:32px;line-height:1;cursor:pointer}
+
+/* Images portal — category tree (Tolkien-Gateway-style, two levels, live counts). */
+.collection-tree-columns{columns:4;column-gap:26px}
+.collection-tree-group{break-inside:avoid;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--collection-line)}
+.collection-tree-group:last-child{margin-bottom:0;border-bottom:0}
+.collection-tree-group h4{font:600 16px/1.35 'Poppins',sans-serif!important;margin:4px 0 8px;color:var(--tg-color-emphasized)}
+.collection-tree-group h4 a{color:inherit;text-decoration:none!important}
+.collection-tree-group ul{list-style:none!important;padding:0!important;margin:0}
+.collection-tree-group li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:5px 0;font-size:13px}
+.collection-tree-group li a{text-decoration:none!important}
+.collection-tree-group li small{font-size:11px;color:var(--tg-color-subtle);font-variant-numeric:tabular-nums}
+@media(max-width:1200px){.collection-tree-columns{columns:3}}
+@media(max-width:900px){.collection-tree-columns{columns:2}}
+@media(max-width:560px){.collection-tree-columns{columns:1}}
