@@ -68,7 +68,7 @@
       ]}
     ];
     var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4><ul>'+g.children.map(item).join('')+'</ul></section>';}).join('')+'</div>';
-    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+tree+heading('Available artwork',link('images-recent','All images →'))+cards(D.files.slice(-6));
+    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+tree+heading('Recent uploads',link('images-recent','All uploads →'))+cards(D.files.slice(-6));
   }
   function detail(f){
     var a=artist(f.artist);
