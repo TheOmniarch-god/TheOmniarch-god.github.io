@@ -218,6 +218,34 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     }).join('')+'</div>';
   }
 
+  /* Community Hub, modelled on a wiki community portal: the portal rail first,
+     then a short welcome, then the ways to get involved. Channel handles are the
+     ones the community shares; the Discord invite matches the Talk banner. */
+  function renderCommunityPortal(slug,a){
+    var channels=[
+      ['Discord — the clan hall','https://discord.gg/UgwTKn4sQf','Chapter readings, lore threads and translation feedback in real time.'],
+      ['YouTube — @Oudenarch','https://www.youtube.com/@Oudenarch','Philosophical video breakdowns and novel analysis.'],
+      ['X — @Oudenarch','https://x.com/Oudenarch','Updates and short takes.'],
+      ['TikTok — @godoffictionofficial','https://www.tiktok.com/@godoffictionofficial','Short-form analysis and updates.']
+    ];
+    var see=(a.see||[]).filter(function(x){return A[x];});
+    if(see.indexOf('images')===-1 && A.images) see.push('images');
+    return portalTabs(slug)
+      + '<div class="lead">'+a.b.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>'
+      + '<div class="tg-section-divider"><span>Get involved</span></div>'
+      + '<div class="portal-boxes"><div class="portal-box"><h4>Official channels</h4><ul>'
+      + channels.map(function(c){return '<li><a href="'+c[1]+'" target="_blank" rel="noopener noreferrer">'+esc(c[0])+'</a> — '+esc(c[2])+'</li>';}).join('')
+      + '</ul></div><div class="portal-box"><h4>Start here</h4><ul>'
+      + '<li>Read the latest chapter, then join the Discord and introduce yourself.</li>'
+      + '<li>Spotted a typo or a line that reads off? Flag it on the channel or on the Talk page of any article.</li>'
+      + '<li>Enjoy the artwork? The '+link('images','Gallery')+' credits every artist and tracks their collections.</li>'
+      + '<li>Questions about cultivation, gu or chronology? The portal pages above are the map — start with Cultivation System or Volumes &amp; Chapters.</li>'
+      + '</ul></div></div>'
+      + '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'
+      + see.map(function(x){return '<li>'+link(x)+'</li>';}).join('')
+      + '</ul></div>';
+  }
+
   function portalHTML(slug,a){
     if(slug==='characters'){
       var tabs0=portalTabs(slug);
@@ -226,7 +254,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
+    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
     var tabs=portalTabs(slug);
     if(!keys.length) return tabs;
@@ -304,7 +332,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         if(!lean) html += '<h2 class="sec" id="sec-overview"><span class="caret">⌃</span>Overview</h2><div class="sec-body">'+a.b.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>';
         if(!lean && a.ib&&a.ib.length) html += '<h2 class="sec" id="sec-details"><span class="caret">⌃</span>Details</h2><div class="sec-body"><table class="wiki-table">'+a.ib.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>';}).join('')+'</table></div>';
       }
-      if(a.index && (slug==='images' || a.index==='art-library')) html += portalHTML(slug,a);
+      if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
+      else if(a.index && (slug==='images' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
