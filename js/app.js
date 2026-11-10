@@ -223,20 +223,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if(slug==='images'){
-      var tabsI='<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
-      var imgKeys=Object.keys(A).filter(function(k){return A[k].img && k!=='images';});
-      var gridI='<div class="tg-section-divider"><span>Featured</span></div><div class="portal-grid">'+imgKeys.map(function(k){return '<a href="/wiki/'+k+'"><div class="sq" style="background-image:url(\''+A[k].img+'\')"></div><div class="lb">'+esc(A[k].t)+'</div></a>';}).join('')+'</div>';
-      var byArt={}, artOrder=[];
-      imgKeys.forEach(function(k){ var n=A[k].art||'Artist not credited'; if(!byArt[n]){byArt[n]=[];artOrder.push(n);} byArt[n].push(k); });
-      var byKind={}, kindOrder=[];
-      imgKeys.forEach(function(k){ var n=A[k].k||'Other'; if(!byKind[n]){byKind[n]=[];kindOrder.push(n);} byKind[n].push(k); });
-      var boxesI='<div class="tg-section-divider"><span>Categories</span></div><div class="portal-boxes">'
-        +'<div class="portal-box"><h4>By Artist</h4><ul>'+artOrder.map(function(n){return '<li>'+esc(n)+' · '+byArt[n].map(function(k){return link(k);}).join(', ')+'</li>';}).join('')+'</ul></div>'
-        +'<div class="portal-box"><h4>By Kind</h4><ul>'+kindOrder.map(function(n){return '<li>'+esc(n)+': '+byKind[n].map(function(k){return link(k);}).join(', ')+'</li>';}).join('')+'</ul></div>'
-        +'</div>';
-      return tabsI+gridI+boxesI;
-    }
+    if(slug==='images' && window.renderImagesGallery) return window.renderImagesGallery();
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
     var tabs='<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
     var gridKeys = keys.filter(function(k){return A[k].img;});
@@ -319,6 +306,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(!lean && a.cat&&a.cat.length) html += '<div class="wiki-cats">Categories: '+a.cat.map(function(c){return '<a class="chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join(' ')+'</div>';
     }
     articleEl.innerHTML = html;
+    if(slug==='images' && !talk && window.mountImagesGallery) window.mountImagesGallery();
     sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
     retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">Last modified</div><div>This page was last edited on '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'.</div></div>'+'<div><div class="pf-h">Copyright</div><div>Content is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 License</a> unless otherwise noted.</div></div></div>';
     return true;

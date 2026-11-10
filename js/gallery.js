@@ -7,7 +7,7 @@
     var byPath = {};
     Object.keys(window.OMNIARCH_ARTICLES).forEach(function (key) {
       var a = window.OMNIARCH_ARTICLES[key];
-      if (!a.img || !a.img.startsWith('/previews/gallery/assets/')) return;
+      if (!a.img || !a.img.startsWith('/assets/')) return;
       var item = byPath[a.img];
       if (!item) {
         item = byPath[a.img] = {id: key, image: a.img, title: a.t, artist: a.art || 'Uncredited', subjects: [], kinds: [], work: 'reverend-insanity', volumes: [], method: 'unknown'};
@@ -44,10 +44,10 @@
     var button=e.target.closest('[data-art]'); if(!button || !show) return;
     var r=records.find(function(item){return item.id===button.dataset.art;}); if(!r) return;
     var dialog=document.createElement('dialog'); dialog.className='art-dialog';
-    dialog.innerHTML='<button type="button" class="art-close" autofocus>Close ×</button><div class="art-view"><img src="'+esc(r.image)+'" alt="'+esc(r.title)+'"></div><div class="art-detail"><h3>'+esc(r.title)+'</h3><p>Art: '+esc(r.artist)+' · Reverend Insanity</p><p>Volume: not yet assigned. Creation method: not assessed.</p><p>Artwork rights remain with their respective holders; no new licence is asserted here.</p><p>Related subjects: '+r.subjects.map(function(s){return '<a href="/previews/gallery/wiki/'+esc(s.id)+'">'+esc(s.title)+'</a>';}).join(' · ')+'</p><a href="'+esc(r.image)+'" target="_blank" rel="noopener">Open full image ↗</a></div>';
+    dialog.innerHTML='<button type="button" class="art-close" autofocus>Close ×</button><div class="art-view"><img src="'+esc(r.image)+'" alt="'+esc(r.title)+'"></div><div class="art-detail"><h3>'+esc(r.title)+'</h3><p>Art: '+esc(r.artist)+' · Reverend Insanity</p><p>Volume: not yet assigned. Creation method: not assessed.</p><p>Artwork rights remain with their respective holders; no new licence is asserted here.</p><p>Related subjects: '+r.subjects.map(function(s){return '<a href="/wiki/'+esc(s.id)+'">'+esc(s.title)+'</a>';}).join(' · ')+'</p><a href="'+esc(r.image)+'" target="_blank" rel="noopener">Open full image ↗</a></div>';
     document.body.appendChild(dialog);dialog.addEventListener('close',function(){dialog.remove();if(button.isConnected)button.focus();});
     dialog.querySelector('.art-close').onclick=function(){dialog.close();};
-    dialog.addEventListener('click',function(event){if(event.target.closest('a[href^="/previews/gallery/wiki/"]'))dialog.close();});
+    dialog.addEventListener('click',function(event){if(event.target.closest('a[href^="/wiki/"]'))dialog.close();});
     dialog.showModal();
   });
   window.addEventListener('popstate',function(){document.querySelectorAll('.art-dialog').forEach(function(d){d.close();});});
