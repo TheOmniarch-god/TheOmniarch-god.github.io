@@ -223,7 +223,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if(slug==='images' && window.renderImagesGallery) return window.renderImagesGallery();
+    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
     var tabs='<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
     var gridKeys = keys.filter(function(k){return A[k].img;});
@@ -300,13 +300,15 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         if(!lean) html += '<h2 class="sec" id="sec-overview"><span class="caret">⌃</span>Overview</h2><div class="sec-body">'+a.b.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>';
         if(!lean && a.ib&&a.ib.length) html += '<h2 class="sec" id="sec-details"><span class="caret">⌃</span>Details</h2><div class="sec-body"><table class="wiki-table">'+a.ib.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>';}).join('')+'</table></div>';
       }
-      if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
+      if(a.index && (slug==='images' || a.index==='art-library')) html += portalHTML(slug,a);
+      else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
+      if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
       if(!lean && a.members&&a.members.length) html += '<h2 class="sec" id="sec-members"><span class="caret">⌃</span>Pages in this category</h2><div class="sec-body">'+letterList(a.members)+'</div>';
       if(!lean && a.cat&&a.cat.length) html += '<div class="wiki-cats">Categories: '+a.cat.map(function(c){return '<a class="chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join(' ')+'</div>';
     }
     articleEl.innerHTML = html;
-    if(slug==='images' && !talk && window.mountImagesGallery) window.mountImagesGallery();
+    if((slug==='images' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
     sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
     retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">Last modified</div><div>This page was last edited on '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'.</div></div>'+'<div><div class="pf-h">Copyright</div><div>Content is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 License</a> unless otherwise noted.</div></div></div>';
     return true;
