@@ -400,11 +400,10 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var box=document.getElementById('search-box'), input=document.getElementById('search-input'), sug=document.getElementById('search-suggest');
   document.body.appendChild(box);
   var searchClose=document.getElementById('search-close');
-  var mediaSearch=false;
   function searchEmpty(){sug.innerHTML='<div class="s-empty"><strong>Search the Gu Zhen Ren Encyclopedia</strong><p>Type to search articles, artists and artwork.</p></div>';sug.style.display='block';}
   function toggleSearch(){ box.classList.toggle('open');document.body.classList.toggle('search-active',box.classList.contains('open')); if(box.classList.contains('open')){input.focus();if(!input.value)searchEmpty();} }
-  if(searchClose)searchClose.addEventListener('click',function(){box.classList.remove('open');document.body.classList.remove('search-active');mediaSearch=false;sug.style.display='none';});
-  document.addEventListener('click',function(ev){if(ev.target.closest('[data-media-search]')){mediaSearch=true;box.classList.add('open');document.body.classList.add('search-active');input.focus();renderHits(input.value.trim().toLowerCase());}else if(ev.target.closest('[data-search-mode]')){mediaSearch=ev.target.closest('[data-search-mode]').dataset.searchMode==='media';renderHits(input.value.trim().toLowerCase());}else if(box.classList.contains('open')&&!box.contains(ev.target)&&!ev.target.closest('[data-act="search"],#search-trigger,#rail-search,#wiki-topbar-search')){box.classList.remove('open');document.body.classList.remove('search-active');}});
+  if(searchClose)searchClose.addEventListener('click',function(){box.classList.remove('open');document.body.classList.remove('search-active');sug.style.display='none';});
+  document.addEventListener('click',function(ev){if(box.classList.contains('open')&&!box.contains(ev.target)&&!ev.target.closest('[data-act="search"],#search-trigger,#rail-search,#wiki-topbar-search')){box.classList.remove('open');document.body.classList.remove('search-active');}});
 
   ['search-trigger','rail-search'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click',toggleSearch); });
   document.addEventListener('keydown',function(e){ if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();toggleSearch();} if(e.key==='Escape'){sug.style.display='none';box.classList.remove('open');document.body.classList.remove('search-active');} });
@@ -427,19 +426,20 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return titles.concat(bodies).slice(0,8);
   }
   function searchRecords(q){
-    if(mediaSearch&&window.GZR_MEDIA_SEARCH)return window.GZR_MEDIA_SEARCH(q).slice(0,20);
-    return findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'images-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,kind:art?'Artwork':record.k||''};});
+    if(!q) return [];
+    var entries=findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'images-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,kind:art?'Artwork':record.k||''};});
+    var media=(window.GZR_MEDIA_SEARCH?window.GZR_MEDIA_SEARCH(q):[]);
+    return entries.concat(media).slice(0,12);
   }
   function renderHits(q){
     var hits=searchRecords(q);
     function marked(t){if(!q)return esc(t);var i=t.toLowerCase().indexOf(q);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length));}
-    var modes='<div class="search-modes"><button type="button" data-search-mode="all" aria-pressed="'+!mediaSearch+'">All entries</button><button type="button" data-search-mode="media" aria-pressed="'+mediaSearch+'">Search media</button></div>';
-    sug.innerHTML=modes+(hits.length?hits.map(function(r){return '<button data-slug="'+esc(r.slug)+'"><span class="s-thumb'+(r.image?'':' empty')+'">'+(r.image?'<img src="'+esc(r.image)+'" alt="">':'◇')+'</span><span class="s-txt"><span class="s-title">'+marked(r.title)+'</span><span class="s-kind">'+esc(r.kind)+'</span></span></button>';}).join(''):'<div class="s-empty">No entries match “'+esc(q)+'”.</div>');
+    sug.innerHTML=(hits.length?hits.map(function(r){return '<button data-slug="'+esc(r.slug)+'"><span class="s-thumb'+(r.image?'':' empty')+'">'+(r.image?'<img src="'+esc(r.image)+'" alt="">':'◇')+'</span><span class="s-txt"><span class="s-title">'+marked(r.title)+'</span><span class="s-kind">'+esc(r.kind)+'</span></span></button>';}).join(''):'<div class="s-empty">No entries match “'+esc(q)+'”.</div>');
     sug.style.display='block';
   }
   input.addEventListener('input', function(){
     var q = input.value.trim().toLowerCase();
-    if(!q){if(mediaSearch)renderHits('');else searchEmpty();return;}
+    if(!q){searchEmpty();return;}
     renderHits(q);
   });
   input.addEventListener('keydown', function(e){
