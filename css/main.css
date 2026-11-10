@@ -1213,3 +1213,31 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 .collection-artist-head{border-left:3px solid var(--tg-color-progressive);padding:15px 24px;background:var(--tg-color-surface-2);margin:20px 0}.collection-artist-head h3{font:600 34px 'EB Garamond',Georgia,serif!important;margin:6px 0}.collection-overline{font-size:10px;letter-spacing:.12em;color:var(--tg-color-subtle)}.collection-empty{padding:28px;border:1px dashed var(--collection-line);background:var(--tg-color-surface-2)}.collection-detail{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,1fr);gap:28px;align-items:start;margin:24px 0}.collection-original{display:block;padding:12px;background:var(--tg-color-surface-2);border:1px solid var(--collection-line)}.collection-original img{display:block;width:100%;height:auto}.collection-detail h3{font:600 28px 'EB Garamond',Georgia,serif!important;margin:8px 0 12px}.collection-detail dl{font-size:12px;border-top:1px solid var(--collection-line)}.collection-detail dt{font-weight:bold;margin-top:12px}.collection-detail dd{margin:2px 0 0;overflow-wrap:anywhere}.collection-footer{border-top:1px solid var(--collection-line);padding-top:18px;margin-top:32px;font-size:11px;color:var(--tg-color-subtle)}.is-concealed{overflow:hidden}.is-concealed>img{visibility:hidden}.collection-picture>span{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:var(--tg-color-subtle)}.collection-library :focus-visible{outline:3px solid var(--tg-color-link);outline-offset:4px}
 @media(max-width:800px){.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-letter ul{grid-template-columns:repeat(2,minmax(0,1fr))}.collection-summary{display:block}.collection-warning{align-items:start;flex-direction:column}.collection-detail{grid-template-columns:1fr}}@media(max-width:520px){.collection-panels{columns:1}.collection-featured{gap:12px}.collection-feature>img{height:140px}.collection-heading{align-items:baseline}.collection-heading>span{display:none}.collection-picture{height:170px}.collection-grid{gap:12px}.collection-caption{padding:10px}.collection-caption h4{font-size:17px!important}.collection-letter ul{grid-template-columns:1fr}.collection-detail{gap:16px}}@media(prefers-reduced-motion:reduce){.collection-feature{transition:none}}
 .collection-article-link{clear:both;border-top:1px solid var(--tg-border-color-interactive);margin-top:24px;padding-top:14px}.collection-article-link h3{font-family:'EB Garamond',Georgia,serif!important}.collection-article-link small{display:block;color:var(--tg-color-subtle);font-size:11px;margin-top:6px}
+/* Images index: compact artist vignettes and a readable wiki category directory. */
+.collection-library{font-size:15px;line-height:1.65}
+.collection-heading{margin:26px 0 14px;padding-bottom:7px}
+.collection-heading h3{font-size:25px!important}
+.collection-heading>a{font-size:13px}
+.collection-featured{gap:20px;margin:22px 0 34px}
+.collection-feature{display:flex;flex-direction:column;align-items:center;text-align:center;border:0;border-radius:0;background:none;overflow:visible;transition:none;gap:10px}
+.collection-feature:hover{transform:none}
+.collection-feature>img{height:112px;width:112px;object-fit:cover;border-radius:50%;border:1px solid var(--collection-line)}
+.collection-feature strong{font:600 16px/1.4 Georgia,serif!important;color:var(--tg-color-link)}
+.collection-feature>span{font-size:12px;margin:0}
+.collection-feature .collection-monogram{display:grid;place-items:center;width:112px;height:112px;box-sizing:border-box;border:1px solid var(--collection-line);border-radius:50%;background:var(--tg-color-surface-2);color:var(--tg-color-progressive);font:44px Georgia,serif}
+.collection-panels{columns:2;column-gap:24px}
+.collection-panel{border:0;border-radius:0;margin:0 0 20px;background:transparent}
+.collection-panel h4{padding:9px 12px;border:0;border-left:3px solid var(--tg-color-progressive);font:600 18px/1.4 Georgia,serif!important;background:var(--tg-color-surface-2)}
+.collection-panel ul{list-style:none!important;padding:0 8px 0 14px;margin:12px 0 6px;font:16px/1.65 Georgia,serif}
+.collection-panel li{position:relative;padding-left:15px;margin:3px 0;overflow-wrap:anywhere}
+.collection-panel li::before{content:'▸';position:absolute;left:0;color:var(--tg-color-progressive)}
+.collection-panel p{font-size:13px;margin:12px 14px;color:var(--tg-color-subtle)}
+.collection-card{border:0;border-radius:0;background:none}
+.collection-picture{border:1px solid var(--collection-line);background:var(--tg-color-surface-2);height:180px;padding:8px}
+.collection-caption{padding:10px 0 14px}
+.collection-caption h4{font-size:18px!important}.collection-caption p{font-size:13px}
+.collection-badges{display:none}
+.collection-warning{font-size:12px}.collection-nav a{font-size:14px}
+.collection-footer{font-size:12px}
+@media(max-width:800px){.collection-featured{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.collection-feature>img,.collection-feature .collection-monogram{width:85px;height:85px}}
+@media(max-width:600px){.collection-panels{columns:1}.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}.collection-feature>img,.collection-feature .collection-monogram{width:100px;height:100px}.collection-panel{margin-bottom:20px}.collection-panel ul{font-size:16px}.collection-heading h3{font-size:24px!important}.collection-picture{height:155px}.collection-nav{gap:10px 18px}}
