@@ -254,10 +254,10 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return window.renderImagesGallery(slug);
+    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
     var tabs=portalTabs(slug);
-    if(!keys.length) return tabs;
+    if(!keys.length) return tabs+(PORTAL_CATS[slug]?catBoxes(slug):'');
     var gridKeys = keys.filter(function(k){return A[k].img;});
     var grid = gridKeys.length ? '<div class="tg-section-divider"><span>Featured</span></div><div class="portal-grid">'+gridKeys.map(function(k){return '<a href="/wiki/'+k+'"><div class="sq" style="background-image:url(\''+A[k].img+'\')"></div><div class="lb">'+esc(A[k].t)+'</div></a>';}).join('')+'</div>' : '';
     var groups={};
