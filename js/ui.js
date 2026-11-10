@@ -65,6 +65,8 @@
     if(h==='#'||h==='#/'||h===''||h.indexOf('#explore')===0) return 'Main';
     var m=h.replace(/^#\/(wiki\/)?/,'').split('?')[0].replace(/\/+$/,'');
     if(!m) return 'Main';
+    var a=window.OMNIARCH_ARTICLES&&window.OMNIARCH_ARTICLES[m];
+    if(a&&a.t) return a.t;
     return m.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()});
   }
   function isMain(){ return (hashOf()||'').indexOf('#/wiki')===-1; }
