@@ -147,6 +147,9 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
 
   var PORTALS = [['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['images','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
+  function portalTabs(slug){
+    return '<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
+  }
 
   /* Category boxes for each portal, following Tolkien Gateway's labelled boxes.
      [slug, label] links to a page that exists; [null, label] is an Open slot
@@ -217,15 +220,16 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   function portalHTML(slug,a){
     if(slug==='characters'){
-      var tabs0='<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
+      var tabs0=portalTabs(slug);
       var open='<div class="open-tile"><div class="sq"></div><div class="lb">Open</div></div>';
       return tabs0+'<div class="tg-section-divider"><span>Featured</span></div><div class="portal-grid">'
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return window.renderImagesGallery(slug);
+    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
-    var tabs='<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
+    var tabs=portalTabs(slug);
+    if(!keys.length) return tabs;
     var gridKeys = keys.filter(function(k){return A[k].img;});
     var grid = gridKeys.length ? '<div class="tg-section-divider"><span>Featured</span></div><div class="portal-grid">'+gridKeys.map(function(k){return '<a href="/wiki/'+k+'"><div class="sq" style="background-image:url(\''+A[k].img+'\')"></div><div class="lb">'+esc(A[k].t)+'</div></a>';}).join('')+'</div>' : '';
     var groups={};
