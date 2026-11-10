@@ -1296,3 +1296,12 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 @media(max-width:1200px){.collection-tree-columns{columns:3}}
 @media(max-width:900px){.collection-tree-columns{columns:2}}
 @media(max-width:560px){.collection-tree-columns{columns:1}}
+
+/* ===== Gallery in the standard 1080px centered content column (same design as every other portal page) ===== */
+.collection-library{max-width:1080px;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}
+/* Section headings match the portal-page section divider: left-aligned, bottom border, 1rem semibold, not the one-off ruled style */
+.collection-heading{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;margin:1.6rem 0 .9rem!important;padding-bottom:.35rem!important;text-align:left!important;border:0!important;border-bottom:var(--tg-border-subtle)!important;position:static!important;white-space:normal!important}
+.collection-heading::before,.collection-heading::after{content:none!important}
+.collection-heading h3{font:600 1rem/1.4 'Poppins',sans-serif!important;text-align:left!important;font-size:1rem!important;font-weight:600!important;letter-spacing:.04em!important;color:var(--tg-color-emphasized)!important;margin:0!important}
+.collection-heading>a{position:static!important;font-size:.8rem!important;font-weight:600!important;white-space:nowrap!important}
+.collection-heading>span{font-size:.8rem!important;color:var(--tg-color-subtle)!important;white-space:nowrap!important}
