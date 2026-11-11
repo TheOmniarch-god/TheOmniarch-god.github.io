@@ -1340,10 +1340,10 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 .collection-tree-group li{margin:8px 0}
 html[data-theme="dark"] .collection-categories-heading{border-bottom:1px solid #aa7c2f!important}
 html[data-theme="dark"] .collection-tree-group,html[data-theme="dark"] .collection-tree-group:last-child{border-color:rgba(218,170,77,.28);background:linear-gradient(150deg,rgba(213,170,82,.08),rgba(213,170,82,.025))}
-html[data-theme="dark"] .collection-tree-group h4{color:#eac878;border-bottom-color:rgba(218,170,77,.32)}
+html[data-theme="dark"] .collection-tree-group h4{color:var(--tg-color-link);border-bottom-color:rgba(218,170,77,.32)}
 html[data-theme="dark"] .collection-tree-group h4:only-child{border:0}
 html[data-theme="dark"] .collection-tree-group li a{color:#f4f1e9}
-html[data-theme="dark"] .collection-tree-group li a:hover{color:#eac878}
+html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-link)}
 @media(max-width:1000px){.collection-tree-columns{columns:3}}
 @media(max-width:700px){.collection-tree-columns{columns:2}}
 @media(max-width:420px){.collection-tree-columns{columns:1}}
