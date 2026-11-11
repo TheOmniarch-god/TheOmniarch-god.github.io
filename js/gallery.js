@@ -31,9 +31,11 @@
     el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p><nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('images-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
   }
   function home(){
-    var featuredOrder=['TOUZI','Ullasseu','mc人祖','OSOT','diouer','毛民0906 (AI)'];
-    var covers={'TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','mc人祖':'hope-gu','OSOT':'footless-bird','diouer':'bai-ning-bing-study','毛民0906 (AI)':'air-bubble-fish'};
-    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n;});var f=D.files.find(function(x){return x.id===covers[n];});if(!a||!f)return '';var nFiles=count(a.id);return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong><span>'+nFiles+' imported file'+(nFiles===1?'':'s')+(f.method==='collection-labelled AI'?' · AI-labelled':'')+'</span></a>';}).join('');
+    var featuredOrder=['轮回画室丶不修','OSOT','TOUZI','Ullasseu','diouer','瑞光Pro'];
+    var covers={'轮回画室丶不修':'limitless','OSOT':'footless-bird','TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','diouer':'bai-ning-bing-study','瑞光Pro':'art-119682e8c6894298'};
+    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
+    featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark" aria-hidden="true">A—Z</span><strong>Explore more artists</strong></a>';
+    featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark collection-upcoming" aria-hidden="true">✦</span><strong>Future Pro spotlight</strong></a>';
     var catN=function(id){return D.files.filter(function(f){return id==='volumes'?!!f.volume:f.categories.includes(id);}).length;};
     var subN=function(s){return D.files.filter(function(f){return f.subjects.includes(s);}).length;};
     var subLinks=function(kind){return Object.keys(subjectKinds).filter(function(s){return subjectKinds[s]===kind;}).map(function(s){return {id:'images-subject-'+slug(s),title:'Images of '+s,n:subN(s)};}).filter(function(x){return x.n>0;});};
@@ -103,7 +105,8 @@
     var files=D.files.slice(),intro='',a;
     if(sl.startsWith('images-artist-')){
       a=artist(sl.slice(7));files=files.filter(function(f){return f.artist===a.id;});
-      intro='<div class="collection-artist-head"><p class="collection-overline">ARTIST COLLECTION</p><h3>'+e(a.name)+'</h3><p>'+files.length+' imported files · '+e(a.folderName)+'</p><p>'+source(a)+'</p><p class="collection-note">'+(a.folderId?'Artist source folder verified.':'Artist name comes from the supplied inventory; the exact source-folder link has not yet been reconciled.')+' No biography or total source-work count is inferred.</p></div>';
+      var cover=files[0], socials=(a.socials||[]).filter(function(s){return /^https:\/\//.test(s.url);}).map(function(s){return '<a href="'+e(s.url)+'" target="_blank" rel="noopener noreferrer">'+e(s.name)+' ↗</a>';}).join('');
+      intro='<section class="collection-artist-head"'+(cover?' style="--artist-cover:url(&quot;'+e(cover.thumbnail)+'&quot;)"':'')+'><div class="collection-artist-copy"><p class="collection-overline">ARTIST COLLECTION</p><h3>'+e(a.name)+'</h3><p>'+e(a.bio||a.name+' is credited in KolevXD’s Art Collection.')+' '+(files.length?'Explore '+files.length+' imported '+(files.length===1?'image':'images')+' below.':'Images from this collection have not been imported yet.')+'</p><div class="collection-artist-links">'+socials+source(a)+'</div><p class="collection-note">'+(socials?'Social links are based on available public sources. ':'Social profiles have not yet been verified. ')+(a.folderId?'Credit follows the source folder.':'The exact source folder has not yet been reconciled.')+'</p></div></section>';
     }else if(/^images-volume-[1-6]$/.test(sl)){
       var vol=+sl.slice('images-volume-'.length),volKey='volume-'+vol;
       files=files.filter(function(f){return f.volume===volKey;});

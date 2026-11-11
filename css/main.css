@@ -1305,3 +1305,21 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 .collection-heading h3{font:600 1rem/1.4 'Poppins',sans-serif!important;text-align:left!important;font-size:1rem!important;font-weight:600!important;letter-spacing:.04em!important;color:var(--tg-color-emphasized)!important;margin:0!important}
 .collection-heading>a{position:static!important;font-size:.8rem!important;font-weight:600!important;white-space:nowrap!important}
 .collection-heading>span{font-size:.8rem!important;color:var(--tg-color-subtle)!important;white-space:nowrap!important}
+
+/* Featured artists: four generous squircle covers per row. */
+.collection-featured{grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 18px}
+.collection-feature>img,.collection-feature .collection-directory-mark{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:16px}
+.collection-feature .collection-directory-mark{box-sizing:border-box;font:600 clamp(30px,4vw,52px)/1 'Poppins',sans-serif!important;letter-spacing:0}
+.collection-feature .collection-upcoming{background:linear-gradient(145deg,#29313b,#665b4f);font-size:64px!important}
+.collection-feature strong{font-size:14px!important;line-height:1.4!important}
+.collection-feature:focus-visible{outline-offset:5px}
+.collection-artist-head{position:relative;overflow:hidden;isolation:isolate;border:1px solid var(--collection-line);border-radius:20px;padding:0;background:var(--tg-color-surface-2);margin:24px 0 32px}
+.collection-artist-head::before{content:'';position:absolute;inset:-30px;background-image:var(--artist-cover);background-position:center;background-size:cover;filter:blur(24px);opacity:.16;z-index:-1}
+.collection-artist-copy{padding:clamp(22px,4vw,40px);background:color-mix(in srgb,var(--tg-color-surface-2) 82%,transparent)}
+.collection-artist-copy h3{font:600 clamp(25px,3vw,38px)/1.2 'Poppins',sans-serif!important;margin:8px 0 12px}
+.collection-artist-copy>p{max-width:680px;line-height:1.7}
+.collection-artist-links{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.collection-artist-links a{display:inline-block;padding:8px 13px;border:1px solid var(--collection-line);border-radius:999px;background:var(--tg-color-surface-2);font-size:13px;text-decoration:none!important}
+.collection-artist-copy .collection-note{font-size:12px;margin:8px 0 0}
+@media(max-width:800px){.collection-featured{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 12px}.collection-feature strong{font-size:12px!important}}
+@media(max-width:600px){.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}.collection-feature strong{font-size:13px!important}.collection-feature>img,.collection-feature .collection-directory-mark{aspect-ratio:1;border-radius:13px}}
