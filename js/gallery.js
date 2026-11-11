@@ -35,11 +35,9 @@
     el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p><nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('images-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
   }
   function home(){
-    var featuredOrder=['轮回画室丶不修','OSOT','TOUZI','Ullasseu','diouer','瑞光Pro'];
-    var covers={'轮回画室丶不修':'limitless','OSOT':'footless-bird','TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','diouer':'bai-ning-bing-study','瑞光Pro':'art-119682e8c6894298'};
+    var featuredOrder=['轮回画室丶不修','OSOT','TOUZI','Ullasseu','diouer','瑞光Pro','pakawad','春天'];
+    var covers={'轮回画室丶不修':'limitless','OSOT':'footless-bird','TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','diouer':'bai-ning-bing-study','瑞光Pro':'art-119682e8c6894298','pakawad':'pakawad-limitless','春天':'chuntian-bai-ning-bing'};
     var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
-    featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark" aria-hidden="true">A—Z</span><strong>Explore more artists</strong></a>';
-    featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark collection-upcoming" aria-hidden="true">✦</span><strong>Future Pro spotlight</strong></a>';
     var catN=function(id){return D.files.filter(function(f){return f.categories.includes(id);}).length;};
     var item=function(it){return '<li>'+link(it.id,it.title)+'<small>'+it.n+'</small></li>';};
     var groups=[
