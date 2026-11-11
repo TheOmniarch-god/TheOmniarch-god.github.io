@@ -1284,8 +1284,7 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 #search-close{position:absolute;right:12px;top:12px;width:42px;height:42px;border:0;background:transparent;color:#bdbdc8;font-size:32px;line-height:1;cursor:pointer}
 
 /* Images portal — category tree (Tolkien-Gateway-style, two levels, live counts). */
-.collection-tree-columns{columns:4;column-gap:26px}
-.collection-tree-group{break-inside:avoid;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--collection-line)}
+.collection-tree-group{padding-bottom:10px;border-bottom:1px solid var(--collection-line)}
 .collection-tree-group:last-child{margin-bottom:0;border-bottom:0}
 .collection-tree-group h4{font:600 16px/1.35 'Poppins',sans-serif!important;margin:4px 0 8px;color:var(--tg-color-emphasized)}
 .collection-tree-group h4 a{color:inherit;text-decoration:none!important}
@@ -1293,9 +1292,6 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 .collection-tree-group li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:5px 0;font-size:13px}
 .collection-tree-group li a{text-decoration:none!important}
 .collection-tree-group li small{font-size:11px;color:var(--tg-color-subtle);font-variant-numeric:tabular-nums}
-@media(max-width:1200px){.collection-tree-columns{columns:3}}
-@media(max-width:900px){.collection-tree-columns{columns:2}}
-@media(max-width:560px){.collection-tree-columns{columns:1}}
 
 /* ===== Gallery in the standard 1080px centered content column (same design as every other portal page) ===== */
 .collection-library{max-width:1080px;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}
@@ -1332,8 +1328,10 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 
 /* Gallery categories: warm ink on light surfaces, restrained gold on dark. */
 .collection-categories-heading{border-bottom:1px solid #9a752b!important}
-.collection-tree-columns{display:block;columns:4;column-gap:14px}
-.collection-tree-group,.collection-tree-group:last-child{display:inline-block;box-sizing:border-box;width:100%;break-inside:avoid;margin:0 0 14px;padding:16px 16px 13px;border:1px solid rgba(132,95,28,.28);border-radius:10px;background:rgba(167,124,42,.045)}
+/* Grid keeps each row balanced across the full content width, rather than
+   allowing uneven card heights to leave a sparse multicolumn layout. */
+.collection-tree-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.collection-tree-group,.collection-tree-group:last-child{min-width:0;box-sizing:border-box;margin:0;padding:16px 16px 13px;border:1px solid rgba(132,95,28,.28);border-radius:10px;background:rgba(167,124,42,.045)}
 .collection-tree-group h4{margin:0 0 10px;padding-bottom:9px;border-bottom:1px solid rgba(132,95,28,.32);color:#765218}
 .collection-tree-group h4:only-child{margin:0;padding:0;border:0}
 .collection-tree-group h4 a:hover,.collection-tree-group li a:hover{text-decoration:underline!important;text-underline-offset:3px}
@@ -1344,6 +1342,4 @@ html[data-theme="dark"] .collection-tree-group h4{color:var(--tg-color-link);bor
 html[data-theme="dark"] .collection-tree-group h4:only-child{border:0}
 html[data-theme="dark"] .collection-tree-group li a{color:#f4f1e9}
 html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-link)}
-@media(max-width:1000px){.collection-tree-columns{columns:3}}
-@media(max-width:700px){.collection-tree-columns{columns:2}}
-@media(max-width:420px){.collection-tree-columns{columns:1}}
+@media(max-width:700px){.collection-tree-columns{grid-template-columns:minmax(0,1fr)}}
