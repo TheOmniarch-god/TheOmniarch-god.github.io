@@ -40,12 +40,11 @@
     var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
     featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark" aria-hidden="true">A—Z</span><strong>Explore more artists</strong></a>';
     featured+='<a href="'+url('images-artists')+'" class="collection-feature collection-feature-more"><span class="collection-directory-mark collection-upcoming" aria-hidden="true">✦</span><strong>Future Pro spotlight</strong></a>';
-    var catN=function(id){return D.files.filter(function(f){return id==='volumes'?D.volumes.some(function(v){return f.volume==='volume-'+v.number||(!f.volume&&f.subjects.some(function(s){return v.subjects.includes(s);}));}):f.categories.includes(id);}).length;};
-    var subN=function(s){return D.files.filter(function(f){return f.subjects.includes(s);}).length;};
-    var subLinks=function(kind){return Object.keys(subjectKinds).filter(function(s){return subjectKinds[s]===kind;}).map(function(s){return {id:'images-subject-'+slug(s),title:'Images of '+s,n:subN(s)};}).filter(function(x){return x.n>0;});};
+    var catN=function(id){return D.files.filter(function(f){return f.categories.includes(id);}).length;};
     var item=function(it){return '<li>'+link(it.id,it.title)+'<small>'+it.n+'</small></li>';};
     var groups=[
-      {title:'Characters',id:'images-characters',children:[{id:'images-characters',title:'All character artwork',n:catN('characters')}].concat(subLinks('characters'))},
+      {title:'Browse by volume',id:'images-volumes',children:[]},
+      {title:'Characters',id:'images-characters',children:[]},
       {title:'Gu & cultivation',children:[
         {id:'images-gu',title:'Gu Worms',n:catN('gu')},
         {id:'images-gu-houses',title:'Gu Houses & constructs',n:catN('gu-houses')},
@@ -62,18 +61,13 @@
       {title:'Events & scenes',id:'images-scenes',children:[{id:'images-scenes',title:'Battles & scenes',n:catN('scenes')}]},
       {title:'Creatures & beasts',id:'images-beasts',children:[{id:'images-beasts',title:'Creatures & beasts',n:catN('beasts')}]},
       {title:'Adaptations & fan takes',id:'images-fan-takes',children:[{id:'images-fan-takes',title:'Fan reinterpretations',n:catN('fan-takes')}]},
-      {title:'Story placement',id:'images-volumes',children:[
-        {id:'images-volumes',title:'Browse volumes 1–6',n:catN('volumes')},
-        ].concat(D.volumes.map(function(v){return {id:'images-volume-'+v.number,title:volumeTitle(v),n:volumeFiles(v).length};}),[
-        {id:'images-volume-unassigned',title:'Without a volume assignment',n:D.files.filter(function(f){return !f.volume;}).length}
-      ])},
       {title:'Other collections',children:[
         {id:'images-others',title:'Others',n:catN('others')},
         {id:'images-ai',title:'AI-labelled artwork',n:catN('ai')},
         {id:'images-recent',title:'All imported artwork',n:D.files.length}
       ]}
     ];
-    var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4><ul>'+g.children.map(item).join('')+'</ul></section>';}).join('')+'</div>';
+    var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4>'+(g.children.length?'<ul>'+g.children.map(item).join('')+'</ul>':'')+'</section>';}).join('')+'</div>';
     return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+tree+heading('Recent uploads',link('images-recent','All uploads →'))+cards(D.files.slice(-6));
   }
   function detail(f){
