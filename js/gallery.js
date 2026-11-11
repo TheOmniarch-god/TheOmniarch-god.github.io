@@ -17,7 +17,7 @@
   ['Qin Bai Sheng','Duke Long','Chu Du','Bing Sai Chuan','Feng Jin Huang','Shen Cui','Ge Yao','Purple Mountain','Qiao Si Liu','Liu Shu Xian','Shen Cong Sheng','Tai Bai Yun Sheng','Thunder Ghost True Monarch','Verdant Great Sun','Fairy Zi Wei','Bai Zu','Blazing Heaven Demoness','Dong Fang Chang Fan','Fang Gong','Fang Di Chang','He Chun Qiu','Lady White Rabbit','Li Xiao Bai','Lu Wei Yin','Old Ancestor Xue Hu','Shen Shang','Zhan Bu Du'].forEach(function(n){subjectKinds[n]='characters';});
   ['Mao Li Qiu','Zuo Ye Hui','Di Zang Sheng','Qing Chou'].forEach(function(n){subjectKinds[n]='beasts';});
   subjectKinds['Yi Tian Mountain']='locations';subjectKinds['Eighty-Eight True Yang Building']='gu-houses';
-  function heading(title,extra){return '<div class="collection-heading"><h3>'+e(title)+'</h3>'+(extra||'')+'</div>';}
+  function heading(title,extra,kind){return '<div class="collection-heading'+(kind?' '+e(kind):'')+'"><h3>'+e(title)+'</h3>'+(extra||'')+'</div>';}
   function subjects(files){return Array.from(new Set(files.flatMap(function(f){return f.subjects;}))).sort(function(a,b){return a.localeCompare(b);});}
   function subjectIndex(files,kind){
     var names=subjects(files).filter(function(n){return !kind||subjectKinds[n]===kind;});
@@ -58,7 +58,7 @@
         {id:'images-maps',title:'Maps & diagrams',n:catN('maps')},
         {id:'images-legends',title:'The Legends of Ren Zu',n:catN('legends')}
       ]},
-      {title:'Events & scenes',id:'images-scenes',children:[{id:'images-scenes',title:'Battles & scenes',n:catN('scenes')}]},
+      {title:'Events & scenes',children:[{id:'images-scenes',title:'All scenes',n:catN('scenes')}].concat(D.eventCollections.map(function(c){return {id:'images-'+c.id,title:c.title,n:c.files.length};}))},
       {title:'Creatures & beasts',id:'images-beasts',children:[{id:'images-beasts',title:'Creatures & beasts',n:catN('beasts')}]},
       {title:'Adaptations & fan takes',id:'images-fan-takes',children:[{id:'images-fan-takes',title:'Fan reinterpretations',n:catN('fan-takes')}]},
       {title:'Other collections',children:[
@@ -68,7 +68,7 @@
       ]}
     ];
     var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4>'+(g.children.length?'<ul>'+g.children.map(item).join('')+'</ul>':'')+'</section>';}).join('')+'</div>';
-    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories')+tree+heading('Recent uploads',link('images-recent','All uploads →'))+cards(D.files.slice(-6));
+    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories','','collection-categories-heading')+tree+heading('Recent uploads',link('images-recent','All uploads →'))+cards(D.files.slice(-6));
   }
   function detail(f){
     var a=artist(f.artist);
@@ -106,6 +106,8 @@
       }).join('');
       panels+='<section class="collection-panel"><h4>'+link('images-volume-unassigned','Without an explicit volume assignment')+'</h4><p>'+D.files.filter(function(f){return !f.volume;}).length+' imported files have no explicit placement; some appear above as related-subject artwork.</p></section>';
       return heading('Browse by volume')+'<p>Explore all six volumes. Images include labelled artwork and related subjects, not necessarily scenes from that volume.</p><div class="collection-panels">'+panels+'</div>';
+    }else if(D.eventCollections.some(function(c){return 'images-'+c.id===sl;})){
+      var event=D.eventCollections.find(function(c){return 'images-'+c.id===sl;});files=files.filter(function(f){return event.files.includes(f.id);});intro='<p>'+e(event.description)+'</p>';
     }else if(sl.startsWith('images-subject-')){files=files.filter(function(f){return f.subjects.some(function(s){return 'images-subject-'+slug(s)===sl;});});
     }else if(sl!=='images-recent'){var cat=D.categories.find(function(c){return 'images-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
     return intro+(sl.startsWith('images-subject-')?'':subjectIndex(files,cat?cat.id:null))+heading(/^images-volume-[1-6]$/.test(sl)?'Related artwork':'Media in this collection')+'<label class="collection-search">Search this collection<input id="collection-file-search" type="search" placeholder="Title, subject or artist…"></label><p id="collection-result-count" role="status"></p><div id="collection-results" data-files="'+e(files.map(function(f){return f.id;}).join(','))+'"></div>';

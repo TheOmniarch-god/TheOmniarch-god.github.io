@@ -1329,3 +1329,19 @@ body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 @media(max-width:600px){.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}.collection-feature strong{font-size:13px!important}.collection-feature>img,.collection-feature .collection-directory-mark{aspect-ratio:1;border-radius:13px}}
 
 @media(max-width:600px){.collection-artist-inner{align-items:flex-start;flex-direction:column-reverse}.collection-artist-visual{width:min(150px,48%);flex:auto}.collection-artist-visual figcaption{text-align:left}}
+
+/* Gallery categories: warm ink on light surfaces, restrained gold on dark. */
+.collection-categories-heading{border-bottom:1px solid #9a752b!important}
+.collection-tree-columns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
+.collection-tree-group,.collection-tree-group:last-child{margin:0;padding:16px 16px 13px;border:1px solid rgba(132,95,28,.28);border-radius:10px;background:rgba(167,124,42,.045)}
+.collection-tree-group h4{margin:0 0 10px;padding-bottom:9px;border-bottom:1px solid rgba(132,95,28,.32);color:#765218}
+.collection-tree-group h4:only-child{margin:0;padding:0;border:0}
+.collection-tree-group h4 a:hover,.collection-tree-group li a:hover{text-decoration:underline!important;text-underline-offset:3px}
+.collection-tree-group li{margin:8px 0}
+html[data-theme="dark"] .collection-categories-heading{border-bottom:1px solid #aa7c2f!important}
+html[data-theme="dark"] .collection-tree-group,html[data-theme="dark"] .collection-tree-group:last-child{border-color:rgba(218,170,77,.28);background:linear-gradient(150deg,rgba(213,170,82,.08),rgba(213,170,82,.025))}
+html[data-theme="dark"] .collection-tree-group h4{color:#eac878;border-bottom-color:rgba(218,170,77,.32)}
+html[data-theme="dark"] .collection-tree-group h4:only-child{border:0}
+@media(max-width:1000px){.collection-tree-columns{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.collection-tree-columns{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.collection-tree-columns{grid-template-columns:1fr}}
