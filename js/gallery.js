@@ -18,12 +18,21 @@
   // Collection numbers stay on cards. A creator project title or provisional
   // related subjects give the opened artwork useful context without inventing a scene.
   function artworkName(f){
+    if(f.creatorAssetTitle)return {name:f.creatorAssetTitle, basis:'Creator’s image label'};
     if(f.creatorTitle)return {name:f.creatorTitle, basis:'Creator’s project title'};
+    if(f.collectionSeries)return {name:f.collectionSeries, basis:'Collection series label · unverified for this individual image'};
     if(f.subjects.length)return {name:f.subjects.join(' · '), basis:'Related subjects · provisional collection labels'};
     return {name:'Artwork title not yet identified', basis:'No confirmed title or individual subject recorded'};
   }
-  function artworkNaming(f){var n=artworkName(f);return '<h3>'+e(n.name)+'</h3><p class="collection-note">'+e(n.basis)+'</p><p class="collection-note">Collection: '+e(f.title)+'</p>';}
-  function artworkSearch(f){return f.title+' '+(f.creatorTitle||'')+' '+f.subjects.join(' ')+' '+artist(f.artist).name;}
+  function artworkNaming(f){
+    var n=artworkName(f);
+    return '<h3>'+e(n.name)+'</h3><p class="collection-note">'+e(n.basis)+'</p>'+
+      (f.creatorAssetTitle?'<p class="collection-note">Creator’s project: '+e(f.creatorTitle)+'</p>':'')+
+      (f.creatorScene?'<p class="collection-scene-context">'+e(f.creatorScene)+' <span class="collection-note">Artist’s description; story placement not independently checked.</span></p>':'')+
+      (f.collectionSeries?'<p class="collection-note">This names the collection’s series, not necessarily the exact moment or people shown in this frame.</p>':'')+
+      '<p class="collection-note">Collection: '+e(f.title)+'</p>';
+  }
+  function artworkSearch(f){return f.title+' '+(f.creatorTitle||'')+' '+(f.creatorAssetTitle||'')+' '+(f.creatorScene||'')+' '+(f.collectionSeries||'')+' '+f.subjects.join(' ')+' '+artist(f.artist).name;}
   function image(f,full,style){return '<img src="'+e(full?f.image:f.thumbnail)+'" alt="'+e(full?artworkName(f).name+' — '+f.title:f.title)+'"'+(style?' style="'+style+'"':'')+' loading="lazy" decoding="async">';}
   function cards(files){return '<div class="collection-grid">'+files.map(function(f){var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));return '<article class="collection-card" style="--art-ratio:'+ratio+'"><a class="collection-picture" data-view-art="'+e(f.id)+'" href="'+url('gallery-file-'+f.id)+'">'+image(f,false)+'<div class="collection-caption"><h4>'+e(f.title)+'</h4><p>'+e(artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+(f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+(/^gallery-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(8)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+'</div></a></article>';}).join('')+'</div>';}
   function source(a){var id=a.folderId||a.tierFolderId;return '<a href="https://drive.google.com/drive/folders/'+e(id)+'" target="_blank" rel="noopener">'+(a.folderId?'Open artist source folder':'Find folder in source tier')+' ↗</a>';}
@@ -154,7 +163,7 @@
   function showArtwork(){
     var f=D.files.find(function(f){return f.id===sequence[position];});if(!f)return;
     viewer.querySelector('.art-viewer-stage').innerHTML='<img src="'+e(f.image)+'" alt="'+e(artworkName(f).name+' — '+f.title)+'">';
-    viewer.querySelector('.art-viewer-info').innerHTML=artworkNaming(f)+'<p>Art: '+link('gallery-'+f.artist,artist(f.artist).name)+'</p><p>'+f.dimensions.join(' × ')+' · '+(position+1)+' / '+sequence.length+'</p><p>'+link('gallery-file-'+f.id,'Artwork details & source')+' · <a href="'+e(f.image)+'" target="_blank" rel="noopener">Open image</a></p><p class="collection-note">Rights remain with their respective holders. No licence or permission is inferred.</p>';
+    viewer.querySelector('.art-viewer-info').innerHTML=artworkNaming(f)+'<p>Art: '+link('gallery-'+f.artist,artist(f.artist).name)+'</p><p>'+f.dimensions.join(' × ')+' · '+(position+1)+' / '+sequence.length+'</p><p>'+link('gallery-file-'+f.id,'Artwork details & source')+' · <a href="'+e(f.image)+'" target="_blank" rel="noopener">Open image</a>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?' · <a href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">Creator post ↗</a>':'')+'</p><p class="collection-note">Rights remain with their respective holders. No licence or permission is inferred.</p>';
     viewer.querySelector('[data-view-prev]').disabled=sequence.length<2;viewer.querySelector('[data-view-next]').disabled=sequence.length<2;
   }
   function openViewer(id,trigger){
