@@ -146,7 +146,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return keys;
   }
 
-  var PORTALS = [['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['images','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
+  var PORTALS = [['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
   function portalTabs(slug){
     return '<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
   }
@@ -186,7 +186,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       ['By Era', [[null,'Eras not yet named']]],
       ['By Event', [[null,'Major wars and events']]]
     ],
-    images: [],
+    gallery: [],
     glossary: [
       ['By Kind', [[null,'Terminology'], [null,'Materials'], [null,'Killer Moves'], [null,'World mechanics']]]
     ],
@@ -229,7 +229,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       ['TikTok — @godoffictionofficial','https://www.tiktok.com/@godoffictionofficial','Short-form analysis and updates.']
     ];
     var see=(a.see||[]).filter(function(x){return A[x];});
-    if(see.indexOf('images')===-1 && A.images) see.push('images');
+    if(see.indexOf('gallery')===-1 && A.gallery) see.push('gallery');
     return portalTabs(slug)
       + '<div class="lead">'+a.b.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>'
       + '<div class="tg-section-divider"><span>Get involved</span></div>'
@@ -238,7 +238,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       + '</ul></div><div class="portal-box"><h4>Start here</h4><ul>'
       + '<li>Read the latest chapter, then join the Discord and introduce yourself.</li>'
       + '<li>Spotted a typo or a line that reads off? Flag it on the channel or on the Talk page of any article.</li>'
-      + '<li>Enjoy the artwork? The '+link('images','Gallery')+' credits every artist and tracks their collections.</li>'
+      + '<li>Enjoy the artwork? The '+link('gallery','Gallery')+' credits every artist and tracks their collections.</li>'
       + '<li>Questions about cultivation, gu or chronology? The portal pages above are the map — start with Cultivation System or Volumes &amp; Chapters.</li>'
       + '</ul></div></div>'
       + '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'
@@ -254,7 +254,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         +'<a href="/wiki/category-men"><div class="sq" style="background-image:url(\'/assets/inline/art-ren-zu.webp\')"></div><div class="lb">Men</div></a>'
         +open+open+open+open+open+'</div>'+catBoxes('characters');
     }
-    if((slug==='images' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
+    if((slug==='gallery' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
     var tabs=portalTabs(slug);
     if(!keys.length) return tabs+(PORTAL_CATS[slug]?catBoxes(slug):'');
@@ -333,7 +333,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         if(!lean && a.ib&&a.ib.length) html += '<h2 class="sec" id="sec-details"><span class="caret">⌃</span>Details</h2><div class="sec-body"><table class="wiki-table">'+a.ib.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>';}).join('')+'</table></div>';
       }
       if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
-      else if(a.index && (slug==='images' || a.index==='art-library')) html += portalHTML(slug,a);
+      else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
@@ -341,7 +341,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(!lean && a.cat&&a.cat.length) html += '<div class="wiki-cats">Categories: '+a.cat.map(function(c){return '<a class="chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join(' ')+'</div>';
     }
     articleEl.innerHTML = html;
-    if((slug==='images' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
+    if((slug==='gallery' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
     sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
     retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">Last modified</div><div>This page was last edited on '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'.</div></div>'+'<div><div class="pf-h">Copyright</div><div>Content is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 License</a> unless otherwise noted.</div></div></div>';
     return true;
@@ -399,6 +399,10 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     c.setAttribute('href','https://www.reverendinsanity.com.ng/wiki/'+slug);
   }
   function route(){
+    // Preserve old Images links (including browser history and query/fragment)
+    // while keeping Gallery as the address shown to visitors.
+    var galleryPath=location.pathname.replace(/^\/wiki\/images(?=-|\/|$)/, '/wiki/gallery');
+    if(galleryPath!==location.pathname) history.replaceState(history.state, '', galleryPath+location.search+location.hash);
     var h = hashOf() || '#main';
     if(h.indexOf('#/wiki/')===0){
       var slug = h.slice(7);
@@ -460,7 +464,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
   function searchRecords(q){
     if(!q) return [];
-    var entries=findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'images-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,kind:art?'Artwork':record.k||''};});
+    var entries=findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'gallery-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,kind:art?'Artwork':record.k||''};});
     var media=(window.GZR_MEDIA_SEARCH?window.GZR_MEDIA_SEARCH(q):[]);
     return entries.concat(media).slice(0,12);
   }
@@ -609,7 +613,7 @@ document.addEventListener('click', function(e){
 /* Mobile/desktop menu: all 12 categories, a blurred backdrop behind the open menu, and labelled header figures */
 (function(){
   var d=document.getElementById('drawer'); if(!d) return;
-  var P=[['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['images','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
+  var P=[['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
   var cols=d.querySelectorAll('.drawer-cols > div');
   if(cols[1]) cols[1].innerHTML='<h4>Categories</h4>'+P.map(function(t){return '<a href="/wiki/'+t[0]+'">'+t[1]+'</a>';}).join('');
   d.querySelectorAll('.drawer-stats span[title]').forEach(function(sp){

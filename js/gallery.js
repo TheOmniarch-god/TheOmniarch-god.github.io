@@ -1,7 +1,7 @@
 /* Category-led Images library. Data is separate from presentation. */
 (function () {
   'use strict';
-  var current = 'images', D = window.GZR_GALLERY;
+  var current = 'gallery', D = window.GZR_GALLERY;
   var e = function(v){return String(v == null ? '' : v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
   var slug = function(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-');};
   var url = function(id){return '/wiki/'+id+'/';};
@@ -9,7 +9,7 @@
   var artist = function(id){return D.artists.find(function(a){return a.id===id;});};
   var count = function(id){return D.files.filter(function(f){return f.artist===id;}).length;};
   function image(f,full,style){return '<img src="'+e(full?f.image:f.thumbnail)+'" alt="'+e(f.title)+'"'+(style?' style="'+style+'"':'')+' loading="lazy" decoding="async">';}
-  function cards(files){return '<div class="collection-grid">'+files.map(function(f){var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));return '<article class="collection-card" style="--art-ratio:'+ratio+'"><a class="collection-picture" data-view-art="'+e(f.id)+'" href="'+url('images-file-'+f.id)+'">'+image(f,false)+'<div class="collection-caption"><h4>'+e(f.title)+'</h4><p>'+e(artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+(f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+(/^images-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(7)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+'</div></a></article>';}).join('')+'</div>';}
+  function cards(files){return '<div class="collection-grid">'+files.map(function(f){var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));return '<article class="collection-card" style="--art-ratio:'+ratio+'"><a class="collection-picture" data-view-art="'+e(f.id)+'" href="'+url('gallery-file-'+f.id)+'">'+image(f,false)+'<div class="collection-caption"><h4>'+e(f.title)+'</h4><p>'+e(artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+(f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+(/^gallery-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(8)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+'</div></a></article>';}).join('')+'</div>';}
   function source(a){var id=a.folderId||a.tierFolderId;return '<a href="https://drive.google.com/drive/folders/'+e(id)+'" target="_blank" rel="noopener">'+(a.folderId?'Open artist source folder':'Find folder in source tier')+' ↗</a>';}
   function volumeFiles(v){return D.files.filter(function(f){return f.volume==='volume-'+v.number || (!f.volume && f.subjects.some(function(subject){return v.subjects.includes(subject);}));});}
   function volumeTitle(v){return 'Volume '+v.number+': '+v.title;}
@@ -23,7 +23,7 @@
     var names=subjects(files).filter(function(n){return !kind||subjectKinds[n]===kind;});
     if(!names.length)return '';
     var groups={};names.forEach(function(n){var key=n[0].toUpperCase();(groups[key]=groups[key]||[]).push(n);});
-    return '<section class="collection-subcategories"><h3>Subcategories</h3><p>This collection has '+names.length+' subject subcategories. Counts refer to available image files.</p><div class="collection-subcategory-columns">'+Object.keys(groups).sort().map(function(g){return '<section><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(n){return '<li>'+link('images-subject-'+slug(n),'Images of '+n)+' <small>('+files.filter(function(f){return f.subjects.includes(n);}).length+' F)</small></li>';}).join('')+'</ul></section>';}).join('')+'</div></section>';
+    return '<section class="collection-subcategories"><h3>Subcategories</h3><p>This collection has '+names.length+' subject subcategories. Counts refer to available image files.</p><div class="collection-subcategory-columns">'+Object.keys(groups).sort().map(function(g){return '<section><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(n){return '<li>'+link('gallery-subject-'+slug(n),'Images of '+n)+' <small>('+files.filter(function(f){return f.subjects.includes(n);}).length+' F)</small></li>';}).join('')+'</ul></section>';}).join('')+'</div></section>';
   }
   function artistDirectory(){
     return heading('Artists — alphabetical directory','<span>'+D.artists.length+' inventoried folders</span>')+'<p class="collection-note">Names follow the supplied collection inventory. Counts are imported image files—not total works in Drive. An unimported collection is not an empty source folder.</p><label class="collection-search">Find an artist<input id="collection-artist-search" type="search" placeholder="Name or original folder label…"></label><div id="collection-directory"></div>';
@@ -32,45 +32,45 @@
     var el=document.getElementById('collection-directory');if(!el)return;
     var rows=D.artists.filter(function(a){return (a.name+' '+a.folderName).toLowerCase().includes((q||'').toLowerCase());}).sort(function(a,b){return a.name.localeCompare(b.name,undefined,{numeric:true});});
     var groups={};rows.forEach(function(a){var letter=/^[a-z]/i.test(a.name)?a.name[0].toUpperCase():/^\d/.test(a.name)?'0–9':'Other scripts';(groups[letter]=groups[letter]||[]).push(a);});
-    el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p><nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('images-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
+    el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p><nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('gallery-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
   }
   function home(){
     var featuredOrder=['轮回画室丶不修','OSOT','TOUZI','Ullasseu','diouer','瑞光Pro','pakawad','春天'];
     var covers={'轮回画室丶不修':'limitless','OSOT':'footless-bird','TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','diouer':'bai-ning-bing-study','瑞光Pro':'art-119682e8c6894298','pakawad':'pakawad-limitless','春天':'chuntian-bai-ning-bing'};
-    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('images-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
+    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('gallery-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
     var catN=function(id){return D.files.filter(function(f){return f.categories.includes(id);}).length;};
     var item=function(it){return '<li>'+link(it.id,it.title)+'<small>'+it.n+'</small></li>';};
     var groups=[
-      {title:'Browse by volume',id:'images-volumes',children:[]},
-      {title:'Characters',id:'images-characters',children:[]},
+      {title:'Browse by volume',id:'gallery-volumes',children:[]},
+      {title:'Characters',id:'gallery-characters',children:[]},
       {title:'Gu & cultivation',children:[
-        {id:'images-gu',title:'Gu Worms',n:catN('gu')},
-        {id:'images-gu-houses',title:'Gu Houses & constructs',n:catN('gu-houses')},
-        {id:'images-ranks',title:'Gu Masters & ranks',n:catN('ranks')},
-        {id:'images-cultivation',title:'Cultivation & apertures',n:catN('cultivation')},
-        {id:'images-objects',title:'Objects & treasures',n:catN('objects')}
+        {id:'gallery-gu',title:'Gu Worms',n:catN('gu')},
+        {id:'gallery-gu-houses',title:'Gu Houses & constructs',n:catN('gu-houses')},
+        {id:'gallery-ranks',title:'Gu Masters & ranks',n:catN('ranks')},
+        {id:'gallery-cultivation',title:'Cultivation & apertures',n:catN('cultivation')},
+        {id:'gallery-objects',title:'Objects & treasures',n:catN('objects')}
       ]},
       {title:'World & places',children:[
-        {id:'images-locations',title:'Locations & world',n:catN('locations')},
-        {id:'images-factions',title:'Factions & clans',n:catN('factions')},
-        {id:'images-maps',title:'Maps & diagrams',n:catN('maps')},
-        {id:'images-legends',title:'The Legends of Ren Zu',n:catN('legends')}
+        {id:'gallery-locations',title:'Locations & world',n:catN('locations')},
+        {id:'gallery-factions',title:'Factions & clans',n:catN('factions')},
+        {id:'gallery-maps',title:'Maps & diagrams',n:catN('maps')},
+        {id:'gallery-legends',title:'The Legends of Ren Zu',n:catN('legends')}
       ]},
-      {title:'Events & scenes',children:[{id:'images-scenes',title:'All scenes',n:catN('scenes')}].concat(D.eventCollections.map(function(c){return {id:'images-'+c.id,title:c.title,n:c.files.length};}))},
-      {title:'Creatures & beasts',id:'images-beasts',children:[{id:'images-beasts',title:'Creatures & beasts',n:catN('beasts')}]},
-      {title:'Adaptations & fan takes',id:'images-fan-takes',children:[{id:'images-fan-takes',title:'Fan reinterpretations',n:catN('fan-takes')}]},
+      {title:'Events & scenes',children:[{id:'gallery-scenes',title:'All scenes',n:catN('scenes')}].concat(D.eventCollections.map(function(c){return {id:'gallery-'+c.id,title:c.title,n:c.files.length};}))},
+      {title:'Creatures & beasts',id:'gallery-beasts',children:[{id:'gallery-beasts',title:'Creatures & beasts',n:catN('beasts')}]},
+      {title:'Adaptations & fan takes',id:'gallery-fan-takes',children:[{id:'gallery-fan-takes',title:'Fan reinterpretations',n:catN('fan-takes')}]},
       {title:'Other collections',children:[
-        {id:'images-others',title:'Others',n:catN('others')},
-        {id:'images-ai',title:'AI-labelled artwork',n:catN('ai')},
-        {id:'images-recent',title:'All imported artwork',n:D.files.length}
+        {id:'gallery-others',title:'Others',n:catN('others')},
+        {id:'gallery-ai',title:'AI-labelled artwork',n:catN('ai')},
+        {id:'gallery-recent',title:'All imported artwork',n:D.files.length}
       ]}
     ];
     var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4>'+(g.children.length?'<ul>'+g.children.map(item).join('')+'</ul>':'')+'</section>';}).join('')+'</div>';
-    return heading('Featured artists',link('images-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories','','collection-categories-heading')+tree+heading('Recent uploads',link('images-recent','All uploads →'))+cards(D.files.slice(-6));
+    return heading('Featured artists',link('gallery-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories','','collection-categories-heading')+tree+heading('Recent uploads',link('gallery-recent','All uploads →'))+cards(D.files.slice(-6));
   }
   function detail(f){
     var a=artist(f.artist);
-    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p><h3>'+e(f.title)+'</h3><p>Art: '+link('images-'+a.id,a.name)+'</p><dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('images-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p><p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.hideOriginalFilename?'<p class="collection-note">Original filename withheld here to avoid spoilers.</p>':'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>':'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
+    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p><h3>'+e(f.title)+'</h3><p>Art: '+link('gallery-'+a.id,a.name)+'</p><dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('gallery-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p><p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.hideOriginalFilename?'<p class="collection-note">Original filename withheld here to avoid spoilers.</p>':'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>':'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
   }
   var emptyKnowledge={
     ranks:{h:'Gu Masters & ranks',p:'Power in 蛊真人 is measured in 转 (revolves/ranks) — from 一转 (first revolve, beyond which no one without an opened aperture qualifies as a Gu Master) through to 九转, with legendary powers (大道) and the world’s rarest masters above them, the Venerables (尊者). Each revolve deepens a Master’s primeval essence and the quality of Gu they can refine and control. The story itself introduces the ranking system and inherited ranks in its early chapters (this wiki’s Chapter 7 brief covers rank inheritances), but the full rank table has not yet been cited on this wiki.'},
@@ -81,41 +81,41 @@
   };
   function emptyBackground(id){var k=emptyKnowledge[id];if(!k)return '';return '<section class="collection-note"><h3 style="margin-top:26px">'+e(k.h)+' — general knowledge, not cited on this wiki</h3><p>'+k.p+'</p><p class="collection-note">Background supplied so this page is never blank. It is uncited; verify against a copy of the text before quoting. Artwork placement, when imports arrive, follows source labels only.</p></section>';}
   function page(sl){
-    if(sl==='images')return home();
-    if(sl==='images-artists')return artistDirectory();
-    if(sl.startsWith('images-file-')){var f=D.files.find(function(x){return 'images-file-'+x.id===sl;});return f?detail(f):'<p>Artwork not found.</p>';}
+    if(sl==='gallery')return home();
+    if(sl==='gallery-artists')return artistDirectory();
+    if(sl.startsWith('gallery-file-')){var f=D.files.find(function(x){return 'gallery-file-'+x.id===sl;});return f?detail(f):'<p>Artwork not found.</p>';}
     var files=D.files.slice(),intro='',a;
-    if(sl.startsWith('images-artist-')){
-      a=artist(sl.slice(7));files=files.filter(function(f){return f.artist===a.id;});
+    if(sl.startsWith('gallery-artist-')){
+      a=artist(sl.slice(8));files=files.filter(function(f){return f.artist===a.id;});
       var cover=files[0], portrait=a.profileImage|| (cover&&cover.thumbnail), socials=(a.socials||[]).filter(function(s){return /^https:\/\//.test(s.url);}).map(function(s){return '<a href="'+e(s.url)+'" target="_blank" rel="noopener noreferrer">'+e(s.name)+' ↗</a>';}).join('');
       // Profile images are local reviewed assets. Fallback artwork is labelled, never represented as a portrait.
       var visual=portrait?'<figure class="collection-artist-visual"><img src="'+e(portrait)+'" alt="'+e(a.profileImage?'Profile image for '+a.name:'Artwork from '+a.name+' collection')+'"><figcaption>'+ (a.profileImage?'Artist profile image':'Collection artwork · profile image unverified')+'</figcaption></figure>':'';
       intro='<section class="collection-artist-head"'+(portrait?' style="--artist-cover:url(&quot;'+e(portrait)+'&quot;)"':'')+'><div class="collection-artist-inner"><div class="collection-artist-copy"><p class="collection-overline">ARTIST COLLECTION</p><h3>'+e(a.name)+'</h3><p>'+e(a.bio||a.name+' is credited in KolevXD’s Art Collection.')+' '+(files.length?'Explore '+files.length+' imported '+(files.length===1?'image':'images')+' below.':'Images from this collection have not been imported yet.')+'</p><div class="collection-artist-links">'+socials+source(a)+'</div><p class="collection-note">'+(socials?'Social links are based on available public sources. ':'Social profiles have not yet been verified. ')+(a.folderId?'Credit follows the source folder.':'The exact source folder has not yet been reconciled.')+'</p></div>'+visual+'</div></section>';
-    }else if(/^images-volume-[1-6]$/.test(sl)){
-      var vol=D.volumes.find(function(v){return sl==='images-volume-'+v.number;});
+    }else if(/^gallery-volume-[1-6]$/.test(sl)){
+      var vol=D.volumes.find(function(v){return sl==='gallery-volume-'+v.number;});
       files=volumeFiles(vol);
       intro='<p><b>'+e(volumeTitle(vol))+'</b> — Chapters '+e(vol.chapters)+'.</p>'+
         '<p>Gallery coverage includes the whole novel, independently of translation progress.</p>'+
         '<p class="collection-note">This gallery includes source-labelled works and art of related subjects: '+e(vol.subjects.join(', '))+'. Subject connections are not verified scene or chapter placements; portraits may depict another point in the story. Subject labels are provisional, based on collection filenames, folders and image review, not necessarily artist-confirmed. A work can appear in more than one gallery.</p>';
-    }else if(sl==='images-volume-unassigned'){files=files.filter(function(f){return !f.volume;});intro='<p>These works have no explicit volume placement. Some also appear in volume galleries because of their related subjects; that does not assign them to a specific scene or chapter.</p>';
-    }else if(sl==='images-volumes'){
+    }else if(sl==='gallery-volume-unassigned'){files=files.filter(function(f){return !f.volume;});intro='<p>These works have no explicit volume placement. Some also appear in volume galleries because of their related subjects; that does not assign them to a specific scene or chapter.</p>';
+    }else if(sl==='gallery-volumes'){
       var panels=D.volumes.map(function(v){var matches=volumeFiles(v),cover=D.files.find(function(f){return f.id===v.coverId;});
-        return '<section class="collection-panel"><h4>'+link('images-volume-'+v.number,volumeTitle(v))+'</h4>'+(cover?'<a class="volume-cover" href="'+url('images-volume-'+v.number)+'">'+image(cover,false,'width:100%;height:180px;object-fit:cover;display:block')+'</a>':'')+'<p>Chapters '+e(v.chapters)+' · '+matches.length+' related images'+(cover?'<br>Cover art: '+link('images-file-'+cover.id,artist(cover.artist).name):'')+'</p></section>';
+        return '<section class="collection-panel"><h4>'+link('gallery-volume-'+v.number,volumeTitle(v))+'</h4>'+(cover?'<a class="volume-cover" href="'+url('gallery-volume-'+v.number)+'">'+image(cover,false,'width:100%;height:180px;object-fit:cover;display:block')+'</a>':'')+'<p>Chapters '+e(v.chapters)+' · '+matches.length+' related images'+(cover?'<br>Cover art: '+link('gallery-file-'+cover.id,artist(cover.artist).name):'')+'</p></section>';
       }).join('');
-      panels+='<section class="collection-panel"><h4>'+link('images-volume-unassigned','Without an explicit volume assignment')+'</h4><p>'+D.files.filter(function(f){return !f.volume;}).length+' imported files have no explicit placement; some appear above as related-subject artwork.</p></section>';
+      panels+='<section class="collection-panel"><h4>'+link('gallery-volume-unassigned','Without an explicit volume assignment')+'</h4><p>'+D.files.filter(function(f){return !f.volume;}).length+' imported files have no explicit placement; some appear above as related-subject artwork.</p></section>';
       return heading('Browse by volume')+'<p>Explore all six volumes. Images include labelled artwork and related subjects, not necessarily scenes from that volume.</p><div class="collection-panels">'+panels+'</div>';
-    }else if(D.eventCollections.some(function(c){return 'images-'+c.id===sl;})){
-      var event=D.eventCollections.find(function(c){return 'images-'+c.id===sl;});files=files.filter(function(f){return event.files.includes(f.id);});intro='<p>'+e(event.description)+'</p>';
-    }else if(sl.startsWith('images-subject-')){files=files.filter(function(f){return f.subjects.some(function(s){return 'images-subject-'+slug(s)===sl;});});
-    }else if(sl!=='images-recent'){var cat=D.categories.find(function(c){return 'images-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
-    return intro+(sl.startsWith('images-subject-')?'':subjectIndex(files,cat?cat.id:null))+heading(/^images-volume-[1-6]$/.test(sl)?'Related artwork':'Media in this collection')+'<label class="collection-search">Search this collection<input id="collection-file-search" type="search" placeholder="Title, subject or artist…"></label><p id="collection-result-count" role="status"></p><div id="collection-results" data-files="'+e(files.map(function(f){return f.id;}).join(','))+'"></div>';
+    }else if(D.eventCollections.some(function(c){return 'gallery-'+c.id===sl;})){
+      var event=D.eventCollections.find(function(c){return 'gallery-'+c.id===sl;});files=files.filter(function(f){return event.files.includes(f.id);});intro='<p>'+e(event.description)+'</p>';
+    }else if(sl.startsWith('gallery-subject-')){files=files.filter(function(f){return f.subjects.some(function(s){return 'gallery-subject-'+slug(s)===sl;});});
+    }else if(sl!=='gallery-recent'){var cat=D.categories.find(function(c){return 'gallery-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
+    return intro+(sl.startsWith('gallery-subject-')?'':subjectIndex(files,cat?cat.id:null))+heading(/^gallery-volume-[1-6]$/.test(sl)?'Related artwork':'Media in this collection')+'<label class="collection-search">Search this collection<input id="collection-file-search" type="search" placeholder="Title, subject or artist…"></label><p id="collection-result-count" role="status"></p><div id="collection-results" data-files="'+e(files.map(function(f){return f.id;}).join(','))+'"></div>';
   }
-  window.renderImagesGallery=function(sl){current=sl||'images';return '<section class="collection-library"><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+D.files.length+' images available. Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
-  function fillFiles(q){var el=document.getElementById('collection-results');if(!el)return;var ids=el.dataset.files.split(',');var files=D.files.filter(function(f){return ids.includes(f.id)&&(f.title+' '+f.subjects.join(' ')+' '+artist(f.artist).name).toLowerCase().includes((q||'').toLowerCase());});document.getElementById('collection-result-count').textContent=files.length+' imported image files';el.innerHTML=files.length?cards(files):'<div class="collection-empty"><h4>No imported artwork here yet</h4><p>The category is part of the agreed structure. Source review and importing are still in progress; this does not mean the source folder has no artwork.</p>'+link('images','Back to Images')+'</div>';}
+  window.renderImagesGallery=function(sl){current=sl||'gallery';return '<section class="collection-library"><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+D.files.length+' images available. Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
+  function fillFiles(q){var el=document.getElementById('collection-results');if(!el)return;var ids=el.dataset.files.split(',');var files=D.files.filter(function(f){return ids.includes(f.id)&&(f.title+' '+f.subjects.join(' ')+' '+artist(f.artist).name).toLowerCase().includes((q||'').toLowerCase());});document.getElementById('collection-result-count').textContent=files.length+' imported image files';el.innerHTML=files.length?cards(files):'<div class="collection-empty"><h4>No imported artwork here yet</h4><p>The category is part of the agreed structure. Source review and importing are still in progress; this does not mean the source folder has no artwork.</p>'+link('gallery','Back to Gallery')+'</div>';}
   window.renderArticleArtLinks=function(article){
     var files=D.files.filter(function(f){return f.subjects.some(function(s){return s.toLowerCase()===article.t.toLowerCase();});});
     if(!files.length)return '';
-    return '<section class="collection-article-link"><h3>Images</h3><p>'+link('images-subject-'+slug(article.t),'Browse '+files.length+' imported image files of '+article.t)+' <small>Artwork may reveal later-story events. Gallery coverage is separate from translation progress.</small></p></section>';
+    return '<section class="collection-article-link"><h3>Images</h3><p>'+link('gallery-subject-'+slug(article.t),'Browse '+files.length+' imported image files of '+article.t)+' <small>Artwork may reveal later-story events. Gallery coverage is separate from translation progress.</small></p></section>';
   };
   window.mountImagesGallery=function(){fillDirectory('');fillFiles('');};
   document.addEventListener('input',function(ev){if(ev.target.id==='collection-artist-search')fillDirectory(ev.target.value);if(ev.target.id==='collection-file-search')fillFiles(ev.target.value);});
@@ -125,7 +125,7 @@
   function showArtwork(){
     var f=D.files.find(function(f){return f.id===sequence[position];});if(!f)return;
     viewer.querySelector('.art-viewer-stage').innerHTML='<img src="'+e(f.image)+'" alt="'+e(f.title)+'">';
-    viewer.querySelector('.art-viewer-info').innerHTML='<h3>'+e(f.title)+'</h3><p>Art: '+link('images-'+f.artist,artist(f.artist).name)+'</p><p>'+f.dimensions.join(' × ')+' · '+(position+1)+' / '+sequence.length+'</p><p>'+link('images-file-'+f.id,'Artwork details & source')+' · <a href="'+e(f.image)+'" target="_blank" rel="noopener">Open image</a></p><p class="collection-note">Rights remain with their respective holders. No licence or permission is inferred.</p>';
+    viewer.querySelector('.art-viewer-info').innerHTML='<h3>'+e(f.title)+'</h3><p>Art: '+link('gallery-'+f.artist,artist(f.artist).name)+'</p><p>'+f.dimensions.join(' × ')+' · '+(position+1)+' / '+sequence.length+'</p><p>'+link('gallery-file-'+f.id,'Artwork details & source')+' · <a href="'+e(f.image)+'" target="_blank" rel="noopener">Open image</a></p><p class="collection-note">Rights remain with their respective holders. No licence or permission is inferred.</p>';
     viewer.querySelector('[data-view-prev]').disabled=sequence.length<2;viewer.querySelector('[data-view-next]').disabled=sequence.length<2;
   }
   function openViewer(id,trigger){
@@ -141,5 +141,5 @@
   }
   document.addEventListener('click',function(ev){var a=ev.target.closest('[data-view-art]');if(a&&!ev.ctrlKey&&!ev.metaKey&&!ev.shiftKey&&ev.button===0){ev.preventDefault();openViewer(a.dataset.viewArt,a);}});
   window.addEventListener('popstate',closeViewer);
-  window.GZR_MEDIA_SEARCH=function(q){var query=(q||'').toLowerCase();return D.files.filter(function(f){return (f.title+' '+artist(f.artist).name+' '+f.subjects.join(' ')).toLowerCase().includes(query);}).map(function(f){return {slug:'images-file-'+f.id,title:f.title,image:f.thumbnail,kind:'Artwork · '+artist(f.artist).name};});};
+  window.GZR_MEDIA_SEARCH=function(q){var query=(q||'').toLowerCase();return D.files.filter(function(f){return (f.title+' '+artist(f.artist).name+' '+f.subjects.join(' ')).toLowerCase().includes(query);}).map(function(f){return {slug:'gallery-file-'+f.id,title:f.title,image:f.thumbnail,kind:'Artwork · '+artist(f.artist).name};});};
 })();
