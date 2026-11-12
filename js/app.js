@@ -13,6 +13,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 (function(){
   if(location.hash.indexOf('#/') === 0){ history.replaceState(null, '', location.hash.slice(1)); }
   document.addEventListener('click', function(e){
+    if(e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest && e.target.closest('a[href]');
     if(!a) return;
     var h = a.getAttribute('href');
