@@ -50,11 +50,23 @@
   }
   function artworkNaming(f){
     var n=artworkName(f);
+    var shared=sharedTitleCount(f);
     return '<h3>'+e(n.name)+'</h3><p class="collection-note">'+e(n.basis)+'</p>'+
+      (shared>1?'<p class="collection-note">The collection gives this source title to '+shared+' different artworks. No separate title is known for this one, so none is invented; the credited artist distinguishes it.</p>':'')+
       (f.creatorAssetTitle?'<p class="collection-note">Creator’s project: '+e(f.creatorTitle)+'</p>':'')+
       (f.creatorScene?'<p class="collection-scene-context">'+e(f.creatorScene)+' <span class="collection-note">Artist’s description; story placement not independently checked.</span></p>':'')+
       (f.collectionSeries?'<p class="collection-note">This names the collection’s series, not necessarily the exact moment or people shown in this frame.</p>':'')+
-      '<p class="collection-note">Collection: '+e(f.title)+'</p>';
+      '<p class="collection-note">Collection: '+e(f.title)+'</p>'+identicalNotice(f);
+  }
+  // Images this collection holds more than once, from the private duplicate
+  // review (pixel comparison of the published files). Stated as a fact about
+  // the collection; nothing is merged and no title or attribution changes.
+  function identicalNotice(f){
+    var same=window.GZR_IDENTICAL&&window.GZR_IDENTICAL[f.id];
+    if(!same||!same.length)return '';
+    return '<p class="collection-note">The collection holds '+(same.length+1)+
+      ' copies of this same image as separate files. They are kept as separate records; '+
+      'this note only saves you opening all of them.</p>';
   }
   function artworkSearch(f){return (f.mature?'NSFW mature adult ':'')+f.title+' '+(f.creatorTitle||'')+' '+(f.creatorAssetTitle||'')+' '+(f.creatorScene||'')+' '+(f.collectionSeries||'')+' '+f.subjects.join(' ')+' '+artist(f.artist).name;}
   function image(f,full,style){return '<img src="'+e(full?f.image:f.thumbnail)+'" alt="'+e(full?artworkName(f).name+' — '+f.title:f.title)+'"'+(style?' style="'+style+'"':'')+' loading="lazy" decoding="async">';}
@@ -70,6 +82,33 @@
       '<span class="collection-nsfw">NSFW</span>'+
       (revealed?'':'<span class="collection-blur-hint">Tap to view</span>');
   }
+  // The collection reuses source titles: "Reverend Insanity artwork 38" names
+  // five different pictures, and several artists each number their own files
+  // from "Artwork 1". Neither is a real title, so neither is invented here.
+  // When a source title is shared, the credited artist is appended, which is a
+  // fact from the source folder, and the count is stated rather than hidden.
+  var sharedTitles=null;
+  function sharedTitleCount(f){
+    if(!sharedTitles){
+      sharedTitles={};
+      D.files.forEach(function(x){sharedTitles[x.title]=(sharedTitles[x.title]||0)+1;});
+    }
+    return sharedTitles[f.title]||1;
+  }
+  // How many files are still waiting in the private archive for each artist.
+  // Written by the exporter; absent when the queue manifest is not loaded.
+  var queueCounts=(window.GZR_PENDING||null);
+  function queueNote(artistId){
+    var p=queueCounts&&queueCounts[artistId];
+    if(!p)return '';
+    return 'This collection holds '+p.files+' image '+(p.files===1?'file':'files')+
+      ' across '+p.folders+' source '+(p.folders===1?'folder':'folders')+
+      ' in the private Drive archive, and none has been published yet. They are queued behind checksum, content and rights review.';
+  }
+  function cardTitle(f){
+    var n=sharedTitleCount(f);
+    return n>1?f.title+' — '+artist(f.artist).name:f.title;
+  }
   function cards(files){
     return '<div class="collection-grid">'+files.map(function(f){
       var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));
@@ -77,7 +116,7 @@
       return '<article class="collection-card'+(held?' collection-card-mature':'')+'" style="--art-ratio:'+ratio+'">'+
         '<a class="collection-picture" data-view-art="'+e(f.id)+'"'+(held&&!revealed?' data-mature-tap="'+e(f.id)+'"':'')+' href="'+url('gallery-file-'+f.id)+'">'+
         (held?matureTile(f,revealed):image(f,false))+
-        '<div class="collection-caption"><h4>'+e(held?'NSFW':f.title)+'</h4>'+
+        '<div class="collection-caption"><h4>'+e(held?'NSFW':cardTitle(f))+'</h4>'+
         '<p>'+e(f.creatorCredit||artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+
         (f.creatorCredit?'<small>Credit on the artwork</small>':'')+
         (f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+
@@ -204,7 +243,7 @@
   }
   function detail(f){
     var a=artist(f.artist);
-    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p>'+artworkNaming(f)+'<p>Art: '+link('gallery-'+a.id,a.name)+'</p>'+(f.creatorCredit?'<p><strong>Artist credit on the artwork: '+e(f.creatorCredit)+'</strong></p><p class="collection-note">The source folder files this under '+e(a.name)+', but the artwork itself is signed or watermarked to '+e(f.creatorCredit)+' as a private commission. The signature is used here; the folder credit is not treated as attribution.</p>':'')+'<dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('gallery-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?'<p><a class="collection-creator-source" href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">View matched creator post ↗</a></p><p class="collection-note">The image has been visually matched to this creator post; other details may remain provisional.</p>':'')+'<p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.hideOriginalFilename?'<p class="collection-note">Original filename withheld here to avoid spoilers.</p>':'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?(f.creatorSource?'<p class="collection-note">Some subject and category labels may still be provisional, even where a creator post is matched.</p>':'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>'):'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
+    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p>'+artworkNaming(f)+'<p>Art: '+link('gallery-'+a.id,a.name)+'</p>'+(f.creatorCredit?'<p><strong>Artist credit on the artwork: '+e(f.creatorCredit)+'</strong></p><p class="collection-note">The source folder files this under '+e(a.name)+', but the artwork itself is signed or watermarked to '+e(f.creatorCredit)+' as a private commission. The signature is used here; the folder credit is not treated as attribution.</p>':'')+'<dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('gallery-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?'<p><a class="collection-creator-source" href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">View matched creator post ↗</a></p><p class="collection-note">The image has been visually matched to this creator post; other details may remain provisional.</p>':'')+'<p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.originalFilename?'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>':'<p class="collection-note">The original filename is kept in the private catalogue and is not published here.</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?(f.creatorSource?'<p class="collection-note">Some subject and category labels may still be provisional, even where a creator post is matched.</p>':'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>'):'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
   }
   var emptyKnowledge={
     ranks:{h:'Gu Masters & ranks',p:'Power in 蛊真人 is measured in 转 (revolves/ranks) — from 一转 (first revolve, beyond which no one without an opened aperture qualifies as a Gu Master) through to 九转, with legendary powers (大道) and the world’s rarest masters above them, the Venerables (尊者). Each revolve deepens a Master’s primeval essence and the quality of Gu they can refine and control. The story itself introduces the ranking system and inherited ranks in its early chapters (this wiki’s Chapter 7 brief covers rank inheritances), but the full rank table has not yet been cited on this wiki.'},
@@ -227,7 +266,7 @@
       var cover=files[0], portrait=a.profileImage|| (cover&&cover.thumbnail), socials=(a.socials||[]).filter(function(s){return /^https:\/\//.test(s.url);}).map(socialLink).join('');
       // Profile images are local reviewed assets. Fallback artwork is labelled, never represented as a portrait.
       var visual=portrait?'<figure class="collection-artist-visual"><img src="'+e(portrait)+'" alt="'+e(a.profileImage?'Profile image for '+a.name:'Artwork from '+a.name+' collection')+'"><figcaption>'+ (a.profileImage?'Artist profile image':'Collection artwork · profile image unverified')+'</figcaption></figure>':'';
-      intro='<section class="collection-artist-head"'+(portrait?' style="--artist-cover:url(&quot;'+e(portrait)+'&quot;)"':'')+'><div class="collection-artist-inner"><div class="collection-artist-copy"><p class="collection-overline">ARTIST COLLECTION</p><h3>'+e(a.name)+'</h3><p>'+e(a.bio||a.name+' is credited in KolevXD’s Art Collection.')+' '+(files.length?'Explore '+files.length+' imported '+(files.length===1?'image':'images')+' below.':'Images from this collection have not been imported yet.')+'</p><div class="collection-artist-links">'+socials+source(a)+'</div><p class="collection-note">'+(socials?'Social links are based on available public sources. ':'Social profiles have not yet been verified. ')+(a.folderId?'Credit follows the source folder.':'The exact source folder has not yet been reconciled.')+'</p></div>'+visual+'</div></section>';
+      intro='<section class="collection-artist-head"'+(portrait?' style="--artist-cover:url(&quot;'+e(portrait)+'&quot;)"':'')+'><div class="collection-artist-inner"><div class="collection-artist-copy"><p class="collection-overline">ARTIST COLLECTION</p><h3>'+e(a.name)+'</h3><p>'+e(a.bio||a.name+' is credited in KolevXD’s Art Collection.')+' '+(files.length?'Explore '+files.length+' imported '+(files.length===1?'image':'images')+' below.':''+(queueNote(a.id)||'Images from this collection have not been imported yet.')+'')+'</p><div class="collection-artist-links">'+socials+source(a)+'</div><p class="collection-note">'+(socials?'Social links are based on available public sources. ':'Social profiles have not yet been verified. ')+(a.folderId?'Credit follows the source folder.':'The exact source folder has not yet been reconciled.')+'</p></div>'+visual+'</div></section>';
     }else if(/^gallery-volume-[1-6]$/.test(sl)){
       var vol=D.volumes.find(function(v){return sl==='gallery-volume-'+v.number;});
       files=volumeFiles(vol);

@@ -1356,6 +1356,10 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
    tile keeps the artwork's own proportions and there is no second, unblurred
    URL for a crawler to index. The overlay label sits above the filter. */
 .collection-blur{position:absolute;inset:0;display:block;overflow:hidden;border-radius:3px}
+.collection-pending{border:1px solid var(--collection-line);border-left:3px solid var(--tg-color-base);background:var(--tg-color-surface-2);padding:16px 20px;margin:18px 0;max-width:70ch}
+.collection-pending h3{margin:0 0 8px;font-size:15px;letter-spacing:.02em}
+.collection-pending p{margin:0 0 8px;font-size:14px;line-height:1.55;color:var(--tg-color-base)}
+.collection-pending p:last-child{margin-bottom:0}
 .collection-blur img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(2.5px);transform:scale(1.02);transition:filter .18s ease}
 .collection-blur:not(.is-revealed) img{user-select:none;-webkit-user-drag:none}
 .collection-blur.is-revealed img{filter:none;transform:none}
