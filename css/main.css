@@ -1257,7 +1257,7 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 .collection-panel h4{border-left:0;padding:12px 18px;background:var(--tg-color-surface-2);font-size:19px!important}
 .collection-panel ul{padding:5px 18px 12px 20px;line-height:1.7;font-size:16px}
 .collection-panel p{margin:14px 18px 20px;font-size:14px}
-.collection-subcategories{margin:30px 0}.collection-subcategories h3{font:600 25px 'Poppins',sans-serif!important}.collection-subcategories>p{font-size:14px}
+.collection-variants{margin:26px 0;padding:16px 20px;border:1px solid var(--collection-line);background:var(--tg-color-surface-2);border-radius:5px}.collection-variants .collection-heading h3{font:600 17px 'Poppins',sans-serif!important;margin:0 0 6px}.collection-variant-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.collection-variant-links a{border:1px solid var(--collection-line);border-radius:4px;padding:6px 10px;font-size:13px}.collection-variant-links a:hover{border-color:var(--tg-color-link)}.collection-subcategories{margin:30px 0}.collection-subcategories h3{font:600 25px 'Poppins',sans-serif!important}.collection-subcategories>p{font-size:14px}
 .collection-subcategory-columns{columns:3;column-gap:30px}.collection-subcategory-columns section{break-inside:avoid;padding:8px 0 14px}
 .collection-subcategory-columns h4{font:600 22px 'Poppins',sans-serif!important;margin:8px 0 14px}.collection-subcategory-columns ul{list-style:none!important;padding:0!important;margin:0}.collection-subcategory-columns li{margin:8px 0;overflow-wrap:anywhere}.collection-subcategory-columns li::before{content:'▸';margin-right:7px;color:var(--tg-color-progressive)}
 .collection-grid{display:flex;flex-wrap:wrap;gap:5px;align-items:stretch}

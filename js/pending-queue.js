@@ -1,2 +1,2 @@
 /* Files still waiting in the private archive, per artist. Generated. */
-window.GZR_PENDING = {"artist-098":{"files":119,"folders":3},"artist-105":{"files":125,"folders":3},"artist-106":{"files":108,"folders":1},"artist-110":{"files":55,"folders":3},"artist-111":{"files":74,"folders":3},"artist-114":{"files":68,"folders":3},"artist-117":{"files":37,"folders":1},"artist-118":{"files":42,"folders":1},"artist-119":{"files":41,"folders":2},"artist-120":{"files":38,"folders":2},"artist-121":{"files":58,"folders":2},"artist-122":{"files":34,"folders":3},"artist-123":{"files":103,"folders":4},"artist-124":{"files":40,"folders":2},"artist-125":{"files":32,"folders":1}};
+window.GZR_PENDING = {};
