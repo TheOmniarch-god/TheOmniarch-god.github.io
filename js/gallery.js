@@ -68,7 +68,7 @@
       '<img src="'+e(f.thumbnail)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">'+
       '</span>'+
       '<span class="collection-nsfw">NSFW</span>'+
-      '<span class="collection-blur-hint">'+(revealed?'Shown for this visit':'Tap to open')+'</span>';
+      (revealed?'':'<span class="collection-blur-hint">Tap to view</span>');
   }
   function cards(files){
     return '<div class="collection-grid">'+files.map(function(f){
@@ -77,11 +77,11 @@
       return '<article class="collection-card'+(held?' collection-card-mature':'')+'" style="--art-ratio:'+ratio+'">'+
         '<a class="collection-picture" data-view-art="'+e(f.id)+'"'+(held&&!revealed?' data-mature-tap="'+e(f.id)+'"':'')+' href="'+url('gallery-file-'+f.id)+'">'+
         (held?matureTile(f,revealed):image(f,false))+
-        '<div class="collection-caption"><h4>'+e(held?'NSFW · '+f.title:f.title)+'</h4>'+
+        '<div class="collection-caption"><h4>'+e(held?'NSFW':f.title)+'</h4>'+
         '<p>'+e(f.creatorCredit||artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+
         (f.creatorCredit?'<small>Credit on the artwork</small>':'')+
         (f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+
-        (held?(revealed?'<small>Revealed for this visit</small>':'<small>Blurred · tap to open</small>'):'')+
+        (held&&revealed?'<small>Shown for this visit</small>':'')+
         (/^gallery-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(8)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+
         '</div></a></article>';
     }).join('')+'</div>';
