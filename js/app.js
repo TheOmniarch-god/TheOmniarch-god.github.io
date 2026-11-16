@@ -465,14 +465,14 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
   function searchRecords(q){
     if(!q) return [];
-    var entries=findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'gallery-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,kind:art?'Artwork':record.k||''};});
+    var entries=findHits(q).map(function(k){var record=A[k],art=window.GZR_GALLERY&&window.GZR_GALLERY.files.find(function(f){return 'gallery-file-'+f.id===k;});return {slug:k,title:record.t,image:art?art.thumbnail:record.img,mature:!!(art&&art.mature),kind:art?(art.mature?'NSFW artwork':'Artwork'):(record.k||'')};});
     var media=(window.GZR_MEDIA_SEARCH?window.GZR_MEDIA_SEARCH(q):[]);
     return entries.concat(media).slice(0,12);
   }
   function renderHits(q){
     var hits=searchRecords(q);
     function marked(t){if(!q)return esc(t);var i=t.toLowerCase().indexOf(q);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length));}
-    sug.innerHTML=(hits.length?hits.map(function(r){return '<button data-slug="'+esc(r.slug)+'"><span class="s-thumb'+(r.image?'':' empty')+'">'+(r.image?'<img src="'+esc(r.image)+'" alt="">':'◇')+'</span><span class="s-txt"><span class="s-title">'+marked(r.title)+'</span><span class="s-kind">'+esc(r.kind)+'</span></span></button>';}).join(''):'<div class="s-empty">No entries match “'+esc(q)+'”.</div>');
+    sug.innerHTML=(hits.length?hits.map(function(r){return '<button data-slug="'+esc(r.slug)+'"><span class="s-thumb'+(r.image?'':' empty')+(r.mature?' s-thumb-nsfw':'')+'">'+(r.image?'<img src="'+esc(r.image)+'" alt="">':'◇')+(r.mature?'<b class="s-nsfw">NSFW</b>':'')+'</span><span class="s-txt"><span class="s-title">'+marked(r.title)+'</span><span class="s-kind">'+esc(r.kind)+'</span></span></button>';}).join(''):'<div class="s-empty">No entries match “'+esc(q)+'”.</div>');
     sug.style.display='block';
   }
   input.addEventListener('input', function(){

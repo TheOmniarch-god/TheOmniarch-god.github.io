@@ -1351,3 +1351,30 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 
 /* Artist categories filter only this collection; footer links browse the wider gallery. */
 .collection-artist-categories{margin:24px 0}.collection-artist-categories h3{font:600 1rem/1.4 'Poppins',sans-serif!important;margin:0 0 7px}.collection-category-filters,.collection-artist-nav>div{display:flex;flex-wrap:wrap;gap:8px}.collection-category-filters button{font:inherit;font-size:13px;color:var(--tg-color-base);background:var(--tg-color-surface-2);border:1px solid var(--collection-line);border-radius:999px;min-height:44px;padding:8px 13px;cursor:pointer}.collection-category-filters button[aria-pressed="true"]{background:var(--tg-color-emphasized);color:var(--tg-color-surface-1);border-color:var(--tg-color-emphasized)}.collection-category-filters small{opacity:.75;margin-left:3px}.collection-artist-nav{margin:36px 0 16px;padding:20px;border:1px solid var(--collection-line);border-radius:12px;background:var(--tg-color-surface-2)}.collection-artist-nav>strong{font-size:15px}.collection-artist-nav p{font-size:12px;color:var(--tg-color-subtle);margin:6px 0 14px}.collection-artist-nav a{border:1px solid var(--collection-line);border-radius:999px;padding:8px 12px;font-size:13px;text-decoration:none!important}.collection-artist-nav a:hover,.collection-category-filters button:hover{border-color:var(--tg-color-link)}
+/* NSFW tier. The artwork is in the grid, blurred, and opens on tap. The blur
+   is a CSS filter over the real thumbnail rather than a separate cover, so the
+   tile keeps the artwork's own proportions and there is no second, unblurred
+   URL for a crawler to index. The overlay label sits above the filter. */
+.collection-blur{position:absolute;inset:0;display:block;overflow:hidden;border-radius:3px}
+.collection-blur img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(18px) saturate(.55) brightness(.9);transform:scale(1.12);transition:filter .18s ease}
+.collection-blur:not(.is-revealed) img{user-select:none;-webkit-user-drag:none}
+.collection-blur.is-revealed img{filter:none;transform:none}
+.collection-nsfw{position:absolute;top:8px;left:8px;z-index:2;font:700 9px/1 'Poppins',sans-serif;letter-spacing:.14em;padding:4px 6px;border-radius:3px;background:#b3261e;color:#fff}
+.collection-blur-hint{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:7px 8px;text-align:center;font:600 10px/1.2 'Poppins',sans-serif;letter-spacing:.06em;color:#fff;background:linear-gradient(to top,rgba(12,12,14,.82),rgba(12,12,14,0))}
+.collection-card-mature .collection-picture{cursor:pointer}
+.collection-card-mature .collection-picture:focus-visible{outline:3px solid var(--tg-color-link);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.collection-blur img{transition:none}}
+.collection-card-mature .collection-picture{background:repeating-linear-gradient(135deg,var(--tg-color-surface-2) 0 10px,var(--tg-color-surface-1) 10px 20px)}
+.collection-mature-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;min-height:120px;padding:14px;text-align:center;border:1px dashed var(--collection-line);box-sizing:border-box}
+.collection-mature-tile span{font:600 15px/1 'Poppins',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--tg-color-emphasized)}
+.collection-mature-tile small{font-size:11px;color:var(--tg-color-subtle);max-width:22ch}
+.collection-mature-gate{border-left:3px solid var(--tg-color-progressive);background:var(--tg-color-surface-2);padding:18px 24px;margin:22px 0}
+.collection-mature-gate h3{font:600 28px 'Poppins',sans-serif!important;margin:8px 0 12px}
+.collection-mature-gate dl{font-size:12px;margin:14px 0}.collection-mature-gate dt{font-weight:bold;margin-top:10px}.collection-mature-gate dd{margin:2px 0 0}
+.collection-mature-state{font-weight:bold;color:var(--tg-color-emphasized)}
+.collection-mature-open{font:600 14px 'Poppins',sans-serif;padding:10px 18px;border:1px solid var(--tg-color-progressive);border-radius:5px;background:var(--tg-color-progressive);color:#fff;cursor:pointer}
+.collection-mature-open:hover{filter:brightness(1.08)}
+.collection-mature-notice{border:1px dashed var(--collection-line);padding:14px 18px;margin:26px 0;font-size:13px;background:var(--tg-color-surface-2)}
+.collection-mature-notice h4{margin:0 0 8px;font:600 17px 'Poppins',sans-serif!important}
+.s-thumb-nsfw{position:relative}.s-thumb-nsfw img{filter:blur(9px) saturate(.5);transform:scale(1.1)}
+.s-nsfw{position:absolute;left:2px;bottom:2px;font:700 7px/1 'Poppins',sans-serif;letter-spacing:.08em;padding:2px 3px;border-radius:2px;background:#b3261e;color:#fff;z-index:2}

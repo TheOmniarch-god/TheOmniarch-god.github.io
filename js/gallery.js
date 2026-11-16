@@ -14,7 +14,31 @@
   var url = function(id){return '/wiki/'+id+'/';};
   var link = function(id,title){return '<a href="'+url(id)+'">'+e(title)+'</a>';};
   var artist = function(id){return D.artists.find(function(a){return a.id===id;});};
-  var count = function(id){return D.files.filter(function(f){return f.artist===id;}).length;};
+  var count = function(id){return visible(D.files).filter(function(f){return f.artist===id;}).length;};
+  // Works imported from a mature room stay in the catalogue so the record is
+  // never lost, but they are not browsable anywhere by default. Enabling the
+  // gate is a deliberate, session-local act: the preference lives in
+  // localStorage under one key and never enters the published data.
+  var MATURE_KEY = 'ri-gallery-mature';
+  // Confirmation is deliberately in memory only: a reload forgets it.
+  var confirmed = {};
+  function mature(f){return !!(f && f.mature);}
+  // What a browse page may list: ordinary records, plus mature ones once this
+  // browser has opted in. Listing a mature record is not the same as showing
+  // it: the tile stays blurred and still needs a tap.
+  function visible(files){return gateOpen()?files.slice():files.filter(function(f){return !mature(f);});}
+  function gateOpen(){
+    try{return window.localStorage.getItem(MATURE_KEY)==='open';}catch(err){return false;}
+  }
+  function setGate(open){
+    try{ if(open)window.localStorage.setItem(MATURE_KEY,'open'); else window.localStorage.removeItem(MATURE_KEY); }catch(err){}
+  }
+  function matureNotice(count,what){
+    if(!count)return '';
+    return '<section class="collection-mature-notice" aria-labelledby="mature-notice-title"><h4 id="mature-notice-title">'+count+' '+(what||'artwork files')+' held behind the mature gate</h4>'+
+      '<p>These were imported from a source folder the collection owner labelled as mature. They are kept out of ordinary browsing, search, counts and the artwork viewer until this browser opts in, and each file is still opened behind a confirmation.</p>'+
+      '<p><button type="button" class="collection-mature-open" data-mature="open">Show mature artwork in this browser</button></p></section>';
+  }
   // Collection numbers stay on cards. A creator project title or provisional
   // related subjects give the opened artwork useful context without inventing a scene.
   function artworkName(f){
@@ -32,9 +56,36 @@
       (f.collectionSeries?'<p class="collection-note">This names the collection’s series, not necessarily the exact moment or people shown in this frame.</p>':'')+
       '<p class="collection-note">Collection: '+e(f.title)+'</p>';
   }
-  function artworkSearch(f){return f.title+' '+(f.creatorTitle||'')+' '+(f.creatorAssetTitle||'')+' '+(f.creatorScene||'')+' '+(f.collectionSeries||'')+' '+f.subjects.join(' ')+' '+artist(f.artist).name;}
+  function artworkSearch(f){return (f.mature?'NSFW mature adult ':'')+f.title+' '+(f.creatorTitle||'')+' '+(f.creatorAssetTitle||'')+' '+(f.creatorScene||'')+' '+(f.collectionSeries||'')+' '+f.subjects.join(' ')+' '+artist(f.artist).name;}
   function image(f,full,style){return '<img src="'+e(full?f.image:f.thumbnail)+'" alt="'+e(full?artworkName(f).name+' — '+f.title:f.title)+'"'+(style?' style="'+style+'"':'')+' loading="lazy" decoding="async">';}
-  function cards(files){return '<div class="collection-grid">'+files.map(function(f){var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));return '<article class="collection-card" style="--art-ratio:'+ratio+'"><a class="collection-picture" data-view-art="'+e(f.id)+'" href="'+url('gallery-file-'+f.id)+'">'+image(f,false)+'<div class="collection-caption"><h4>'+e(f.title)+'</h4><p>'+e(artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+(f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+(/^gallery-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(8)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+'</div></a></article>';}).join('')+'</div>';}
+  // NSFW tiles follow the pattern the collection owner asked for: the artwork
+  // is in the grid, blurred, and tapping opens it. The blur is a CSS filter on
+  // the real thumbnail rather than a cover image, so the tile keeps the
+  // artwork's own shape, and the unblurred file is never a separate URL a
+  // crawler could index.
+  function matureTile(f,revealed){
+    return '<span class="collection-blur'+(revealed?' is-revealed':'')+'">'+
+      '<img src="'+e(f.thumbnail)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">'+
+      '</span>'+
+      '<span class="collection-nsfw">NSFW</span>'+
+      '<span class="collection-blur-hint">'+(revealed?'Shown for this visit':'Tap to open')+'</span>';
+  }
+  function cards(files){
+    return '<div class="collection-grid">'+files.map(function(f){
+      var ratio=Math.max(.5,Math.min(2.4,f.dimensions[0]/f.dimensions[1]));
+      var held=mature(f),revealed=held&&confirmed[f.id];
+      return '<article class="collection-card'+(held?' collection-card-mature':'')+'" style="--art-ratio:'+ratio+'">'+
+        '<a class="collection-picture" data-view-art="'+e(f.id)+'"'+(held&&!revealed?' data-mature-tap="'+e(f.id)+'"':'')+' href="'+url('gallery-file-'+f.id)+'">'+
+        (held?matureTile(f,revealed):image(f,false))+
+        '<div class="collection-caption"><h4>'+e(held?'NSFW · '+f.title:f.title)+'</h4>'+
+        '<p>'+e(f.creatorCredit||artist(f.artist).name)+'</p><small>'+f.dimensions.join(' × ')+'</small>'+
+        (f.creatorCredit?'<small>Credit on the artwork</small>':'')+
+        (f.method==='collection-labelled AI'?'<small>AI-labelled</small>':'')+
+        (held?(revealed?'<small>Revealed for this visit</small>':'<small>Blurred · tap to open</small>'):'')+
+        (/^gallery-volume-[1-6]$/.test(current)?'<small>'+(f.volume===current.slice(8)?'Volume in collection filename':'Related subject · scene unverified')+'</small>':'')+
+        '</div></a></article>';
+    }).join('')+'</div>';
+  }
   function source(a){var id=a.folderId||a.tierFolderId;return '<a href="https://drive.google.com/drive/folders/'+e(id)+'" target="_blank" rel="noopener">'+(a.folderId?'Open artist source folder':'Find folder in source tier')+' ↗</a>';}
   function volumeFiles(v){return D.files.filter(function(f){return f.volume==='volume-'+v.number || (!f.volume && f.subjects.some(function(subject){return v.subjects.includes(subject);}));});}
   function volumeTitle(v){return 'Volume '+v.number+': '+v.title;}
@@ -42,10 +93,29 @@
   ['Qin Bai Sheng','Duke Long','Chu Du','Bing Sai Chuan','Feng Jin Huang','Shen Cui','Ge Yao','Purple Mountain','Qiao Si Liu','Liu Shu Xian','Shen Cong Sheng','Tai Bai Yun Sheng','Thunder Ghost True Monarch','Verdant Great Sun','Fairy Zi Wei','Bai Zu','Blazing Heaven Demoness','Dong Fang Chang Fan','Fang Gong','Fang Di Chang','He Chun Qiu','Lady White Rabbit','Li Xiao Bai','Lu Wei Yin','Old Ancestor Xue Hu','Shen Shang','Zhan Bu Du'].forEach(function(n){subjectKinds[n]='characters';});
   ['Mao Li Qiu','Zuo Ye Hui','Di Zang Sheng','Qing Chou'].forEach(function(n){subjectKinds[n]='beasts';});
   subjectKinds['Yi Tian Mountain']='locations';subjectKinds['Eighty-Eight True Yang Building']='gu-houses';
+  // Fallback for the long tail of subjects that only appear on a handful of
+  // files. Without a kind, a subject gets no subcategory entry and its page
+  // is reachable only by direct link. This resolves only the cases the naming
+  // makes unambiguous and returns null for everything else, so a name is
+  // never classified on a guess. scripts/verify-art-catalogue.py lists every
+  // unresolved name for editorial review.
+  function subjectKindOf(name){
+    if(Object.prototype.hasOwnProperty.call(subjectKinds,name))return subjectKinds[name];
+    // "X Gu" names a Gu worm. The collection already treats creature-like Gu
+    // this way (Air Bubble Fish Gu is filed under Gu), so the suffix decides.
+    if(/Gu$/.test(name))return 'gu';
+    if(/ (Mountain|Valley|River|Cave|Pool|City|Pavilion|Tower|Hall|Palace|Realm|Cemetery|Battlefield|Door|Stage)$/.test(name))return 'locations';
+    if(/ (Blessed Land|Sacred Land)$/.test(name))return 'locations';
+    // Honorifics are unambiguous for a person in this setting.
+    if(/^(Fairy|Lady|Daoist|Old Ancestor|Great Grandmaster) /.test(name))return 'characters';
+    if(/ Land Spirit$/.test(name))return 'characters';
+    return null;
+  }
+  window.GZR_SUBJECT_KIND=subjectKindOf;
   function heading(title,extra,kind){return '<div class="collection-heading'+(kind?' '+e(kind):'')+'"><h3>'+e(title)+'</h3>'+(extra||'')+'</div>';}
   function subjects(files){return Array.from(new Set(files.flatMap(function(f){return f.subjects;}))).sort(function(a,b){return a.localeCompare(b);});}
   function subjectIndex(files,kind){
-    var names=subjects(files).filter(function(n){return !kind||subjectKinds[n]===kind;});
+    var names=subjects(files).filter(function(n){return !kind||subjectKindOf(n)===kind;});
     if(!names.length)return '';
     var groups={};names.forEach(function(n){var key=n[0].toUpperCase();(groups[key]=groups[key]||[]).push(n);});
     return '<section class="collection-subcategories"><h3>Subcategories</h3><p>This collection has '+names.length+' subject subcategories. Counts refer to available image files.</p><div class="collection-subcategory-columns">'+Object.keys(groups).sort().map(function(g){return '<section><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(n){return '<li>'+link('gallery-subject-'+slug(n),'Images of '+n)+' <small>('+files.filter(function(f){return f.subjects.includes(n);}).length+' F)</small></li>';}).join('')+'</ul></section>';}).join('')+'</div></section>';
@@ -65,15 +135,17 @@
     return heading('Artists — alphabetical directory','<span>'+D.artists.length+' inventoried folders</span>')+'<p class="collection-note">Names follow the supplied collection inventory. Counts are imported image files—not total works in Drive. An unimported collection is not an empty source folder.</p><label class="collection-search">Find an artist<input id="collection-artist-search" type="search" placeholder="Name or original folder label…"></label><div id="collection-directory"></div>';
   }
   function fillDirectory(q){
-    var el=document.getElementById('collection-directory');if(!el)return;
+    var el=mountedDirectory&&mountedDirectory.isConnected?mountedDirectory:(mountedBody||document).querySelector('#collection-directory');if(!el)return;
     var rows=D.artists.filter(function(a){return (a.name+' '+a.folderName).toLowerCase().includes((q||'').toLowerCase());}).sort(function(a,b){return a.name.localeCompare(b.name,undefined,{numeric:true});});
     var groups={};rows.forEach(function(a){var letter=/^[a-z]/i.test(a.name)?a.name[0].toUpperCase():/^\d/.test(a.name)?'0–9':'Other scripts';(groups[letter]=groups[letter]||[]).push(a);});
-    el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p><nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('gallery-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
+    var nsfwCount=D.files.filter(mature).length;
+    var nsfwHint=(q&&/^(nsfw|mature|adult)$/i.test(q.trim())&&nsfwCount)?'<p class="collection-note">No artist is named that. '+link('gallery-mature','NSFW artwork')+' is a tier, not an artist: '+nsfwCount+' '+(nsfwCount===1?'file is':'files are')+' blurred behind it.</p>':'';
+    el.innerHTML='<p role="status">'+rows.length+' matching artist folders</p>'+nsfwHint+'<nav class="collection-az" aria-label="Artist letters">'+Object.keys(groups).map(function(g){return '<a href="#artists-'+e(g.replace(/\W/g,''))+'">'+e(g)+'</a>';}).join('')+'</nav>'+Object.keys(groups).map(function(g){return '<section class="collection-letter" id="artists-'+e(g.replace(/\W/g,''))+'"><h4>'+e(g)+'</h4><ul>'+groups[g].map(function(a){return '<li>'+link('gallery-'+a.id,a.name)+'<small>'+ (count(a.id)?count(a.id)+' imported':'Not yet imported')+'</small></li>';}).join('')+'</ul></section>';}).join('')+(rows.length?'':'<p>No artist matches that search.</p>');
   }
   function home(){
     var featuredOrder=['轮回画室丶不修','OSOT','TOUZI','Ullasseu','diouer','瑞光Pro','pakawad','春天'];
     var covers={'轮回画室丶不修':'limitless','OSOT':'footless-bird','TOUZI':'volume-one-duel','Ullasseu':'ordinary-abyss','diouer':'bai-ning-bing-study','瑞光Pro':'art-119682e8c6894298','pakawad':'pakawad-limitless','春天':'chuntian-bai-ning-bing'};
-    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id;});if(!a||!f)return '';return '<a href="'+url('gallery-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
+    var featured=featuredOrder.map(function(n){var a=D.artists.find(function(a){return a.name===n&&!a.ai;});var f=D.files.find(function(x){return a&&x.id===covers[n]&&x.artist===a.id&&!mature(x);});if(!a||!f)return '';return '<a href="'+url('gallery-'+a.id)+'" class="collection-feature">'+image(f,false)+'<strong>Images by '+e(a.name)+'</strong></a>';}).join('');
     var catN=function(id){return D.files.filter(function(f){return f.categories.includes(id);}).length;};
     var item=function(it){return '<li>'+link(it.id,it.title)+'<small>'+it.n+'</small></li>';};
     var groups=[
@@ -98,15 +170,41 @@
       {title:'Other collections',children:[
         {id:'gallery-others',title:'Others',n:catN('others')},
         {id:'gallery-ai',title:'AI-labelled artwork',n:catN('ai')},
-        {id:'gallery-recent',title:'All imported artwork',n:D.files.length}
+        {id:'gallery-recent',title:'All imported artwork',n:visible(D.files).length},
+        {id:'gallery-mature',title:'NSFW artwork (blurred)',n:D.files.filter(mature).length}
       ]}
     ];
     var tree='<div class="collection-tree-columns">'+groups.map(function(g){var head=g.id?link(g.id,g.title):e(g.title);return '<section class="collection-tree-group"><h4>'+head+'</h4>'+(g.children.length?'<ul>'+g.children.map(item).join('')+'</ul>':'')+'</section>';}).join('')+'</div>';
-    return heading('Featured artists',link('gallery-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories','','collection-categories-heading')+tree+heading('Recent uploads',link('gallery-recent','All uploads →'))+cards(D.files.slice(-6));
+    return heading('Featured artists',link('gallery-artists','All artists →'))+'<div class="collection-featured">'+featured+'</div>'+heading('Categories','','collection-categories-heading')+tree+heading('Recent uploads',link('gallery-recent','All uploads →'))+cards(visible(D.files).slice(-6))+matureNotice(D.files.filter(mature).length);
+  }
+  // A mature file is never rendered until this browser has both opened the
+  // gate page and pressed through a confirmation on this specific artwork.
+  function matureInterstitial(f){
+    var a=artist(f.artist);
+    return '<div class="collection-mature-gate"><p class="collection-overline">NSFW</p><h3>Adult artwork</h3>'+
+      '<p>This file is adult material. It is blurred in the gallery until it is opened.</p>'+
+      '<dl><dt>Collection</dt><dd>'+e(f.title)+'</dd><dt>Credited collection</dt><dd>'+e(a?a.name:'Unresolved')+'</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd></dl>'+
+      '<p><button type="button" class="collection-mature-open" data-mature="confirm" data-file="'+e(f.id)+'">Show the artwork</button> '+
+      '<button type="button" class="collection-mature-open" data-mature="close">Keep this tier blurred</button></p>'+
+      '<p class="collection-note">Opening it lasts for this visit only; the blur comes back next time. '+link('gallery-mature','About the NSFW tier')+' · '+link('gallery','Back to the gallery')+'</p></div>';
+  }
+  // The gate room: the only place mature files are listed, and even here the
+  // tiles stay inert until the browser has opted in.
+  function matureRoom(){
+    var held=D.files.filter(mature),a;
+    var head='<section class="collection-mature-gate"><p class="collection-overline">NSFW</p><h3>Mature artwork</h3>'+
+      '<p>'+held.length+' imported '+(held.length===1?'file':'files')+' '+(held.length===1?'is':'are')+' adult material. They are blurred in every grid and open when you tap them; the tile then stays revealed for this visit only.</p>'+
+      '<p>Tap open is deliberately not a cookie. Nothing is remembered about which files you have opened, and the blur returns on your next visit unless you keep the tier switched on below.</p>'+
+      '<p class="collection-mature-state" role="status">'+(gateOpen()?'This browser keeps the NSFW tier switched on.':'This browser blurs the NSFW tier and opens one file at a time.')+'</p>'+
+      '<p>'+(gateOpen()?'<button type="button" class="collection-mature-open" data-mature="close">Blur the NSFW tier again in this browser</button>':'<button type="button" class="collection-mature-open" data-mature="open">Keep the NSFW tier switched on in this browser</button>')+'</p>'+
+      '<p class="collection-note">This tier covers adult material only. Artwork depicting sexualised minors is excluded from publication outright: it is not in this tier, it is not blurrable, and it is not reachable from this page or any other.</p></section>';
+    if(!held.length)return head+'<p>No mature artwork has been imported yet. Source folders are still being reviewed.</p>';
+    return head+heading('Adult artwork in this collection','<span>'+held.length+' '+(held.length===1?'file':'files')+'</span>')+cards(held)+
+      '<p class="collection-note">Counts elsewhere on the site leave this tier out. To see these files in ordinary browsing, switch the tier on above.</p>';
   }
   function detail(f){
     var a=artist(f.artist);
-    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p>'+artworkNaming(f)+'<p>Art: '+link('gallery-'+a.id,a.name)+'</p><dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('gallery-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?'<p><a class="collection-creator-source" href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">View matched creator post ↗</a></p><p class="collection-note">The image has been visually matched to this creator post; other details may remain provisional.</p>':'')+'<p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.hideOriginalFilename?'<p class="collection-note">Original filename withheld here to avoid spoilers.</p>':'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?(f.creatorSource?'<p class="collection-note">Some subject and category labels may still be provisional, even where a creator post is matched.</p>':'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>'):'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
+    return '<div class="collection-detail">'+('<a class="collection-original" data-view-art="'+e(f.id)+'" href="'+e(f.image)+'" target="_blank" rel="noopener">'+image(f,true)+'</a>')+'<aside><p class="collection-overline">REVEREND INSANITY · '+e(f.format)+'</p>'+artworkNaming(f)+'<p>Art: '+link('gallery-'+a.id,a.name)+'</p>'+(f.creatorCredit?'<p><strong>Artist credit on the artwork: '+e(f.creatorCredit)+'</strong></p><p class="collection-note">The source folder files this under '+e(a.name)+', but the artwork itself is signed or watermarked to '+e(f.creatorCredit)+' as a private commission. The signature is used here; the folder credit is not treated as attribution.</p>':'')+'<dl><dt>Collection</dt><dd>Kolev/KolevXD</dd><dt>Volume</dt><dd>'+(f.volume?link('gallery-'+f.volume,'Volume '+f.volume.slice(7))+' · source filename; not text-verified':'Not yet assigned')+'</dd><dt>Creation method</dt><dd>'+e(f.method)+'</dd><dt>Source tier</dt><dd>'+e(a.tier)+' · collection label, not a quality rating</dd><dt>Original dimensions</dt><dd>'+f.dimensions.join(' × ')+'</dd><dt>Content notes</dt><dd>'+e(f.contentWarnings.join(', ')||'No warning recorded; review is not a safety guarantee')+'</dd></dl>'+(f.chapterLabel?'<p class="collection-note">Source filename references Chapter '+f.chapterLabel+'. Not text-verified; no chapter gallery is created.</p>':'')+'<p><a href="https://drive.google.com/file/d/'+e(f.sourceId)+'/view" target="_blank" rel="noopener">View original Drive file ↗</a></p><p>'+source(a)+'</p>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?'<p><a class="collection-creator-source" href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">View matched creator post ↗</a></p><p class="collection-note">The image has been visually matched to this creator post; other details may remain provisional.</p>':'')+'<p class="collection-note">Credit follows the source folder. Artwork rights remain with their respective holders; no new licence is asserted.</p>'+(f.hideOriginalFilename?'<p class="collection-note">Original filename withheld here to avoid spoilers.</p>':'<p class="collection-note">Original filename: '+e(f.originalFilename)+'</p>')+'</aside></div>'+heading('Related subjects')+(f.classificationEvidence?(f.creatorSource?'<p class="collection-note">Some subject and category labels may still be provisional, even where a creator post is matched.</p>':'<p class="collection-note">Subject and category labels are based on collection filenames or folder labels and image review; they are not independently verified against the artist’s original posts.</p>'):'')+subjectIndex([f])+(f.related.length?heading('Related versions & works')+cards(D.files.filter(function(x){return f.related.includes(x.id);})):'');
   }
   var emptyKnowledge={
     ranks:{h:'Gu Masters & ranks',p:'Power in 蛊真人 is measured in 转 (revolves/ranks) — from 一转 (first revolve, beyond which no one without an opened aperture qualifies as a Gu Master) through to 九转, with legendary powers (大道) and the world’s rarest masters above them, the Venerables (尊者). Each revolve deepens a Master’s primeval essence and the quality of Gu they can refine and control. The story itself introduces the ranking system and inherited ranks in its early chapters (this wiki’s Chapter 7 brief covers rank inheritances), but the full rank table has not yet been cited on this wiki.'},
@@ -119,7 +217,10 @@
   function page(sl){
     if(sl==='gallery')return home();
     if(sl==='gallery-artists')return artistDirectory();
-    if(sl.startsWith('gallery-file-')){var f=D.files.find(function(x){return 'gallery-file-'+x.id===sl;});return f?detail(f):'<p>Artwork not found.</p>';}
+    if(sl==='gallery-mature')return matureRoom();
+    if(sl.startsWith('gallery-file-')){var f=D.files.find(function(x){return 'gallery-file-'+x.id===sl;});return f?(mature(f)&&!confirmed[f.id]?matureInterstitial(f):detail(f)):'<p>Artwork not found.</p>';}
+    // While the tier is shut, mature files are still listed where they live so
+    // the folder has a visible home, and they render blurred.
     var files=D.files.slice(),intro='',a;
     if(sl.startsWith('gallery-artist-')){
       a=artist(sl.slice(8));files=files.filter(function(f){return f.artist===a.id;});
@@ -143,18 +244,33 @@
     }else if(D.eventCollections.some(function(c){return 'gallery-'+c.id===sl;})){
       var event=D.eventCollections.find(function(c){return 'gallery-'+c.id===sl;});files=files.filter(function(f){return event.files.includes(f.id);});intro='<p>'+e(event.description)+'</p>';
     }else if(sl.startsWith('gallery-subject-')){files=files.filter(function(f){return f.subjects.some(function(s){return 'gallery-subject-'+slug(s)===sl;});});
-    }else if(sl!=='gallery-recent'){var cat=D.categories.find(function(c){return 'gallery-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
+    }else if(sl==='gallery-recent'){files=D.files.slice();}else{var cat=D.categories.find(function(c){return 'gallery-'+c.id===sl;});if(cat){files=files.filter(function(f){return f.categories.includes(cat.id);});intro='<p>'+e(cat.description)+'.</p>'+(cat.id==='ai'?'<p class="collection-note">“AI” is a label supplied by the collection folder, not an independent judgement of the image. These files also appear under their depicted subjects.</p>':'')+(files.length===0?emptyBackground(cat.id):'');}}
     var isArtist=sl.startsWith('gallery-artist-');
     return intro+(isArtist?artistCategoryFilters(files):sl.startsWith('gallery-subject-')?'':subjectIndex(files,cat?cat.id:null))+heading(/^gallery-volume-[1-6]$/.test(sl)?'Related artwork':'Media in this collection')+'<label class="collection-search">Search this collection<input id="collection-file-search" type="search" placeholder="Title, subject or artist…"></label><p id="collection-result-count" role="status"></p><div id="collection-results" data-files="'+e(files.map(function(f){return f.id;}).join(','))+'"></div>'+(isArtist?artistNavigation(files):'');
   }
-  window.renderImagesGallery=function(sl){current=sl||'gallery';return '<section class="collection-library"><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+D.files.length+' images available. Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
-  function fillFiles(q){var el=document.getElementById('collection-results');if(!el)return;var ids=el.dataset.files.split(',');var files=D.files.filter(function(f){return ids.includes(f.id)&&(!el.dataset.category||f.categories.includes(el.dataset.category))&&artworkSearch(f).toLowerCase().includes((q||'').toLowerCase());});document.getElementById('collection-result-count').textContent=files.length+' imported image files';el.innerHTML=files.length?cards(files):(q||el.dataset.category?'<div class="collection-empty"><h4>No artwork matches these filters</h4><p>Try another category or search term.</p></div>':'<div class="collection-empty"><h4>No imported artwork here yet</h4><p>The category is part of the agreed structure. Source review and importing are still in progress; this does not mean the source folder has no artwork.</p>'+link('gallery','Back to Gallery')+'</div>');}
+  window.renderImagesGallery=function(sl){current=sl||'gallery';return '<section class="collection-library"><div class="collection-warning"><span>Art includes later-story scenes and fan interpretations.</span></div><div id="collection-body">'+page(current)+'</div><p class="collection-footer">KolevXD’s Art Collection · '+D.artists.length+' artist folders indexed · '+visible(D.files).length+' images available.'+(D.files.length-visible(D.files).length?' ('+(D.files.length-visible(D.files).length)+' more behind the '+link('gallery-mature','mature gate')+')':'')+' Importing is ongoing. '+ '<a href="https://drive.google.com/drive/folders/'+D.rootId+'" target="_blank" rel="noopener">Browse source collection ↗</a></p></section>';};
+  function fillFiles(q){var el=mountedResults&&mountedResults.isConnected?mountedResults:(mountedBody||document).querySelector('#collection-results');if(!el)return;var ids=el.dataset.files.split(',');var files=D.files.filter(function(f){return ids.includes(f.id)&&(!el.dataset.category||f.categories.includes(el.dataset.category))&&artworkSearch(f).toLowerCase().includes((q||'').toLowerCase());});var counter=mountedCount&&mountedCount.isConnected?mountedCount:(mountedBody||document).querySelector('#collection-result-count');if(counter)counter.textContent=files.length+' imported image files';el.innerHTML=files.length?cards(files):(q||el.dataset.category?'<div class="collection-empty"><h4>No artwork matches these filters</h4><p>Try another category or search term.</p></div>':'<div class="collection-empty"><h4>No imported artwork here yet</h4><p>The category is part of the agreed structure. Source review and importing are still in progress; this does not mean the source folder has no artwork.</p>'+link('gallery','Back to Gallery')+'</div>');}
   window.renderArticleArtLinks=function(article){
-    var files=D.files.filter(function(f){return f.subjects.some(function(s){return s.toLowerCase()===article.t.toLowerCase();});});
+    var files=visible(D.files).filter(function(f){return f.subjects.some(function(s){return s.toLowerCase()===article.t.toLowerCase();});});
     if(!files.length)return '';
     return '<section class="collection-article-link"><h3>Images</h3><p>'+link('gallery-subject-'+slug(article.t),'Browse '+files.length+' imported image files of '+article.t)+' <small>Artwork may reveal later-story events. Gallery coverage is separate from translation progress.</small></p></section>';
   };
-  window.mountImagesGallery=function(){fillDirectory('');fillFiles('');};
+  // Record the mounted surfaces once. A document can hold more than one
+  // gallery shell; filling results by document-wide id would write into
+  // whichever shell happens to come first.
+  var mountedResults=null, mountedDirectory=null, mountedCount=null;
+  window.mountImagesGallery=function(){
+    // Follow the most recently rendered library. In the site there is exactly
+    // one; a document that holds more than one (the routed article plus a
+    // harness, or two shells mid-transition) must not bind the wrong one.
+    var libs=document.querySelectorAll('.collection-library');
+    var root=libs.length?libs[libs.length-1]:document;
+    mountedBody=root.querySelector('#collection-body')||document.getElementById('collection-body');
+    mountedResults=mountedBody?mountedBody.querySelector('#collection-results'):null;
+    mountedCount=mountedBody?mountedBody.querySelector('#collection-result-count'):null;
+    mountedDirectory=mountedBody?mountedBody.querySelector('#collection-directory'):null;
+    fillDirectory('');fillFiles('');bindMatureControls();
+  };
   document.addEventListener('input',function(ev){if(ev.target.id==='collection-artist-search')fillDirectory(ev.target.value);if(ev.target.id==='collection-file-search')fillFiles(ev.target.value);});
   document.addEventListener('click',function(ev){var button=ev.target.closest('[data-artist-category]');if(!button)return;var results=document.getElementById('collection-results');if(!results)return;results.dataset.category=button.dataset.artistCategory;document.querySelectorAll('[data-artist-category]').forEach(function(b){b.setAttribute('aria-pressed',String(b===button));});fillFiles((document.getElementById('collection-file-search')||{}).value||'');});
 
@@ -162,6 +278,7 @@
   function closeViewer(){if(!viewer)return;if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(function(){});viewer.close();viewer.remove();viewer=null;if(returnFocus&&returnFocus.isConnected)returnFocus.focus();}
   function showArtwork(){
     var f=D.files.find(function(f){return f.id===sequence[position];});if(!f)return;
+    if(mature(f)&&!confirmed[f.id]){viewer.querySelector('.art-viewer-stage').innerHTML='<div class="collection-mature-tile"><span>Mature</span><small>Open this file from its detail page to see the warning</small></div>';viewer.querySelector('.art-viewer-info').innerHTML='<h3>Mature artwork held</h3><p>'+link('gallery-mature','Open the mature gate settings')+'</p>';return;}
     viewer.querySelector('.art-viewer-stage').innerHTML='<img src="'+e(f.image)+'" alt="'+e(artworkName(f).name+' — '+f.title)+'">';
     viewer.querySelector('.art-viewer-info').innerHTML=artworkNaming(f)+'<p>Art: '+link('gallery-'+f.artist,artist(f.artist).name)+'</p><p>'+f.dimensions.join(' × ')+' · '+(position+1)+' / '+sequence.length+'</p><p>'+link('gallery-file-'+f.id,'Artwork details & source')+' · <a href="'+e(f.image)+'" target="_blank" rel="noopener">Open image</a>'+(f.creatorSource && /^https:\/\//.test(f.creatorSource)?' · <a href="'+e(f.creatorSource)+'" target="_blank" rel="noopener noreferrer">Creator post ↗</a>':'')+'</p><p class="collection-note">Rights remain with their respective holders. No licence or permission is inferred.</p>';
     viewer.querySelector('[data-view-prev]').disabled=sequence.length<2;viewer.querySelector('[data-view-next]').disabled=sequence.length<2;
@@ -177,7 +294,54 @@
     viewer.addEventListener('click',function(ev){if(ev.target.closest('[data-view-close]'))closeViewer();else if(ev.target.closest('[data-view-prev],[data-view-next]')){position=(position+(ev.target.closest('[data-view-prev]')?-1:1)+sequence.length)%sequence.length;showArtwork();}else if(ev.target.closest('[data-view-full]')){if(document.fullscreenElement){if(document.exitFullscreen)document.exitFullscreen().catch(function(){});}else if(viewer.requestFullscreen)viewer.requestFullscreen().catch(function(){});}else if(ev.target.closest('a')&&!ev.target.closest('a[target]'))closeViewer();});
     viewer.showModal();viewer.querySelector('[data-view-close]').focus();
   }
+  // Mature gate controls. Re-rendering the current route keeps every other
+  // surface consistent instead of patching tiles one at a time.
+  // The mounted view is recorded at mount time. A page can legitimately hold
+  // more than one gallery shell (the routed article and a test harness both
+  // can), and re-rendering must hit the one the visitor is looking at.
+  var mountedBody=null;
+  function rerender(){
+    if(!window.renderImagesGallery)return;
+    var body=mountedBody&&mountedBody.isConnected?mountedBody:document.getElementById('collection-body');
+    if(body)body.innerHTML=page(current);
+    if(window.mountImagesGallery)window.mountImagesGallery();
+  }
+  function gateControl(ev){
+    var gate=ev.currentTarget;
+    ev.preventDefault();
+    var action=gate.getAttribute('data-mature');
+    if(action==='open'){setGate(true);rerender();return;}
+    // Turning the tier off means blurred again, immediately: the reveals held
+    // for this page load go with it.
+    if(action==='close'){setGate(false);confirmed={};rerender();return;}
+    if(action==='room'){if(window.go)window.go('gallery-mature');else location.href=url('gallery-mature');return;}
+    if(action==='confirm'){
+      var target=D.files.find(function(f){return f.id===gate.getAttribute('data-file');});
+      if(!target)return;
+      confirmed[target.id]=true;
+      rerender();
+    }
+  }
+  // Bind the gate controls to the nodes that actually exist after a render.
+  // Doing it here keeps the controls working whatever routed the page, instead
+  // of depending on one delegated listener catching the event.
+  function bindMatureControls(){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mature]'),function(el){
+      if(el._matureBound)return;
+      el._matureBound=true;
+      el.addEventListener('click',gateControl);
+    });
+  }
+  // A tap on a blurred tile reveals it in place. It does not navigate, and it
+  // records nothing beyond this page load.
+  document.addEventListener('click',function(ev){
+    var tap=ev.target.closest('[data-mature-tap]');if(!tap)return;
+    ev.preventDefault();ev.stopPropagation();
+    var id=tap.getAttribute('data-mature-tap');
+    confirmed[id]=true;
+    rerender();
+  },true);
   document.addEventListener('click',function(ev){var a=ev.target.closest('[data-view-art]');if(a&&!ev.ctrlKey&&!ev.metaKey&&!ev.shiftKey&&!ev.altKey&&ev.button===0){ev.preventDefault();openViewer(a.dataset.viewArt,a);}});
   window.addEventListener('popstate',closeViewer);
-  window.GZR_MEDIA_SEARCH=function(q){var query=(q||'').toLowerCase();return D.files.filter(function(f){return artworkSearch(f).toLowerCase().includes(query);}).map(function(f){return {slug:'gallery-file-'+f.id,title:f.title,image:f.thumbnail,kind:'Artwork · '+artist(f.artist).name};});};
+  window.GZR_MEDIA_SEARCH=function(q){var query=(q||'').toLowerCase();return D.files.filter(function(f){return artworkSearch(f).toLowerCase().includes(query);}).map(function(f){return {slug:'gallery-file-'+f.id,title:f.title,image:f.thumbnail,mature:!!f.mature,kind:(f.mature?'NSFW artwork · ':'Artwork · ')+artist(f.artist).name};});};
 })();
