@@ -147,6 +147,16 @@
   ['Qin Bai Sheng','Duke Long','Chu Du','Bing Sai Chuan','Feng Jin Huang','Shen Cui','Ge Yao','Purple Mountain','Qiao Si Liu','Liu Shu Xian','Shen Cong Sheng','Tai Bai Yun Sheng','Thunder Ghost True Monarch','Verdant Great Sun','Fairy Zi Wei','Bai Zu','Blazing Heaven Demoness','Dong Fang Chang Fan','Fang Gong','Fang Di Chang','He Chun Qiu','Lady White Rabbit','Li Xiao Bai','Lu Wei Yin','Old Ancestor Xue Hu','Shen Shang','Zhan Bu Du'].forEach(function(n){subjectKinds[n]='characters';});
   ['Mao Li Qiu','Zuo Ye Hui','Di Zang Sheng','Qing Chou'].forEach(function(n){subjectKinds[n]='beasts';});
   subjectKinds['Yi Tian Mountain']='locations';subjectKinds['Eighty-Eight True Yang Building']='gu-houses';
+  // Subjects the filename pass identified from collection filenames and the
+  // story's own naming: variant-human kin (Rockman, Eggman, Mushroomman, …), a
+  // handful of named figures, and places. Each is here because a collection
+  // names it, not because the name looks like one.
+  ['Shadow Sect','Northern Dark Ice Soul','Variant Humans','Rockman','Eggman','Mushroomman',
+   'Beastman','Featherman','Merman','Miniman','Hairyman','Snowman','Flesh Whip Immortal',
+   'Madara','Gu Yue First Ancestor','Blazing Glory Lightning Brilliance','Li Huowang',
+   'Boundless Forest Samsara','Carefree Wisdom Heart','Great Strength True Martial',
+   'Jing Lan','Suan Bu Jin','Plump Lady'].forEach(function(n){subjectKinds[n]='characters';});
+  ['Heavenly Court','Refinement Path Convention','Northern Plains','Eastern Sea'].forEach(function(n){subjectKinds[n]='locations';});
   // Fallback for the long tail of subjects that only appear on a handful of
   // files. Without a kind, a subject gets no subcategory entry and its page
   // is reachable only by direct link. This resolves only the cases the naming
