@@ -1382,7 +1382,7 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 .s-thumb-nsfw{position:relative}.s-thumb-nsfw img{filter:blur(3px);transform:scale(1.03)}
 .s-nsfw{position:absolute;left:2px;bottom:2px;font:700 7px/1 'Poppins',sans-serif;letter-spacing:.08em;padding:2px 3px;border-radius:2px;background:rgba(16,16,18,.8);color:#fff;z-index:2}
 
-/* Keep the complete landing mark inside the tighter circular footprint shown in the reference. */
-.tg-mainpage-header .wordmark-img{width:min(54vw,380px) !important;height:auto !important;margin:0 auto !important}
-/* Quadruple the previous compact ring size; retain viewport-relative scaling. */
-.tg-mainpage-header .ring svg{width:min(196.8vw,1200px) !important;height:auto !important}
+/* Match the Gateway reference: broad centered wordmark with a quiet circular inscription behind it. */
+.tg-mainpage-header .wordmark-img{width:min(84vw,560px) !important;height:auto !important;margin:0 auto !important}
+.tg-mainpage-header .ring svg{width:min(88vw,560px) !important;height:auto !important;opacity:0.32 !important}
+html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.46 !important}
