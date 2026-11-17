@@ -1430,3 +1430,56 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 .tg-mainpage-navigation .template-navpills button{height:46px !important;min-height:46px !important}
 .tg-mainpage-navigation .template-navpill{height:46px !important}
 .tg-mainpage-navigation .template-navpills{font-size:0.875rem !important}
+
+/* ===== Gateway arrangement: one left margin, calmer sections =====
+   The scale above fixed how big things are; this fixes where they sit. Three
+   things read as scattered at a normal screen size:
+
+   1. Section headings were centred between two rules. "Featured" floated 497px
+      from the left edge of a 1080px band, "On Earth" 301px into 685px, and both
+      "On Earth" and "In the Gu World" are only 84px and 151px wide, so the rules
+      around them carried most of the width and the label looked adrift above
+      left-aligned content. The Gateway sets its section titles flush left.
+   2. The A-Z strip began 67px inside the directory columns it labels, so the
+      index and the columns it indexes did not share an edge.
+   3. The Discover block was a bordered card with a watermark and a heavy title,
+      which made the reference's quiet typographic directory read as one more
+      panel competing with the cards above it.
+
+   Everything here is scoped to the landing page and comes last, so it wins over
+   the stacked passes above without disturbing article pages. */
+.tg-section-divider{justify-content:flex-start !important;gap:0.9rem !important}
+.tg-section-divider::before{display:none !important}
+.tg-section-divider::after{flex:1 1 auto !important;width:auto !important}
+.tg-section-divider>span{flex:none !important}
+
+/* The directory is a section of the page, not a card competing with the
+   featured row: no border, no watermark, heading on the same margin as the
+   rest. */
+.tg-card--discover{background:none !important;border:0 !important;border-radius:0 !important;
+  box-shadow:none !important}
+.tg-card--discover::before{content:none !important}
+.tg-card--discover .tg-card-content{padding:0 !important}
+.tg-card--discover .tg-mainpage-browse-header h2{font-size:1.35rem !important;
+  letter-spacing:0.01em !important}
+.tg-card--discover .settings-link{margin-top:1rem !important}
+
+/* Tile captions are set on the Gateway's one-line scale. At 14px, seven of the
+   twelve labels overflowed the 141px of usable width inside a 173px tile and
+   wrapped, and the 46px row height then clipped them mid-word ("Volumes &
+   Chapters" broke across two lines and lost its descenders). Measured against
+   every label at this width, 13px needs 135px for the longest one, so all
+   twelve now hold a single line and a single row height. */
+.tg-mainpage-navigation .template-navpills{font-size:0.8125rem !important}
+.tg-mainpage-navigation .template-navpill>a{padding:0 0.85rem !important}
+/* If a label is ever longer than the tile, wrap rather than clip. */
+.tg-mainpage-navigation .template-navpill{overflow-wrap:break-word !important}
+/* Between the mobile stack and the 1280px layout the tiles are narrower than the
+   173px they get at full width, so the same 13px still wraps three labels at
+   1024px. One step down keeps every caption on one line across that range; below
+   520px the grid is genuinely narrow and the labels are allowed to wrap, which
+   the 46px row has room for because two lines measure 36px. */
+@media(min-width:520px) and (max-width:1180px){
+  .tg-mainpage-navigation .template-navpills{font-size:0.75rem !important}
+  .tg-mainpage-navigation .template-navpill>a{padding:0 0.6rem !important}
+}
