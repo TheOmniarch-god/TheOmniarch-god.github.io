@@ -119,6 +119,13 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
 
   /* ---- wiki router ---- */
+  /* One skip link, two mutually exclusive views: it must point at whichever one
+     is on screen, or it silently does nothing on every article. */
+  var skipLink = document.querySelector('.skip-link');
+  function setSkipTarget(view){
+    if(!skipLink || !view || !view.id) return;
+    skipLink.setAttribute('href', '#' + view.id);
+  }
   var mainView = document.getElementById('main-view'),
       wikiView = document.getElementById('wiki-view'),
       articleEl = document.getElementById('wiki-article'),
@@ -410,7 +417,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(slug!==curSlug) routeMode='article';
       if(render(slug)){
         setPageMeta(slug);
-        mainView.hidden = true; wikiView.hidden = false;
+        mainView.hidden = true; wikiView.hidden = false; setSkipTarget(wikiView);
         wikiView.classList.toggle('wide', A[slug].k==='Index' || A[slug].k==='Category');
         wikiView.classList.toggle('is-index', A[slug].k==='Index');
         wikiView.classList.toggle('is-article', A[slug].k!=='Index' && A[slug].k!=='Category');
@@ -419,7 +426,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       }
     }
     document.title=BASE_TITLE;
-    mainView.hidden = false; wikiView.hidden = true;
+    mainView.hidden = false; wikiView.hidden = true; setSkipTarget(mainView);
     window.dispatchEvent(new Event('resize'));
     if(h==='#main') window.scrollTo(0,0);
   }

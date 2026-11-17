@@ -145,7 +145,8 @@
   function volumeTitle(v){return 'Volume '+v.number+': '+v.title;}
   var subjectKinds={'Fang Yuan':'characters','Bai Ning Bing':'characters','Bo Qing':'characters','Ren Zu':'characters','Little Hu':'characters','Hei Lou Lan':'characters','Fairy Li Shan':'characters','Fang Zheng':'characters','Gu Yue Yao Le':'characters','Red Lotus':'characters','Xie Han Mo':'characters','Genesis Lotus':'characters','Giant Sun':'characters','Limitless':'characters','Meng Qiu Zhen':'characters','Reckless Savage':'characters','Paradise Earth':'characters','Primordial Origin':'characters','Spectral Soul':'characters','Star Constellation':'characters','Tao Zhu':'characters','Thieving Heaven':'characters','Wu Shuai':'characters','Wu Yong':'characters','Nezha':'characters','Heavenly Origin Great Immortal':'characters','Pale Immortal Maiden':'characters','Ancestor of Insects':'characters','Sangeng Tongzi':'characters','Lord of Black City':'characters','Feng Jiu Ge':'characters','Shang Xin Ci':'characters','Hei Fan':'characters','Feng Tian Yu':'characters','Xia Lin':'characters','Ye Fan':'characters','Chen Yi':'characters','Hope Gu':'gu','Air Bubble Fish Gu':'gu','Heavenly Essence Treasure Lotus':'gu','Blood Skull Gu':'gu','Spring Autumn Cicada':'gu','Attitude Gu':'gu','Star Thought Gu':'gu','Fate Gu':'gu','Fixed Immortal Travel Gu':'gu','Regret Gu':'gu','Footless Bird':'beasts','Divine Bean Palace':'gu-houses','Treasure Yellow Heaven':'locations','Dang Hun Mountain':'locations','Luo Po Valley':'locations','Snowy Mountain Blessed Land':'locations','River of Time':'locations','Reverse Flow River':'locations','Crazed Demon Cave':'locations','Three Kings Inheritance':'locations','Ordinary Abyss':'legends'};
   ['Qin Bai Sheng','Duke Long','Chu Du','Bing Sai Chuan','Feng Jin Huang','Shen Cui','Ge Yao','Purple Mountain','Qiao Si Liu','Liu Shu Xian','Shen Cong Sheng','Tai Bai Yun Sheng','Thunder Ghost True Monarch','Verdant Great Sun','Fairy Zi Wei','Bai Zu','Blazing Heaven Demoness','Dong Fang Chang Fan','Fang Gong','Fang Di Chang','He Chun Qiu','Lady White Rabbit','Li Xiao Bai','Lu Wei Yin','Old Ancestor Xue Hu','Shen Shang','Zhan Bu Du'].forEach(function(n){subjectKinds[n]='characters';});
-  ['Mao Li Qiu','Zuo Ye Hui','Di Zang Sheng','Qing Chou'].forEach(function(n){subjectKinds[n]='beasts';});
+  ['Mao Li Qiu','Zuo Ye Hui','Di Zang Sheng','Qing Chou',
+   'Crocodile-Elephant'].forEach(function(n){subjectKinds[n]='beasts';});
   subjectKinds['Yi Tian Mountain']='locations';subjectKinds['Eighty-Eight True Yang Building']='gu-houses';
   // Subjects the filename pass identified from collection filenames and the
   // story's own naming: variant-human kin (Rockman, Eggman, Mushroomman, …), a
@@ -157,6 +158,24 @@
    'Boundless Forest Samsara','Carefree Wisdom Heart','Great Strength True Martial',
    'Jing Lan','Suan Bu Jin','Plump Lady'].forEach(function(n){subjectKinds[n]='characters';});
   ['Heavenly Court','Refinement Path Convention','Northern Plains','Eastern Sea'].forEach(function(n){subjectKinds[n]='locations';});
+  // The visual naming pass's own subject names, each with the kind its own
+  // record carries: figures and variants, the Gu and killer moves the canvases
+  // letter, and the two places named on a map or a title card.
+  ['Fai Li','Xue San Si','Tyrant Heng Mei','Chest Bones Jing Lan',
+   'Ghost Faced Red Lotus','Heaven Refining Demon Venerable','Food Path Creator-Beastman',
+   'Four Great Obscenities','Tu Shi Cheng\'s son'].forEach(function(n){subjectKinds[n]='characters';});
+  ['Fate Gu has been destroyed','Myriad Gold Wondrous Essence','Battlefield Killer Move - Fetus Earth Maze',
+   'Immortal Killer Move - Angry Bird','Immortal Killer Move - Formless Hand',
+   'Immortal Killer Move - Great Thief Ghost Hand','Immortal Killer Move - Karma Divine Tree',
+   'Immortal Killer Move - Karma Divine Tree 2','Immortal Killer Move - Spring Scissors',
+   'Immortal Killer Move - Summer Fan','Immortal Killer Move - Summer Fan 2',
+   'Immortal Killer Move - Time Cutting Edge','Mortal Killer Move - White Bone Chariot',
+   'Totem Killer Move','Immortal Killer Move Autumn Perception',
+   'Immortal Killer Move Contented Lifestyle','Ancient Sword Dragon Transformation',
+   'Ancient Sword Dragon Transformation 2'].forEach(function(n){subjectKinds[n]='cultivation';});
+  // A line a plate says, not a person: the caption names no figure, so the
+  // record is filed as a scene and its subject is filed with it.
+  subjectKinds['Limitless, please turn around!']='scenes';
   // Fallback for the long tail of subjects that only appear on a handful of
   // files. Without a kind, a subject gets no subcategory entry and its page
   // is reachable only by direct link. This resolves only the cases the naming
