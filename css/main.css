@@ -1384,5 +1384,5 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 
 /* Keep the complete landing mark inside the tighter circular footprint shown in the reference. */
 .tg-mainpage-header .wordmark-img{width:min(54vw,380px) !important;height:auto !important;margin:0 auto !important}
-/* The text path occupies 80% of the SVG viewBox: 500px SVG = 400px circular track. */
-.tg-mainpage-header .ring svg{width:min(82vw,500px) !important;height:auto !important}
+/* Halve the SVG sizing so its circular text track is half the prior diameter. */
+.tg-mainpage-header .ring svg{width:min(41vw,250px) !important;height:auto !important}
