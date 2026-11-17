@@ -1381,3 +1381,7 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 .collection-mature-notice h4{margin:0 0 8px;font:600 17px 'Poppins',sans-serif!important}
 .s-thumb-nsfw{position:relative}.s-thumb-nsfw img{filter:blur(3px);transform:scale(1.03)}
 .s-nsfw{position:absolute;left:2px;bottom:2px;font:700 7px/1 'Poppins',sans-serif;letter-spacing:.08em;padding:2px 3px;border-radius:2px;background:rgba(16,16,18,.8);color:#fff;z-index:2}
+
+/* Landing logo: enlarge the artwork modestly; keep animated text ring outside its compact English line. */
+.tg-mainpage-header .wordmark-img{width:clamp(300px,33.5vw,458px) !important}
+.tg-mainpage-header .ring svg{width:clamp(275px,30.8vw,421px) !important}
