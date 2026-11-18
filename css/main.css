@@ -1483,3 +1483,57 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-navigation .template-navpills{font-size:0.75rem !important}
   .tg-mainpage-navigation .template-navpill>a{padding:0 0.6rem !important}
 }
+
+/* ===== One band, not twelve paintings =====
+   Measured on the landing page, the twelve tiles ranged from luminance 71 to
+   128 and saturation 0.11 to 0.76: a dark Legends tile next to a bright
+   Characters tile next to a cyan Gu Worms tile. Each was legible on its own, but
+   together they read as twelve unrelated pictures taped in a row, which is most
+   of why the page felt scattered even after the spacing was fixed. The Gateway's
+   twelve tiles are one uniform green with the art barely visible behind it.
+
+   The fix is the reference's own: keep the painting, darken only the side the
+   label sits on. A left-weighted gradient puts the caption on near-black while
+   the right two thirds of each tile stays legible as artwork, which also pulls
+   the twelve different --pill colours into one band without turning them grey.
+   Labels get their contrast from that gradient instead of the four stacked black
+   shadows they carried before, which had been outlining every word. */
+/* Read off the reference at full resolution: its tiles keep the artwork at full
+   colour on the right and lay a dark gradient over the left two thirds, so the
+   white label sits on near-black and the picture survives. An even scrim was my
+   first attempt and it turned twelve paintings into grey felt. */
+.tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.85) brightness(0.92) !important}
+.tg-mainpage-navigation .template-navpill .pill-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(14,16,15,0.88) 0%,rgba(14,16,15,0.62) 42%,
+    rgba(14,16,15,0.18) 72%,rgba(14,16,15,0.30) 100%);
+  pointer-events:none}
+.tg-mainpage-navigation .template-navpill>a{text-shadow:0 1px 2px rgba(0,0,0,0.55) !important}
+html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.8) brightness(0.78) !important}
+html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg::after{
+  background:linear-gradient(90deg,rgba(8,10,9,0.90) 0%,rgba(8,10,9,0.66) 42%,
+    rgba(8,10,9,0.22) 72%,rgba(8,10,9,0.36) 100%)}
+
+/* The tiles also sat 4px under the search pill, where the reference leaves a
+   clear gap between the header and the band. One rem of air separates the two
+   without pushing anything else out of place. */
+.tg-mainpage-navigation{margin-top:1rem !important}
+
+/* Last 1px of band height. The reference's tiles are 45px tall on two rows with
+   a 10px gap; ours were 46px with an 8px gap, which is why the band read as
+   slightly heavier than the reference's at the same width. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:45px !important;gap:10px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button,
+.tg-mainpage-navigation .template-navpill{height:45px !important;min-height:45px !important}
+
+/* Hero wash. Sampling the reference's hero away from the wordmark gives a mean
+   luminance of 236 with a saturation of 0.05: its artwork is present but barely
+   there, so the wordmark is the only thing with contrast. Ours measured 213 and
+   0.11, a comparatively strong red illustration competing with the mark. Lifting
+   the wash pushes the art further back to match, and the saturate cut removes the
+   colour cast the reference does not have. Only the landing hero is affected;
+   .wiki-hero above keeps its own lighter wash. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.80) 0%,rgba(249,244,238,0.90) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+.tg-mainpage-header::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  backdrop-filter:saturate(0.55);-webkit-backdrop-filter:saturate(0.55)}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.70) 0%,rgba(10,10,14,0.90) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
