@@ -1876,3 +1876,30 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    unstacked or its own ::after fade and background would also jump over the
    tiles. This is a stacking fix only; it does not move anything. */
 .tg-mainpage-navigation{position:relative;z-index:1}
+
+/* Hide the hero tagline ("Gu Zhen Ren encyclopedia built by The Omniarch").
+   The line lives in the shared shell, so it appears in the same slot on the
+   wiki pages as well as the homepage; hiding it by class removes it everywhere
+   at once and leaves the markup, the .tg-hl spans and their styling untouched,
+   so it can be brought back by deleting this rule.
+
+   display:none rather than visibility:hidden or opacity:0 because the line is a
+   block in a flex column - those two would keep its 20px slot and leave a gap,
+   where display:none lets the stack close up. */
+.tg-mainpage-header-tagline{display:none !important}
+
+/* Drop the wordmark a little, as asked. The hero is a centred flex column and
+   the tagline's removal already shifts the stack, so the shift is measured on
+   the rendered page rather than assumed; 16px is the "a little" starting point.
+   The ring is absolutely positioned off the hero box, so it does not follow
+   the wordmark - it stays where the reference has it. */
+.tg-mainpage-header .wordmark-img{transform:translateY(16px)}
+
+/* Removing the tagline took its 20px out of the flex column and the hero closed
+   up with it - 290px became 260 on desktop - which would have pulled the
+   category tiles up by 30px. Pinning the height keeps the band exactly as it
+   was; only the contents move. The phone already had a hard 230px, so this is
+   desktop-only and replaces the auto height at the same specificity. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:290px !important}
+}
