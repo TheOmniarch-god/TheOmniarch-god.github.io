@@ -1861,3 +1861,18 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    runs on past the hero and the opaque category tiles cover it, which is the
    layering the reference shows. */
 .tg-mainpage-header{overflow-x:clip !important;overflow-y:visible !important}
+
+/* Put the ring UNDER the tiles, which is what "behind the category tiles"
+   means. The previous pass only stopped the hero clipping the arc; it left the
+   stacking wrong. The header is position:relative, so it paints in the
+   positioned layer, while .tg-mainpage-navigation is position:static and paints
+   below that - meaning the header's overflowing arc drew on top of the tiles no
+   matter what the DOM order said. Measured, not assumed: hiding just the ring
+   and diffing the two frames changed 329 pixels inside the tile rectangles,
+   272 of them on Cultivation System, so the arc really was over the tile faces.
+
+   Giving the nav a stacking context of its own lifts the whole tile band above
+   the header's overflow. The header itself needs no z-index - it must stay
+   unstacked or its own ::after fade and background would also jump over the
+   tiles. This is a stacking fix only; it does not move anything. */
+.tg-mainpage-navigation{position:relative;z-index:1}
