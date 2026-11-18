@@ -1850,3 +1850,14 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(prefers-reduced-motion:reduce){
   .tg-mainpage-header .ring svg{animation:none !important}
 }
+
+/* The ring's lower arc was being cut off by the hero itself, not by the tiles.
+   Line 1403 pins the hero to overflow:hidden !important to stop the 100vw
+   background leaking a horizontal scrollbar, and that same declaration amputates
+   anything painted below the hero's 290px box - which is exactly where the
+   circle's bottom third lives. The body already solves this problem the same
+   way, with overflow-x:clip and overflow-y:visible: clip is the only value that
+   can pair with visible without forcing the other axis to auto. The arc now
+   runs on past the hero and the opaque category tiles cover it, which is the
+   layering the reference shows. */
+.tg-mainpage-header{overflow-x:clip !important;overflow-y:visible !important}
