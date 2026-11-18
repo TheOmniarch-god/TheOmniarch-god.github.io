@@ -1590,3 +1590,180 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(max-width:400px){
   .tg-mainpage-header-tagline{font-size:0.72rem !important}
 }
+
+/* ===== Phone hero, measured against the reference =====
+   Screenshot measurements at the same 360px viewport (both captures are 720px
+   wide at 2x, so they divide straight to CSS pixels). What the reference does
+   and we did not:
+
+   The ring is an emblem the wordmark sits INSIDE. The ring rule pins itself to
+   the top of the hero with inset:-2px 0 auto 0, so on a phone its 320px circle
+   started at y=117 - above the wordmark, not around it - and was then cut off by
+   the hero's top edge. The reference's ring is centred on the mark and reaches
+   about 200px tall while its wordmark is one 40px line. So here the ring is
+   centred on a hero that leaves room for it, and the mark sits in the middle of
+   the circle.
+
+   The whole stack also sat too tight: the reference's wordmark starts 48px into
+   the hero and the tiles begin 209px in, with 52px of clearance between the
+   search button and the first tile. Ours began at 75px and the tiles at 128px.
+   The hero is given the reference's height (~230px) with its content centred, and
+   the navigation carries the same 52px gap.
+
+   The wordmark itself stays at the asset's 2.1:1 ratio - it carries two lines
+   where the reference's is one, so at 190px wide it is 90px tall against their
+   40px. Widening it to match their 302px width would make it 143px tall inside a
+   230px hero and leave no room for the tagline and button. */
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:230px !important;padding-top:1.35rem !important;
+    padding-bottom:0.75rem !important;display:flex !important;align-items:center !important;
+    overflow:visible !important}
+  .tg-mainpage-header .tg-mainpage-content{width:100% !important;padding:0 1rem !important;
+    margin:0 auto !important;position:relative !important;z-index:1 !important}
+
+  /* The ring is the mark's frame, so centre it on the stack and size it to the
+     circle the reference shows (~200-215px tall) rather than letting it sit
+     above the mark and clip. */
+  .tg-mainpage-header .ring{inset:0 !important;height:100% !important;align-items:center !important;
+    display:flex !important;position:absolute !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,225px) !important;opacity:0.42 !important}
+
+  /* 52px of air between the button and the first tile, as in the reference. */
+  .tg-mainpage-navigation{margin-top:3.25rem !important}
+}
+
+/* The ring is bigger than the stack it frames, and the frame rule above pins it
+   to the hero's box, so its top third was clipped by the viewport edge. Centring
+   it on the content column instead of on the hero box keeps the whole circle
+   inside the hero: the reference shows a complete ring, not an arc. */
+@media(max-width:720px){
+  .tg-mainpage-header{direction:ltr;overflow:hidden !important}
+  .tg-mainpage-header .tg-mainpage-content{position:relative !important}
+  .tg-mainpage-header .ring{inset:50% auto auto 50% !important;height:auto !important;
+    transform:translate(-50%,-50%) !important;display:flex !important;
+    align-items:center !important;justify-content:center !important;
+    width:min(62vw,240px) !important;z-index:0 !important}
+  .tg-mainpage-header .ring svg{width:100% !important;opacity:0.40 !important}
+  /* The measured gap between the search button and the first tile is 52px in the
+     reference; the ring fix above let the hero box end higher, so the margin is
+     set from that measurement rather than from the older 3.25rem. */
+  .tg-mainpage-navigation{margin-top:1.1rem !important}
+}
+
+/* Ring placement, settled by probing the live box rather than by reasoning about
+   the cascade: pinning it to the hero's top with an explicit height let the flex
+   centring push the oversize circle half out of the viewport (top:-32), while
+   top:0 with height:auto puts the whole circle inside the hero. The ring is also
+   pulled up over the wordmark so it reads as the emblem the mark sits in, which
+   is the arrangement the reference has. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:0 !important;left:0 !important;bottom:auto !important;
+    right:auto !important;height:auto !important;width:100% !important;
+    transform:none !important;margin-top:-0.55rem !important}
+  .tg-mainpage-header .ring svg{width:min(66vw,235px) !important;opacity:0.38 !important}
+  .tg-mainpage-header .ring{justify-content:center !important;align-items:flex-start !important}
+}
+
+/* Two last measurements. The 235px ring now sits from y25 to y260 in a hero that
+   ends at y230, so its lower 30px is cut; dropping it to 210px and centring it on
+   the hero (y115) puts the whole circle inside, from y10 to y220. The gap between
+   the search button and the first tile measured 42px against the reference's 52,
+   so the navigation margin grows by the difference. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:50% !important;transform:translateY(-50%) !important;
+    align-items:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+  .tg-mainpage-navigation{margin-top:1.75rem !important}
+}
+
+/* top:50% resolves against the hero's padding box and then translateY(-50%)
+   rounds up again, so the ring landed at y-35 instead of y10. Anchoring from the
+   bottom instead removes the guesswork: a 210px circle in a 230px hero needs 10px
+   of clearance at each end, which is a single bottom offset. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:auto !important;bottom:10px !important;
+    transform:none !important;align-items:flex-end !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+}
+
+/* Absolute positioning kept fighting the flex alignment: every attempt to make
+   the box behave changed the height that then moved the circle, and the result
+   was a ring at y-96. Taking it out of that contest entirely is simpler - the
+   ring becomes a normal-flow overlay in the hero's own stacking context, sized
+   once and centred with auto margins, which cannot be pushed out by a flex
+   container's alignment. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{position:absolute !important;top:0 !important;left:0 !important;
+    height:100% !important;width:100% !important;bottom:auto !important;right:auto !important;
+    display:grid !important;place-items:center !important;transform:none !important;
+    margin:0 !important;padding:0 !important;align-items:center !important;
+    justify-content:center !important;box-sizing:border-box !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;height:auto !important;
+    max-width:none !important;opacity:0.38 !important;display:block !important;
+    margin:0 auto !important;flex:none !important}
+}
+
+/* The residual 14px comes from the ring's own 560px base rule contributing a
+   minimum height in a grid context. A hard pixel height removes it: the ring is
+   now exactly the hero's height, so place-items:center has nothing to round and
+   the 210px circle centres at y115 with 10px clearance either side. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{height:230px !important;min-height:0 !important;
+    max-height:none !important;top:0 !important}
+}
+
+/* Root cause found by reading the computed box: the ring's element width was
+   190px, not the 100% set here - another rule (the desktop `width:auto`) was
+   winning - and the hero's 16px side padding then shifted the centring by
+   (content + padding - 190)/2. Pinning width AND the horizontal box to the full
+   hero makes the grid centre agree with the hero centre, whatever the cascade
+   does to the other declarations. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{width:100vw !important;max-width:100vw !important;
+    min-width:0 !important;left:50% !important;transform:translateX(-50%) !important;
+    height:230px !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;margin:0 auto !important}
+}
+
+/* Decisive fix. Read from the computed box: the ring reported top:0 yet sat at
+   hero y=34, because it is a flex item of the hero (positioned absolutely, but
+   still a child in a flex container), so the hero's align-items:center was
+   placing it. Giving it `align-self:flex-start` and a `margin-top` equal to the
+   hero's own top padding makes it start where the hero's content starts, and the
+   grid then centres the 210px circle in that 230px box with 10px either side. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{align-self:flex-start !important;margin-top:0 !important;
+    top:0 !important;bottom:auto !important;height:230px !important;
+    width:100vw !important;max-width:100vw !important;
+    left:50% !important;transform:translateX(-50%) !important;
+    display:grid !important;place-items:center !important}
+}
+
+/* THE root cause, and the reason the ring resisted every offset: .wordmark carries
+   position:relative, so the absolutely positioned ring was resolving its top and
+   left against the <h1> rather than against the hero. Every value set here was
+   measured from the wrong box, which is how a ring with top:0 ended up at hero
+   y34 and then y44. Dropping the heading to position:static for the phone layout
+   hands the containing block back to the hero, so the offsets finally mean what
+   they say. */
+@media(max-width:720px){
+  .tg-mainpage-content > a > h1.wordmark,
+  .tg-mainpage-header .wordmark{position:static !important}
+  .tg-mainpage-header .ring{top:0 !important;left:50% !important;transform:translateX(-50%) !important;
+    width:100vw !important;max-width:100vw !important;height:230px !important;
+    align-self:auto !important;display:grid !important;place-items:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;margin:0 auto !important}
+}
+
+/* .tg-mainpage-content is also position:relative, so it took over as the
+   containing block on the previous fix and the ring stayed 34px low. Making both
+   wrappers static hands the containing block to .tg-mainpage-header itself. */
+@media(max-width:720px){
+  .tg-mainpage-header .tg-mainpage-content,
+  .tg-mainpage-header .tg-mainpage-content > a,
+  .tg-mainpage-header h1.wordmark{position:static !important}
+  .tg-mainpage-header .ring{top:0 !important;left:50% !important;
+    transform:translateX(-50%) !important;height:230px !important;
+    width:100vw !important;max-width:100vw !important;
+    display:grid !important;place-items:center !important}
+}
