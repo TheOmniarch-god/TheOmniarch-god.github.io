@@ -1537,3 +1537,56 @@ html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg::afte
 .tg-mainpage-header::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
   backdrop-filter:saturate(0.55);-webkit-backdrop-filter:saturate(0.55)}
 html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.70) 0%,rgba(10,10,14,0.90) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Phone layout =====
+   Everything above was tuned on a 1349px viewport, where the landing page reads
+   correctly. At 360px it does not, for four separate reasons:
+
+   1. The featured row is forced into a two-column grid below 720px, so the
+      Article and Spotlight cards are 154px wide on a 360px screen. At that width
+      "Spring Autumn Cicada" breaks over three lines and its caption fills the
+      whole card. They now stack full width, one per row, which is what the
+      reference does on a narrow screen.
+   2. Twelve tiles at three columns are 100px wide, and at the 13px caption size
+      nine of them wrapped. Two columns give 155px, so captions can stay on one
+      line at 12px.
+   3. The hero background is declared as a two-layer value whose first layer is a
+      gradient, and the shorthand's repeat fails to apply to it, so the gradient
+      is what tiles as faint vertical seams. Spelling out no-repeat for both
+      layers fixes it.
+   4. The tagline is 328px of text in a 360px screen and wraps to two lines,
+      leaving "The Omniarch" stranded on its own line. A smaller size keeps it to
+      one line.
+
+   The mark is also allowed to grow here: at 166px it was reading as a small
+   object floating in a 360px band. */
+@media(max-width:720px){
+  /* 1. Cards stack, full width. */
+  .featured-row.template-flexbox{display:grid !important;grid-template-columns:minmax(0,1fr) !important;
+    gap:0.85rem !important}
+  .featured-row > .template-flexbox-item,
+  .featured-row > .template-flexbox-item:nth-child(-n+2){grid-column:1 / -1 !important}
+  .featured-row > .template-flexbox-item:nth-child(-n+2) > .tg-card{height:auto !important;
+    min-height:0 !important;overflow:visible !important}
+
+  /* 2. Two tile columns, captions on one line. */
+  .tg-mainpage-navigation .template-navpills{grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important}
+  .tg-mainpage-navigation .template-navpills{font-size:0.75rem !important}
+  .tg-mainpage-navigation .template-navpill>a{padding:0 0.7rem !important}
+
+  /* 3. No tiling gradient. */
+  .tg-mainpage-header{background-repeat:no-repeat,no-repeat !important}
+
+  /* 4. Tagline on one line, and a mark with more presence. */
+  .tg-mainpage-header-tagline{font-size:0.78rem !important;white-space:nowrap !important;
+    letter-spacing:-0.005em !important}
+  /* 209px was too far: the mark's ink is 0.966 of its box height, so at that
+     width its lower drips ran into the tagline. 190px keeps 17px of clearance
+     and still doubles the mark's earlier footprint. */
+  .tg-mainpage-header .wordmark-img{width:min(53vw,190px) !important}
+  .tg-mainpage-header .ring svg{width:min(72vw,260px) !important}
+}
+@media(max-width:400px){
+  .tg-mainpage-header-tagline{font-size:0.72rem !important}
+}
