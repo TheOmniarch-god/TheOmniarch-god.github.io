@@ -1767,3 +1767,86 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
     width:100vw !important;max-width:100vw !important;
     display:grid !important;place-items:center !important}
 }
+
+/* ===== The ring: turn it back on, and size it to the reference =====
+   Two separate faults, both visible the moment the two heroes are put side by
+   side.
+
+   It was not turning. The base rule animates it (animation:spin 90s linear
+   infinite), but the scale pass above ended with animation:none !important to
+   stop the earlier large-canvas treatment, and that has been winning ever since.
+   Restoring the animation is the whole fix for the movement; the keyframes were
+   never removed.
+
+   It was also too small and set too low. Measured against the reference at the
+   same window width, Tolkien's ring is a ~342px circle whose upper arc crosses
+   the wordmark and whose lower arc hangs well below the search button. Ours was
+   320px but sat so low that only the bottom third showed, and the wordmark
+   covered the rest - so it read as a stray arc rather than a ring. Here it is
+   sized to the reference and lifted so the circle is centred on the wordmark,
+   which puts the arc where the reference has it: crossing above the mark and
+   sweeping down past the button. */
+.tg-mainpage-header .ring svg{width:min(88vw,470px) !important;opacity:0.85 !important;
+  animation:spin 90s linear infinite !important}
+.tg-mainpage-header .ring text{opacity:1 !important}
+/* Sit the ring on the wordmark rather than under it: the reference's circle is
+   centred a little above the mark's baseline, so its top arc reads through the
+   logo and its bottom arc passes the search button. */
+.tg-mainpage-header .ring{inset:auto 0 auto 0 !important;top:0.35rem !important;
+  align-items:flex-start !important;justify-content:center !important}
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:none !important}
+}
+
+/* Sizing pass, measured on the rendered hero rather than guessed: min(88vw,470px)
+   resolved to 551px at 1228px wide, which is wider than the reference's ~342px
+   and pushes the arc behind the tiles. The circle is set from the hero's own
+   height instead, so it stays inside the band at every width: roughly 1.45x the
+   hero height, which is the proportion the reference shows. */
+.tg-mainpage-header .ring svg{width:min(62vw,420px) !important}
+
+/* Final position. The circle measures 420px in a 290px hero, so where it starts
+   decides which part of the arc is visible. Centring it on the wordmark put its
+   centre at 262 against the mark's 118, pushing the top arc off the top edge.
+   Anchoring the top at 0 lifts the centre to 210 and leaves the arc crossing the
+   mark and closing below the button, as in the reference. */
+.tg-mainpage-header .ring{top:0 !important}
+
+/* Measured against the reference's own pixels this time, not estimated. Scanning
+   the clean band under its search button for local contrast, the reference's
+   circle is widest at y=270 with a span of 320px, and its outer edge never
+   exceeds ~342. Our glyph ring measured 430px, so at the old 420px setting we
+   were a quarter oversized. 340 lands the visible ring on the reference's
+   diameter. */
+.tg-mainpage-header .ring svg{width:min(62vw,340px) !important}
+
+/* A 90s revolution is four degrees a second, which at the ring's size reads as
+   motionless in a glance. 60s keeps it slow and ceremonial but makes the turn
+   visible, which is what "it should be turning" asks for. */
+.tg-mainpage-header .ring svg{animation:spin 60s linear infinite !important}
+
+/* The 340px sizing above is a desktop measurement - the reference is a wide
+   window with a 177px hero band, so its ring is nearly twice the band's height.
+   On a phone that same ratio would push the circle out of the hero, which is the
+   containment PR #83 fixed. Keep the phone on the size it was measured at: the
+   circle fits the 230px band with 10px clearance top and bottom at every width
+   320-720. Motion stays. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;
+    animation:spin 60s linear infinite !important}
+}
+
+/* The desktop block above sets align-items:flex-start so the arc sits high over
+   the wordmark. On the phone that same declaration won over the PR #83 centring
+   and pinned the circle to the band's top edge (y0..210) instead of the measured
+   y10..220. Put the centring back; only the size and the motion carry over. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{align-items:center !important}
+}
+
+/* The speed and phone blocks above come after the reduced-motion opt-out that
+   was written earlier, and with equal specificity the later !important wins - so
+   that opt-out had quietly stopped working. Restate it last, where it holds. */
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:none !important}
+}
