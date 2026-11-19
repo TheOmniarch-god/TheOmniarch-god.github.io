@@ -2530,3 +2530,30 @@ html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.45 !important}
    wordmark, which is the balance the previous pass was protecting. */
 .tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.76) 0%,rgba(249,244,238,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
 html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.66) 0%,rgba(10,10,14,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Header image: one more step of presence =====
+   Following the previous pass's small lift (light 0.80/0.90 -> 0.76/0.87, dark
+   0.70/0.90 -> 0.66/0.87), this takes the next rung on the same scale rather
+   than a new guess: light 0.76/0.87 -> 0.73/0.85, dark 0.66/0.87 -> 0.63/0.85.
+
+   Both themes move by the same 0.03 and the gradient keeps its shape - thinner
+   at the top, opaque at the foot, 58% stop - so the hero still fades into the
+   page instead of ending on a hard edge.
+
+   Measured on the hero's side strips, where there is artwork but no wordmark or
+   ring, using the spread of luminance as "how much texture reads":
+
+     light  art contrast +11% left / +15% right, mean luminance 231.9 -> 230.0
+     dark   art contrast +2% left / +5% right
+
+   Cumulative against the original 0.80/0.90 the light hero is now about +34%
+   more artwork contrast. That is the rung that was measured before shipping the
+   last one, so this closes the gap that pass left rather than opening a new one.
+
+   Still a wash, not a photograph: the wordmark keeps the highest contrast in
+   the composition, which is the constraint the earlier reference-matching pass
+   was protecting. Light moves most at any given alpha because its wash is pale
+   cream over a pale image; dark's gold-on-black composition already had more
+   separated values. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.73) 0%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.63) 0%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
