@@ -2362,38 +2362,58 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
     height:min(84vw,266px) !important}
 }
 
-/* ===== Phone: a circle large enough to reach underneath the tiles =====
-   The ask: grow the ring until its lower arc passes behind the category tiles,
-   taking the extra size even though it brings the circle further down.
-   The circle is centred on the logo and the logo is pinned at y150, so the
-   centre is fixed there and the radius alone decides the reach. The first tile
-   row starts at y328, so the circle needs r>=178 to touch it and needs to go
-   past that to read as passing behind it rather than merely meeting it.
+/* ===== Phone: the ring, brought down so its lettering is not cut =====
+   The ring's glyphs ride on the path itself - there is no painted circle stroke,
+   the circle IS the lettering - so when the ask is to reach the tiles the top
+   of that lettering runs off the top edge. At 365 the ink started 53px above
+   the viewport, which is the cut that was reported.
 
-   This has been walked down twice from 400: 400 was too big and left the ring's
-   glyphs as fragments in the corners, 378 still read as a touch too large.
-   435px of box gives a 365px circle - r182, bottom y333 - so 5px of arc still
-   passes behind the first tile row. That is a small margin, and it is close to
-   the floor: at 425 the arc only grazes the tiles (1px) and at 415 it misses
-   them entirely (-4px), so anything smaller stops satisfying the request that
-   started this - the arc reaching the tiles at all.
+   So the whole figure comes down 40px and the circle gives back a little size
+   to pay for it. Two numbers move together and nothing else does:
 
-   Nothing else moves. The hero stays 300px and the tiles keep their margin, so
-   the logo, the pill and the grid land exactly where they did - only the circle
-   changes size. Growing the hero instead re-centres the flex content and drags
-   the logo down with it (9.5px at 320, 17.5px at 430: measured, avoided).
+     ring top     150 -> 190   (circle centre follows the logo)
+     logo         27px -> 67px  (so the logo stays dead centre in the ring)
+     search pill  +40px, by `position:relative; top` only
 
-   The size is fixed, not viewport-relative, because the logo and the tiles sit
-   at the same absolute y at every phone width; a vw-based box would shrink the
-   circle at 320 and leave it short of the tiles there (-40px measured).
+   The pill is nudged with a relative offset rather than a margin on purpose: a
+   margin would push the hero taller and drag the tiles down with it, and the
+   tiles need to stay where they are. With transforms and relative offsets the
+   layout height is untouched, so the tile grid still starts at y328.
+
+   390px of box gives a 328px circle: r164, centre y190, so the circle spans
+   y26..354 and its lower arc runs 26px behind the first tile row - still the
+   thing that started this. Because the centre only moved down 40 while the
+   radius dropped 21, the top of the *ink* now lands at y8 instead of y-53, and
+   the sides at 13/377 instead of -8/398: the lettering is fully on screen for
+   the first time, with the pill-bottom-to-tiles gap at a comfortable 23px.
 
    The svg box is scaled, not the type: font-size stays 19px in viewBox units,
    where natural text width is 1032 of 1056 path units. At 21px it would be
-   1115 and re-compress - the fault fixed two passes ago. Scaling the box
-   enlarges the circle and its lettering together, which is why the ring text
-   reads much larger than the 222px original without touching font-size. */
+   1115 and re-compress. Scaling the box enlarges the circle and its lettering
+   together, which is why the ring text still reads far larger than the 222px
+   original without touching font-size. */
 @media(max-width:720px){
-  .tg-mainpage-header .ring{height:435px !important}
-  .tg-mainpage-header .ring svg{width:435px !important;height:435px !important;
+  .tg-mainpage-header .ring{top:190px !important;height:390px !important}
+  .tg-mainpage-header .ring svg{width:390px !important;height:390px !important;
     max-width:none !important;max-height:none !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(67px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;
+    top:40px !important}
+}
+
+/* Very narrow phones cannot hold the 390px ring: its lettering is a fixed 1032
+   viewBox units wide, so at that box size the arc's ink runs past both edges once
+   the viewport drops below 364 (the ink measures 364px across at every phone
+   width, because the box - and therefore the type - is a fixed size).
+   Stepping the box down to 340 fits it exactly - ink spans x1..x319 in a 320px
+   viewport - and the 4px of extra drop (44 instead of 40) buys back the reach
+   that the smaller circle lost: the arc still passes 9px behind the first tile
+   row, with 32px of clearance between the pill and the tiles. The logo's
+   translate goes 67 -> 71 so it stays centred on the circle's new centre
+   (150 + 44), exactly as the 390/40 pairing does at larger widths. */
+@media(max-width:363px){
+  .tg-mainpage-header .ring{top:194px !important;height:340px !important}
+  .tg-mainpage-header .ring svg{width:340px !important;height:340px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(71px) !important}
+  .tg-mainpage-header .search-zone{top:44px !important}
 }
