@@ -2361,3 +2361,34 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .ring svg{width:min(84vw,266px) !important;
     height:min(84vw,266px) !important}
 }
+
+/* ===== Phone: a circle large enough to reach underneath the tiles =====
+   The ask: grow the ring until its lower arc passes behind the category tiles,
+   taking the extra size even though it brings the circle further down.
+   The circle is centred on the logo and the logo is pinned at y150, so the
+   centre is fixed there and the radius alone decides the reach. The first tile
+   row starts at y328, so the circle needs r>=178 to touch it and needs to go
+   past that to read as passing behind it. 480px of box gives a 400px circle:
+   r200, bottom y350, i.e. 22px into the 50px tile row. A 400px circle cannot
+   fit a 390px viewport, which is the tradeoff being taken deliberately: the
+   upper arc and the glyphs riding on it run past the top and side edges.
+
+   Nothing else moves. The hero stays 300px and the tiles keep their margin, so
+   the logo, the pill and the grid land exactly where they did - only the circle
+   grows. Growing the hero instead re-centres the flex content and drags the
+   logo down with it (9.5px at 320, 17.5px at 430: measured, avoided).
+
+   The size is fixed, not viewport-relative, because the logo and the tiles sit
+   at the same absolute y at every phone width; a vw-based box would shrink the
+   circle at 320 and leave it short of the tiles there (-40px measured).
+
+   The svg box is scaled, not the type: font-size stays 19px in viewBox units,
+   where natural text width is 1032 of 1056 path units. At 21px it would be
+   1115 and re-compress - the fault fixed last pass. Scaling the box enlarges
+   the circle and its lettering together, which is why the ring text reads much
+   larger here without touching font-size. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{height:480px !important}
+  .tg-mainpage-header .ring svg{width:480px !important;height:480px !important;
+    max-width:none !important;max-height:none !important}
+}
