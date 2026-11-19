@@ -2164,3 +2164,16 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .ring{top:3px !important}
   .tg-mainpage-header .wordmark-img{transform:translateY(27px) !important}
 }
+
+/* Tiles: taller by a little.
+   45px -> 50px, a +5 step. The 45 was inherited from the reference comparison
+   above, which measured Tolkien Gateway's rows at 45; this is a deliberate move
+   away from that number, so it is stated last and at the same specificity to
+   win. Everything downstream follows automatically: the desktop band goes
+   100 -> 110px for two rows, the phone's six rows 310 -> 340px. No label
+   overflows at 320, 390 or 1239 - checked, including the two-line "Volumes &
+   Chapters" wrap at 320. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:50px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button,
+.tg-mainpage-navigation .template-navpill{height:50px !important;min-height:50px !important}
