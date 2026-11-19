@@ -2500,3 +2500,33 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    around it changes. */
 .tg-mainpage-header .ring svg{opacity:0.55 !important}
 html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.45 !important}
+
+/* ===== Let a little more of the hero artwork show =====
+   The hero wash was lifted in an earlier pass to push the artwork back so the
+   wordmark was the only thing with contrast: light 0.80 -> 0.90, dark 0.70 ->
+   0.90. That was measured against the reference and it worked, but it went a
+   touch too far - the art had become almost entirely absent rather than
+   quietly present.
+
+   So this is one small step back, not a reversal: light 0.80 -> 0.76 and
+   0.90 -> 0.87, dark 0.70 -> 0.66 and 0.90 -> 0.87. Both themes move by the
+   same amount and keep the original gradient shape (opaque at the bottom,
+   thinner at the top, 58% stop), so the foot still fades into the page.
+
+   Measured on the hero's side strips, where there is artwork but no wordmark or
+   ring, comparing the spread of luminance (how much texture is readable) and
+   the mean:
+
+     light  art contrast +20%, mean luminance 235.0 -> 231.9
+     dark   art contrast +3% left, +9% right
+
+   Light gains the most because its wash is a pale cream over a pale image -
+   small alpha changes move it a lot. Dark moves less at the same alpha, which
+   is why the number is shared rather than tuned per theme.
+
+   This is deliberately the smallest step of the three tried: -0.04 here, against
+   -0.07 (+34% light) and -0.10 (+55% light). The 20% lift is visible as texture
+   returning to the illustration without the artwork starting to compete with the
+   wordmark, which is the balance the previous pass was protecting. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.76) 0%,rgba(249,244,238,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.66) 0%,rgba(10,10,14,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
