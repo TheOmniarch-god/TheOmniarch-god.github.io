@@ -1974,3 +1974,38 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    ring by 12px puts the top arc at y21, close to the viewport edge without
    touching it, which is the "a little, near the very top" being asked for. */
 .tg-mainpage-header .ring{top:-4px !important}
+
+/* Up a tiny bit more. The painted top of the arc was measured at y21 - the
+   lettering's topmost ink - so there were 21px of empty hero above it. Raising
+   the ring another 8px puts that topmost ink at y13: visibly nearer the edge,
+   still clear of it, which is the "almost but not quite the very top" asked for.
+   8px is deliberately half the previous 12px move rather than another 12 - this
+   was called a tiny adjustment.
+
+   Desktop only. The phone centres its 210px circle in a 230px band, so its arc
+   already tops out at y6; lifting it by the same 8px would push it to y-2 and
+   clip the lettering against the viewport edge. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:-12px !important}
+}
+
+/* ===== Phone: the circle was hanging half off the left edge =====
+   Not caused by the lift above - it is on main already and reproduces with the
+   previous stylesheet swapped in. Reading the live box is what shows it: at
+   360px the ring measures left -180 with width 360, i.e. shifted exactly half a
+   screen left, and its svg box starts at x -113. The circle's left half was
+   simply off-screen.
+
+   The cause is an orphaned transform. The phone block around line 1750 sets
+   `left:50%` together with `transform:translateX(-50%)`, which is the correct
+   pairing. A later rule (`inset:auto 0 auto 0 !important`) then resets left to 0
+   while leaving the -50% transform in place, so the element is pulled half its
+   width leftward from a left edge that is no longer 50%.
+
+   Restating the pairing here, after every rule that touches it, puts the circle
+   back in the middle: at 320-720 it now spans the full band, the svg is a
+   centred 210px circle (198px at 320) and there is no horizontal scroll. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{left:50% !important;right:auto !important;
+    transform:translateX(-50%) !important}
+}
