@@ -1941,3 +1941,17 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
     display:flex !important;align-items:center !important;justify-content:center !important}
   .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
 }
+
+/* Grow the circle, keeping it centred. The last size change was 340 -> 318, a
+   22px step, so twice that step is +44 and the diameter goes to 362. It grows
+   about its own centre rather than from one edge, so it reaches further up and
+   further down by the same amount: the centre stays at y189, which puts the top
+   at 8 and the bottom at 370, 22px beyond the y348 that matched the reference.
+   Growing upward is the point - at 318 the circle's top edge cleared the wordmark
+   by only 47px where the reference clears it by 90.
+
+   Desktop only: the phone's 210px block is deliberately left alone. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:8px !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,362px) !important}
+}
