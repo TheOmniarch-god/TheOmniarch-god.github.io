@@ -2450,3 +2450,29 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(max-width:363px){
   .tg-mainpage-header .wordmark-img{transform:translateY(71px) scale(1.14) !important}
 }
+
+/* ===== Ring text: make the gaps even all the way round =====
+   The circle's lettering carried a large blank after the Chinese. It was not a
+   spacing setting - it was slack. The 95-character string measured 888.5 units
+   at 17px against a 1055.7-unit arc, so it covered only 84% of the circle: 302
+   degrees of text and a 58-degree gap. That gap ran from where the string ends
+   (just past the hanzi, at 205 degrees) round to where it starts at the bottom
+   seam, which is exactly the "large space after the hanzi" being seen. Measured
+   against a median glyph advance of 3.22 degrees, the gap was 18x a normal one.
+
+   The fix is to give the textPath the arc's own length, less the width of one
+   word space (9.75 units) so the string still breaks into words instead of
+   running into itself. lengthAdjust="spacing" then distributes what is left
+   across the gaps evenly rather than stretching the glyphs, which is why the
+   letters keep their shapes and no word gap is singled out.
+
+   This is the inverse of the old squashing bug fixed earlier: there textLength
+   was 1000 against a longer natural width and the text was compressed 27%,
+   which swallowed the word gaps. Here textLength is slightly under the arc and
+   nothing is compressed. Measured after: interior advance 3.8 degrees, seam
+   4.4 degrees - 1.17x a normal gap instead of 18x - and it holds from 320 to
+   1920 because the scale is a transform on a fixed viewBox.
+
+   textLength lives in the markup (all 59 pages), not here, because the value is
+   derived from the path geometry: 2*pi*168 - 9.75 = 1045.8. If the path radius
+   ever changes, that number has to change with it. */
