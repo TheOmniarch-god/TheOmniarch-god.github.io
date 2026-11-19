@@ -2476,3 +2476,27 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    textLength lives in the markup (all 59 pages), not here, because the value is
    derived from the path geometry: 2*pi*168 - 9.75 = 1045.8. If the path radius
    ever changes, that number has to change with it. */
+
+/* ===== Dim the ring =====
+   The circle was at 0.85. Several earlier passes each set the ring's opacity in
+   a different place (0.6, 0.4 in dark, 0.55, then 0.85 with !important all
+   winning the cascade), so the effective value was 0.85 in both themes and the
+   lettering was competing with the wordmark instead of sitting behind it.
+
+   The two themes are NOT given the same number, deliberately. The ring's ink is
+   a gradient of red in light and gold in dark, and against their backgrounds
+   those read very differently at equal alpha. Measured against the ring's own
+   pixels, at the old 0.85 the contrast was 1.56:1 in light but 3.55:1 in dark -
+   gold on near-black is more than twice as strong. Lowering both by the same
+   amount would have left dark still heavy.
+
+   So light goes 0.85 -> 0.55 (contrast 1.56 -> 1.33) and dark 0.85 -> 0.45
+   (3.55 -> 2.00). Exact parity is not reachable on this palette - matching
+   dark's 1.33 would need about 0.23, at which point the gold all but vanishes
+   into the background - so the aim is a comparable perceived weight rather than
+   an identical number.
+
+   Opacity only: nothing about the ring's size, position, rotation or the layout
+   around it changes. */
+.tg-mainpage-header .ring svg{opacity:0.55 !important}
+html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.45 !important}
