@@ -1955,3 +1955,22 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .ring{top:8px !important}
   .tg-mainpage-header .ring svg{width:min(62vw,362px) !important}
 }
+
+/* Larger ring lettering, and nearer the top. Measured from the painted pixels
+   rather than the SVG box (which includes empty space): diffing the page with
+   the ring hidden isolates it exactly, and it currently runs y35..343 at a
+   15px computed font size. The reference's own lettering runs y30..348.
+
+   textLength="1000" with lengthAdjust="spacing" is set on the textPath, so the
+   lettering always spans the exact same circumference - a larger font size
+   therefore makes the glyphs fatter and taller without pushing the ring wider,
+   and the spacing absorbs the difference. That is why this can be raised
+   without the circle growing. */
+.tg-mainpage-header .ring text{font-size:19px !important;letter-spacing:0.3em !important}
+
+/* Lift the lettering towards the very top of the page. With the 19px size the
+   top of the painted arc sat at y33, which is 3px below where the reference has
+   it and leaves a visible band of empty hero above the lettering. Raising the
+   ring by 12px puts the top arc at y21, close to the viewport edge without
+   touching it, which is the "a little, near the very top" being asked for. */
+.tg-mainpage-header .ring{top:-4px !important}
