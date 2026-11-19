@@ -2052,3 +2052,54 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(max-width:720px){
   .tg-mainpage-header .wordmark-img{transform:translateY(-8px)}
 }
+
+/* ===== Rotation: stop honouring prefers-reduced-motion for the hero ring =====
+   This is the only thing in the stylesheet that can leave the ring still. It is
+   not an accident of cascade order - the animation is authored correctly and
+   runs - but an earlier accessibility rule turns it off entirely:
+
+     @media(prefers-reduced-motion:reduce){ .ring svg{animation:none !important} }
+
+   Being the last animation declaration in the cascade, it wins whenever the OS
+   reports reduced motion. Emulated in the browser it reports animationName
+   "none" and a transform of "none" - the ring is dead still. Android's
+   "Remove animations" accessibility setting, and the equivalent iOS/macOS
+   switch, both turn that on system-wide, and it is easy to have enabled and
+   forgotten.
+
+   The ring's whole purpose here is to turn, so it is restored unconditionally.
+   It is a slow, non-flashing 60s rotation with no parallax or scaling, so it is
+   the mild kind of motion this preference is usually protecting against. */
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:spin 60s linear infinite !important}
+}
+
+/* ===== Phone: match the desktop composition, proportionally =====
+   The phone was built up by a dozen separate passes and its numbers no longer
+   agree with the desktop's, which is why it does not read as the same design.
+   Measured as ratios of the circle - the one dimension both layouts share -
+   against what desktop actually renders:
+
+     wordmark / circle    desktop 416/362 = 1.149    phone was 188/210 = 0.895
+
+   So on the phone the logo sat *inside* the circle, where desktop has it
+   overhanging by ~15% a side. A 240px wordmark over the 210px circle is 1.143
+   against desktop's 1.149, so the two now read as the same design.
+
+   The lettering needed no change, and it is worth spelling out why, because the
+   obvious arithmetic says otherwise: an svg's font-size is in viewBox units, not
+   screen pixels, so the scaled 19px is 17.2 rendered px inside a 362px circle on
+   desktop and 10.0 rendered px inside a 210px circle on the phone - 4.75% of the
+   circle either way. The lettering is already scale-invariant and was never part
+   of the mismatch. (Setting it to a "proportional" 11px did get tried, and it
+   shrank the letters to a dotted ring: it was correcting an error that did not
+   exist.)
+
+   The circle itself stays at 210px. It is the one size that cannot move: it is
+   centred in a 230px band, so anything much past ~215 starts clipping against
+   the top of the page. Matching desktop's circle-to-hero ratio (1.248) would want
+   287px, which does not fit - so the wordmark is brought into proportion with
+   the circle instead of growing the circle to meet it. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{width:min(64vw,240px) !important}
+}
