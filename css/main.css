@@ -2417,3 +2417,36 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .wordmark-img{transform:translateY(71px) !important}
   .tg-mainpage-header .search-zone{top:44px !important}
 }
+
+/* ===== Phone: let the wordmark pass the sides of the circle =====
+   The wordmark is the centrepiece of this composition but it was sitting inside
+   the ring's lateral edge on the narrow layouts, not across it: measured at 320
+   its ink stopped 5px short of each side, and at 390 it only just met them. The
+   desktop layout already has it 61px past each side, so the phone was reading
+   as a smaller, more cramped version of the same design.
+
+   Scaling by transform rather than by width is deliberate and load-bearing. A
+   wider `width` makes the h1 taller, which pushes the search pill down 9px and
+   eats the gap above the tiles - a real regression that was measured before
+   this approach was chosen. `scale()` changes only what is painted, so the
+   layout height is untouched and the pill and tile grid stay at exactly
+   y261/y328 where the previous pass left them.
+
+   The two axes are scaled equally, so the mark keeps its aspect. The translate
+   already in place (+67, or +71 on the narrow step) still centres the ink: the
+   mark's ink is symmetric about its own box, so scaling grows it about that
+   centre and the measured ink centre holds at 0.4px off the circle's.
+
+   1.14 takes the mark from 330 to 376 at a 390 viewport - 24px past each side
+   of the ring - and from 275 to 314 at 320, where it lands 3px inside the
+   screen and 14px past the ring. The vw clamp is gone on purpose: a clamp would
+   shrink the mark again on exactly the widths that most needed it bigger.
+
+   This is phone-only. Desktop was already past the ring at 420px and is left
+   exactly as it was. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(67px) scale(1.14) !important}
+}
+@media(max-width:363px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(71px) scale(1.14) !important}
+}
