@@ -2103,3 +2103,36 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(max-width:720px){
   .tg-mainpage-header .wordmark-img{width:min(64vw,240px) !important}
 }
+
+/* ===== Phone: use the desktop's actual size logic =====
+   The previous pass matched the wordmark-to-circle ratio but not the thing that
+   actually makes the desktop hero look the way it does. Measured from rendered
+   pixels, desktop at 1239:
+
+     circle 362 in a 290px hero  ->  1.248x the band height
+     the ring overflows the band by 72px and its lower arc bleeds 36px BELOW it,
+     passing behind the category tiles
+
+   The phone had a 210px circle in a 230px band: 0.913x, i.e. confined entirely
+   inside the band with air above and below. That containment is why it reads as
+   a small badge with a ring floating in it, rather than as the circle the desktop
+   is built around. It was never a wordmark-to-circle problem.
+
+   So the phone gets the same ratio: 1.248 x 230 = 287px circle. Top is placed so
+   the painted arc still starts at y13 (13 - 20px of glyph padding = -7), which
+   lets the lower arc run past the band and sit behind the tiles exactly as it
+   does on desktop. The hero keeps overflow hidden horizontally, so the wider
+   circle cannot introduce a horizontal scrollbar - verified 320-720 below.
+
+   Wordmark follows the desktop ratio too: 1.15 x circle = 330px, against 240
+   before. The svg's own glyph padding (~7%) means this reads slightly tighter on
+   screen than the number suggests.
+
+   The circle is now also narrower than the band at every phone width (287px in a
+   360px viewport), so it no longer touches either side edge - at 320 it is the
+   `min(62vw,...)` clamp that keeps it inside. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:-7px !important;height:287px !important}
+  .tg-mainpage-header .ring svg{width:min(84vw,287px) !important}
+  .tg-mainpage-header .wordmark-img{width:min(86vw,330px) !important}
+}
