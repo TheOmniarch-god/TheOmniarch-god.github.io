@@ -1903,3 +1903,41 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 @media(min-width:721px){
   .tg-mainpage-header{height:290px !important}
 }
+
+/* ===== The ring's desktop offsets were measuring from the logo =====
+   This is the same root cause PR #83 fixed for the phone, but that fix was
+   written inside @media(max-width:720px) and so never applied above it. The ring
+   is a child of h1.wordmark, and .wordmark is position:relative, so every
+   desktop top/left resolved against the wordmark box instead of the hero. That
+   is why the arc kept landing in unpredicted places no matter what offset was
+   set. Reading offsetParent from the live page is what shows it: it reports
+   "h1.wordmark".
+
+   Making both wrappers static hands the containing block back to
+   .tg-mainpage-header, so offsets can finally be stated relative to the hero -
+   which is what the reference's geometry is measured in. */
+.tg-mainpage-header .tg-mainpage-content,
+.tg-mainpage-header .tg-mainpage-content > a,
+.tg-mainpage-header h1.wordmark{position:static !important}
+
+/* Now that the containing block is the hero, the reference's numbers can be
+   stated directly. Its circle, fitted from its own pixels, is centre (641,189)
+   r=159: diameter 318, spanning y30..y348. Sizing the circle to 318 and sitting
+   it at y30 lands both ends on the reference - the bottom at 348, which is the
+   height that was asked for, and the top at 30 as a consequence rather than a
+   separate guess. 318 also sits inside the 320-342 span measured across the band
+   between the button and the tiles, so it is no smaller than before in any
+   meaningful way - the previous 340 was the outer edge of the same circle. */
+.tg-mainpage-header .ring{top:30px !important;bottom:auto !important}
+.tg-mainpage-header .ring svg{width:min(62vw,318px) !important}
+
+/* The fix above unlocks the phone block too, and its own top/bottom/size rules
+   are now being overridden by the desktop statements that come after them - at
+   430px the circle ran to y297 inside a 230px band. Restate the phone's measured
+   geometry after the desktop rules so it wins, as PR #83 had it: a 210px circle
+   centred in the band, y10..220, which also keeps it clear of the tiles. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:0 !important;bottom:auto !important;height:230px !important;
+    display:flex !important;align-items:center !important;justify-content:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+}
