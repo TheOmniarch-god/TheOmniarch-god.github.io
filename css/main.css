@@ -2178,3 +2178,186 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 .tg-mainpage-navigation .template-navpills button,
 .tg-mainpage-navigation .template-navpill{height:50px !important;min-height:50px !important}
 
+
+
+/* ===== Wider circle, real word gaps, search bar inside its bottom =====
+   Three things had to be solved together because each constrains the others.
+
+   1. THE WORD GAPS WERE NOT A SPACING SETTING - THE TEXT WAS BEING SQUASHED.
+      The textPath carried textLength="1000" lengthAdjust="spacing" while the
+      string's natural width at 19px measured 1362.8 against a 1005-unit path.
+      The browser was compressing the text by 27% to force it to fit, and that
+      compression ate the inter-word gaps - which is why "IS THE" and "OF ALL"
+      ran together, and why raising letter-spacing never helped: it only changed
+      the width that was about to be squashed.
+
+   2. So the ring itself gets wider. On the SVG's 400x400 viewBox the path radius
+      goes 160 -> 190 (1005 -> 1194 units of arc) and textLength is removed from
+      the markup, so the string settles on the arc with genuine spaces. The
+      lettering steps 19 -> 17px so the same 95 characters occupy the longer arc
+      comfortably instead of being stretched to fill it.
+
+   3. The search bar returns, at the BOTTOM of the circle and inside it.
+
+   THE LOGO DOES NOT MOVE. Its painted ink measured y73..266, centre y169.5, and
+   the hero is a centred flex column, so it is pinned by an absolute content
+   column rather than left to re-flow when the band grows. Growing the band alone
+   would have dragged the logo down and broken the centring.
+
+   The circle is then grown around that fixed y169.5, which makes the radius do
+   double duty: it must reach from the logo's centre down past the pill with ring
+   to spare, giving R=170 and a ring spanning y-1..340. That is why the arc now
+   reaches the top of the page instead of sitting in a band with air above it.
+
+   Painted ink is 0.862 of the svg box (calibrated across four earlier sizes), so
+   a 396px box paints that 341px circle. */
+
+/* The circle is positioned from the hero, not from the content column: a
+   transform on the content would make it the containing block for this
+   absolutely-positioned child and silently move the circle. So the content is
+   pinned with left/top only and the ring keeps its own transform. */
+.tg-mainpage-header .ring{left:50% !important;right:auto !important;
+  transform:translateX(-50%) !important}
+
+@media(min-width:721px){
+  .tg-mainpage-header{height:350px !important}
+  .tg-mainpage-header .tg-mainpage-content{position:absolute !important;
+    top:60px !important;left:0 !important;right:0 !important;
+    transform:none !important;width:100% !important;margin:0 !important}
+  .tg-mainpage-header .ring{top:-46px !important;bottom:auto !important;
+    height:396px !important}
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important}
+  .tg-mainpage-header .ring text{font-size:17px !important;
+    letter-spacing:0.02em !important;word-spacing:0.42em !important}
+  .tg-mainpage-header .search-zone{display:flex !important;margin-top:10px !important}
+}
+
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:300px !important}
+  .tg-mainpage-header .tg-mainpage-content{position:absolute !important;
+    top:41px !important;left:0 !important;right:0 !important;
+    transform:none !important;width:100% !important;margin:0 !important}
+  .tg-mainpage-header .ring{top:6px !important;bottom:auto !important;
+    height:340px !important}
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important}
+  .tg-mainpage-header .ring text{font-size:17px !important;
+    letter-spacing:0.02em !important;word-spacing:0.42em !important}
+  .tg-mainpage-header .search-zone{display:flex !important;margin-top:8px !important}
+}
+
+/* The phone ring kept landing 130px off centre because `bottom` computed to
+   -125.9: the earlier passes wrote `inset:50% auto auto 50%` and then
+   `bottom:10px`, and those pairs kept re-resolving so a stale inset stretched the
+   box past the hero. offsetParent also still reported .tg-mainpage-content, not
+   the hero, so the offsets were resolving against the content column.
+   Clearing the inset shorthand first and then stating each side leaves nothing
+   for a stale shorthand to stretch. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{inset:auto !important}
+  .tg-mainpage-header .ring{top:6px !important;bottom:auto !important;
+    left:50% !important;right:auto !important;height:340px !important;
+    width:auto !important;transform:translateX(-50%) !important;
+    align-items:flex-start !important}
+}
+
+/* The svg was rendering 368px inside its 340px box, and that inflation was what
+   corrupted the whole phone layout: the ring's `bottom` computed to -125.9
+   because the box was being stretched around an oversized child. `height:auto`
+   on an svg carrying an `overflow:visible` rule and a 400x400 viewBox does not
+   settle on the css width - the intrinsic ratio and the visible-overflow box
+   disagree once the element is also being rotated. Pinning height to the same
+   value as width removes the ambiguity.
+   `display:block` also drops the inline-baseline gap that adds a few pixels
+   under the element. */
+.tg-mainpage-header .ring svg{height:auto;display:block}
+
+@media(min-width:721px){
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important;
+    height:min(92vw,396px) !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important;
+    height:min(88vw,340px) !important}
+}
+
+/* The ring 39px low traced back to the containing block, not to any offset.
+   Pinning the content column with `position:absolute` for the logo made it the
+   offsetParent for the ring too, so the ring's `top:6px` resolved 6px inside a
+   column that itself starts at y41 - landing at y47 instead of y6. Reading
+   offsetParent from the live page is the only reliable way to catch this class
+   of bug; every offset value was already correct.
+
+   The fix is to give the ring the hero as its containing block again by making
+   the wordmark chain static and anchoring the ring to the hero. Since the ring
+   and the content are now siblings in effect, each gets its own coordinate
+   system. */
+.tg-mainpage-header .tg-mainpage-content,
+.tg-mainpage-header .tg-mainpage-content > a,
+.tg-mainpage-header h1.wordmark{position:static !important}
+
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:-46px !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:6px !important}
+}
+
+/* Centre the circle on the logo's own centre, not on a fixed top.
+   The viewBox is 400x400 with the path at r=190, so the painted circle occupies
+   exactly 10..390 - 2.5%..97.5% of the box, and the ink's centre is the box's
+   centre. That means centring the BOX centres the CIRCLE, with no padding fudge.
+   Anchoring with translateY(-50%) instead of a fixed top also survives the
+   `min(88vw,...)` clamp: at 320 the box shrinks to 282 and the circle still lands
+   on the same centre, where a fixed top would drift by (340-282)/2 = 29px - which
+   is exactly the +30px error measured at 320 before this.
+   Logo ink centre measures y150.5 on the phone and y167.5 on desktop, so those
+   are the two anchors. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:167px !important;bottom:auto !important;
+    transform:translate(-50%,-50%) !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:150px !important;bottom:auto !important;
+    transform:translate(-50%,-50%) !important}
+}
+
+/* The svg was rendering 428px in a 396px slot, which is what threw every earlier
+   centring attempt off. Cause: an `height:auto` rule stated after the sized ones
+   reset the height, and with a 400x400 viewBox the width then drove the height -
+   plus the visible-overflow box and the rotation added a few more pixels. Since
+   the painted circle is concentric with the box (viewBox 400, path r=190 spans
+   10..390), box == ink centre, so pinning BOTH dimensions makes the centring
+   arithmetic exact. Stated last, with height after width. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important;
+    height:min(92vw,396px) !important;display:block !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important;
+    height:min(88vw,340px) !important;display:block !important}
+}
+
+/* The circle was overflowing the top edge, which clipped the lettering - reaching
+   the top should mean flush with it, not past it.
+   With the logo fixed at cy167 and the pill bottom at 323, a radius of 176 is
+   what enclosure wants, but that puts the circle's top at y-9 and cuts the
+   lettering. So the radius is pulled back to 168: the circle top lands at y-1,
+   effectively flush, and there is still 12px of ring beneath the pill.
+   In viewBox terms the path radius goes 190 -> 168, and the svg box follows at
+   354 so the circle keeps its 1:1 scale against the box. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:354px !important}
+  .tg-mainpage-header .ring{top:167px !important;height:354px !important}
+  .tg-mainpage-header .ring svg{width:354px !important;height:354px !important}
+}
+
+/* Phone had the same overflow: the circle's top sat 10-12px above the viewport,
+   clipping the lettering. Phone logo cy is 150.5 and its pill bottom is 265, so
+   a radius of 133 puts the top flush at y17 with 18px of ring under the pill.
+   Box follows the same 1:1 relationship as desktop. */
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:300px !important}
+  .tg-mainpage-header .ring{top:150px !important;height:266px !important}
+  .tg-mainpage-header .ring svg{width:min(84vw,266px) !important;
+    height:min(84vw,266px) !important}
+}
