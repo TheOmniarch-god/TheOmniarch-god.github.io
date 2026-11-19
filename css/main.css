@@ -2009,3 +2009,46 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .ring{left:50% !important;right:auto !important;
     transform:translateX(-50%) !important}
 }
+
+/* ===== Hero: search out, wordmark grown to the reference's width =====
+   Search hidden for now at the user's request. Scoped to the hero's own
+   .search-zone so the site header's search affordances are untouched. The hero
+   height is pinned at 290px (desktop) and 230px (phone), so taking the button
+   out of the column does not collapse the band - only its contents re-centre. */
+.tg-mainpage-header .search-zone{display:none !important}
+
+/* Width taken from the reference rather than guessed. Measuring its wordmark's
+   own ink in the user's screenshot - neutral dark pixels only, which excludes
+   the red ring - gives x433..852: 420px wide in a 1239px viewport, or 33.9% of
+   it. Ours measured 298px, 24.1%: the reference mark is 1.41x ours.
+
+   Worth recording the proportion, because it is the surprising part: that 420px
+   wordmark sits inside a 318px circle and overhangs it by ~50px on each side.
+   The reference does not fit its logo inside the ring, so neither should we.
+
+   88vw keeps it inside narrow desktop widths, and the 420px cap holds the
+   reference's absolute size on wide screens rather than letting it run. */
+@media(min-width:721px){
+  .tg-mainpage-header .wordmark-img{width:min(88vw,420px) !important}
+}
+
+/* Sit the wordmark in the circle's centre - by measurement, not by eye.
+   Isolating the wordmark (ring hidden in both captures, so the diff cannot pick
+   up the ring pixels the wordmark was covering) puts its ink centre at
+   (647.5, 176). The circle's painted extent is y13..326, centre y169.5. Horizontally
+   it is already exact - both are 647.5 - so this is a vertical nudge only: 6.5px,
+   rounded to 7. The existing translateY(16px) already carries the mark, so this
+   replaces it with 9px rather than stacking a second transform. */
+@media(min-width:721px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(9px)}
+}
+
+/* Phone: centre the wordmark in its circle too. The phone's circle sits y6..216
+   (a 210px svg in the 230px band), so its centre is y111, while the ink measured
+   y92..179 - centre y135.5, about 24px low. The mark already carries a 16px
+   down-shift from an earlier pass, so 16 - 24.5 rounds to -8px rather than
+   stacking another offset. Horizontal centring was already exact (179.5 against
+   a 180 viewport centre), so this is vertical only. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(-8px)}
+}
