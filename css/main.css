@@ -2769,129 +2769,200 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
 .tg-footer-copy,.tg-footer-credits{font-style:normal !important}
 
-/* ===== Footer: the oversized wordmark, cropped by the page edge =====
-   Format taken from the Gelato La Boca footer on Awwwards: one line of type set
-   so large that it is the object itself, running past both edges of the
-   viewport and cut off by the bottom of the page. No illustration, no badge,
-   no frame - the scale of the type does the work, and the small meta sits above
-   it in quiet contrast.
+/* ===== Footer: the plate, then the cast, joined at a 45deg step =====
+   Format taken from the Evmos footer (Studio Freight, Awwwards SOTD Sep 2023):
+   a plate carrying the brand name and two pills, three link columns, a hairline
+   row of small meta, and below it all a full-bleed artwork whose top edge steps
+   into the plate at 45deg on the right.
 
-   Three details make that format work rather than just being "big text":
+   Everything here is ours: the plate carries our own name as text (not the
+   wordmark image), the pills use the red/cream pair from the header, the meta
+   row is the dedication and chapter count we already had, and the artwork is
+   the Cast of Reverend Insanity - the one plate where the whole cast stands
+   together - credited on the image itself.
 
-   1. The word is sized from its own measured ink, not eyeballed. Rendered and
-      measured, "Gu Zhen Ren" in Grenze Gotisch 600 at -0.022em tracking paints
-      4.46em wide and 0.79em tall (the box advances 4.50em), with the ink
-      starting 0.21em below the top of the line box. The font size is therefore
-      a computed multiple of the space that is actually visible - the window
-      minus the fixed left rail - so the name spans it edge to edge with only a
-      hair of overhang (2%), and the window is 0.49em (the top 62% of the ink)
-      so the feet of the letters are cut by the page's edge. The -0.21em pull
-      on the line sits the ink flush to the window's top instead of leaving a
-      line-height gap there. Sizing it from the rail edge rather than 100vw
-      matters: the rail is fixed over the page, so a window-centred line reads
-      half a rail off-centre and the bleed starts eating the G.
-   2. Each word is its own element, because the parallax moves them at slightly
-      different rates on scroll. That is the "oversized footer" element's other
-      half - it is built on parallax, not just size.
-   3. The visible line is aria-hidden and the name is repeated once for
-      assistive tech, so splitting it into words costs nothing semantically.
+   Three details make the format read rather than just being a footer:
 
-   Colour is ours, not theirs: the ring-red gradient in light, ring-gold in
-   dark, both taken from the same gradients the header inscription uses, so the
-   footer is made of the page's own materials. */
-.tg-footer{margin-top:3.5rem !important;background:var(--tg-color-surface-2) !important;
-  border-top:var(--tg-border-base) !important;overflow:hidden !important;position:relative !important}
-.tg-footer .inner{max-width:1180px !important;margin:0 auto !important;padding:3.2rem 2rem 0 !important}
+   1. The plate is a deeper cream than the page, because the artwork's own
+      ground is cream. In the reference the nebula is dark, so the plate's pale
+      edge cuts against it; against our pale artwork a pale plate has no seam at
+      all. The extra depth in the plate plus a dark scrim across the top of the
+      artwork is what gives the 45deg cut something to cut against.
+   2. The step is one continuous seam, not two shapes meeting. The plate's
+      bottom-right corner is clipped away at 45deg, and the panel is pulled up
+      underneath it and filled with the plate's own colour, so the diagonal is
+      drawn once and both surfaces belong to it.
+   3. The artwork is a labelled figure with real alt text and a visible credit,
+      because it is somebody's work and the page should say whose. */
 
-.tg-footer-cols{display:grid !important;grid-template-columns:1.6fr 1fr 1fr 1fr !important;gap:2.5rem !important}
-.tg-footer-tag{color:var(--tg-color-subtle) !important;font-size:0.9rem !important;line-height:1.6 !important;
-  margin:0 !important;max-width:34ch !important;font-style:normal !important}
-.tg-footer-tag b{color:var(--tg-color-base) !important;font-weight:600 !important}
-.tg-footer-progress{margin-top:1.1rem !important;font-size:0.8rem !important;letter-spacing:0.04em !important;
-  text-transform:uppercase !important;color:var(--tg-color-subtle) !important}
-.tg-footer-progress .n{color:var(--tg-color-progressive) !important;font-weight:700 !important}
-.tg-footer-progress .dot{margin:0 0.5rem !important;opacity:0.5 !important}
+.tg-footer{position:relative !important;margin-top:3.5rem !important;
+  background:var(--tg-color-surface-2) !important}
+/* The plate: a deeper cream than the page (surface-3, not surface-2). */
+.tg-footer-plate{position:relative !important;z-index:2 !important;
+  background:#efe0c6 !important;
+  clip-path:polygon(0 0, 100% 0, 100% calc(100% - 92px), calc(100% - 232px) 100%, 0 100%) !important}
+html[data-theme="dark"] .tg-footer-plate{background:#14100c !important}
+/* The bottom padding is not decoration: the plate's bottom-right corner is
+   clipped away, so anything sitting in that band is cut off with it. Reserving
+   the chamfer's height keeps the meta row clear of the diagonal. */
+.tg-footer .inner{max-width:1180px !important;margin:0 auto !important;
+  padding:2.5rem 2rem calc(92px + 0.4rem) !important}
 
-.tg-footer-col{display:flex !important;flex-direction:column !important;gap:0.55rem !important;text-align:left !important}
-.tg-footer-col h4{margin:0 0 0.35rem !important;font-family:var(--tg-font-family-body) !important;
-  font-size:0.7rem !important;font-weight:600 !important;letter-spacing:0.12em !important;
-  text-transform:uppercase !important;color:var(--tg-color-subtle) !important;opacity:0.85 !important}
-.tg-footer-col a{color:var(--tg-color-base) !important;font-size:0.875rem !important;text-decoration:none !important;
-  padding:0 !important;background:none !important;border:0 !important;
-  transition:color .15s ease,transform .2s ease !important}
-.tg-footer-col a:hover{color:var(--tg-color-progressive) !important;transform:translateX(3px) !important}
-.tg-footer-col a:focus-visible{outline:2px solid var(--tg-color-progressive);outline-offset:3px;border-radius:2px}
-
-.tg-footer-bottom{margin-top:2.6rem !important;padding:1.1rem 0 1.3rem !important;display:flex !important;
-  justify-content:space-between !important;align-items:center !important;gap:1rem !important;flex-wrap:wrap !important;
-  border-top:1px solid color-mix(in srgb,var(--tg-color-base) 14%,transparent) !important;
-  color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
-.tg-footer-copy,.tg-footer-credits{font-style:normal !important}
-
-/* The mark. .tg-footer-mark is the window; .tg-footer-line is the row of type,
-   sized in vw so it always overflows that window horizontally. */
-.tg-footer-mark{position:relative !important;overflow:hidden !important;
-  /* the left chrome rail is fixed over the page's left edge, so the mark is
-     measured from the rail's edge instead of the window's: centred in the
-     space that is actually visible. --mfs is the font size that makes the
-     measured 4.46em of ink 102% of that space. */
-  --mfs:calc((100vw - 56px) * 0.2287);
-  margin-left:56px !important;
-  height:calc(var(--mfs) * 0.49) !important;margin-top:2.2rem !important;
-  display:flex !important;align-items:flex-start !important;justify-content:center !important}
-.tg-footer-line,.tg-footer-line i{font-family:"Grenze Gotisch",serif !important}
-.tg-footer-line{display:flex !important;align-items:flex-start !important;
-  gap:0.12em !important;width:max-content !important;flex:none !important;
-  margin-top:-0.21em !important;
-  font-size:var(--mfs) !important;line-height:1 !important;
-  font-family:"Grenze Gotisch",serif !important;font-weight:600 !important;
-  letter-spacing:-0.022em !important;white-space:nowrap !important;
-  will-change:transform !important}
-/* Grenze Gotisch is a display face; at this size the two-colour gradient has to
-   be a real two-colour step, not the full ring ramp, or the pale stops erase
-   the thinner strokes. */
-.tg-footer-line i{font-family:"Grenze Gotisch",serif !important;font-style:normal !important;display:block !important;flex:none !important;
-  background-image:linear-gradient(178deg,#c04a50 0%,#8e2226 34%,#6d1416 62%,#a93a40 100%) !important;
+/* brand name as text - two lines, our own face, no image object */
+.tg-footer-top{display:flex !important;align-items:flex-start !important;justify-content:space-between !important;
+  gap:1.2rem !important;margin-bottom:2.7rem !important}
+.tg-footer-brandmark{display:inline-flex !important;flex-direction:column !important;gap:0.3rem !important;
+  text-decoration:none !important}
+.tg-footer-brand-han{font-family:"Grenze Gotisch",serif !important;font-size:1.5rem !important;
+  line-height:1 !important;letter-spacing:0.06em !important;color:#7a1c1c !important}
+html[data-theme="dark"] .tg-footer-brand-han{color:#dcb96a !important}
+.tg-footer-brand-lat{font-family:"Grenze Gotisch",serif !important;font-weight:600 !important;
+  font-size:1.9rem !important;line-height:1 !important;letter-spacing:0.01em !important;
+  background-image:linear-gradient(96deg,#c04a50 0%,#8e2226 52%,#6d1416 100%) !important;
   -webkit-background-clip:text !important;background-clip:text !important;
-  -webkit-text-fill-color:transparent !important;color:transparent !important;
-  filter:drop-shadow(0 2px 3px rgba(20,8,4,0.10)) !important}
-html[data-theme="dark"] .tg-footer-line i{
-  background-image:linear-gradient(178deg,#e8c878 0%,#b8862a 34%,#8f6316 62%,#dcb96a 100%) !important}
+  -webkit-text-fill-color:transparent !important;color:transparent !important}
+html[data-theme="dark"] .tg-footer-brand-lat{
+  background-image:linear-gradient(96deg,#e8c878 0%,#b8862a 52%,#dfbc6d 100%) !important}
+.tg-footer-brandmark:focus-visible{outline:2px solid #7a1c1c;outline-offset:4px;border-radius:3px}
 
-/* Each word gets its own parallax rate, set from JS; the fallback is none. */
-.tg-footer-line i[data-w="1"]{transform:translate3d(0,var(--py1,0px),0) !important}
-.tg-footer-line i[data-w="2"]{transform:translate3d(0,var(--py2,0px),0) !important}
-.tg-footer-line i[data-w="3"]{transform:translate3d(0,var(--py3,0px),0) !important}
+.tg-footer-actions{display:flex !important;align-items:center !important;gap:0.6rem !important;
+  flex-wrap:wrap !important;padding-top:0.35rem !important}
+.tg-footer-pill{display:inline-flex !important;align-items:center !important;justify-content:center !important;
+  padding:0.62rem 1.15rem !important;border-radius:999px !important;
+  background:#7a1c1c !important;color:#fdf6e8 !important;
+  font-size:0.82rem !important;font-weight:600 !important;letter-spacing:0.01em !important;
+  text-decoration:none !important;border:1px solid #7a1c1c !important;white-space:nowrap !important;
+  transition:background .16s ease,transform .16s ease !important}
+.tg-footer-pill:hover{background:#8e2226 !important;transform:translateY(-1px) !important}
+.tg-footer-pill:focus-visible{outline:2px solid #7a1c1c;outline-offset:3px}
+.tg-footer-pill.is-ghost{background:transparent !important;color:#3a2b22 !important;
+  border-color:rgba(58,43,34,.3) !important}
+.tg-footer-pill.is-ghost:hover{background:rgba(58,43,34,.08) !important;color:#3a2b22 !important}
+html[data-theme="dark"] .tg-footer-pill{background:#b8862a !important;border-color:#b8862a !important;color:#1a1410 !important}
+html[data-theme="dark"] .tg-footer-pill:hover{background:#d0a044 !important}
+html[data-theme="dark"] .tg-footer-pill.is-ghost{background:transparent !important;
+  color:var(--tg-color-base) !important;
+  border-color:color-mix(in srgb,var(--tg-color-base) 32%,transparent) !important}
+html[data-theme="dark"] .tg-footer-pill.is-ghost:hover{
+  background:color-mix(in srgb,var(--tg-color-base) 10%,transparent) !important}
 
-.sr-only{position:absolute !important;width:1px !important;height:1px !important;padding:0 !important;
-  margin:-1px !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;
-  white-space:nowrap !important;border:0 !important}
+/* three link columns, roomy leading, as in the reference */
+.tg-footer-cols{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:2rem !important;max-width:860px !important}
+.tg-footer-col{display:flex !important;flex-direction:column !important;gap:0.5rem !important;text-align:left !important}
+.tg-footer-col h4{margin:0 0 0.7rem !important;font-family:var(--tg-font-family-body) !important;
+  font-size:0.98rem !important;font-weight:600 !important;letter-spacing:0 !important;
+  text-transform:none !important;color:#241a14 !important;opacity:1 !important}
+html[data-theme="dark"] .tg-footer-col h4{color:var(--tg-color-base) !important}
+.tg-footer-col a{color:#4a3a30 !important;font-size:0.92rem !important;text-decoration:none !important;
+  padding:0 !important;background:none !important;border:0 !important;width:max-content !important;
+  max-width:100% !important;transition:color .15s ease,transform .2s ease !important}
+html[data-theme="dark"] .tg-footer-col a{color:var(--tg-color-subtle) !important}
+.tg-footer-col a:hover{color:#7a1c1c !important;transform:translateX(2px) !important}
+html[data-theme="dark"] .tg-footer-col a:hover{color:#dcb96a !important}
+.tg-footer-col a:focus-visible{outline:2px solid #7a1c1c;outline-offset:3px;border-radius:2px}
+
+/* the hairline meta row: tiny, letterspaced, sitting low in the plate */
+.tg-footer-meta{margin-top:2.9rem !important;padding-top:1.05rem !important;
+  display:flex !important;align-items:baseline !important;justify-content:space-between !important;
+  gap:0.6rem 1.6rem !important;flex-wrap:wrap !important;
+  border-top:1px solid rgba(58,43,34,.2) !important;
+  font-size:0.66rem !important;line-height:1.5 !important;
+  letter-spacing:0.1em !important;text-transform:uppercase !important;color:#6b5a4c !important}
+html[data-theme="dark"] .tg-footer-meta{
+  border-top-color:color-mix(in srgb,var(--tg-color-base) 16%,transparent) !important;
+  color:var(--tg-color-subtle) !important}
+.tg-footer-dedication{white-space:normal !important;flex:1 1 260px !important;min-width:0 !important}
+.tg-footer-dedication b{font-weight:600 !important;color:#3a2b22 !important}
+html[data-theme="dark"] .tg-footer-dedication b{color:var(--tg-color-base) !important}
+.tg-footer-progress,.tg-footer-copy{white-space:nowrap !important}
+.tg-footer-progress .n{color:#7a1c1c !important;font-weight:700 !important}
+html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
+.tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
+
+/* The panel: full-bleed under the plate, carrying the cast. It is pulled up
+   under the plate's clipped corner and filled with the plate's colour, so the
+   45deg seam is drawn once and belongs to both surfaces. */
+/* The panel is transparent in the overlap band and sits BELOW the plate. The
+   artwork therefore runs up underneath the plate's clipped corner, so the only
+   thing separating the two materials is the 45deg cut itself - one seam, not a
+   shape drawn on top of another. (Filling this band with the plate colour, as
+   a first pass did, simply paints the chamfer out of existence.) */
+.tg-footer-panel{position:relative !important;z-index:1 !important;
+  margin-top:-92px !important;background:transparent !important;overflow:hidden !important}
+/* A soft shadow along the top of the artwork, so the plate's cut edge has
+   something to read against. The plate is pale and the artwork's own ground is
+   pale, and without this the seam disappears into a wash of cream. */
+.tg-footer-panel::after{content:"" !important;position:absolute !important;z-index:2 !important;
+  top:0 !important;left:0 !important;right:0 !important;height:210px !important;
+  background:linear-gradient(to bottom,rgba(16,9,6,.62) 0%,rgba(16,9,6,.30) 42%,rgba(16,9,6,0) 100%) !important;
+  pointer-events:none !important}
+
+.tg-footer-art{position:relative !important;z-index:0 !important;margin:0 !important;
+  width:100% !important;aspect-ratio:1678 / 1080 !important;max-height:560px !important;
+  overflow:hidden !important}
+.tg-footer-art img{display:block !important;width:100% !important;height:100% !important;
+  object-fit:cover !important;object-position:center 30% !important}
+.tg-footer-art figcaption{position:absolute !important;z-index:3 !important;
+  left:1.5rem !important;bottom:1.4rem !important;right:auto !important;
+  margin:0 !important;padding:0.45rem 0.8rem !important;border-radius:999px !important;
+  background:rgba(16,9,6,.62) !important;
+  -webkit-backdrop-filter:blur(6px) !important;backdrop-filter:blur(6px) !important;
+  color:rgba(253,246,232,.92) !important;font-size:0.64rem !important;
+  letter-spacing:0.1em !important;text-transform:uppercase !important;text-align:left !important}
+.tg-footer-art figcaption b{font-weight:700 !important;color:#fdf6e8 !important}
+
+/* our two characters, low in the corner, where the reference signs off */
+/* The two characters, in a pill like the credit opposite it. Cream type on
+   cream artwork is invisible however large it is, so it gets its own ground -
+   which also mirrors the reference's logo mark sitting in the corner. */
+.tg-footer-mark{position:absolute !important;z-index:3 !important;
+  right:1.5rem !important;bottom:1.4rem !important;
+  display:inline-flex !important;align-items:center !important;
+  padding:0.3rem 0.7rem 0.42rem !important;border-radius:999px !important;
+  background:rgba(16,9,6,.62) !important;
+  -webkit-backdrop-filter:blur(6px) !important;backdrop-filter:blur(6px) !important;
+  font-family:"Grenze Gotisch",serif !important;font-size:1.05rem !important;
+  line-height:1 !important;letter-spacing:0.14em !important;
+  color:rgba(253,246,232,.92) !important;
+  pointer-events:none !important;user-select:none !important}
 
 @media(max-width:900px){
-  .tg-footer .inner{padding:2.4rem 1.5rem 0 !important}
-  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:2rem 1.5rem !important}
-  .tg-footer-brand{grid-column:1 / -1 !important}
-  .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
-    grid-template-columns:1fr 1fr !important;gap:0.55rem 1.5rem !important;align-content:start !important}
-  .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.1rem !important}
+  .tg-footer .inner{padding:2.2rem 1.5rem calc(56px + 0.4rem) !important}
+  .tg-footer-top{margin-bottom:2.1rem !important}
+  .tg-footer-cols{max-width:none !important;gap:1.5rem !important}
+  .tg-footer-meta{margin-top:2.2rem !important}
+  .tg-footer-plate{clip-path:polygon(0 0, 100% 0, 100% calc(100% - 56px), calc(100% - 150px) 100%, 0 100%) !important}
+  .tg-footer-panel{margin-top:-56px !important}
+  .tg-footer-panel::after{height:150px !important}
 }
 @media(max-width:720px){
-  .tg-footer{margin-top:2.5rem !important;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
-  .tg-footer .inner{padding:2rem 1.25rem 0 !important}
-  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.8rem 1.1rem !important}
-  .tg-footer-tag{max-width:none !important}
-  .tg-footer-col a{padding:0.15rem 0 !important}
-  .tg-footer-col:last-of-type{gap:0.7rem 1.1rem !important}
-  .tg-footer-bottom{margin-top:1.8rem !important;flex-direction:column !important;align-items:flex-start !important;gap:0.4rem !important}
-  /* The name is wider than the phone, so it gets a bigger crop ratio rather
-     than a smaller font: the point of the format is that it does not fit. */
-  /* On a phone the chrome rail is a fixed bar across the bottom of the page,
-     so there is no page edge for the type to be cut by: a cropped band here
-     would just look like a mistake floating above the bar. The mark is shown
-     whole instead, edge to edge, sitting above that bar - the same scale
-     contrast, honestly framed. */
-  .tg-footer-mark{--mfs:calc((100vw - 38px) * 0.2287) !important;
-    margin-left:38px !important;margin-top:1.4rem !important;
-    height:calc(var(--mfs) * 0.80) !important}
-  .tg-footer-line{gap:0.1em !important}
+  .tg-footer{margin-top:2.5rem !important;
+    padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
+  .tg-footer .inner{padding:1.9rem 1.25rem 1.6rem !important}
+  .tg-footer-top{flex-direction:column !important;align-items:flex-start !important;
+    gap:1.1rem !important;margin-bottom:1.8rem !important}
+  .tg-footer-brand-lat{font-size:1.65rem !important}
+  .tg-footer-actions{width:100% !important;padding-top:0 !important}
+  .tg-footer-pill{flex:1 1 auto !important;padding:0.6rem 0.9rem !important;font-size:0.76rem !important}
+  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.6rem 1.1rem !important}
+  .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
+    grid-template-columns:1fr 1fr !important;gap:0.5rem 1.1rem !important;align-content:start !important}
+  .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.35rem !important}
+  .tg-footer-meta{margin-top:1.7rem !important;gap:0.35rem !important;
+    flex-direction:column !important;align-items:flex-start !important;font-size:0.63rem !important}
+  .tg-footer-dedication{white-space:normal !important;flex:none !important;
+    align-self:stretch !important}
+  /* the step would eat most of a phone's plate, so it goes; the full-bleed
+     artwork and the mark are the parts that read at this size */
+  .tg-footer-plate{clip-path:none !important}
+  .tg-footer-panel{margin-top:0 !important;
+    padding-bottom:calc(8px + env(safe-area-inset-bottom,0px)) !important}
+  .tg-footer-panel::after{height:90px !important}
+  .tg-footer-art{aspect-ratio:16 / 11 !important;max-height:none !important}
+  .tg-footer-art img{object-position:center 24% !important}
+  .tg-footer-art figcaption{left:0.9rem !important;bottom:0.85rem !important;
+    font-size:0.6rem !important;padding:0.4rem 0.65rem !important}
+  .tg-footer-mark{right:0.9rem !important;bottom:0.85rem !important;
+    font-size:0.95rem !important;padding:0.28rem 0.55rem 0.38rem !important}
 }
