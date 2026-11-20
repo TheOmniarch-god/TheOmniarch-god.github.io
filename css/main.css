@@ -680,11 +680,11 @@ html:not([data-theme="dark"]) body::before{-webkit-mask-image:linear-gradient(to
 /* Pass 13: light-mode search panel is light; rail carries the author's face faintly */
 html:not([data-theme="dark"]) #search-box{background:#fbf6ee;border-color:rgba(60,30,10,.12);box-shadow:0 18px 50px rgba(60,30,10,.22)}
 html:not([data-theme="dark"]) #search-box input{color:#2a1d12;border-bottom-color:rgba(60,30,10,.1)}
-html:not([data-theme="dark"]) #search-box input::placeholder{color:#8a6d3b}
+html:not([data-theme="dark"]) #search-box input::placeholder{color:#8e2622}
 html:not([data-theme="dark"]) #search-suggest:not(:has(*))::before{color:#2a1d12}
-html:not([data-theme="dark"]) #search-suggest:not(:has(*))::after{color:#8a6d3b}
-html:not([data-theme="dark"]) #search-box::after{color:#8a6d3b;border-top-color:rgba(60,30,10,.1)}
-html:not([data-theme="dark"]) #search-box::before{background:#8a6d3b}
+html:not([data-theme="dark"]) #search-suggest:not(:has(*))::after{color:#8e2622}
+html:not([data-theme="dark"]) #search-box::after{color:#8e2622;border-top-color:rgba(142,38,34,.18)}
+html:not([data-theme="dark"]) #search-box::before{background:#8e2622}
 
 /* Pass 15: rail spacing like Gateway: seal well above search; search and menu closer */
 .rail{padding-top:1.3rem !important;gap:0.55rem !important}
@@ -736,7 +736,7 @@ html[data-theme="dark"] .wiki-topbar-img.logo-light{display:none}
 #search-suggest .s-title{font-weight:600;font-size:0.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #search-suggest .s-kind{font-size:0.78rem;color:#b8a470;margin-top:0.15rem}
 #search-suggest .s-empty{padding:0.9rem 1.1rem;color:#b8a470;font-size:0.9rem}
-html:not([data-theme="dark"]) #search-suggest .s-kind,html:not([data-theme="dark"]) #search-suggest .s-empty{color:#8a6d3b}
+html:not([data-theme="dark"]) #search-suggest .s-kind,html:not([data-theme="dark"]) #search-suggest .s-empty{color:#8e2622}
 html:not([data-theme="dark"]) #search-suggest button:hover{background:rgba(60,30,10,0.05)}
 html:not([data-theme="dark"]) #search-suggest .s-thumb{border-color:rgba(60,30,10,0.1)}
 #search-box #search-suggest{position:static;left:auto;right:auto;top:auto;box-shadow:none;border:0;border-radius:0;background:transparent}
@@ -2976,3 +2976,24 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
   .tg-footer-mark{right:0.9rem !important;bottom:0.85rem !important;
     font-size:0.95rem !important;padding:0.28rem 0.55rem 0.38rem !important}
 }
+
+/* Light is paper and red; the shared gold accents remain for the dark theme. */
+html:not([data-theme="dark"]) #search-trigger{background:linear-gradient(180deg,#9b2a2a,#7a1c1c)!important;color:#fff9ef!important;border:1px solid rgba(120,20,20,.25)!important;box-shadow:none!important}
+html:not([data-theme="dark"]) #search-box{border-color:rgba(142,38,34,.25)}
+html:not([data-theme="dark"]) #search-box input{color:#702020;border-bottom-color:rgba(142,38,34,.18)}
+html:not([data-theme="dark"]) #search-suggest mark{color:#a12c2f}
+html:not([data-theme="dark"]) #search-suggest button:hover,html:not([data-theme="dark"]) #search-suggest button:focus-visible{background:rgba(142,38,34,.08)}
+html:not([data-theme="dark"]) #search-suggest .s-thumb{border-color:rgba(142,38,34,.2)}
+html:not([data-theme="dark"]) #search-close{color:#8e2622}
+html:not([data-theme="dark"]) .read-hero-cover{background:linear-gradient(145deg,#e7a5a5 0%,#b13a3a 28%,#701c20 52%,#c65b5b 78%,#f2c7c7 100%)}
+html:not([data-theme="dark"]) .portal-grid .open-tile .sq{border-color:rgba(142,38,34,.4)}
+html:not([data-theme="dark"]) .sticky-head{border-bottom-color:rgba(142,38,34,.2)}
+html:not([data-theme="dark"]) .wiki-view.is-index .portal-box{border-color:rgba(142,38,34,.3)}
+html:not([data-theme="dark"]) .wiki-view.is-index .portal-box h4{border-bottom-color:rgba(142,38,34,.25)}
+html:not([data-theme="dark"]) .pf-chip{border-color:rgba(142,38,34,.35)}
+html:not([data-theme="dark"]) .tab-arrow{border-color:rgba(142,38,34,.4)!important;color:#8e2622!important;background:#f9efeb!important}
+html:not([data-theme="dark"]) .tab-arrow:hover:not(:disabled){background:#f1dcd8!important}
+html:not([data-theme="dark"]) .collection-feature .collection-directory-mark{background:linear-gradient(145deg,#481b1d,#8e2622);color:#fff1eb}
+html:not([data-theme="dark"]) .collection-categories-heading{border-bottom-color:#9b2a2a!important}
+html:not([data-theme="dark"]) .collection-tree-group,html:not([data-theme="dark"]) .collection-tree-group:last-child{border-color:rgba(142,38,34,.28);background:rgba(142,38,34,.045)}
+html:not([data-theme="dark"]) .collection-tree-group h4{border-bottom-color:rgba(142,38,34,.32);color:#8e2622}
