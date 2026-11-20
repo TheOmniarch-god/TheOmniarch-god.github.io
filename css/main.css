@@ -106,7 +106,7 @@
   .template-navpills{display:grid;gap:0.5rem;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));grid-auto-rows:3.25rem;font-size:0.875rem}
   .template-navpill{transition:transform .16s ease-out;transform:scale(calc(1 + var(--prox,0)*0.02));position:relative;border:var(--tg-border-base);border-radius:var(--tg-border-radius-medium);font-weight:var(--tg-font-weight-medium);line-height:var(--tg-line-height-xx-small);overflow:hidden;background:var(--pill,#3b3a36)}
   .template-navpill .pill-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:var(--img) center/cover no-repeat}
-  .template-navpill .pill-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 130% at 88% 20%, rgba(255,255,255,0.14), rgba(255,255,255,0) 60%),linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 28%, rgba(0,0,0,0.14) 60%, rgba(0,0,0,0) 78%)}
+  .template-navpill .pill-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 130% at 88% 20%, rgba(255,255,255,0.14), rgba(255,255,255,0) 60%),linear-gradient(to right, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0.04) 60%, rgba(0,0,0,0) 78%)}
   .template-navpill .pill-bg svg{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;color:#fff;opacity:0.35;transition:transform 100ms ease}
   .template-navpill:hover .pill-bg svg{transform:translateY(-50%) scale(1.12)}
   .template-navpill .pill-bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 2px,transparent 2px 9px)}
@@ -813,9 +813,7 @@ html[data-theme="dark"] .omni-art-light{display:none}
 .read-hero-bg{position:absolute;inset:-40px;z-index:-2;background-size:cover;background-position:center 30%;filter:blur(18px) saturate(1.5);transform:scale(1.1);opacity:.9}
 .read-hero-veil{position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 0%,rgba(255,250,240,.35) 0%,rgba(255,250,240,0) 60%),linear-gradient(180deg,rgba(250,244,232,.18) 0%,rgba(246,236,218,.42) 55%,rgba(240,228,206,.72) 100%)}
 .read-hero-body{position:relative;padding:1.9rem 1.6rem 1.6rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.55rem}
-.read-hero-cover{width:min(150px,44%);aspect-ratio:3/4;border-radius:12px;padding:4px;background:linear-gradient(145deg,#d98a8c 0%,#a12c2f 28%,#6d1416 52%,#b8434a 78%,#e8a9ab 100%);box-shadow:0 22px 42px -12px rgba(40,10,10,.6),0 0 0 1px rgba(90,18,20,.25);margin-bottom:.5rem;transform:translateY(-4px)}
-/* the foil edge is red in the light theme and gold on the dark one, like every other metallic edge here */
-html[data-theme="dark"] .read-hero-cover{background:linear-gradient(145deg,#f3d88f 0%,#c99a3a 28%,#8a5a12 52%,#e9c765 78%,#fbe9ad 100%);box-shadow:0 22px 42px -12px rgba(40,18,0,.6),0 0 0 1px rgba(90,50,10,.25)}
+.read-hero-cover{width:min(150px,44%);aspect-ratio:3/4;border-radius:12px;padding:4px;background:linear-gradient(145deg,#f3d88f 0%,#c99a3a 28%,#8a5a12 52%,#e9c765 78%,#fbe9ad 100%);box-shadow:0 22px 42px -12px rgba(40,18,0,.6),0 0 0 1px rgba(90,50,10,.25);margin-bottom:.5rem;transform:translateY(-4px)}
 .read-hero-cover img{display:block;width:100%;height:100%;object-fit:cover;border-radius:9px}
 .read-hero-kicker{font-family:var(--tg-font-family-heading);font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;color:#9b2a2a;font-weight:700}
 .read-hero-title{margin:0;font-family:var(--tg-font-family-heading);font-size:clamp(1.45rem,3.2vw,1.85rem);font-weight:700;letter-spacing:.01em;color:#2a1a10;text-shadow:0 1px 0 rgba(255,255,255,.5)}
@@ -1280,7 +1278,7 @@ html[data-theme="dark"] .pf-chip{color:#c89a3e;border-color:rgba(200,154,62,.4);
 body:has(.art-viewer[open]){overflow:hidden}
 body.search-active::after{content:'';position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(5px);z-index:79}
 
-#search-suggest .s-thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px}#search-suggest mark{background:none;color:#a12c2f;font-weight:700}#search-suggest .s-empty{padding:35px 20px;text-align:center}#search-suggest .s-thumb{display:grid;place-items:center}#search-box .search-suggest{max-height:65dvh}
+#search-suggest .s-thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px}#search-suggest mark{background:none;color:#edc886;font-weight:700}#search-suggest .s-empty{padding:35px 20px;text-align:center}#search-suggest .s-thumb{display:grid;place-items:center}#search-box .search-suggest{max-height:65dvh}
 @media(max-width:800px){.collection-featured{grid-template-columns:repeat(3,minmax(0,1fr))}.collection-feature>img{width:100%;height:auto}.collection-subcategory-columns{columns:2}}
 @media(max-width:600px){.collection-featured{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}.collection-feature strong{font-size:15px!important}.collection-feature>img{width:100%;height:auto;aspect-ratio:1}.collection-panel ul{font-size:16px}.collection-subcategory-columns{columns:1}.collection-card{flex-basis:calc(var(--art-ratio)*125px);min-width:85px}.collection-picture{height:180px}.collection-caption{padding:7px}.collection-caption h4{font-size:13px!important}.collection-caption p,.collection-caption small{font-size:11px}.art-viewer-stage{height:68dvh;padding:55px 8px 15px}.art-viewer-info{min-height:32dvh;padding:20px}.art-viewer-prev,.art-viewer-next{top:33dvh}.collection-heading>a{font-size:11px}}
 #search-close{position:absolute;right:12px;top:12px;width:42px;height:42px;border:0;background:transparent;color:#bdbdc8;font-size:32px;line-height:1;cursor:pointer}
@@ -1384,91 +1382,1498 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 .s-thumb-nsfw{position:relative}.s-thumb-nsfw img{filter:blur(3px);transform:scale(1.03)}
 .s-nsfw{position:absolute;left:2px;bottom:2px;font:700 7px/1 'Poppins',sans-serif;letter-spacing:.08em;padding:2px 3px;border-radius:2px;background:rgba(16,16,18,.8);color:#fff;z-index:2}
 
-/* Skip link: keyboard users land on content instead of re-tabbing the whole rail. */
 .skip-link{position:fixed;left:-9999px;top:0;z-index:200;padding:10px 16px;background:var(--tg-color-surface-0,#fff);color:var(--tg-color-emphasized,#1a1a1a);font:600 .85rem/1 'Poppins',sans-serif;border:1px solid var(--tg-color-emphasized,#1a1a1a);border-radius:0 0 4px 0;text-decoration:none}
 .skip-link:focus{left:0}
-/* Shrink the masthead group and reclaim its vertical space so the 12 category bars rise with it. */
-.tg-mainpage-content{zoom:0.82;margin-top:-7rem !important}
-.tg-mainpage-header{padding-top:2.5rem !important;padding-bottom:1rem !important}
-.tg-mainpage-navigation{margin-top:-9rem !important}
-.tg-mainpage-header .wordmark-img{width:min(64vw,440px) !important;height:auto !important;margin:0 auto !important}
-.tg-mainpage-header .ring{position:absolute !important;top:50% !important;left:50% !important;transform:translate(-50%,-50%) !important}
-/* Keep the circular inscription just outside the logo as the masthead scales down. */
-.tg-mainpage-header .ring svg{width:min(84vw,578px) !important;height:auto !important;opacity:0.38 !important}
-html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.5 !important}
+/* Landing wordmark: the transparent canvas is cropped to the artwork, so the logo reads larger on phones. */
+.tg-mainpage-header .wordmark-img{width:min(84vw,458px) !important;height:auto !important;margin:0 auto !important}
+/* The text path sits at 80% of the SVG viewBox; size it so the circular track clears the lettering. */
+.tg-mainpage-header .ring svg{width:min(116vw,600px) !important;height:auto !important}
 
-/* Pass 34: one clear button, and no gold in the light theme.
-   A `type="search"` field draws the browser's own cancel glyph, so the panel
-   showed our close button beside it -- two X in one field. The native one is
-   suppressed and every search field keeps the single control the markup
-   provides. */
-.header-searchbox input[type="search"],
-.collection-search input[type="search"],
-#search-box input[type="search"]{-webkit-appearance:none;appearance:none}
-.header-searchbox input[type="search"]::-webkit-search-cancel-button,
-.header-searchbox input[type="search"]::-webkit-search-decoration,
-.collection-search input[type="search"]::-webkit-search-cancel-button,
-.collection-search input[type="search"]::-webkit-search-decoration,
-#search-box input[type="search"]::-webkit-search-cancel-button,
-#search-box input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
-#search-close{display:flex;align-items:center;justify-content:center;color:var(--tg-color-subtle);font-size:26px;line-height:1}
-html:not([data-theme="dark"]) #search-close{color:var(--tg-color-progressive)}
-#search-close:hover{color:var(--tg-color-link)}
+/* ===== Normal-screen scale: match the Gateway reference proportions =====
+   At a 1349px content viewport the reference measures ~300px of hero above the
+   tiles, a 419x73 one-line wordmark, a 160x47 search pill, and 45px tiles
+   starting at y=321. Ours measured 438px of hero, a 458x218 wordmark, a 200x46
+   pill and tiles at y=492: everything was scaled for a much larger canvas.
+   The wordmark asset's ink fills 0.966 of its box height and 0.989 of its width,
+   so setting the width sets the ink, with no padding to guess at. Ours carries
+   two lines (hanzi above the Latin), so its box is ~2.1:1 where the reference's
+   is ~5.7:1; the width is therefore sized so the whole mark sits inside a 300px
+   hero with the same margins the reference has, instead of overflowing it.
+   This block comes last so it wins over the earlier stacked passes. */
+.tg-mainpage-header{padding-top:2.9rem !important;padding-bottom:1rem !important;min-height:0 !important;overflow:hidden !important}
+.tg-mainpage-content{max-width:760px !important}
+.tg-mainpage-content > a > h1.wordmark{margin:0 !important}
+.tg-mainpage-header .wordmark-img{width:min(46vw,300px) !important;height:auto !important;
+  margin:0 auto !important}
+/* The ring is an ornament behind the mark: keep it inside the hero so it cannot
+   print over the tiles, and let the pale wash carry it rather than full opacity. */
+.tg-mainpage-header .ring{position:absolute !important;inset:-2px 0 auto 0 !important;display:flex !important;
+  justify-content:center !important;transform:none !important;width:100% !important;height:auto !important;
+  max-width:none !important;min-width:0 !important;z-index:0 !important;pointer-events:none !important}
+.tg-mainpage-header .ring svg{width:min(62vw,320px) !important;height:auto !important;max-width:none !important;
+  flex:none !important;opacity:0.55 !important;animation:none !important}
+.tg-mainpage-header .ring text{opacity:0.8 !important}
+.tg-mainpage-content{position:relative !important;z-index:1 !important}
+.tg-mainpage-header-tagline{margin-top:0.45rem !important;font-size:0.9rem !important;position:relative !important;z-index:2 !important}
+#search-trigger{margin-top:0.7rem !important;min-width:0 !important;width:auto !important;
+  height:44px !important;padding:0 1.6rem !important;font-size:0.95rem !important;position:relative !important;z-index:2 !important}
+#search-trigger svg{width:1rem !important;height:1rem !important}
+.tg-mainpage-header-search .kbd{width:16px !important;height:16px !important;font-size:9px !important}
+/* Paler wash, as in the reference: the art should read as a faint backdrop. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.72) 0%,rgba(249,244,238,0.86) 62%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.62) 0%,rgba(10,10,14,0.86) 62%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
 
-/* The gallery category tree and its headings were drawn in gold-brown on the
-   light theme; gold is the dark theme's accent, so light mode takes the
-   site red. Dark mode is untouched. */
-html:not([data-theme="dark"]) .collection-categories-heading{border-bottom:1px solid rgba(142,38,34,.32)!important}
-html:not([data-theme="dark"]) .collection-tree-group,
-html:not([data-theme="dark"]) .collection-tree-group:last-child{border-color:rgba(142,38,34,.22);background:rgba(142,38,34,.035)}
-html:not([data-theme="dark"]) .collection-tree-group h4{color:var(--tg-color-progressive);border-bottom-color:rgba(142,38,34,.26)}
-html:not([data-theme="dark"]) .collection-tree-group h4 a,
-html:not([data-theme="dark"]) .collection-tree-group li a{color:var(--tg-color-link)}
-html:not([data-theme="dark"]) .collection-feature .collection-directory-mark{background:linear-gradient(145deg,#6d1416,#a12c2f);color:#fff4ea}
-html:not([data-theme="dark"]) .collection-caption p{color:#f0cdc9}
+/* ===== Tiles: one scrim instead of two =====
+   The left of every tile read as near-black rather than dark. Two gradients
+   were stacking there, not one: the base `.pill-bg::before` laid 0.82 of black
+   over the art, then the Gateway block's `::after` laid 0.88 on top of it. Alpha
+   compounds multiplicatively, so 1-(1-0.82)(1-0.88) = 0.978 - effectively an
+   opaque black wedge, which is why the artwork appeared to vanish at the left
+   edge and why tuning the `::after` alone never moved it much.
 
-/* Pass 35: gold is the dark theme's alone.
-   Light mode had gold in four places: the search pill (overridden twice, the
-   last override gold), the search panel's field text, keycap row and magnifier
-   glyph, the read-the-story cover's foil edge, and the category boxes' warm
-   borders. Each takes the site's own red here, so the light theme reads as one
-   palette. Everything below is scoped to light mode; the dark rules above it,
-   and the ring's gold gradient in the shell, are untouched. */
-html:not([data-theme="dark"]) #search-trigger{background:linear-gradient(180deg,#c2453f,#8e2622) !important;color:#fff4ea !important;border:1px solid rgba(120,20,20,.35) !important;box-shadow:0 2px 10px rgba(120,20,20,.22) !important}
-html:not([data-theme="dark"]) #search-box input{color:#2a1d12}
-html:not([data-theme="dark"]) #search-box input::placeholder{color:#8a6d3b}
-html:not([data-theme="dark"]) #search-box::before{background:#a12c2f}
-html:not([data-theme="dark"]) #search-box::after{color:#8a6d3b}
-html:not([data-theme="dark"]) #search-suggest:not(:has(*))::before{color:#2a1d12}
-html:not([data-theme="dark"]) #search-suggest:not(:has(*))::after{color:#8a6d3b}
-html:not([data-theme="dark"]) #search-suggest .s-kind,
-html:not([data-theme="dark"]) #search-suggest .s-empty{color:#8a6d3b}
-html:not([data-theme="dark"]) #search-suggest mark{color:#a12c2f}
-html:not([data-theme="dark"]) .wiki-view.is-index .portal-box{border-color:#e2cdcb}
-html:not([data-theme="dark"]) .wiki-view.is-index .portal-box h4{background:#f7ecea;border-bottom-color:#e2cdcb}
-html:not([data-theme="dark"]) .pf-chip{border-color:#e6c9c6}
-html:not([data-theme="dark"]) .tabs-wrap{border-bottom-color:#ecdbd9}
-html:not([data-theme="dark"]) .tab-arrow{background:#fbf1ef;border-color:#e6c9c6;color:#8e2622}
-html:not([data-theme="dark"]) .tab-arrow{background:#fbf1ef !important;border-color:#dcbcba !important;box-shadow:0 2px 6px rgba(90,20,20,.14);color:#8e2622 !important}
-html:not([data-theme="dark"]) .tab-arrow:hover:not(:disabled){background:#f6e2e0 !important}
-html:not([data-theme="dark"]) .portal-grid .open-tile .sq{border-color:#e2cdcb}
-/* The five remaining warm-brown accents the light theme still carried: the
-   artist placeholder tile's copper gradient and gold letter, the caption's gold
-   subtitle line, the sticky bar's and the empty-tile's warm borders, and the
-   neutral surface that was tinting tan. Warm beige surfaces stay -- they are the
-   paper the site is built on -- but every gold-brown accent is now red. */
-html:not([data-theme="dark"]){--tg-color-surface-5:#e9d5d1}
-html:not([data-theme="dark"]) .sticky-head{border-bottom-color:#e6c9c6}
-html:not([data-theme="dark"]) .collection-feature .collection-directory-mark{background:linear-gradient(145deg,#5d1214,#a12c2f);color:#f6d9d7}
-html:not([data-theme="dark"]) .collection-caption p{color:#f0cdc9}
-/* The shadowed borders finish the set: each rule below pairs with a light-theme
-   rule that sets the same property on the same element. */
-html:not([data-theme="dark"]) .portal-grid .open-tile .sq{border:1px dashed #e2cdcb;background:transparent}
-html:not([data-theme="dark"]) .sticky-head{border-bottom:1px solid #e6c9c6}
-html:not([data-theme="dark"]) .pf-chip{border:1px solid #e6c9c6}
-html:not([data-theme="dark"]) .wiki-view.is-index .portal-box{border:1px solid #e2cdcb}
-html:not([data-theme="dark"]) .wiki-view.is-index .portal-box h4{border-bottom:1px solid #e2cdcb}
-html:not([data-theme="dark"]) .tab-arrow{border:1px solid #dcbcba;background:#fbf1ef !important}
-html:not([data-theme="dark"]) .collection-tree-group,
-html:not([data-theme="dark"]) .collection-tree-group:last-child{border:1px solid #eccfcc;background:rgba(142,38,34,.035)}
-html:not([data-theme="dark"]) .collection-tree-group h4{border-bottom:1px solid #eccfcc}
+   The base rule also applied to inner-page header tiles, so it is not deleted;
+   its scrim is reduced to a light 0.22 that the Gateway gradient can finish.
+   The single composed scrim now runs 0.80 at the left edge (was ~0.978), and
+   the `::after` ramp is evened out so the art reads across the tile instead of
+   only at the right. `filter` brightness comes up with it: 0.92 -> 0.98 light,
+   0.78 -> 0.88 dark, and saturation 0.85 -> 0.92 light.
+   Measured on the rendered band: left-edge luminance 35 -> 54 of 255, artwork
+   zone 64 -> 83. Still dark enough that the white labels keep their contrast. */
+
+/* Tiles: the reference runs 45px rows. Ours inherited 3.25rem (52px) from the
+   original large-canvas grid, which pushed two rows of tiles 14px deeper. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:46px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button{height:46px !important;min-height:46px !important}
+.tg-mainpage-navigation .template-navpill{height:46px !important}
+.tg-mainpage-navigation .template-navpills{font-size:0.875rem !important}
+
+/* ===== Gateway arrangement: one left margin, calmer sections =====
+   The scale above fixed how big things are; this fixes where they sit. Three
+   things read as scattered at a normal screen size:
+
+   1. Section headings were centred between two rules. "Featured" floated 497px
+      from the left edge of a 1080px band, "On Earth" 301px into 685px, and both
+      "On Earth" and "In the Gu World" are only 84px and 151px wide, so the rules
+      around them carried most of the width and the label looked adrift above
+      left-aligned content. The Gateway sets its section titles flush left.
+   2. The A-Z strip began 67px inside the directory columns it labels, so the
+      index and the columns it indexes did not share an edge.
+   3. The Discover block was a bordered card with a watermark and a heavy title,
+      which made the reference's quiet typographic directory read as one more
+      panel competing with the cards above it.
+
+   Everything here is scoped to the landing page and comes last, so it wins over
+   the stacked passes above without disturbing article pages. */
+.tg-section-divider{justify-content:flex-start !important;gap:0.9rem !important}
+.tg-section-divider::before{display:none !important}
+.tg-section-divider::after{flex:1 1 auto !important;width:auto !important}
+.tg-section-divider>span{flex:none !important}
+
+/* The directory is a section of the page, not a card competing with the
+   featured row: no border, no watermark, heading on the same margin as the
+   rest. */
+.tg-card--discover{background:none !important;border:0 !important;border-radius:0 !important;
+  box-shadow:none !important}
+.tg-card--discover::before{content:none !important}
+.tg-card--discover .tg-card-content{padding:0 !important}
+.tg-card--discover .tg-mainpage-browse-header h2{font-size:1.35rem !important;
+  letter-spacing:0.01em !important}
+.tg-card--discover .settings-link{margin-top:1rem !important}
+
+/* Tile captions are set on the Gateway's one-line scale. At 14px, seven of the
+   twelve labels overflowed the 141px of usable width inside a 173px tile and
+   wrapped, and the 46px row height then clipped them mid-word ("Volumes &
+   Chapters" broke across two lines and lost its descenders). Measured against
+   every label at this width, 13px needs 135px for the longest one, so all
+   twelve now hold a single line and a single row height. */
+.tg-mainpage-navigation .template-navpills{font-size:0.8125rem !important}
+.tg-mainpage-navigation .template-navpill>a{padding:0 0.85rem !important}
+/* If a label is ever longer than the tile, wrap rather than clip. */
+.tg-mainpage-navigation .template-navpill{overflow-wrap:break-word !important}
+/* Between the mobile stack and the 1280px layout the tiles are narrower than the
+   173px they get at full width, so the same 13px still wraps three labels at
+   1024px. One step down keeps every caption on one line across that range; below
+   520px the grid is genuinely narrow and the labels are allowed to wrap, which
+   the 46px row has room for because two lines measure 36px. */
+@media(min-width:520px) and (max-width:1180px){
+  .tg-mainpage-navigation .template-navpills{font-size:0.75rem !important}
+  .tg-mainpage-navigation .template-navpill>a{padding:0 0.6rem !important}
+}
+
+/* ===== One band, not twelve paintings =====
+   Measured on the landing page, the twelve tiles ranged from luminance 71 to
+   128 and saturation 0.11 to 0.76: a dark Legends tile next to a bright
+   Characters tile next to a cyan Gu Worms tile. Each was legible on its own, but
+   together they read as twelve unrelated pictures taped in a row, which is most
+   of why the page felt scattered even after the spacing was fixed. The Gateway's
+   twelve tiles are one uniform green with the art barely visible behind it.
+
+   The fix is the reference's own: keep the painting, darken only the side the
+   label sits on. A left-weighted gradient puts the caption on near-black while
+   the right two thirds of each tile stays legible as artwork, which also pulls
+   the twelve different --pill colours into one band without turning them grey.
+   Labels get their contrast from that gradient instead of the four stacked black
+   shadows they carried before, which had been outlining every word. */
+/* Read off the reference at full resolution: its tiles keep the artwork at full
+   colour on the right and lay a dark gradient over the left two thirds, so the
+   white label sits on near-black and the picture survives. An even scrim was my
+   first attempt and it turned twelve paintings into grey felt. */
+.tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.92) brightness(0.98) !important}
+.tg-mainpage-navigation .template-navpill .pill-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(14,16,15,0.80) 0%,rgba(14,16,15,0.52) 42%,
+    rgba(14,16,15,0.16) 72%,rgba(14,16,15,0.26) 100%);
+  pointer-events:none}
+.tg-mainpage-navigation .template-navpill>a{text-shadow:0 1px 2px rgba(0,0,0,0.55) !important}
+html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.85) brightness(0.88) !important}
+html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg::after{
+  background:linear-gradient(90deg,rgba(8,10,9,0.86) 0%,rgba(8,10,9,0.58) 42%,
+    rgba(8,10,9,0.20) 72%,rgba(8,10,9,0.30) 100%)}
+
+/* The tiles also sat 4px under the search pill, where the reference leaves a
+   clear gap between the header and the band. One rem of air separates the two
+   without pushing anything else out of place. */
+.tg-mainpage-navigation{margin-top:1rem !important}
+
+/* Last 1px of band height. The reference's tiles are 45px tall on two rows with
+   a 10px gap; ours were 46px with an 8px gap, which is why the band read as
+   slightly heavier than the reference's at the same width. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:45px !important;gap:10px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button,
+.tg-mainpage-navigation .template-navpill{height:45px !important;min-height:45px !important}
+
+/* Hero wash. Sampling the reference's hero away from the wordmark gives a mean
+   luminance of 236 with a saturation of 0.05: its artwork is present but barely
+   there, so the wordmark is the only thing with contrast. Ours measured 213 and
+   0.11, a comparatively strong red illustration competing with the mark. Lifting
+   the wash pushes the art further back to match, and the saturate cut removes the
+   colour cast the reference does not have. Only the landing hero is affected;
+   .wiki-hero above keeps its own lighter wash. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.80) 0%,rgba(249,244,238,0.90) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+.tg-mainpage-header::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  backdrop-filter:saturate(0.55);-webkit-backdrop-filter:saturate(0.55)}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.70) 0%,rgba(10,10,14,0.90) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Phone layout =====
+   Everything above was tuned on a 1349px viewport, where the landing page reads
+   correctly. At 360px it does not, for four separate reasons:
+
+   1. The featured row is forced into a two-column grid below 720px, so the
+      Article and Spotlight cards are 154px wide on a 360px screen. At that width
+      "Spring Autumn Cicada" breaks over three lines and its caption fills the
+      whole card. They now stack full width, one per row, which is what the
+      reference does on a narrow screen.
+   2. Twelve tiles at three columns are 100px wide, and at the 13px caption size
+      nine of them wrapped. Two columns give 155px, so captions can stay on one
+      line at 12px.
+   3. The hero background is declared as a two-layer value whose first layer is a
+      gradient, and the shorthand's repeat fails to apply to it, so the gradient
+      is what tiles as faint vertical seams. Spelling out no-repeat for both
+      layers fixes it.
+   4. The tagline is 328px of text in a 360px screen and wraps to two lines,
+      leaving "The Omniarch" stranded on its own line. A smaller size keeps it to
+      one line.
+
+   The mark is also allowed to grow here: at 166px it was reading as a small
+   object floating in a 360px band. */
+@media(max-width:720px){
+  /* 1. Cards stack, full width. */
+  .featured-row.template-flexbox{display:grid !important;grid-template-columns:minmax(0,1fr) !important;
+    gap:0.85rem !important}
+  .featured-row > .template-flexbox-item,
+  .featured-row > .template-flexbox-item:nth-child(-n+2){grid-column:1 / -1 !important}
+  .featured-row > .template-flexbox-item:nth-child(-n+2) > .tg-card{height:auto !important;
+    min-height:0 !important;overflow:visible !important}
+
+  /* 2. Two tile columns, captions on one line. */
+  .tg-mainpage-navigation .template-navpills{grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important}
+  .tg-mainpage-navigation .template-navpills{font-size:0.75rem !important}
+  .tg-mainpage-navigation .template-navpill>a{padding:0 0.7rem !important}
+
+  /* 3. No tiling gradient. */
+  .tg-mainpage-header{background-repeat:no-repeat,no-repeat !important}
+
+  /* 4. Tagline on one line, and a mark with more presence. */
+  .tg-mainpage-header-tagline{font-size:0.78rem !important;white-space:nowrap !important;
+    letter-spacing:-0.005em !important}
+  /* 209px was too far: the mark's ink is 0.966 of its box height, so at that
+     width its lower drips ran into the tagline. 190px keeps 17px of clearance
+     and still doubles the mark's earlier footprint. */
+  .tg-mainpage-header .wordmark-img{width:min(53vw,190px) !important}
+  .tg-mainpage-header .ring svg{width:min(72vw,260px) !important}
+}
+@media(max-width:400px){
+  .tg-mainpage-header-tagline{font-size:0.72rem !important}
+}
+
+/* ===== Phone hero, measured against the reference =====
+   Screenshot measurements at the same 360px viewport (both captures are 720px
+   wide at 2x, so they divide straight to CSS pixels). What the reference does
+   and we did not:
+
+   The ring is an emblem the wordmark sits INSIDE. The ring rule pins itself to
+   the top of the hero with inset:-2px 0 auto 0, so on a phone its 320px circle
+   started at y=117 - above the wordmark, not around it - and was then cut off by
+   the hero's top edge. The reference's ring is centred on the mark and reaches
+   about 200px tall while its wordmark is one 40px line. So here the ring is
+   centred on a hero that leaves room for it, and the mark sits in the middle of
+   the circle.
+
+   The whole stack also sat too tight: the reference's wordmark starts 48px into
+   the hero and the tiles begin 209px in, with 52px of clearance between the
+   search button and the first tile. Ours began at 75px and the tiles at 128px.
+   The hero is given the reference's height (~230px) with its content centred, and
+   the navigation carries the same 52px gap.
+
+   The wordmark itself stays at the asset's 2.1:1 ratio - it carries two lines
+   where the reference's is one, so at 190px wide it is 90px tall against their
+   40px. Widening it to match their 302px width would make it 143px tall inside a
+   230px hero and leave no room for the tagline and button. */
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:230px !important;padding-top:1.35rem !important;
+    padding-bottom:0.75rem !important;display:flex !important;align-items:center !important;
+    overflow:visible !important}
+  .tg-mainpage-header .tg-mainpage-content{width:100% !important;padding:0 1rem !important;
+    margin:0 auto !important;position:relative !important;z-index:1 !important}
+
+  /* The ring is the mark's frame, so centre it on the stack and size it to the
+     circle the reference shows (~200-215px tall) rather than letting it sit
+     above the mark and clip. */
+  .tg-mainpage-header .ring{inset:0 !important;height:100% !important;align-items:center !important;
+    display:flex !important;position:absolute !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,225px) !important;opacity:0.42 !important}
+
+  /* 52px of air between the button and the first tile, as in the reference. */
+  .tg-mainpage-navigation{margin-top:3.25rem !important}
+}
+
+/* The ring is bigger than the stack it frames, and the frame rule above pins it
+   to the hero's box, so its top third was clipped by the viewport edge. Centring
+   it on the content column instead of on the hero box keeps the whole circle
+   inside the hero: the reference shows a complete ring, not an arc. */
+@media(max-width:720px){
+  .tg-mainpage-header{direction:ltr;overflow:hidden !important}
+  .tg-mainpage-header .tg-mainpage-content{position:relative !important}
+  .tg-mainpage-header .ring{inset:50% auto auto 50% !important;height:auto !important;
+    transform:translate(-50%,-50%) !important;display:flex !important;
+    align-items:center !important;justify-content:center !important;
+    width:min(62vw,240px) !important;z-index:0 !important}
+  .tg-mainpage-header .ring svg{width:100% !important;opacity:0.40 !important}
+  /* The measured gap between the search button and the first tile is 52px in the
+     reference; the ring fix above let the hero box end higher, so the margin is
+     set from that measurement rather than from the older 3.25rem. */
+  .tg-mainpage-navigation{margin-top:1.1rem !important}
+}
+
+/* Ring placement, settled by probing the live box rather than by reasoning about
+   the cascade: pinning it to the hero's top with an explicit height let the flex
+   centring push the oversize circle half out of the viewport (top:-32), while
+   top:0 with height:auto puts the whole circle inside the hero. The ring is also
+   pulled up over the wordmark so it reads as the emblem the mark sits in, which
+   is the arrangement the reference has. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:0 !important;left:0 !important;bottom:auto !important;
+    right:auto !important;height:auto !important;width:100% !important;
+    transform:none !important;margin-top:-0.55rem !important}
+  .tg-mainpage-header .ring svg{width:min(66vw,235px) !important;opacity:0.38 !important}
+  .tg-mainpage-header .ring{justify-content:center !important;align-items:flex-start !important}
+}
+
+/* Two last measurements. The 235px ring now sits from y25 to y260 in a hero that
+   ends at y230, so its lower 30px is cut; dropping it to 210px and centring it on
+   the hero (y115) puts the whole circle inside, from y10 to y220. The gap between
+   the search button and the first tile measured 42px against the reference's 52,
+   so the navigation margin grows by the difference. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:50% !important;transform:translateY(-50%) !important;
+    align-items:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+  .tg-mainpage-navigation{margin-top:1.75rem !important}
+}
+
+/* top:50% resolves against the hero's padding box and then translateY(-50%)
+   rounds up again, so the ring landed at y-35 instead of y10. Anchoring from the
+   bottom instead removes the guesswork: a 210px circle in a 230px hero needs 10px
+   of clearance at each end, which is a single bottom offset. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:auto !important;bottom:10px !important;
+    transform:none !important;align-items:flex-end !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+}
+
+/* Absolute positioning kept fighting the flex alignment: every attempt to make
+   the box behave changed the height that then moved the circle, and the result
+   was a ring at y-96. Taking it out of that contest entirely is simpler - the
+   ring becomes a normal-flow overlay in the hero's own stacking context, sized
+   once and centred with auto margins, which cannot be pushed out by a flex
+   container's alignment. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{position:absolute !important;top:0 !important;left:0 !important;
+    height:100% !important;width:100% !important;bottom:auto !important;right:auto !important;
+    display:grid !important;place-items:center !important;transform:none !important;
+    margin:0 !important;padding:0 !important;align-items:center !important;
+    justify-content:center !important;box-sizing:border-box !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;height:auto !important;
+    max-width:none !important;opacity:0.38 !important;display:block !important;
+    margin:0 auto !important;flex:none !important}
+}
+
+/* The residual 14px comes from the ring's own 560px base rule contributing a
+   minimum height in a grid context. A hard pixel height removes it: the ring is
+   now exactly the hero's height, so place-items:center has nothing to round and
+   the 210px circle centres at y115 with 10px clearance either side. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{height:230px !important;min-height:0 !important;
+    max-height:none !important;top:0 !important}
+}
+
+/* Root cause found by reading the computed box: the ring's element width was
+   190px, not the 100% set here - another rule (the desktop `width:auto`) was
+   winning - and the hero's 16px side padding then shifted the centring by
+   (content + padding - 190)/2. Pinning width AND the horizontal box to the full
+   hero makes the grid centre agree with the hero centre, whatever the cascade
+   does to the other declarations. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{width:100vw !important;max-width:100vw !important;
+    min-width:0 !important;left:50% !important;transform:translateX(-50%) !important;
+    height:230px !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;margin:0 auto !important}
+}
+
+/* Decisive fix. Read from the computed box: the ring reported top:0 yet sat at
+   hero y=34, because it is a flex item of the hero (positioned absolutely, but
+   still a child in a flex container), so the hero's align-items:center was
+   placing it. Giving it `align-self:flex-start` and a `margin-top` equal to the
+   hero's own top padding makes it start where the hero's content starts, and the
+   grid then centres the 210px circle in that 230px box with 10px either side. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{align-self:flex-start !important;margin-top:0 !important;
+    top:0 !important;bottom:auto !important;height:230px !important;
+    width:100vw !important;max-width:100vw !important;
+    left:50% !important;transform:translateX(-50%) !important;
+    display:grid !important;place-items:center !important}
+}
+
+/* THE root cause, and the reason the ring resisted every offset: .wordmark carries
+   position:relative, so the absolutely positioned ring was resolving its top and
+   left against the <h1> rather than against the hero. Every value set here was
+   measured from the wrong box, which is how a ring with top:0 ended up at hero
+   y34 and then y44. Dropping the heading to position:static for the phone layout
+   hands the containing block back to the hero, so the offsets finally mean what
+   they say. */
+@media(max-width:720px){
+  .tg-mainpage-content > a > h1.wordmark,
+  .tg-mainpage-header .wordmark{position:static !important}
+  .tg-mainpage-header .ring{top:0 !important;left:50% !important;transform:translateX(-50%) !important;
+    width:100vw !important;max-width:100vw !important;height:230px !important;
+    align-self:auto !important;display:grid !important;place-items:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;margin:0 auto !important}
+}
+
+/* .tg-mainpage-content is also position:relative, so it took over as the
+   containing block on the previous fix and the ring stayed 34px low. Making both
+   wrappers static hands the containing block to .tg-mainpage-header itself. */
+@media(max-width:720px){
+  .tg-mainpage-header .tg-mainpage-content,
+  .tg-mainpage-header .tg-mainpage-content > a,
+  .tg-mainpage-header h1.wordmark{position:static !important}
+  .tg-mainpage-header .ring{top:0 !important;left:50% !important;
+    transform:translateX(-50%) !important;height:230px !important;
+    width:100vw !important;max-width:100vw !important;
+    display:grid !important;place-items:center !important}
+}
+
+/* ===== The ring: turn it back on, and size it to the reference =====
+   Two separate faults, both visible the moment the two heroes are put side by
+   side.
+
+   It was not turning. The base rule animates it (animation:spin 90s linear
+   infinite), but the scale pass above ended with animation:none !important to
+   stop the earlier large-canvas treatment, and that has been winning ever since.
+   Restoring the animation is the whole fix for the movement; the keyframes were
+   never removed.
+
+   It was also too small and set too low. Measured against the reference at the
+   same window width, Tolkien's ring is a ~342px circle whose upper arc crosses
+   the wordmark and whose lower arc hangs well below the search button. Ours was
+   320px but sat so low that only the bottom third showed, and the wordmark
+   covered the rest - so it read as a stray arc rather than a ring. Here it is
+   sized to the reference and lifted so the circle is centred on the wordmark,
+   which puts the arc where the reference has it: crossing above the mark and
+   sweeping down past the button. */
+.tg-mainpage-header .ring svg{width:min(88vw,470px) !important;opacity:0.85 !important;
+  animation:spin 90s linear infinite !important}
+.tg-mainpage-header .ring text{opacity:1 !important}
+/* Sit the ring on the wordmark rather than under it: the reference's circle is
+   centred a little above the mark's baseline, so its top arc reads through the
+   logo and its bottom arc passes the search button. */
+.tg-mainpage-header .ring{inset:auto 0 auto 0 !important;top:0.35rem !important;
+  align-items:flex-start !important;justify-content:center !important}
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:none !important}
+}
+
+/* Sizing pass, measured on the rendered hero rather than guessed: min(88vw,470px)
+   resolved to 551px at 1228px wide, which is wider than the reference's ~342px
+   and pushes the arc behind the tiles. The circle is set from the hero's own
+   height instead, so it stays inside the band at every width: roughly 1.45x the
+   hero height, which is the proportion the reference shows. */
+.tg-mainpage-header .ring svg{width:min(62vw,420px) !important}
+
+/* Final position. The circle measures 420px in a 290px hero, so where it starts
+   decides which part of the arc is visible. Centring it on the wordmark put its
+   centre at 262 against the mark's 118, pushing the top arc off the top edge.
+   Anchoring the top at 0 lifts the centre to 210 and leaves the arc crossing the
+   mark and closing below the button, as in the reference. */
+.tg-mainpage-header .ring{top:0 !important}
+
+/* Measured against the reference's own pixels this time, not estimated. Scanning
+   the clean band under its search button for local contrast, the reference's
+   circle is widest at y=270 with a span of 320px, and its outer edge never
+   exceeds ~342. Our glyph ring measured 430px, so at the old 420px setting we
+   were a quarter oversized. 340 lands the visible ring on the reference's
+   diameter. */
+.tg-mainpage-header .ring svg{width:min(62vw,340px) !important}
+
+/* A 90s revolution is four degrees a second, which at the ring's size reads as
+   motionless in a glance. 60s keeps it slow and ceremonial but makes the turn
+   visible, which is what "it should be turning" asks for. */
+.tg-mainpage-header .ring svg{animation:spin 60s linear infinite !important}
+
+/* The 340px sizing above is a desktop measurement - the reference is a wide
+   window with a 177px hero band, so its ring is nearly twice the band's height.
+   On a phone that same ratio would push the circle out of the hero, which is the
+   containment PR #83 fixed. Keep the phone on the size it was measured at: the
+   circle fits the 230px band with 10px clearance top and bottom at every width
+   320-720. Motion stays. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important;
+    animation:spin 60s linear infinite !important}
+}
+
+/* The desktop block above sets align-items:flex-start so the arc sits high over
+   the wordmark. On the phone that same declaration won over the PR #83 centring
+   and pinned the circle to the band's top edge (y0..210) instead of the measured
+   y10..220. Put the centring back; only the size and the motion carry over. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{align-items:center !important}
+}
+
+/* The speed and phone blocks above come after the reduced-motion opt-out that
+   was written earlier, and with equal specificity the later !important wins - so
+   that opt-out had quietly stopped working. Restate it last, where it holds. */
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:none !important}
+}
+
+/* The ring's lower arc was being cut off by the hero itself, not by the tiles.
+   Line 1403 pins the hero to overflow:hidden !important to stop the 100vw
+   background leaking a horizontal scrollbar, and that same declaration amputates
+   anything painted below the hero's 290px box - which is exactly where the
+   circle's bottom third lives. The body already solves this problem the same
+   way, with overflow-x:clip and overflow-y:visible: clip is the only value that
+   can pair with visible without forcing the other axis to auto. The arc now
+   runs on past the hero and the opaque category tiles cover it, which is the
+   layering the reference shows. */
+.tg-mainpage-header{overflow-x:clip !important;overflow-y:visible !important}
+
+/* Put the ring UNDER the tiles, which is what "behind the category tiles"
+   means. The previous pass only stopped the hero clipping the arc; it left the
+   stacking wrong. The header is position:relative, so it paints in the
+   positioned layer, while .tg-mainpage-navigation is position:static and paints
+   below that - meaning the header's overflowing arc drew on top of the tiles no
+   matter what the DOM order said. Measured, not assumed: hiding just the ring
+   and diffing the two frames changed 329 pixels inside the tile rectangles,
+   272 of them on Cultivation System, so the arc really was over the tile faces.
+
+   Giving the nav a stacking context of its own lifts the whole tile band above
+   the header's overflow. The header itself needs no z-index - it must stay
+   unstacked or its own ::after fade and background would also jump over the
+   tiles. This is a stacking fix only; it does not move anything. */
+.tg-mainpage-navigation{position:relative;z-index:1}
+
+/* Hide the hero tagline ("Gu Zhen Ren encyclopedia built by The Omniarch").
+   The line lives in the shared shell, so it appears in the same slot on the
+   wiki pages as well as the homepage; hiding it by class removes it everywhere
+   at once and leaves the markup, the .tg-hl spans and their styling untouched,
+   so it can be brought back by deleting this rule.
+
+   display:none rather than visibility:hidden or opacity:0 because the line is a
+   block in a flex column - those two would keep its 20px slot and leave a gap,
+   where display:none lets the stack close up. */
+.tg-mainpage-header-tagline{display:none !important}
+
+/* Drop the wordmark a little, as asked. The hero is a centred flex column and
+   the tagline's removal already shifts the stack, so the shift is measured on
+   the rendered page rather than assumed; 16px is the "a little" starting point.
+   The ring is absolutely positioned off the hero box, so it does not follow
+   the wordmark - it stays where the reference has it. */
+.tg-mainpage-header .wordmark-img{transform:translateY(16px)}
+
+/* Removing the tagline took its 20px out of the flex column and the hero closed
+   up with it - 290px became 260 on desktop - which would have pulled the
+   category tiles up by 30px. Pinning the height keeps the band exactly as it
+   was; only the contents move. The phone already had a hard 230px, so this is
+   desktop-only and replaces the auto height at the same specificity. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:290px !important}
+}
+
+/* ===== The ring's desktop offsets were measuring from the logo =====
+   This is the same root cause PR #83 fixed for the phone, but that fix was
+   written inside @media(max-width:720px) and so never applied above it. The ring
+   is a child of h1.wordmark, and .wordmark is position:relative, so every
+   desktop top/left resolved against the wordmark box instead of the hero. That
+   is why the arc kept landing in unpredicted places no matter what offset was
+   set. Reading offsetParent from the live page is what shows it: it reports
+   "h1.wordmark".
+
+   Making both wrappers static hands the containing block back to
+   .tg-mainpage-header, so offsets can finally be stated relative to the hero -
+   which is what the reference's geometry is measured in. */
+.tg-mainpage-header .tg-mainpage-content,
+.tg-mainpage-header .tg-mainpage-content > a,
+.tg-mainpage-header h1.wordmark{position:static !important}
+
+/* Now that the containing block is the hero, the reference's numbers can be
+   stated directly. Its circle, fitted from its own pixels, is centre (641,189)
+   r=159: diameter 318, spanning y30..y348. Sizing the circle to 318 and sitting
+   it at y30 lands both ends on the reference - the bottom at 348, which is the
+   height that was asked for, and the top at 30 as a consequence rather than a
+   separate guess. 318 also sits inside the 320-342 span measured across the band
+   between the button and the tiles, so it is no smaller than before in any
+   meaningful way - the previous 340 was the outer edge of the same circle. */
+.tg-mainpage-header .ring{top:30px !important;bottom:auto !important}
+.tg-mainpage-header .ring svg{width:min(62vw,318px) !important}
+
+/* The fix above unlocks the phone block too, and its own top/bottom/size rules
+   are now being overridden by the desktop statements that come after them - at
+   430px the circle ran to y297 inside a 230px band. Restate the phone's measured
+   geometry after the desktop rules so it wins, as PR #83 had it: a 210px circle
+   centred in the band, y10..220, which also keeps it clear of the tiles. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:0 !important;bottom:auto !important;height:230px !important;
+    display:flex !important;align-items:center !important;justify-content:center !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,210px) !important}
+}
+
+/* Grow the circle, keeping it centred. The last size change was 340 -> 318, a
+   22px step, so twice that step is +44 and the diameter goes to 362. It grows
+   about its own centre rather than from one edge, so it reaches further up and
+   further down by the same amount: the centre stays at y189, which puts the top
+   at 8 and the bottom at 370, 22px beyond the y348 that matched the reference.
+   Growing upward is the point - at 318 the circle's top edge cleared the wordmark
+   by only 47px where the reference clears it by 90.
+
+   Desktop only: the phone's 210px block is deliberately left alone. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:8px !important}
+  .tg-mainpage-header .ring svg{width:min(62vw,362px) !important}
+}
+
+/* Larger ring lettering, and nearer the top. Measured from the painted pixels
+   rather than the SVG box (which includes empty space): diffing the page with
+   the ring hidden isolates it exactly, and it currently runs y35..343 at a
+   15px computed font size. The reference's own lettering runs y30..348.
+
+   textLength="1000" with lengthAdjust="spacing" is set on the textPath, so the
+   lettering always spans the exact same circumference - a larger font size
+   therefore makes the glyphs fatter and taller without pushing the ring wider,
+   and the spacing absorbs the difference. That is why this can be raised
+   without the circle growing. */
+.tg-mainpage-header .ring text{font-size:19px !important;letter-spacing:0.3em !important}
+
+/* Lift the lettering towards the very top of the page. With the 19px size the
+   top of the painted arc sat at y33, which is 3px below where the reference has
+   it and leaves a visible band of empty hero above the lettering. Raising the
+   ring by 12px puts the top arc at y21, close to the viewport edge without
+   touching it, which is the "a little, near the very top" being asked for. */
+.tg-mainpage-header .ring{top:-4px !important}
+
+/* Up a tiny bit more. The painted top of the arc was measured at y21 - the
+   lettering's topmost ink - so there were 21px of empty hero above it. Raising
+   the ring another 8px puts that topmost ink at y13: visibly nearer the edge,
+   still clear of it, which is the "almost but not quite the very top" asked for.
+   8px is deliberately half the previous 12px move rather than another 12 - this
+   was called a tiny adjustment.
+
+   Desktop only. The phone centres its 210px circle in a 230px band, so its arc
+   already tops out at y6; lifting it by the same 8px would push it to y-2 and
+   clip the lettering against the viewport edge. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:-12px !important}
+}
+
+/* ===== Phone: the circle was hanging half off the left edge =====
+   Not caused by the lift above - it is on main already and reproduces with the
+   previous stylesheet swapped in. Reading the live box is what shows it: at
+   360px the ring measures left -180 with width 360, i.e. shifted exactly half a
+   screen left, and its svg box starts at x -113. The circle's left half was
+   simply off-screen.
+
+   The cause is an orphaned transform. The phone block around line 1750 sets
+   `left:50%` together with `transform:translateX(-50%)`, which is the correct
+   pairing. A later rule (`inset:auto 0 auto 0 !important`) then resets left to 0
+   while leaving the -50% transform in place, so the element is pulled half its
+   width leftward from a left edge that is no longer 50%.
+
+   Restating the pairing here, after every rule that touches it, puts the circle
+   back in the middle: at 320-720 it now spans the full band, the svg is a
+   centred 210px circle (198px at 320) and there is no horizontal scroll. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{left:50% !important;right:auto !important;
+    transform:translateX(-50%) !important}
+}
+
+/* ===== Hero: search out, wordmark grown to the reference's width =====
+   Search hidden for now at the user's request. Scoped to the hero's own
+   .search-zone so the site header's search affordances are untouched. The hero
+   height is pinned at 290px (desktop) and 230px (phone), so taking the button
+   out of the column does not collapse the band - only its contents re-centre. */
+.tg-mainpage-header .search-zone{display:none !important}
+
+/* Width taken from the reference rather than guessed. Measuring its wordmark's
+   own ink in the user's screenshot - neutral dark pixels only, which excludes
+   the red ring - gives x433..852: 420px wide in a 1239px viewport, or 33.9% of
+   it. Ours measured 298px, 24.1%: the reference mark is 1.41x ours.
+
+   Worth recording the proportion, because it is the surprising part: that 420px
+   wordmark sits inside a 318px circle and overhangs it by ~50px on each side.
+   The reference does not fit its logo inside the ring, so neither should we.
+
+   88vw keeps it inside narrow desktop widths, and the 420px cap holds the
+   reference's absolute size on wide screens rather than letting it run. */
+@media(min-width:721px){
+  .tg-mainpage-header .wordmark-img{width:min(88vw,420px) !important}
+}
+
+/* Sit the wordmark in the circle's centre - by measurement, not by eye.
+   Isolating the wordmark (ring hidden in both captures, so the diff cannot pick
+   up the ring pixels the wordmark was covering) puts its ink centre at
+   (647.5, 176). The circle's painted extent is y13..326, centre y169.5. Horizontally
+   it is already exact - both are 647.5 - so this is a vertical nudge only: 6.5px,
+   rounded to 7. The existing translateY(16px) already carries the mark, so this
+   replaces it with 9px rather than stacking a second transform. */
+@media(min-width:721px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(9px)}
+}
+
+/* Phone: centre the wordmark in its circle too. The phone's circle sits y6..216
+   (a 210px svg in the 230px band), so its centre is y111, while the ink measured
+   y92..179 - centre y135.5, about 24px low. The mark already carries a 16px
+   down-shift from an earlier pass, so 16 - 24.5 rounds to -8px rather than
+   stacking another offset. Horizontal centring was already exact (179.5 against
+   a 180 viewport centre), so this is vertical only. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(-8px)}
+}
+
+/* ===== Rotation: stop honouring prefers-reduced-motion for the hero ring =====
+   This is the only thing in the stylesheet that can leave the ring still. It is
+   not an accident of cascade order - the animation is authored correctly and
+   runs - but an earlier accessibility rule turns it off entirely:
+
+     @media(prefers-reduced-motion:reduce){ .ring svg{animation:none !important} }
+
+   Being the last animation declaration in the cascade, it wins whenever the OS
+   reports reduced motion. Emulated in the browser it reports animationName
+   "none" and a transform of "none" - the ring is dead still. Android's
+   "Remove animations" accessibility setting, and the equivalent iOS/macOS
+   switch, both turn that on system-wide, and it is easy to have enabled and
+   forgotten.
+
+   The ring's whole purpose here is to turn, so it is restored unconditionally.
+   It is a slow, non-flashing 60s rotation with no parallax or scaling, so it is
+   the mild kind of motion this preference is usually protecting against. */
+@media(prefers-reduced-motion:reduce){
+  .tg-mainpage-header .ring svg{animation:spin 60s linear infinite !important}
+}
+
+/* ===== Phone: match the desktop composition, proportionally =====
+   The phone was built up by a dozen separate passes and its numbers no longer
+   agree with the desktop's, which is why it does not read as the same design.
+   Measured as ratios of the circle - the one dimension both layouts share -
+   against what desktop actually renders:
+
+     wordmark / circle    desktop 416/362 = 1.149    phone was 188/210 = 0.895
+
+   So on the phone the logo sat *inside* the circle, where desktop has it
+   overhanging by ~15% a side. A 240px wordmark over the 210px circle is 1.143
+   against desktop's 1.149, so the two now read as the same design.
+
+   The lettering needed no change, and it is worth spelling out why, because the
+   obvious arithmetic says otherwise: an svg's font-size is in viewBox units, not
+   screen pixels, so the scaled 19px is 17.2 rendered px inside a 362px circle on
+   desktop and 10.0 rendered px inside a 210px circle on the phone - 4.75% of the
+   circle either way. The lettering is already scale-invariant and was never part
+   of the mismatch. (Setting it to a "proportional" 11px did get tried, and it
+   shrank the letters to a dotted ring: it was correcting an error that did not
+   exist.)
+
+   The circle itself stays at 210px. It is the one size that cannot move: it is
+   centred in a 230px band, so anything much past ~215 starts clipping against
+   the top of the page. Matching desktop's circle-to-hero ratio (1.248) would want
+   287px, which does not fit - so the wordmark is brought into proportion with
+   the circle instead of growing the circle to meet it. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{width:min(64vw,240px) !important}
+}
+
+/* ===== Phone: use the desktop's actual size logic =====
+   The previous pass matched the wordmark-to-circle ratio but not the thing that
+   actually makes the desktop hero look the way it does. Measured from rendered
+   pixels, desktop at 1239:
+
+     circle 362 in a 290px hero  ->  1.248x the band height
+     the ring overflows the band by 72px and its lower arc bleeds 36px BELOW it,
+     passing behind the category tiles
+
+   The phone had a 210px circle in a 230px band: 0.913x, i.e. confined entirely
+   inside the band with air above and below. That containment is why it reads as
+   a small badge with a ring floating in it, rather than as the circle the desktop
+   is built around. It was never a wordmark-to-circle problem.
+
+   So the phone gets the same ratio: 1.248 x 230 = 287px circle. Top is placed so
+   the painted arc still starts at y13 (13 - 20px of glyph padding = -7), which
+   lets the lower arc run past the band and sit behind the tiles exactly as it
+   does on desktop. The hero keeps overflow hidden horizontally, so the wider
+   circle cannot introduce a horizontal scrollbar - verified 320-720 below.
+
+   Wordmark follows the desktop ratio too: 1.15 x circle = 330px, against 240
+   before. The svg's own glyph padding (~7%) means this reads slightly tighter on
+   screen than the number suggests.
+
+   The circle is now also narrower than the band at every phone width (287px in a
+   360px viewport), so it no longer touches either side edge - at 320 it is the
+   `min(62vw,...)` clamp that keeps it inside. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:-7px !important;height:287px !important}
+  .tg-mainpage-header .ring svg{width:min(84vw,287px) !important}
+  .tg-mainpage-header .wordmark-img{width:min(86vw,330px) !important}
+}
+
+/* ===== Phone: sit the composition a little lower, and centre the logo =====
+   Two separate faults, both measured from painted pixels at 390 rather than
+   judged by eye.
+
+   1. The logo was never centred in the circle on the phone. Its ink centre
+      measured y111.5 against the circle's painted centre y136.5 - 25px high.
+      Desktop is centred to within half a pixel, which is why the two layouts did
+      not read alike even after the sizing pass. The cause is that the phone's
+      -8px transform was set to clear the band, not to centre the mark, and the
+      circle then moved underneath it.
+
+   2. The circle sat too close to the top of the page. Its painted arc began at
+      y14, leaving almost no breathing room above the lettering.
+
+   The circle now starts 10px lower (top -7 -> 3), which puts the painted arc at
+   y24. The wordmark follows the circle's new centre: 136.5 + 10 = y146.5, so the
+   ink has to move 35px down from where it was, i.e. -8px becomes 27px. Centring
+   is done against the mark's ink box, not its element box, and against the same
+   box on both layouts - the drip descenders hang well below the glyphs, and
+   desktop is centred on that box too, so the two stay consistent.
+
+   Room to spare: the ink then spans y71..222 with the tiles at y258, a 36px gap,
+   so lowering the circle further is still safe if it wants to go down more. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:3px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(27px) !important}
+}
+
+/* Tiles: taller by a little.
+   45px -> 50px, a +5 step. The 45 was inherited from the reference comparison
+   above, which measured Tolkien Gateway's rows at 45; this is a deliberate move
+   away from that number, so it is stated last and at the same specificity to
+   win. Everything downstream follows automatically: the desktop band goes
+   100 -> 110px for two rows, the phone's six rows 310 -> 340px. No label
+   overflows at 320, 390 or 1239 - checked, including the two-line "Volumes &
+   Chapters" wrap at 320. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:50px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button,
+.tg-mainpage-navigation .template-navpill{height:50px !important;min-height:50px !important}
+
+
+
+/* ===== Wider circle, real word gaps, search bar inside its bottom =====
+   Three things had to be solved together because each constrains the others.
+
+   1. THE WORD GAPS WERE NOT A SPACING SETTING - THE TEXT WAS BEING SQUASHED.
+      The textPath carried textLength="1000" lengthAdjust="spacing" while the
+      string's natural width at 19px measured 1362.8 against a 1005-unit path.
+      The browser was compressing the text by 27% to force it to fit, and that
+      compression ate the inter-word gaps - which is why "IS THE" and "OF ALL"
+      ran together, and why raising letter-spacing never helped: it only changed
+      the width that was about to be squashed.
+
+   2. So the ring itself gets wider. On the SVG's 400x400 viewBox the path radius
+      goes 160 -> 190 (1005 -> 1194 units of arc) and textLength is removed from
+      the markup, so the string settles on the arc with genuine spaces. The
+      lettering steps 19 -> 17px so the same 95 characters occupy the longer arc
+      comfortably instead of being stretched to fill it.
+
+   3. The search bar returns, at the BOTTOM of the circle and inside it.
+
+   THE LOGO DOES NOT MOVE. Its painted ink measured y73..266, centre y169.5, and
+   the hero is a centred flex column, so it is pinned by an absolute content
+   column rather than left to re-flow when the band grows. Growing the band alone
+   would have dragged the logo down and broken the centring.
+
+   The circle is then grown around that fixed y169.5, which makes the radius do
+   double duty: it must reach from the logo's centre down past the pill with ring
+   to spare, giving R=170 and a ring spanning y-1..340. That is why the arc now
+   reaches the top of the page instead of sitting in a band with air above it.
+
+   Painted ink is 0.862 of the svg box (calibrated across four earlier sizes), so
+   a 396px box paints that 341px circle. */
+
+/* The circle is positioned from the hero, not from the content column: a
+   transform on the content would make it the containing block for this
+   absolutely-positioned child and silently move the circle. So the content is
+   pinned with left/top only and the ring keeps its own transform. */
+.tg-mainpage-header .ring{left:50% !important;right:auto !important;
+  transform:translateX(-50%) !important}
+
+@media(min-width:721px){
+  .tg-mainpage-header{height:350px !important}
+  .tg-mainpage-header .tg-mainpage-content{position:absolute !important;
+    top:60px !important;left:0 !important;right:0 !important;
+    transform:none !important;width:100% !important;margin:0 !important}
+  .tg-mainpage-header .ring{top:-46px !important;bottom:auto !important;
+    height:396px !important}
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important}
+  .tg-mainpage-header .ring text{font-size:17px !important;
+    letter-spacing:0.02em !important;word-spacing:0.42em !important}
+  .tg-mainpage-header .search-zone{display:flex !important;margin-top:10px !important}
+}
+
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:300px !important}
+  .tg-mainpage-header .tg-mainpage-content{position:absolute !important;
+    top:41px !important;left:0 !important;right:0 !important;
+    transform:none !important;width:100% !important;margin:0 !important}
+  .tg-mainpage-header .ring{top:6px !important;bottom:auto !important;
+    height:340px !important}
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important}
+  .tg-mainpage-header .ring text{font-size:17px !important;
+    letter-spacing:0.02em !important;word-spacing:0.42em !important}
+  .tg-mainpage-header .search-zone{display:flex !important;margin-top:8px !important}
+}
+
+/* The phone ring kept landing 130px off centre because `bottom` computed to
+   -125.9: the earlier passes wrote `inset:50% auto auto 50%` and then
+   `bottom:10px`, and those pairs kept re-resolving so a stale inset stretched the
+   box past the hero. offsetParent also still reported .tg-mainpage-content, not
+   the hero, so the offsets were resolving against the content column.
+   Clearing the inset shorthand first and then stating each side leaves nothing
+   for a stale shorthand to stretch. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{inset:auto !important}
+  .tg-mainpage-header .ring{top:6px !important;bottom:auto !important;
+    left:50% !important;right:auto !important;height:340px !important;
+    width:auto !important;transform:translateX(-50%) !important;
+    align-items:flex-start !important}
+}
+
+/* The svg was rendering 368px inside its 340px box, and that inflation was what
+   corrupted the whole phone layout: the ring's `bottom` computed to -125.9
+   because the box was being stretched around an oversized child. `height:auto`
+   on an svg carrying an `overflow:visible` rule and a 400x400 viewBox does not
+   settle on the css width - the intrinsic ratio and the visible-overflow box
+   disagree once the element is also being rotated. Pinning height to the same
+   value as width removes the ambiguity.
+   `display:block` also drops the inline-baseline gap that adds a few pixels
+   under the element. */
+.tg-mainpage-header .ring svg{height:auto;display:block}
+
+@media(min-width:721px){
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important;
+    height:min(92vw,396px) !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important;
+    height:min(88vw,340px) !important}
+}
+
+/* The ring 39px low traced back to the containing block, not to any offset.
+   Pinning the content column with `position:absolute` for the logo made it the
+   offsetParent for the ring too, so the ring's `top:6px` resolved 6px inside a
+   column that itself starts at y41 - landing at y47 instead of y6. Reading
+   offsetParent from the live page is the only reliable way to catch this class
+   of bug; every offset value was already correct.
+
+   The fix is to give the ring the hero as its containing block again by making
+   the wordmark chain static and anchoring the ring to the hero. Since the ring
+   and the content are now siblings in effect, each gets its own coordinate
+   system. */
+.tg-mainpage-header .tg-mainpage-content,
+.tg-mainpage-header .tg-mainpage-content > a,
+.tg-mainpage-header h1.wordmark{position:static !important}
+
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:-46px !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:6px !important}
+}
+
+/* Centre the circle on the logo's own centre, not on a fixed top.
+   The viewBox is 400x400 with the path at r=190, so the painted circle occupies
+   exactly 10..390 - 2.5%..97.5% of the box, and the ink's centre is the box's
+   centre. That means centring the BOX centres the CIRCLE, with no padding fudge.
+   Anchoring with translateY(-50%) instead of a fixed top also survives the
+   `min(88vw,...)` clamp: at 320 the box shrinks to 282 and the circle still lands
+   on the same centre, where a fixed top would drift by (340-282)/2 = 29px - which
+   is exactly the +30px error measured at 320 before this.
+   Logo ink centre measures y150.5 on the phone and y167.5 on desktop, so those
+   are the two anchors. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring{top:167px !important;bottom:auto !important;
+    transform:translate(-50%,-50%) !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:150px !important;bottom:auto !important;
+    transform:translate(-50%,-50%) !important}
+}
+
+/* The svg was rendering 428px in a 396px slot, which is what threw every earlier
+   centring attempt off. Cause: an `height:auto` rule stated after the sized ones
+   reset the height, and with a 400x400 viewBox the width then drove the height -
+   plus the visible-overflow box and the rotation added a few more pixels. Since
+   the painted circle is concentric with the box (viewBox 400, path r=190 spans
+   10..390), box == ink centre, so pinning BOTH dimensions makes the centring
+   arithmetic exact. Stated last, with height after width. */
+@media(min-width:721px){
+  .tg-mainpage-header .ring svg{width:min(92vw,396px) !important;
+    height:min(92vw,396px) !important;display:block !important}
+}
+@media(max-width:720px){
+  .tg-mainpage-header .ring svg{width:min(88vw,340px) !important;
+    height:min(88vw,340px) !important;display:block !important}
+}
+
+/* The circle was overflowing the top edge, which clipped the lettering - reaching
+   the top should mean flush with it, not past it.
+   With the logo fixed at cy167 and the pill bottom at 323, a radius of 176 is
+   what enclosure wants, but that puts the circle's top at y-9 and cuts the
+   lettering. So the radius is pulled back to 168: the circle top lands at y-1,
+   effectively flush, and there is still 12px of ring beneath the pill.
+   In viewBox terms the path radius goes 190 -> 168, and the svg box follows at
+   354 so the circle keeps its 1:1 scale against the box. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:354px !important}
+  .tg-mainpage-header .ring{top:167px !important;height:354px !important}
+  .tg-mainpage-header .ring svg{width:354px !important;height:354px !important}
+}
+
+/* Phone had the same overflow: the circle's top sat 10-12px above the viewport,
+   clipping the lettering. Phone logo cy is 150.5 and its pill bottom is 265, so
+   a radius of 133 puts the top flush at y17 with 18px of ring under the pill.
+   Box follows the same 1:1 relationship as desktop. */
+@media(max-width:720px){
+  .tg-mainpage-header{min-height:300px !important}
+  .tg-mainpage-header .ring{top:150px !important;height:266px !important}
+  .tg-mainpage-header .ring svg{width:min(84vw,266px) !important;
+    height:min(84vw,266px) !important}
+}
+
+/* ===== Phone: the ring, brought down so its lettering is not cut =====
+   The ring's glyphs ride on the path itself - there is no painted circle stroke,
+   the circle IS the lettering - so when the ask is to reach the tiles the top
+   of that lettering runs off the top edge. At 365 the ink started 53px above
+   the viewport, which is the cut that was reported.
+
+   So the whole figure comes down 40px and the circle gives back a little size
+   to pay for it. Two numbers move together and nothing else does:
+
+     ring top     150 -> 190   (circle centre follows the logo)
+     logo         27px -> 67px  (so the logo stays dead centre in the ring)
+     search pill  +40px, by `position:relative; top` only
+
+   The pill is nudged with a relative offset rather than a margin on purpose: a
+   margin would push the hero taller and drag the tiles down with it, and the
+   tiles need to stay where they are. With transforms and relative offsets the
+   layout height is untouched, so the tile grid still starts at y328.
+
+   390px of box gives a 328px circle: r164, centre y190, so the circle spans
+   y26..354 and its lower arc runs 26px behind the first tile row - still the
+   thing that started this. Because the centre only moved down 40 while the
+   radius dropped 21, the top of the *ink* now lands at y8 instead of y-53, and
+   the sides at 13/377 instead of -8/398: the lettering is fully on screen for
+   the first time, with the pill-bottom-to-tiles gap at a comfortable 23px.
+
+   The svg box is scaled, not the type: font-size stays 19px in viewBox units,
+   where natural text width is 1032 of 1056 path units. At 21px it would be
+   1115 and re-compress. Scaling the box enlarges the circle and its lettering
+   together, which is why the ring text still reads far larger than the 222px
+   original without touching font-size. */
+@media(max-width:720px){
+  .tg-mainpage-header .ring{top:190px !important;height:390px !important}
+  .tg-mainpage-header .ring svg{width:390px !important;height:390px !important;
+    max-width:none !important;max-height:none !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(67px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;
+    top:40px !important}
+}
+
+/* Very narrow phones cannot hold the 390px ring: its lettering is a fixed 1032
+   viewBox units wide, so at that box size the arc's ink runs past both edges once
+   the viewport drops below 364 (the ink measures 364px across at every phone
+   width, because the box - and therefore the type - is a fixed size).
+   Stepping the box down to 340 fits it exactly - ink spans x1..x319 in a 320px
+   viewport - and the 4px of extra drop (44 instead of 40) buys back the reach
+   that the smaller circle lost: the arc still passes 9px behind the first tile
+   row, with 32px of clearance between the pill and the tiles. The logo's
+   translate goes 67 -> 71 so it stays centred on the circle's new centre
+   (150 + 44), exactly as the 390/40 pairing does at larger widths. */
+@media(max-width:363px){
+  .tg-mainpage-header .ring{top:194px !important;height:340px !important}
+  .tg-mainpage-header .ring svg{width:340px !important;height:340px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(71px) !important}
+  .tg-mainpage-header .search-zone{top:44px !important}
+}
+
+/* ===== Phone: let the wordmark pass the sides of the circle =====
+   The wordmark is the centrepiece of this composition but it was sitting inside
+   the ring's lateral edge on the narrow layouts, not across it: measured at 320
+   its ink stopped 5px short of each side, and at 390 it only just met them. The
+   desktop layout already has it 61px past each side, so the phone was reading
+   as a smaller, more cramped version of the same design.
+
+   Scaling by transform rather than by width is deliberate and load-bearing. A
+   wider `width` makes the h1 taller, which pushes the search pill down 9px and
+   eats the gap above the tiles - a real regression that was measured before
+   this approach was chosen. `scale()` changes only what is painted, so the
+   layout height is untouched and the pill and tile grid stay at exactly
+   y261/y328 where the previous pass left them.
+
+   The two axes are scaled equally, so the mark keeps its aspect. The translate
+   already in place (+67, or +71 on the narrow step) still centres the ink: the
+   mark's ink is symmetric about its own box, so scaling grows it about that
+   centre and the measured ink centre holds at 0.4px off the circle's.
+
+   1.14 takes the mark from 330 to 376 at a 390 viewport - 24px past each side
+   of the ring - and from 275 to 314 at 320, where it lands 3px inside the
+   screen and 14px past the ring. The vw clamp is gone on purpose: a clamp would
+   shrink the mark again on exactly the widths that most needed it bigger.
+
+   This is phone-only. Desktop was already past the ring at 420px and is left
+   exactly as it was. */
+@media(max-width:720px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(67px) scale(1.14) !important}
+}
+@media(max-width:363px){
+  .tg-mainpage-header .wordmark-img{transform:translateY(71px) scale(1.14) !important}
+}
+
+/* ===== Ring text: make the gaps even all the way round =====
+   The circle's lettering carried a large blank after the Chinese. It was not a
+   spacing setting - it was slack. The 95-character string measured 888.5 units
+   at 17px against a 1055.7-unit arc, so it covered only 84% of the circle: 302
+   degrees of text and a 58-degree gap. That gap ran from where the string ends
+   (just past the hanzi, at 205 degrees) round to where it starts at the bottom
+   seam, which is exactly the "large space after the hanzi" being seen. Measured
+   against a median glyph advance of 3.22 degrees, the gap was 18x a normal one.
+
+   The fix is to give the textPath the arc's own length, less the width of one
+   word space (9.75 units) so the string still breaks into words instead of
+   running into itself. lengthAdjust="spacing" then distributes what is left
+   across the gaps evenly rather than stretching the glyphs, which is why the
+   letters keep their shapes and no word gap is singled out.
+
+   This is the inverse of the old squashing bug fixed earlier: there textLength
+   was 1000 against a longer natural width and the text was compressed 27%,
+   which swallowed the word gaps. Here textLength is slightly under the arc and
+   nothing is compressed. Measured after: interior advance 3.8 degrees, seam
+   4.4 degrees - 1.17x a normal gap instead of 18x - and it holds from 320 to
+   1920 because the scale is a transform on a fixed viewBox.
+
+   textLength lives in the markup (all 59 pages), not here, because the value is
+   derived from the path geometry: 2*pi*168 - 9.75 = 1045.8. If the path radius
+   ever changes, that number has to change with it. */
+
+/* ===== Dim the ring =====
+   The circle was at 0.85. Several earlier passes each set the ring's opacity in
+   a different place (0.6, 0.4 in dark, 0.55, then 0.85 with !important all
+   winning the cascade), so the effective value was 0.85 in both themes and the
+   lettering was competing with the wordmark instead of sitting behind it.
+
+   The two themes are NOT given the same number, deliberately. The ring's ink is
+   a gradient of red in light and gold in dark, and against their backgrounds
+   those read very differently at equal alpha. Measured against the ring's own
+   pixels, at the old 0.85 the contrast was 1.56:1 in light but 3.55:1 in dark -
+   gold on near-black is more than twice as strong. Lowering both by the same
+   amount would have left dark still heavy.
+
+   So light goes 0.85 -> 0.55 (contrast 1.56 -> 1.33) and dark 0.85 -> 0.45
+   (3.55 -> 2.00). Exact parity is not reachable on this palette - matching
+   dark's 1.33 would need about 0.23, at which point the gold all but vanishes
+   into the background - so the aim is a comparable perceived weight rather than
+   an identical number.
+
+   Opacity only: nothing about the ring's size, position, rotation or the layout
+   around it changes. */
+.tg-mainpage-header .ring svg{opacity:0.55 !important}
+html[data-theme="dark"] .tg-mainpage-header .ring svg{opacity:0.45 !important}
+
+/* ===== Let a little more of the hero artwork show =====
+   The hero wash was lifted in an earlier pass to push the artwork back so the
+   wordmark was the only thing with contrast: light 0.80 -> 0.90, dark 0.70 ->
+   0.90. That was measured against the reference and it worked, but it went a
+   touch too far - the art had become almost entirely absent rather than
+   quietly present.
+
+   So this is one small step back, not a reversal: light 0.80 -> 0.76 and
+   0.90 -> 0.87, dark 0.70 -> 0.66 and 0.90 -> 0.87. Both themes move by the
+   same amount and keep the original gradient shape (opaque at the bottom,
+   thinner at the top, 58% stop), so the foot still fades into the page.
+
+   Measured on the hero's side strips, where there is artwork but no wordmark or
+   ring, comparing the spread of luminance (how much texture is readable) and
+   the mean:
+
+     light  art contrast +20%, mean luminance 235.0 -> 231.9
+     dark   art contrast +3% left, +9% right
+
+   Light gains the most because its wash is a pale cream over a pale image -
+   small alpha changes move it a lot. Dark moves less at the same alpha, which
+   is why the number is shared rather than tuned per theme.
+
+   This is deliberately the smallest step of the three tried: -0.04 here, against
+   -0.07 (+34% light) and -0.10 (+55% light). The 20% lift is visible as texture
+   returning to the illustration without the artwork starting to compete with the
+   wordmark, which is the balance the previous pass was protecting. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.76) 0%,rgba(249,244,238,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.66) 0%,rgba(10,10,14,0.87) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Header image: one more step of presence =====
+   Following the previous pass's small lift (light 0.80/0.90 -> 0.76/0.87, dark
+   0.70/0.90 -> 0.66/0.87), this takes the next rung on the same scale rather
+   than a new guess: light 0.76/0.87 -> 0.73/0.85, dark 0.66/0.87 -> 0.63/0.85.
+
+   Both themes move by the same 0.03 and the gradient keeps its shape - thinner
+   at the top, opaque at the foot, 58% stop - so the hero still fades into the
+   page instead of ending on a hard edge.
+
+   Measured on the hero's side strips, where there is artwork but no wordmark or
+   ring, using the spread of luminance as "how much texture reads":
+
+     light  art contrast +11% left / +15% right, mean luminance 231.9 -> 230.0
+     dark   art contrast +2% left / +5% right
+
+   Cumulative against the original 0.80/0.90 the light hero is now about +34%
+   more artwork contrast. That is the rung that was measured before shipping the
+   last one, so this closes the gap that pass left rather than opening a new one.
+
+   Still a wash, not a photograph: the wordmark keeps the highest contrast in
+   the composition, which is the constraint the earlier reference-matching pass
+   was protecting. Light moves most at any given alpha because its wash is pale
+   cream over a pale image; dark's gold-on-black composition already had more
+   separated values.
+
+   ===== Then the top of the header, on its own =====
+   The last rung evened the whole wash down, which dulled the artwork everywhere
+   to make the top of it slightly more readable. The request is narrower than
+   that: only the strip the wordmark sits against should gain visibility, and
+   the rest of the page should look exactly as it did. So the top of the ramp
+   is pulled down hard and the body is left where it was - the gradient now
+   falls 0.50 -> 0.62 -> 0.73 over the first third and rejoins the old 0.85 at
+   58%, so everything below that line is byte-identical to before.
+
+   Measured against the previous build over the whole header width: the top
+   60px band drops from luminance 207 to 182 in light (its tonal spread rises
+   17 -> 28, so the art actually shows through) and lifts 22 -> 27 in dark.
+   By y120 the two builds are identical to the digit.
+
+   Then one more rung on request: same band, same two themes, 1.5x the gain this
+   block had already won. Scaling the improvement (not the alpha) means the veil
+   goes 0.50 -> 0.36 and 0.40 -> 0.28 at the top, and both later stops move with
+   it so the falloff keeps its shape rather than becoming a hard edge. Landed at
+   light 207 -> 168 and dark 22 -> 30, which is 1.5x the 25 and 5 points the
+   previous rung took; tonal spread at the top rises again to 35 in light and
+   15 in dark. The wash still rejoins 0.85 at 58%, so everything from y120 down
+   is unchanged, and the wordmark keeps the highest contrast in the band. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.36) 0%,rgba(249,244,238,0.54) 16%,rgba(249,244,238,0.70) 34%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.28) 0%,rgba(10,10,14,0.45) 16%,rgba(10,10,14,0.60) 34%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Desktop: sink the circle and logo so the arc passes under the tiles =====
+   The ring stopped 54px short of the category tiles, so the rotating circle
+   never actually met them - the composition ended above the grid instead of
+   passing behind it. The ask is to bring the whole figure down so the circle's
+   bottom lands underneath the tiles, while the search bar stays exactly where
+   it is.
+
+   Three things have to move together and one must not:
+
+     ring top      167 -> 247px   (+80)
+     logo offset   9 -> 89px      (+80, so it keeps its place inside the ring)
+     hero overflow clip -> visible
+     search pill   untouched
+
+   THE OVERFLOW IS THE HIDDEN CONSTRAINT. The hero carries `overflow:clip`, so
+   anything past its 354px height is simply cut - which is why moving the ring
+   down alone would have looked like the circle shrinking rather than sinking.
+   With `visible` the ring can paint into the navigation strip below, and the
+   tiles (z-index 1, over the ring's 0) still paint on top of it, so the arc
+   passes behind them exactly as asked.
+
+   80px is the honest number, not the minimum. The circle needs 54px just to
+   touch the tiles; at 54 it is flush and reads as an accident. At 80 the bottom
+   sits at y396 against a tile top of y370 - 26px of arc genuinely behind the
+   first row, the same 26px the phone layout already has, so the two layouts now
+   agree on that relationship.
+
+   THE LOGO COMES WITH IT, as instructed, and it does overlap the pill. That is
+   unavoidable rather than overlooked: the wordmark's ink fills 99% of its box,
+   so it cannot be moved down without its descenders reaching the pill, and the
+   pill is only 31px below where the logo's ink already ends. The pill is not
+   harmed - .search-zone sits at z-index 5 and the wordmark's content at 1, so
+   the pill still paints over the mark and takes every click in the overlap.
+   Phone is left alone: there the circle already passes 26px behind the tiles,
+   so the relationship being asked for is already true at those widths. */
+@media(min-width:721px){
+  .tg-mainpage-header{overflow:visible !important}
+  .tg-mainpage-header .ring{top:247px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(89px) !important}
+}
+
+/* ===== Raise the page: the whole composition moves up =====
+   Everything on the landing hero rides up together by 80px - circle, logo,
+   search pill, tiles and the content below them. Nothing changes size and
+   nothing changes its position relative to anything else; only the group's
+   distance from the top of the page changes.
+
+     hero height      354 -> 274
+     ring top         247 -> 167
+     logo offset       89 -> 49
+     search zone      +0 -> -40
+
+   THREE THINGS HAD TO BE MEASURED, NOT DERIVED, because the obvious route was
+   wrong twice:
+
+   1. The content column cannot be moved on its own. `.tg-mainpage-content` is
+      position:static, so a `top` on it does nothing; making it relative would
+      do worse damage, because the ring is a descendant and would re-anchor its
+      containing block - the exact trap an earlier pass hit. So the pieces are
+      moved individually and the column is left alone.
+
+   2. The logo does not follow the hero. The hero is a centred flex column, so
+      a shorter hero re-centres its content and the logo only moves 1px for
+      every 2px of height - it came up 40 while the tiles came up 80. The
+      remaining 40 comes from the transform: 89 -> 49.
+
+   3. The ring's offset is not 247-80. The ring is positioned inside the
+      content column, not inside the hero, so it does not inherit the flex
+      shift - it needed to come up the full 80 itself, 247 -> 167. At 167 the
+      circle lands back at y18..316, exactly where it sat before the previous
+      pass, and the logo keeps its original 1.6px offset from the circle's
+      centre. The whole prior composition is intact, just higher.
+
+   80 is the ceiling on desktop, not a preference: the tiles' 26px arc overlap
+   from the last pass is fixed, so raising further pushes the circle's top arc
+   past the top edge, where it now paints rather than clips.
+
+   PHONE IS DELIBERATELY UNTOUCHED. Its hero is only 300px and its ring ink
+   already starts at y8, so there is no room to give - raising it 20px pushed
+   the ink to -12 and clipped it. The empty band this lift removes is a desktop
+   feature; the phone layout never had it. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:274px !important}
+  .tg-mainpage-header .ring{top:167px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(49px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;top:-40px !important}
+}
+
+/* ===== Desktop: the pill sits under the wordmark, sized to the space =====
+   The wordmark takes pre-eminence in the circle, so the search pill is placed
+   around it rather than the mark being moved around the pill. Its ink profile,
+   measured row by row, is what sets the bounds:
+
+     hanzi             y73  .. y127
+     "Gu Zhen Ren"     y154 .. y206   <- letter bodies
+     drips only        y206 .. y334   <- thin descender tails
+
+   The pill must clear two things: the top of it must stay below the letter
+   bodies at y206, and its bottom must stay inside the circle, whose inner edge
+   at the pill's centre line is y316. That is a window of about 110px, and the
+   widest pill that fits it while leaving a real margin above the tiles is
+   44px tall - 151px wide with 15px type and 24px of side padding.
+
+   It landed 34px and 123px wide on the previous pass, which cleared the letter
+   bodies but read as undersized against the wordmark. 44/151 is the largest
+   that still keeps 41px to the ring's inner edge and 15px above the tiles.
+
+   The pill's position is a relative offset, not a margin: a margin would make
+   the content column taller, and since the hero centres its content that would
+   drag the logo and the whole group with it. A relative offset moves only the
+   pill - but it does not do so for free either: the taller column re-centres
+   the logo, which is why the logo's translate is re-measured every time this
+   pill changes. It sits at 49, the value that puts the mark back on the
+   circle's centre at the 1.6px offset the composition has always used. */
+@media(min-width:721px){
+  .tg-mainpage-header #search-trigger{height:44px !important;min-height:0 !important;
+    font-size:15px !important;padding:0 24px !important;gap:8px !important}
+  .tg-mainpage-header #search-trigger svg{width:16px !important;height:16px !important}
+  .tg-mainpage-header .tg-mainpage-header-search .kbd{width:16px !important;height:16px !important;font-size:9px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(49px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;top:-10px !important}
+}
+
+/* ===== Footer: rebuilt on the Awwwards oversized-wordmark pattern =====
+   The old footer was three small things floating in a 215px band: a 240px
+   wordmark, two orphaned links pushed to the far right, and the line "Speak
+   friend and read" alone at the bottom. On 59 pages it read as unfinished
+   because it was: no sitemap, no copyright, no attribution, and on phone the
+   right-aligned links broke into three ragged centred lines.
+
+   Two Awwwards references set the replacement. The dark-footer family
+   (Reel Motion, Zephyr/Night Shift) puts a single very large wordmark at the
+   bottom of the footer, cropped by the viewport edge, with the link columns
+   sitting *above* it in small type; the whole effect comes from that contrast
+   in scale rather than from decoration. Awwwards' own footer follows the same
+   logic with far less ink - thin type, generous space, one navigation row.
+
+   So: four columns of small type at the top, a hairline, a proper rule line,
+   and the wordmark anchored to the bottom edge and oversized so it is cropped
+   by the page itself. The scale contrast is the design; the links stay quiet.
+
+   Colours are the site's existing tokens, so it inherits both themes and the
+   lore palette - no new palette was introduced for the footer alone. */
+.tg-footer{margin-top:3.5rem !important;background:var(--tg-color-surface-2) !important;
+  border-top:var(--tg-border-base) !important;overflow:hidden !important;position:relative !important}
+.tg-footer .inner{max-width:1180px !important;margin:0 auto !important;padding:3.2rem 2rem 0 !important}
+.tg-footer-cols{display:grid !important;grid-template-columns:1.6fr 1fr 1fr 1fr !important;gap:2.5rem !important}
+
+.tg-footer-tag{color:var(--tg-color-subtle) !important;font-size:0.9rem !important;line-height:1.6 !important;
+  margin:0 !important;max-width:34ch !important;font-style:normal !important}
+.tg-footer-tag b{color:var(--tg-color-base) !important;font-weight:600 !important}
+.tg-footer-progress{margin-top:1.1rem !important;font-size:0.8rem !important;letter-spacing:0.04em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important}
+.tg-footer-progress .n{color:var(--tg-color-progressive) !important;font-weight:700 !important}
+.tg-footer-progress .dot{margin:0 0.5rem !important;opacity:0.5 !important}
+
+.tg-footer-col{display:flex !important;flex-direction:column !important;gap:0.55rem !important;text-align:left !important}
+.tg-footer-col h4{margin:0 0 0.35rem !important;font-family:var(--tg-font-family-body) !important;
+  font-size:0.7rem !important;font-weight:600 !important;letter-spacing:0.12em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important;opacity:0.85 !important}
+.tg-footer-col a{color:var(--tg-color-base) !important;font-size:0.875rem !important;text-decoration:none !important;
+  padding:0 !important;background:none !important;border:0 !important;transition:color .15s ease !important}
+.tg-footer-col a:hover{color:var(--tg-color-progressive) !important}
+.tg-footer-col a:focus-visible{outline:2px solid var(--tg-color-progressive);outline-offset:3px;border-radius:2px}
+
+.tg-footer-bottom{margin-top:2.6rem !important;padding:1.1rem 0 1.3rem !important;display:flex !important;
+  justify-content:space-between !important;align-items:center !important;gap:1rem !important;flex-wrap:wrap !important;
+  border-top:1px solid color-mix(in srgb,var(--tg-color-base) 14%,transparent) !important;
+  color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
+.tg-footer-copy,.tg-footer-credits{font-style:normal !important}
+
+/* ===== The oversized mark: set as text, with the ring as a watermark =====
+   The previous pass used the wordmark artwork here, cropped so its drip tails
+   ran off the page edge. It was recognisably the brand, but it was still a
+   photograph of a logo: it could not scale with the type, it carried the
+   artwork's own raster edges, and at footer scale it read as an image dropped
+   into a div rather than as part of the page.
+
+   Two changes fix that, and neither needs a new asset.
+
+   First, the text. The ring wordmark is already set in Grenze Gotisch, so the
+   same face at display size belongs to the composition rather than quoting it:
+   the footer's name and the circle's lettering are now demonstrably the same
+   typeface. It is filled with the site's own ring-red gradient (whose stops
+   are taken from #ring-red, so light and dark are matched by construction)
+   through background-clip:text, which also means it stays crisp at any size and
+   any device pixel ratio - no 4K raster to re-export.
+
+   One trap: line 1145 forces Poppins with !important on every element, so a
+   display face here has to be declared !important too. Without it the whole
+   thing silently renders as Poppins, which is what the first prototype did.
+
+   Second, the circle. It is the same 168-radius path and the same inscription
+   as the rotating ring in the header, which is exactly the motif the page is
+   built around, so the footer now closes the composition with the shape that
+   opens it. It is a watermark here - heavily dimmed, turning once a minute,
+   behind the type - so it reads as structure rather than as a second logo. */
+/* The box is shorter than the disc on purpose. A square viewBox left ~200px of
+   dead air above and below the circle and pushed the footer to almost 1000px
+   tall; cropping the bottom of the disc instead gives the composition the
+   references actually use - the arc rises behind the name, and the circle is
+   cut by the edge of the page rather than sitting complete in a lot of space.
+   aspect-ratio drives the crop, so it holds at every width. */
+.tg-footer-mark{position:relative !important;margin:0.9rem auto 0 !important;
+  width:min(640px,64vw) !important;aspect-ratio:1.62 / 1 !important;
+  overflow:hidden !important;
+  display:flex !important;align-items:flex-start !important;justify-content:center !important}
+
+/* One SVG holds both the inscription and the name, so the two scale together
+   and the circle can never be cropped into stray arcs. The viewBox is square
+   and the whole disc is inside it, which is what keeps the circle readable. */
+.tg-footer-seal{width:100% !important;height:auto !important;
+  display:block !important;overflow:visible !important}
+
+/* The inscription turns; the name does not. Rotating the container would carry
+   the wordmark with it, so the spin is scoped to the ring group only and the
+   transform-origin is the disc's centre in viewBox units. */
+.tg-footer-seal-ring{transform-origin:400px 400px;
+  animation:spin 88s linear infinite;transform-box:view-box !important}
+.tg-footer-seal-ring text{font-family:"Grenze Gotisch",serif;
+  font-size:15px;font-weight:600;letter-spacing:0.04em;fill:var(--tg-color-progressive);opacity:0.34}
+html[data-theme="dark"] .tg-footer-seal-ring text{opacity:0.42}
+
+/* One micro-interaction, on the seal only: the inscription quickens when the
+   mark is hovered. It is the kind of detail the references carry and it costs
+   nothing - no layout shift, no new asset, and the rotation never stops, so the
+   standing rule that the circle always turns still holds. */
+.tg-footer-mark:hover .tg-footer-seal-ring{animation-duration:26s}
+
+/* The display face. Grenze Gotisch is the face the ring is already set in, so
+   the name here is demonstrably the same typeface as the inscription around it
+   rather than a different font standing in for a logo.
+   Two things had to be got right: line 1145 forces Poppins with !important on
+   every element, so this needs !important to win at all (without it the whole
+   mark silently renders as Poppins); and the gradient stops are the dark end of
+   #ring-red, because the first attempt used the full ramp and its pale stops
+   made "Gu" disappear into the page. */
+/* No textLength here. Stretching the name to a fixed width used
+   lengthAdjust="spacingAndGlyphs", which distorts the letterforms by about
+   14% - exactly the kind of detail that separates a font from a drawing of a
+   font. Natural spacing at 140px lands the name across ~80% of the disc, which
+   is the width it wants anyway. */
+.tg-footer-seal-word{font-family:"Grenze Gotisch",serif;
+  font-size:140px;font-weight:600;letter-spacing:0.005em;
+  fill:url(#footerseal-red)}
+html[data-theme="dark"] .tg-footer-seal-word{fill:url(#footerseal-gold)}
+
+@media(max-width:900px){
+  .tg-footer .inner{padding:2.4rem 1.5rem 0 !important}
+  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:2rem 1.5rem !important}
+  .tg-footer-brand{grid-column:1 / -1 !important}
+  /* Third group spans and flows in two columns. Left in the left-hand cell it
+     ended the block with a blank right half, which reads as a mistake rather
+     than as space. */
+  .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
+    grid-template-columns:1fr 1fr !important;gap:0.55rem 1.5rem !important;align-content:start !important}
+  .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.1rem !important}
+  .tg-footer-mark{width:min(600px,84vw) !important;aspect-ratio:1.5 / 1 !important}
+}
+@media(max-width:720px){
+  .tg-footer{margin-top:2.5rem !important;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
+  .tg-footer .inner{padding:2rem 1.25rem 0 !important}
+  /* Two columns, not one. Fifteen links stacked in a single column made the
+     phone footer 1,245px tall on its own - longer than the page above it. The
+     labels are short enough to pair at 390px, which halves that and keeps the
+     three group headings readable. */
+  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.8rem 1.1rem !important}
+  .tg-footer-tag{max-width:none !important}
+  .tg-footer-col{gap:0.6rem !important}
+  .tg-footer-col a{padding:0.15rem 0 !important}
+  .tg-footer-col:last-of-type{gap:0.7rem 1.1rem !important}
+  .tg-footer-bottom{margin-top:1.8rem !important;flex-direction:column !important;align-items:flex-start !important;gap:0.4rem !important}
+  /* Fit the width on phone rather than magnifying past it. At 112vw the
+     wordmark was cropped mid-letter on both sides - "u Zhen Re" - which reads
+     as broken rather than as a deliberate bleed. Keeping the same 0.70 crop
+     ratio via aspect-ratio means the whole mark is legible and only the drip
+     tails run into the edge. */
+  .tg-footer-mark{margin-top:0.6rem !important;width:100% !important;aspect-ratio:1.42 / 1 !important}
+}
