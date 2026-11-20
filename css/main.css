@@ -2997,3 +2997,32 @@ html:not([data-theme="dark"]) .collection-feature .collection-directory-mark{bac
 html:not([data-theme="dark"]) .collection-categories-heading{border-bottom-color:#9b2a2a!important}
 html:not([data-theme="dark"]) .collection-tree-group,html:not([data-theme="dark"]) .collection-tree-group:last-child{border-color:rgba(142,38,34,.28);background:rgba(142,38,34,.045)}
 html:not([data-theme="dark"]) .collection-tree-group h4{border-bottom-color:rgba(142,38,34,.32);color:#8e2622}
+
+/* Menu header: keep the brand, close button and statistics in separate spaces. */
+.drawer .drawer-head{
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr);
+  align-items:center;
+  gap:0.7rem 0.9rem;
+  padding:1rem 3.25rem 1rem 1.25rem;
+}
+.drawer .drawer-head .wm{
+  display:block;
+  width:min(100%, 205px) !important;
+  height:auto !important;
+  max-width:100%;
+}
+html:not([data-theme="dark"]) .drawer .drawer-head .wm.logo-dark,
+html[data-theme="dark"] .drawer .drawer-head .wm.logo-light{display:none}
+.drawer .drawer-stats{
+  grid-column:1 / -1;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  gap:0.5rem 1rem;
+  width:100%;
+  min-width:0;
+  margin:0;
+}
+.drawer .drawer-stats > span{white-space:nowrap}
+.drawer .drawer-close{z-index:1}
