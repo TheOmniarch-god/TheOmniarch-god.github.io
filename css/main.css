@@ -2598,3 +2598,51 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .ring{top:247px !important}
   .tg-mainpage-header .wordmark-img{transform:translateY(89px) !important}
 }
+
+/* ===== Raise the page: the whole composition moves up =====
+   Everything on the landing hero rides up together by 80px - circle, logo,
+   search pill, tiles and the content below them. Nothing changes size and
+   nothing changes its position relative to anything else; only the group's
+   distance from the top of the page changes.
+
+     hero height      354 -> 274
+     ring top         247 -> 167
+     logo offset       89 -> 49
+     search zone      +0 -> -40
+
+   THREE THINGS HAD TO BE MEASURED, NOT DERIVED, because the obvious route was
+   wrong twice:
+
+   1. The content column cannot be moved on its own. `.tg-mainpage-content` is
+      position:static, so a `top` on it does nothing; making it relative would
+      do worse damage, because the ring is a descendant and would re-anchor its
+      containing block - the exact trap an earlier pass hit. So the pieces are
+      moved individually and the column is left alone.
+
+   2. The logo does not follow the hero. The hero is a centred flex column, so
+      a shorter hero re-centres its content and the logo only moves 1px for
+      every 2px of height - it came up 40 while the tiles came up 80. The
+      remaining 40 comes from the transform: 89 -> 49.
+
+   3. The ring's offset is not 247-80. The ring is positioned inside the
+      content column, not inside the hero, so it does not inherit the flex
+      shift - it needed to come up the full 80 itself, 247 -> 167. At 167 the
+      circle lands back at y18..316, exactly where it sat before the previous
+      pass, and the logo keeps its original 1.6px offset from the circle's
+      centre. The whole prior composition is intact, just higher.
+
+   80 is the ceiling on desktop, not a preference: the tiles' 26px arc overlap
+   from the last pass is fixed, so raising further pushes the circle's top arc
+   past the top edge, where it now paints rather than clips.
+
+   PHONE IS DELIBERATELY UNTOUCHED. Its hero is only 300px and its ring ink
+   already starts at y8, so there is no room to give - raising it 20px pushed
+   the ink to -12 and clipped it. The empty band this lift removes is a desktop
+   feature; the phone layout never had it. */
+@media(min-width:721px){
+  .tg-mainpage-header{height:274px !important}
+  .tg-mainpage-header .ring{top:167px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(49px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;top:-40px !important}
+}
+}
