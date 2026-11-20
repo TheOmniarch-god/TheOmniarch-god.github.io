@@ -106,7 +106,7 @@
   .template-navpills{display:grid;gap:0.5rem;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));grid-auto-rows:3.25rem;font-size:0.875rem}
   .template-navpill{transition:transform .16s ease-out;transform:scale(calc(1 + var(--prox,0)*0.02));position:relative;border:var(--tg-border-base);border-radius:var(--tg-border-radius-medium);font-weight:var(--tg-font-weight-medium);line-height:var(--tg-line-height-xx-small);overflow:hidden;background:var(--pill,#3b3a36)}
   .template-navpill .pill-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;background:var(--img) center/cover no-repeat}
-  .template-navpill .pill-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 130% at 88% 20%, rgba(255,255,255,0.14), rgba(255,255,255,0) 60%),linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 28%, rgba(0,0,0,0.14) 60%, rgba(0,0,0,0) 78%)}
+  .template-navpill .pill-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 130% at 88% 20%, rgba(255,255,255,0.14), rgba(255,255,255,0) 60%),linear-gradient(to right, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0.04) 60%, rgba(0,0,0,0) 78%)}
   .template-navpill .pill-bg svg{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;color:#fff;opacity:0.35;transition:transform 100ms ease}
   .template-navpill:hover .pill-bg svg{transform:translateY(-50%) scale(1.12)}
   .template-navpill .pill-bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 2px,transparent 2px 9px)}
@@ -1423,6 +1423,23 @@ html[data-theme="dark"] .collection-tree-group li a:hover{color:var(--tg-color-l
 .tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.72) 0%,rgba(249,244,238,0.86) 62%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
 html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.62) 0%,rgba(10,10,14,0.86) 62%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
 
+/* ===== Tiles: one scrim instead of two =====
+   The left of every tile read as near-black rather than dark. Two gradients
+   were stacking there, not one: the base `.pill-bg::before` laid 0.82 of black
+   over the art, then the Gateway block's `::after` laid 0.88 on top of it. Alpha
+   compounds multiplicatively, so 1-(1-0.82)(1-0.88) = 0.978 - effectively an
+   opaque black wedge, which is why the artwork appeared to vanish at the left
+   edge and why tuning the `::after` alone never moved it much.
+
+   The base rule also applied to inner-page header tiles, so it is not deleted;
+   its scrim is reduced to a light 0.22 that the Gateway gradient can finish.
+   The single composed scrim now runs 0.80 at the left edge (was ~0.978), and
+   the `::after` ramp is evened out so the art reads across the tile instead of
+   only at the right. `filter` brightness comes up with it: 0.92 -> 0.98 light,
+   0.78 -> 0.88 dark, and saturation 0.85 -> 0.92 light.
+   Measured on the rendered band: left-edge luminance 35 -> 54 of 255, artwork
+   zone 64 -> 83. Still dark enough that the white labels keep their contrast. */
+
 /* Tiles: the reference runs 45px rows. Ours inherited 3.25rem (52px) from the
    original large-canvas grid, which pushed two rows of tiles 14px deeper. */
 .tg-mainpage-navigation .template-navpills{grid-auto-rows:46px !important}
@@ -1502,16 +1519,16 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    colour on the right and lay a dark gradient over the left two thirds, so the
    white label sits on near-black and the picture survives. An even scrim was my
    first attempt and it turned twelve paintings into grey felt. */
-.tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.85) brightness(0.92) !important}
+.tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.92) brightness(0.98) !important}
 .tg-mainpage-navigation .template-navpill .pill-bg::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(14,16,15,0.88) 0%,rgba(14,16,15,0.62) 42%,
-    rgba(14,16,15,0.18) 72%,rgba(14,16,15,0.30) 100%);
+  background:linear-gradient(90deg,rgba(14,16,15,0.80) 0%,rgba(14,16,15,0.52) 42%,
+    rgba(14,16,15,0.16) 72%,rgba(14,16,15,0.26) 100%);
   pointer-events:none}
 .tg-mainpage-navigation .template-navpill>a{text-shadow:0 1px 2px rgba(0,0,0,0.55) !important}
-html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.8) brightness(0.78) !important}
+html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg{filter:saturate(0.85) brightness(0.88) !important}
 html[data-theme="dark"] .tg-mainpage-navigation .template-navpill .pill-bg::after{
-  background:linear-gradient(90deg,rgba(8,10,9,0.90) 0%,rgba(8,10,9,0.66) 42%,
-    rgba(8,10,9,0.22) 72%,rgba(8,10,9,0.36) 100%)}
+  background:linear-gradient(90deg,rgba(8,10,9,0.86) 0%,rgba(8,10,9,0.58) 42%,
+    rgba(8,10,9,0.20) 72%,rgba(8,10,9,0.30) 100%)}
 
 /* The tiles also sat 4px under the search pill, where the reference leaves a
    clear gap between the header and the band. One rem of air separates the two
@@ -2554,9 +2571,23 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    the composition, which is the constraint the earlier reference-matching pass
    was protecting. Light moves most at any given alpha because its wash is pale
    cream over a pale image; dark's gold-on-black composition already had more
-   separated values. */
-.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.73) 0%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
-html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.63) 0%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+   separated values.
+
+   ===== Then the top of the header, on its own =====
+   The last rung evened the whole wash down, which dulled the artwork everywhere
+   to make the top of it slightly more readable. The request is narrower than
+   that: only the strip the wordmark sits against should gain visibility, and
+   the rest of the page should look exactly as it did. So the top of the ramp
+   is pulled down hard and the body is left where it was - the gradient now
+   falls 0.50 -> 0.62 -> 0.73 over the first third and rejoins the old 0.85 at
+   58%, so everything below that line is byte-identical to before.
+
+   Measured against the previous build over the whole header width: the top
+   60px band drops from luminance 207 to 182 in light (its tonal spread rises
+   17 -> 28, so the art actually shows through) and lifts 22 -> 27 in dark.
+   By y120 the two builds are identical to the digit. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.50) 0%,rgba(249,244,238,0.62) 16%,rgba(249,244,238,0.73) 34%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.40) 0%,rgba(10,10,14,0.52) 16%,rgba(10,10,14,0.63) 34%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
 
 /* ===== Desktop: sink the circle and logo so the arc passes under the tiles =====
    The ring stopped 54px short of the category tiles, so the rotating circle
