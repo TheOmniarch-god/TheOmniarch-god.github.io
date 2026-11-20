@@ -2769,111 +2769,129 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
 .tg-footer-copy,.tg-footer-credits{font-style:normal !important}
 
-/* ===== The oversized mark: set as text, with the ring as a watermark =====
-   The previous pass used the wordmark artwork here, cropped so its drip tails
-   ran off the page edge. It was recognisably the brand, but it was still a
-   photograph of a logo: it could not scale with the type, it carried the
-   artwork's own raster edges, and at footer scale it read as an image dropped
-   into a div rather than as part of the page.
+/* ===== Footer: the oversized wordmark, cropped by the page edge =====
+   Format taken from the Gelato La Boca footer on Awwwards: one line of type set
+   so large that it is the object itself, running past both edges of the
+   viewport and cut off by the bottom of the page. No illustration, no badge,
+   no frame - the scale of the type does the work, and the small meta sits above
+   it in quiet contrast.
 
-   Two changes fix that, and neither needs a new asset.
+   Three details make that format work rather than just being "big text":
 
-   First, the text. The ring wordmark is already set in Grenze Gotisch, so the
-   same face at display size belongs to the composition rather than quoting it:
-   the footer's name and the circle's lettering are now demonstrably the same
-   typeface. It is filled with the site's own ring-red gradient (whose stops
-   are taken from #ring-red, so light and dark are matched by construction)
-   through background-clip:text, which also means it stays crisp at any size and
-   any device pixel ratio - no 4K raster to re-export.
+   1. The word is sized from its own measured ink, not eyeballed. Rendered and
+      measured, "Gu Zhen Ren" in Grenze Gotisch 600 at -0.022em tracking paints
+      4.46em wide and 0.79em tall (the box advances 4.50em), with the ink
+      starting 0.21em below the top of the line box. The font size is therefore
+      a computed multiple of the space that is actually visible - the window
+      minus the fixed left rail - so the name spans it edge to edge with only a
+      hair of overhang (2%), and the window is 0.49em (the top 62% of the ink)
+      so the feet of the letters are cut by the page's edge. The -0.21em pull
+      on the line sits the ink flush to the window's top instead of leaving a
+      line-height gap there. Sizing it from the rail edge rather than 100vw
+      matters: the rail is fixed over the page, so a window-centred line reads
+      half a rail off-centre and the bleed starts eating the G.
+   2. Each word is its own element, because the parallax moves them at slightly
+      different rates on scroll. That is the "oversized footer" element's other
+      half - it is built on parallax, not just size.
+   3. The visible line is aria-hidden and the name is repeated once for
+      assistive tech, so splitting it into words costs nothing semantically.
 
-   One trap: line 1145 forces Poppins with !important on every element, so a
-   display face here has to be declared !important too. Without it the whole
-   thing silently renders as Poppins, which is what the first prototype did.
+   Colour is ours, not theirs: the ring-red gradient in light, ring-gold in
+   dark, both taken from the same gradients the header inscription uses, so the
+   footer is made of the page's own materials. */
+.tg-footer{margin-top:3.5rem !important;background:var(--tg-color-surface-2) !important;
+  border-top:var(--tg-border-base) !important;overflow:hidden !important;position:relative !important}
+.tg-footer .inner{max-width:1180px !important;margin:0 auto !important;padding:3.2rem 2rem 0 !important}
 
-   Second, the circle. It is the same 168-radius path and the same inscription
-   as the rotating ring in the header, which is exactly the motif the page is
-   built around, so the footer now closes the composition with the shape that
-   opens it. It is a watermark here - heavily dimmed, turning once a minute,
-   behind the type - so it reads as structure rather than as a second logo. */
-/* The box is shorter than the disc on purpose. A square viewBox left ~200px of
-   dead air above and below the circle and pushed the footer to almost 1000px
-   tall; cropping the bottom of the disc instead gives the composition the
-   references actually use - the arc rises behind the name, and the circle is
-   cut by the edge of the page rather than sitting complete in a lot of space.
-   aspect-ratio drives the crop, so it holds at every width. */
-.tg-footer-mark{position:relative !important;margin:0.9rem auto 0 !important;
-  width:min(640px,64vw) !important;aspect-ratio:1.62 / 1 !important;
-  overflow:hidden !important;
+.tg-footer-cols{display:grid !important;grid-template-columns:1.6fr 1fr 1fr 1fr !important;gap:2.5rem !important}
+.tg-footer-tag{color:var(--tg-color-subtle) !important;font-size:0.9rem !important;line-height:1.6 !important;
+  margin:0 !important;max-width:34ch !important;font-style:normal !important}
+.tg-footer-tag b{color:var(--tg-color-base) !important;font-weight:600 !important}
+.tg-footer-progress{margin-top:1.1rem !important;font-size:0.8rem !important;letter-spacing:0.04em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important}
+.tg-footer-progress .n{color:var(--tg-color-progressive) !important;font-weight:700 !important}
+.tg-footer-progress .dot{margin:0 0.5rem !important;opacity:0.5 !important}
+
+.tg-footer-col{display:flex !important;flex-direction:column !important;gap:0.55rem !important;text-align:left !important}
+.tg-footer-col h4{margin:0 0 0.35rem !important;font-family:var(--tg-font-family-body) !important;
+  font-size:0.7rem !important;font-weight:600 !important;letter-spacing:0.12em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important;opacity:0.85 !important}
+.tg-footer-col a{color:var(--tg-color-base) !important;font-size:0.875rem !important;text-decoration:none !important;
+  padding:0 !important;background:none !important;border:0 !important;
+  transition:color .15s ease,transform .2s ease !important}
+.tg-footer-col a:hover{color:var(--tg-color-progressive) !important;transform:translateX(3px) !important}
+.tg-footer-col a:focus-visible{outline:2px solid var(--tg-color-progressive);outline-offset:3px;border-radius:2px}
+
+.tg-footer-bottom{margin-top:2.6rem !important;padding:1.1rem 0 1.3rem !important;display:flex !important;
+  justify-content:space-between !important;align-items:center !important;gap:1rem !important;flex-wrap:wrap !important;
+  border-top:1px solid color-mix(in srgb,var(--tg-color-base) 14%,transparent) !important;
+  color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
+.tg-footer-copy,.tg-footer-credits{font-style:normal !important}
+
+/* The mark. .tg-footer-mark is the window; .tg-footer-line is the row of type,
+   sized in vw so it always overflows that window horizontally. */
+.tg-footer-mark{position:relative !important;overflow:hidden !important;
+  /* the left chrome rail is fixed over the page's left edge, so the mark is
+     measured from the rail's edge instead of the window's: centred in the
+     space that is actually visible. --mfs is the font size that makes the
+     measured 4.46em of ink 102% of that space. */
+  --mfs:calc((100vw - 56px) * 0.2287);
+  margin-left:56px !important;
+  height:calc(var(--mfs) * 0.49) !important;margin-top:2.2rem !important;
   display:flex !important;align-items:flex-start !important;justify-content:center !important}
+.tg-footer-line,.tg-footer-line i{font-family:"Grenze Gotisch",serif !important}
+.tg-footer-line{display:flex !important;align-items:flex-start !important;
+  gap:0.12em !important;width:max-content !important;flex:none !important;
+  margin-top:-0.21em !important;
+  font-size:var(--mfs) !important;line-height:1 !important;
+  font-family:"Grenze Gotisch",serif !important;font-weight:600 !important;
+  letter-spacing:-0.022em !important;white-space:nowrap !important;
+  will-change:transform !important}
+/* Grenze Gotisch is a display face; at this size the two-colour gradient has to
+   be a real two-colour step, not the full ring ramp, or the pale stops erase
+   the thinner strokes. */
+.tg-footer-line i{font-family:"Grenze Gotisch",serif !important;font-style:normal !important;display:block !important;flex:none !important;
+  background-image:linear-gradient(178deg,#c04a50 0%,#8e2226 34%,#6d1416 62%,#a93a40 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;color:transparent !important;
+  filter:drop-shadow(0 2px 3px rgba(20,8,4,0.10)) !important}
+html[data-theme="dark"] .tg-footer-line i{
+  background-image:linear-gradient(178deg,#e8c878 0%,#b8862a 34%,#8f6316 62%,#dcb96a 100%) !important}
 
-/* One SVG holds both the inscription and the name, so the two scale together
-   and the circle can never be cropped into stray arcs. The viewBox is square
-   and the whole disc is inside it, which is what keeps the circle readable. */
-.tg-footer-seal{width:100% !important;height:auto !important;
-  display:block !important;overflow:visible !important}
+/* Each word gets its own parallax rate, set from JS; the fallback is none. */
+.tg-footer-line i[data-w="1"]{transform:translate3d(0,var(--py1,0px),0) !important}
+.tg-footer-line i[data-w="2"]{transform:translate3d(0,var(--py2,0px),0) !important}
+.tg-footer-line i[data-w="3"]{transform:translate3d(0,var(--py3,0px),0) !important}
 
-/* The inscription turns; the name does not. Rotating the container would carry
-   the wordmark with it, so the spin is scoped to the ring group only and the
-   transform-origin is the disc's centre in viewBox units. */
-.tg-footer-seal-ring{transform-origin:400px 400px;
-  animation:spin 88s linear infinite;transform-box:view-box !important}
-.tg-footer-seal-ring text{font-family:"Grenze Gotisch",serif;
-  font-size:15px;font-weight:600;letter-spacing:0.04em;fill:var(--tg-color-progressive);opacity:0.34}
-html[data-theme="dark"] .tg-footer-seal-ring text{opacity:0.42}
-
-/* One micro-interaction, on the seal only: the inscription quickens when the
-   mark is hovered. It is the kind of detail the references carry and it costs
-   nothing - no layout shift, no new asset, and the rotation never stops, so the
-   standing rule that the circle always turns still holds. */
-.tg-footer-mark:hover .tg-footer-seal-ring{animation-duration:26s}
-
-/* The display face. Grenze Gotisch is the face the ring is already set in, so
-   the name here is demonstrably the same typeface as the inscription around it
-   rather than a different font standing in for a logo.
-   Two things had to be got right: line 1145 forces Poppins with !important on
-   every element, so this needs !important to win at all (without it the whole
-   mark silently renders as Poppins); and the gradient stops are the dark end of
-   #ring-red, because the first attempt used the full ramp and its pale stops
-   made "Gu" disappear into the page. */
-/* No textLength here. Stretching the name to a fixed width used
-   lengthAdjust="spacingAndGlyphs", which distorts the letterforms by about
-   14% - exactly the kind of detail that separates a font from a drawing of a
-   font. Natural spacing at 140px lands the name across ~80% of the disc, which
-   is the width it wants anyway. */
-.tg-footer-seal-word{font-family:"Grenze Gotisch",serif;
-  font-size:140px;font-weight:600;letter-spacing:0.005em;
-  fill:url(#footerseal-red)}
-html[data-theme="dark"] .tg-footer-seal-word{fill:url(#footerseal-gold)}
+.sr-only{position:absolute !important;width:1px !important;height:1px !important;padding:0 !important;
+  margin:-1px !important;overflow:hidden !important;clip:rect(0 0 0 0) !important;
+  white-space:nowrap !important;border:0 !important}
 
 @media(max-width:900px){
   .tg-footer .inner{padding:2.4rem 1.5rem 0 !important}
   .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:2rem 1.5rem !important}
   .tg-footer-brand{grid-column:1 / -1 !important}
-  /* Third group spans and flows in two columns. Left in the left-hand cell it
-     ended the block with a blank right half, which reads as a mistake rather
-     than as space. */
   .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
     grid-template-columns:1fr 1fr !important;gap:0.55rem 1.5rem !important;align-content:start !important}
   .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.1rem !important}
-  .tg-footer-mark{width:min(600px,84vw) !important;aspect-ratio:1.5 / 1 !important}
 }
 @media(max-width:720px){
   .tg-footer{margin-top:2.5rem !important;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
   .tg-footer .inner{padding:2rem 1.25rem 0 !important}
-  /* Two columns, not one. Fifteen links stacked in a single column made the
-     phone footer 1,245px tall on its own - longer than the page above it. The
-     labels are short enough to pair at 390px, which halves that and keeps the
-     three group headings readable. */
   .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.8rem 1.1rem !important}
   .tg-footer-tag{max-width:none !important}
-  .tg-footer-col{gap:0.6rem !important}
   .tg-footer-col a{padding:0.15rem 0 !important}
   .tg-footer-col:last-of-type{gap:0.7rem 1.1rem !important}
   .tg-footer-bottom{margin-top:1.8rem !important;flex-direction:column !important;align-items:flex-start !important;gap:0.4rem !important}
-  /* Fit the width on phone rather than magnifying past it. At 112vw the
-     wordmark was cropped mid-letter on both sides - "u Zhen Re" - which reads
-     as broken rather than as a deliberate bleed. Keeping the same 0.70 crop
-     ratio via aspect-ratio means the whole mark is legible and only the drip
-     tails run into the edge. */
-  .tg-footer-mark{margin-top:0.6rem !important;width:100% !important;aspect-ratio:1.42 / 1 !important}
+  /* The name is wider than the phone, so it gets a bigger crop ratio rather
+     than a smaller font: the point of the format is that it does not fit. */
+  /* On a phone the chrome rail is a fixed bar across the bottom of the page,
+     so there is no page edge for the type to be cut by: a cropped band here
+     would just look like a mistake floating above the bar. The mark is shown
+     whole instead, edge to edge, sitting above that bar - the same scale
+     contrast, honestly framed. */
+  .tg-footer-mark{--mfs:calc((100vw - 38px) * 0.2287) !important;
+    margin-left:38px !important;margin-top:1.4rem !important;
+    height:calc(var(--mfs) * 0.80) !important}
+  .tg-footer-line{gap:0.1em !important}
 }
