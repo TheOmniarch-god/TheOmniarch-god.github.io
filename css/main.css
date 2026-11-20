@@ -2646,36 +2646,37 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .search-zone{position:relative !important;top:-40px !important}
 }
 
-/* ===== Desktop: the pill shrinks to sit under the wordmark =====
-   The wordmark takes pre-eminence in the circle, so the search pill gives way.
-   Its ink profile, measured row by row, explains why it needed to move at all:
+/* ===== Desktop: the pill sits under the wordmark, sized to the space =====
+   The wordmark takes pre-eminence in the circle, so the search pill is placed
+   around it rather than the mark being moved around the pill. Its ink profile,
+   measured row by row, is what sets the bounds:
 
      hanzi             y73  .. y127
      "Gu Zhen Ren"     y154 .. y206   <- letter bodies
      drips only        y206 .. y334   <- thin descender tails
 
-   The pill was 44px tall at y201, so it sat across the letter bodies and, being
-   dark, cut the bottom off "Gu Zhen Ren". Beneath the bodies there is only the
-   thin drip field, which a smaller pill can sit in without covering anything
-   substantial.
+   The pill must clear two things: the top of it must stay below the letter
+   bodies at y206, and its bottom must stay inside the circle, whose inner edge
+   at the pill's centre line is y316. That is a window of about 110px, and the
+   widest pill that fits it while leaving a real margin above the tiles is
+   44px tall - 151px wide with 15px type and 24px of side padding.
 
-   So the pill goes 44 -> 34 tall, 15.2 -> 13px type, 25.6 -> 18px side padding,
-   and its icon and keyboard hint step down with it. That puts its top just
-   below y206 instead of over it, and it clears the ring's inner edge with room
-   to spare.
+   It landed 34px and 123px wide on the previous pass, which cleared the letter
+   bodies but read as undersized against the wordmark. 44/151 is the largest
+   that still keeps 41px to the ring's inner edge and 15px above the tiles.
 
-   The logo carries the priority, so it is the one thing this pass does correct:
-   a shorter pill makes the content column shorter, and the hero is a centred
-   flex column, so the logo drifted down 5px as a side effect. Its translate
-   comes back 49 -> 44 to put it exactly back on the circle's centre, at the
-   1.6px offset it has held since the composition was approved. Measuring this
-   was the only way to catch it - the pill and the circle were both correct
-   while the logo had quietly moved. */
+   The pill's position is a relative offset, not a margin: a margin would make
+   the content column taller, and since the hero centres its content that would
+   drag the logo and the whole group with it. A relative offset moves only the
+   pill - but it does not do so for free either: the taller column re-centres
+   the logo, which is why the logo's translate is re-measured every time this
+   pill changes. It sits at 49, the value that puts the mark back on the
+   circle's centre at the 1.6px offset the composition has always used. */
 @media(min-width:721px){
-  .tg-mainpage-header #search-trigger{height:34px !important;min-height:0 !important;
-    font-size:13px !important;padding:0 18px !important;gap:6px !important}
-  .tg-mainpage-header #search-trigger svg{width:13px !important;height:13px !important}
-  .tg-mainpage-header .tg-mainpage-header-search .kbd{width:14px !important;height:14px !important;font-size:8px !important}
-  .tg-mainpage-header .wordmark-img{transform:translateY(44px) !important}
-  .tg-mainpage-header .search-zone{position:relative !important;top:-29px !important}
+  .tg-mainpage-header #search-trigger{height:44px !important;min-height:0 !important;
+    font-size:15px !important;padding:0 24px !important;gap:8px !important}
+  .tg-mainpage-header #search-trigger svg{width:16px !important;height:16px !important}
+  .tg-mainpage-header .tg-mainpage-header-search .kbd{width:16px !important;height:16px !important;font-size:9px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(49px) !important}
+  .tg-mainpage-header .search-zone{position:relative !important;top:-10px !important}
 }
