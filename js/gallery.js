@@ -175,7 +175,24 @@
    'Ancient Sword Dragon Transformation 2'].forEach(function(n){subjectKinds[n]='cultivation';});
   // A line a plate says, not a person: the caption names no figure, so the
   // record is filed as a scene and its subject is filed with it.
+  // The last thirty-two blanks: the named figures the plates themselves letter
+  // or the collection itself titles, and the plate titles that have no figure
+  // in them at all -- a group cast, an artist's own sketch sequence, a meme
+  // grid. Those are filed with their category rather than with a person.
+  ['Bai Cheng','Ming You','Shi Nu','King Quan','King Xin','King Bao','Hu Immortal',
+   'Cloud Path Immortal','Sha Huang','Tie Ruo Nan','Ying Wu Xie'].forEach(function(n){subjectKinds[n]='characters';});
+  ['Cast of Reverend Insanity','Corruption','Reverend Insanity characters',
+   'Reverend Insanity (invincible meme)'].forEach(function(n){subjectKinds[n]='scenes';});
+  subjectKinds['An encounter in the mountains']='beasts';
+  subjectKinds['A battle — part 2']='beasts';
+  subjectKinds['Reverend Insanity — title calligraphy (蛊真人)']='scenes';
   subjectKinds['Limitless, please turn around!']='scenes';
+  // Two subjects the naming pass reached from the plates themselves: a Gu worm
+  // the source files and names, and the Immortal Gu the monkey carries. Both
+  // are creatures before they are anything else, so they are filed with the
+  // beings they are rather than left with no kind at all.
+  subjectKinds['Wu Du Xie']='gu';
+  subjectKinds['Spring Scissors']='gu';
   // Fallback for the long tail of subjects that only appear on a handful of
   // files. Without a kind, a subject gets no subcategory entry and its page
   // is reachable only by direct link. This resolves only the cases the naming
