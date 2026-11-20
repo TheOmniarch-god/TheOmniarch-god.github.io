@@ -2585,9 +2585,18 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    Measured against the previous build over the whole header width: the top
    60px band drops from luminance 207 to 182 in light (its tonal spread rises
    17 -> 28, so the art actually shows through) and lifts 22 -> 27 in dark.
-   By y120 the two builds are identical to the digit. */
-.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.50) 0%,rgba(249,244,238,0.62) 16%,rgba(249,244,238,0.73) 34%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
-html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.40) 0%,rgba(10,10,14,0.52) 16%,rgba(10,10,14,0.63) 34%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+   By y120 the two builds are identical to the digit.
+
+   Then one more rung on request: same band, same two themes, 1.5x the gain this
+   block had already won. Scaling the improvement (not the alpha) means the veil
+   goes 0.50 -> 0.36 and 0.40 -> 0.28 at the top, and both later stops move with
+   it so the falloff keeps its shape rather than becoming a hard edge. Landed at
+   light 207 -> 168 and dark 22 -> 30, which is 1.5x the 25 and 5 points the
+   previous rung took; tonal spread at the top rises again to 35 in light and
+   15 in dark. The wash still rejoins 0.85 at 58%, so everything from y120 down
+   is unchanged, and the wordmark keeps the highest contrast in the band. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.36) 0%,rgba(249,244,238,0.54) 16%,rgba(249,244,238,0.70) 34%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.28) 0%,rgba(10,10,14,0.45) 16%,rgba(10,10,14,0.60) 34%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
 
 /* ===== Desktop: sink the circle and logo so the arc passes under the tiles =====
    The ring stopped 54px short of the category tiles, so the rotating circle
