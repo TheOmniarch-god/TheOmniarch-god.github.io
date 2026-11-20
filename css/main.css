@@ -2769,30 +2769,81 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
 .tg-footer-copy,.tg-footer-credits{font-style:normal !important}
 
-/* The oversized mark. Its own crop box is clipped by the footer, so the bottom
-   of the artwork runs off the page exactly like the reference - the wordmark
-   is cut by the viewport, not floated inside it. translate keeps a sliver of
-   the drip tails visible without ever reaching the last line of text. */
-/* Geometry, measured off the asset rather than guessed. The wordmark file is
-   753x358 and its ink sits in three bands: the hanzi at y0-104 (0-29%), the
-   "Gu Zhen Ren" lettering at y144-243 (40-68%), and thin drip tails from y288
-   (80%) down, with the last fifth of the file empty. The window below is
-   0.70 of the file height, which ends just under the lettering: it shows the
-   hanzi and the full wordmark, and lets the drips run into the page edge.
-   Width and height are both expressed so they stay at that same ratio - 66vw
-   of width against 22vw of height is exactly 0.70 x the 753:358 proportions -
-   so the crop does not drift between viewport sizes. */
-.tg-footer-mark{position:relative !important;margin-top:1.4rem !important;
-  width:min(74vw,940px) !important;aspect-ratio:753 / 251 !important;
-  margin-left:auto !important;margin-right:auto !important;
-  overflow:hidden !important;pointer-events:none !important;
-  display:flex !important;justify-content:center !important;align-items:flex-start !important}
-.tg-footer-mark img{width:100% !important;height:auto !important;max-width:none !important;
-  display:block !important;
-  filter:saturate(0.95) !important;opacity:0.94 !important}
-.tg-footer-mark .logo-dark{display:none !important}
-html[data-theme="dark"] .tg-footer-mark .logo-light{display:none !important}
-html[data-theme="dark"] .tg-footer-mark .logo-dark{display:block !important}
+/* ===== The oversized mark: set as text, with the ring as a watermark =====
+   The previous pass used the wordmark artwork here, cropped so its drip tails
+   ran off the page edge. It was recognisably the brand, but it was still a
+   photograph of a logo: it could not scale with the type, it carried the
+   artwork's own raster edges, and at footer scale it read as an image dropped
+   into a div rather than as part of the page.
+
+   Two changes fix that, and neither needs a new asset.
+
+   First, the text. The ring wordmark is already set in Grenze Gotisch, so the
+   same face at display size belongs to the composition rather than quoting it:
+   the footer's name and the circle's lettering are now demonstrably the same
+   typeface. It is filled with the site's own ring-red gradient (whose stops
+   are taken from #ring-red, so light and dark are matched by construction)
+   through background-clip:text, which also means it stays crisp at any size and
+   any device pixel ratio - no 4K raster to re-export.
+
+   One trap: line 1145 forces Poppins with !important on every element, so a
+   display face here has to be declared !important too. Without it the whole
+   thing silently renders as Poppins, which is what the first prototype did.
+
+   Second, the circle. It is the same 168-radius path and the same inscription
+   as the rotating ring in the header, which is exactly the motif the page is
+   built around, so the footer now closes the composition with the shape that
+   opens it. It is a watermark here - heavily dimmed, turning once a minute,
+   behind the type - so it reads as structure rather than as a second logo. */
+/* The box is shorter than the disc on purpose. A square viewBox left ~200px of
+   dead air above and below the circle and pushed the footer to almost 1000px
+   tall; cropping the bottom of the disc instead gives the composition the
+   references actually use - the arc rises behind the name, and the circle is
+   cut by the edge of the page rather than sitting complete in a lot of space.
+   aspect-ratio drives the crop, so it holds at every width. */
+.tg-footer-mark{position:relative !important;margin:0.9rem auto 0 !important;
+  width:min(640px,64vw) !important;aspect-ratio:1.62 / 1 !important;
+  overflow:hidden !important;
+  display:flex !important;align-items:flex-start !important;justify-content:center !important}
+
+/* One SVG holds both the inscription and the name, so the two scale together
+   and the circle can never be cropped into stray arcs. The viewBox is square
+   and the whole disc is inside it, which is what keeps the circle readable. */
+.tg-footer-seal{width:100% !important;height:auto !important;
+  display:block !important;overflow:visible !important}
+
+/* The inscription turns; the name does not. Rotating the container would carry
+   the wordmark with it, so the spin is scoped to the ring group only and the
+   transform-origin is the disc's centre in viewBox units. */
+.tg-footer-seal-ring{transform-origin:400px 400px;
+  animation:spin 88s linear infinite;transform-box:view-box !important}
+.tg-footer-seal-ring text{font-family:"Grenze Gotisch",serif;
+  font-size:15px;font-weight:600;letter-spacing:0.04em;fill:var(--tg-color-progressive);opacity:0.34}
+html[data-theme="dark"] .tg-footer-seal-ring text{opacity:0.42}
+
+/* One micro-interaction, on the seal only: the inscription quickens when the
+   mark is hovered. It is the kind of detail the references carry and it costs
+   nothing - no layout shift, no new asset, and the rotation never stops, so the
+   standing rule that the circle always turns still holds. */
+.tg-footer-mark:hover .tg-footer-seal-ring{animation-duration:26s}
+
+/* The display face. Grenze Gotisch is the face the ring is already set in, so
+   the name here is demonstrably the same typeface as the inscription around it
+   rather than a different font standing in for a logo.
+   Two things had to be got right: line 1145 forces Poppins with !important on
+   every element, so this needs !important to win at all (without it the whole
+   mark silently renders as Poppins); and the gradient stops are the dark end of
+   #ring-red, because the first attempt used the full ramp and its pale stops
+   made "Gu" disappear into the page. */
+/* No textLength here. Stretching the name to a fixed width used
+   lengthAdjust="spacingAndGlyphs", which distorts the letterforms by about
+   14% - exactly the kind of detail that separates a font from a drawing of a
+   font. Natural spacing at 140px lands the name across ~80% of the disc, which
+   is the width it wants anyway. */
+.tg-footer-seal-word{font-family:"Grenze Gotisch",serif;
+  font-size:140px;font-weight:600;letter-spacing:0.005em;
+  fill:url(#footerseal-red)}
+html[data-theme="dark"] .tg-footer-seal-word{fill:url(#footerseal-gold)}
 
 @media(max-width:900px){
   .tg-footer .inner{padding:2.4rem 1.5rem 0 !important}
@@ -2804,6 +2855,7 @@ html[data-theme="dark"] .tg-footer-mark .logo-dark{display:block !important}
   .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
     grid-template-columns:1fr 1fr !important;gap:0.55rem 1.5rem !important;align-content:start !important}
   .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.1rem !important}
+  .tg-footer-mark{width:min(600px,84vw) !important;aspect-ratio:1.5 / 1 !important}
 }
 @media(max-width:720px){
   .tg-footer{margin-top:2.5rem !important;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
@@ -2823,9 +2875,5 @@ html[data-theme="dark"] .tg-footer-mark .logo-dark{display:block !important}
      as broken rather than as a deliberate bleed. Keeping the same 0.70 crop
      ratio via aspect-ratio means the whole mark is legible and only the drip
      tails run into the edge. */
-  /* 88%, not 100%: the asset's ink runs the full width of the file, so a
-     full-bleed window puts the G and the final n hard against the screen
-     edge. A small inset keeps the whole wordmark legible and still lets the
-     drip tails run into the bottom edge, which is the part that should bleed. */
-  .tg-footer-mark{width:88% !important;margin-top:1.2rem !important}
+  .tg-footer-mark{margin-top:0.6rem !important;width:100% !important;aspect-ratio:1.42 / 1 !important}
 }
