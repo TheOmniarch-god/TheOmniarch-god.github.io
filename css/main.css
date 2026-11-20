@@ -2195,6 +2195,16 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 .tg-mainpage-navigation .template-navpills button,
 .tg-mainpage-navigation .template-navpill{height:50px !important;min-height:50px !important}
 
+/* Tiles: another step up, same reasoning as above.
+   50px -> 55px, a second +5 step (45 -> 50 -> 55 overall). Stated last again so
+   it wins at equal specificity. No label overflows at 320, 390 or 1239 -
+   re-checked after this step, including the two-line "Volumes & Chapters"
+   wrap at 320. */
+.tg-mainpage-navigation .template-navpills{grid-auto-rows:55px !important}
+.tg-mainpage-navigation .template-navpills a,
+.tg-mainpage-navigation .template-navpills button,
+.tg-mainpage-navigation .template-navpill{height:55px !important;min-height:55px !important}
+
 
 
 /* ===== Wider circle, real word gaps, search bar inside its bottom =====

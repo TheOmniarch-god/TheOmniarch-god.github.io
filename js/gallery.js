@@ -181,7 +181,7 @@
   // grid. Those are filed with their category rather than with a person.
   ['Bai Cheng','Ming You','Shi Nu','King Quan','King Xin','King Bao','Hu Immortal',
    'Cloud Path Immortal','Sha Huang','Tie Ruo Nan','Ying Wu Xie'].forEach(function(n){subjectKinds[n]='characters';});
-  ['Cast of Reverend Insanity','Corruption','Reverend Insanity characters',
+  ['Gu in Human Form','Cast of Reverend Insanity','Corruption','Reverend Insanity characters',
    'Reverend Insanity (invincible meme)'].forEach(function(n){subjectKinds[n]='scenes';});
   subjectKinds['An encounter in the mountains']='beasts';
   subjectKinds['A battle — part 2']='beasts';
