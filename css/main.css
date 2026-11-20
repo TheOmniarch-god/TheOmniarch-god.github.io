@@ -2720,3 +2720,112 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   .tg-mainpage-header .wordmark-img{transform:translateY(49px) !important}
   .tg-mainpage-header .search-zone{position:relative !important;top:-10px !important}
 }
+
+/* ===== Footer: rebuilt on the Awwwards oversized-wordmark pattern =====
+   The old footer was three small things floating in a 215px band: a 240px
+   wordmark, two orphaned links pushed to the far right, and the line "Speak
+   friend and read" alone at the bottom. On 59 pages it read as unfinished
+   because it was: no sitemap, no copyright, no attribution, and on phone the
+   right-aligned links broke into three ragged centred lines.
+
+   Two Awwwards references set the replacement. The dark-footer family
+   (Reel Motion, Zephyr/Night Shift) puts a single very large wordmark at the
+   bottom of the footer, cropped by the viewport edge, with the link columns
+   sitting *above* it in small type; the whole effect comes from that contrast
+   in scale rather than from decoration. Awwwards' own footer follows the same
+   logic with far less ink - thin type, generous space, one navigation row.
+
+   So: four columns of small type at the top, a hairline, a proper rule line,
+   and the wordmark anchored to the bottom edge and oversized so it is cropped
+   by the page itself. The scale contrast is the design; the links stay quiet.
+
+   Colours are the site's existing tokens, so it inherits both themes and the
+   lore palette - no new palette was introduced for the footer alone. */
+.tg-footer{margin-top:3.5rem !important;background:var(--tg-color-surface-2) !important;
+  border-top:var(--tg-border-base) !important;overflow:hidden !important;position:relative !important}
+.tg-footer .inner{max-width:1180px !important;margin:0 auto !important;padding:3.2rem 2rem 0 !important}
+.tg-footer-cols{display:grid !important;grid-template-columns:1.6fr 1fr 1fr 1fr !important;gap:2.5rem !important}
+
+.tg-footer-tag{color:var(--tg-color-subtle) !important;font-size:0.9rem !important;line-height:1.6 !important;
+  margin:0 !important;max-width:34ch !important;font-style:normal !important}
+.tg-footer-tag b{color:var(--tg-color-base) !important;font-weight:600 !important}
+.tg-footer-progress{margin-top:1.1rem !important;font-size:0.8rem !important;letter-spacing:0.04em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important}
+.tg-footer-progress .n{color:var(--tg-color-progressive) !important;font-weight:700 !important}
+.tg-footer-progress .dot{margin:0 0.5rem !important;opacity:0.5 !important}
+
+.tg-footer-col{display:flex !important;flex-direction:column !important;gap:0.55rem !important;text-align:left !important}
+.tg-footer-col h4{margin:0 0 0.35rem !important;font-family:var(--tg-font-family-body) !important;
+  font-size:0.7rem !important;font-weight:600 !important;letter-spacing:0.12em !important;
+  text-transform:uppercase !important;color:var(--tg-color-subtle) !important;opacity:0.85 !important}
+.tg-footer-col a{color:var(--tg-color-base) !important;font-size:0.875rem !important;text-decoration:none !important;
+  padding:0 !important;background:none !important;border:0 !important;transition:color .15s ease !important}
+.tg-footer-col a:hover{color:var(--tg-color-progressive) !important}
+.tg-footer-col a:focus-visible{outline:2px solid var(--tg-color-progressive);outline-offset:3px;border-radius:2px}
+
+.tg-footer-bottom{margin-top:2.6rem !important;padding:1.1rem 0 1.3rem !important;display:flex !important;
+  justify-content:space-between !important;align-items:center !important;gap:1rem !important;flex-wrap:wrap !important;
+  border-top:1px solid color-mix(in srgb,var(--tg-color-base) 14%,transparent) !important;
+  color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
+.tg-footer-copy,.tg-footer-credits{font-style:normal !important}
+
+/* The oversized mark. Its own crop box is clipped by the footer, so the bottom
+   of the artwork runs off the page exactly like the reference - the wordmark
+   is cut by the viewport, not floated inside it. translate keeps a sliver of
+   the drip tails visible without ever reaching the last line of text. */
+/* Geometry, measured off the asset rather than guessed. The wordmark file is
+   753x358 and its ink sits in three bands: the hanzi at y0-104 (0-29%), the
+   "Gu Zhen Ren" lettering at y144-243 (40-68%), and thin drip tails from y288
+   (80%) down, with the last fifth of the file empty. The window below is
+   0.70 of the file height, which ends just under the lettering: it shows the
+   hanzi and the full wordmark, and lets the drips run into the page edge.
+   Width and height are both expressed so they stay at that same ratio - 66vw
+   of width against 22vw of height is exactly 0.70 x the 753:358 proportions -
+   so the crop does not drift between viewport sizes. */
+.tg-footer-mark{position:relative !important;margin-top:1.4rem !important;
+  width:min(74vw,940px) !important;aspect-ratio:753 / 251 !important;
+  margin-left:auto !important;margin-right:auto !important;
+  overflow:hidden !important;pointer-events:none !important;
+  display:flex !important;justify-content:center !important;align-items:flex-start !important}
+.tg-footer-mark img{width:100% !important;height:auto !important;max-width:none !important;
+  display:block !important;
+  filter:saturate(0.95) !important;opacity:0.94 !important}
+.tg-footer-mark .logo-dark{display:none !important}
+html[data-theme="dark"] .tg-footer-mark .logo-light{display:none !important}
+html[data-theme="dark"] .tg-footer-mark .logo-dark{display:block !important}
+
+@media(max-width:900px){
+  .tg-footer .inner{padding:2.4rem 1.5rem 0 !important}
+  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:2rem 1.5rem !important}
+  .tg-footer-brand{grid-column:1 / -1 !important}
+  /* Third group spans and flows in two columns. Left in the left-hand cell it
+     ended the block with a blank right half, which reads as a mistake rather
+     than as space. */
+  .tg-footer-col:last-of-type{grid-column:1 / -1 !important;display:grid !important;
+    grid-template-columns:1fr 1fr !important;gap:0.55rem 1.5rem !important;align-content:start !important}
+  .tg-footer-col:last-of-type h4{grid-column:1 / -1 !important;margin-bottom:0.1rem !important}
+}
+@media(max-width:720px){
+  .tg-footer{margin-top:2.5rem !important;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px)) !important}
+  .tg-footer .inner{padding:2rem 1.25rem 0 !important}
+  /* Two columns, not one. Fifteen links stacked in a single column made the
+     phone footer 1,245px tall on its own - longer than the page above it. The
+     labels are short enough to pair at 390px, which halves that and keeps the
+     three group headings readable. */
+  .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.8rem 1.1rem !important}
+  .tg-footer-tag{max-width:none !important}
+  .tg-footer-col{gap:0.6rem !important}
+  .tg-footer-col a{padding:0.15rem 0 !important}
+  .tg-footer-col:last-of-type{gap:0.7rem 1.1rem !important}
+  .tg-footer-bottom{margin-top:1.8rem !important;flex-direction:column !important;align-items:flex-start !important;gap:0.4rem !important}
+  /* Fit the width on phone rather than magnifying past it. At 112vw the
+     wordmark was cropped mid-letter on both sides - "u Zhen Re" - which reads
+     as broken rather than as a deliberate bleed. Keeping the same 0.70 crop
+     ratio via aspect-ratio means the whole mark is legible and only the drip
+     tails run into the edge. */
+  /* 88%, not 100%: the asset's ink runs the full width of the file, so a
+     full-bleed window puts the G and the final n hard against the screen
+     edge. A small inset keeps the whole wordmark legible and still lets the
+     drip tails run into the bottom edge, which is the part that should bleed. */
+  .tg-footer-mark{width:88% !important;margin-top:1.2rem !important}
+}
