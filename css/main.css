@@ -2557,3 +2557,44 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
    separated values. */
 .tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,0.73) 0%,rgba(249,244,238,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat !important}
 html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,0.63) 0%,rgba(10,10,14,0.85) 58%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat !important}
+
+/* ===== Desktop: sink the circle and logo so the arc passes under the tiles =====
+   The ring stopped 54px short of the category tiles, so the rotating circle
+   never actually met them - the composition ended above the grid instead of
+   passing behind it. The ask is to bring the whole figure down so the circle's
+   bottom lands underneath the tiles, while the search bar stays exactly where
+   it is.
+
+   Three things have to move together and one must not:
+
+     ring top      167 -> 247px   (+80)
+     logo offset   9 -> 89px      (+80, so it keeps its place inside the ring)
+     hero overflow clip -> visible
+     search pill   untouched
+
+   THE OVERFLOW IS THE HIDDEN CONSTRAINT. The hero carries `overflow:clip`, so
+   anything past its 354px height is simply cut - which is why moving the ring
+   down alone would have looked like the circle shrinking rather than sinking.
+   With `visible` the ring can paint into the navigation strip below, and the
+   tiles (z-index 1, over the ring's 0) still paint on top of it, so the arc
+   passes behind them exactly as asked.
+
+   80px is the honest number, not the minimum. The circle needs 54px just to
+   touch the tiles; at 54 it is flush and reads as an accident. At 80 the bottom
+   sits at y396 against a tile top of y370 - 26px of arc genuinely behind the
+   first row, the same 26px the phone layout already has, so the two layouts now
+   agree on that relationship.
+
+   THE LOGO COMES WITH IT, as instructed, and it does overlap the pill. That is
+   unavoidable rather than overlooked: the wordmark's ink fills 99% of its box,
+   so it cannot be moved down without its descenders reaching the pill, and the
+   pill is only 31px below where the logo's ink already ends. The pill is not
+   harmed - .search-zone sits at z-index 5 and the wordmark's content at 1, so
+   the pill still paints over the mark and takes every click in the overlap.
+   Phone is left alone: there the circle already passes 26px behind the tiles,
+   so the relationship being asked for is already true at those widths. */
+@media(min-width:721px){
+  .tg-mainpage-header{overflow:visible !important}
+  .tg-mainpage-header .ring{top:247px !important}
+  .tg-mainpage-header .wordmark-img{transform:translateY(89px) !important}
+}
