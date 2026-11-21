@@ -2913,6 +2913,16 @@ html[data-theme="dark"] .tg-footer-panel{background:#14100c !important;
   letter-spacing:0.1em !important;text-transform:uppercase !important;text-align:left !important}
 .tg-footer-art figcaption b{font-weight:700 !important;color:#fdf6e8 !important}
 
+/* Above 1024px the left nav rail is a fixed, opaque 56px-wide sidebar that
+   sits on top of everything, including this full-bleed panel - the credit
+   pill's 1.5rem inset put it almost entirely underneath that rail, hiding
+   its first few letters. Below 1024px the rail relocates to a bottom bar
+   (see the mobile rail rule) and stops intruding on the left edge, so the
+   base inset is fine there. */
+@media(min-width:1025px){
+  .tg-footer-art figcaption{left:calc(56px + 1.5rem) !important}
+}
+
 /* our two characters, low in the corner, where the reference signs off */
 /* The two characters, in a pill like the credit opposite it. Cream type on
    cream artwork is invisible however large it is, so it gets its own ground -
