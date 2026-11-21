@@ -2815,21 +2815,18 @@ html[data-theme="dark"] .tg-footer-plate{background:#14100c !important}
 .tg-footer .inner{max-width:1180px !important;margin:0 auto !important;
   padding:2.5rem 2rem 2rem !important}
 
-/* brand name as text - two lines, our own face, no image object */
+/* brand mark = the real site logo (same artwork as the header wordmark, just
+   smaller), not a second text-only lockup pretending to be one - having two
+   different-looking "logos" on the same page read as a mismatch. */
 .tg-footer-top{display:flex !important;align-items:flex-start !important;justify-content:space-between !important;
   gap:1.2rem !important;margin-bottom:2.7rem !important}
-.tg-footer-brandmark{display:inline-flex !important;flex-direction:column !important;gap:0.3rem !important;
+.tg-footer-brandmark{display:inline-flex !important;align-items:center !important;
   text-decoration:none !important}
-.tg-footer-brand-han{font-family:"Grenze Gotisch",serif !important;font-size:1.5rem !important;
-  line-height:1 !important;letter-spacing:0.06em !important;color:#7a1c1c !important}
-html[data-theme="dark"] .tg-footer-brand-han{color:#dcb96a !important}
-.tg-footer-brand-lat{font-family:"Grenze Gotisch",serif !important;font-weight:600 !important;
-  font-size:1.9rem !important;line-height:1 !important;letter-spacing:0.01em !important;
-  background-image:linear-gradient(96deg,#c04a50 0%,#8e2226 52%,#6d1416 100%) !important;
-  -webkit-background-clip:text !important;background-clip:text !important;
-  -webkit-text-fill-color:transparent !important;color:transparent !important}
-html[data-theme="dark"] .tg-footer-brand-lat{
-  background-image:linear-gradient(96deg,#e8c878 0%,#b8862a 52%,#dfbc6d 100%) !important}
+.tg-footer-brandmark-img{height:clamp(40px,5vw,56px) !important;width:auto !important;
+  display:inline-block !important;filter:drop-shadow(0 1px 2px rgba(20,8,4,0.25)) !important}
+html[data-theme="dark"] .tg-footer-brandmark-img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6)) !important}
+html:not([data-theme="dark"]) .tg-footer-brandmark-img.logo-dark{display:none !important}
+html[data-theme="dark"] .tg-footer-brandmark-img.logo-light{display:none !important}
 .tg-footer-brandmark:focus-visible{outline:2px solid #7a1c1c;outline-offset:4px;border-radius:3px}
 
 .tg-footer-actions{display:flex !important;align-items:center !important;gap:0.6rem !important;
@@ -2943,7 +2940,6 @@ html[data-theme="dark"] .tg-footer-panel{background:#14100c !important;
   .tg-footer .inner{padding:1.9rem 1.25rem 1.6rem !important}
   .tg-footer-top{flex-direction:column !important;align-items:flex-start !important;
     gap:1.1rem !important;margin-bottom:1.8rem !important}
-  .tg-footer-brand-lat{font-size:1.65rem !important}
   .tg-footer-actions{width:100% !important;padding-top:0 !important}
   .tg-footer-pill{flex:1 1 auto !important;padding:0.6rem 0.9rem !important;font-size:0.76rem !important}
   .tg-footer-cols{grid-template-columns:1fr 1fr !important;gap:1.6rem 1.1rem !important}
