@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-reader-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" href="https://www.reverendinsanity.com.ng/reader/">
+  <meta name="description" content="A focused reading space for Gu Zhen Ren, with adjustable typography and reading preferences.">
+  <title>Reader · Gu Zhen Ren Encyclopedia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/reader/reader.css?v=0c37d5d59d">
+  <script defer src="/reader/chapters.js?v=8504655588"></script>
+  <script defer src="/reader/reader.js?v=b4a4dfa21c"></script>
+</head>
+<body>
+  <a class="skip-link" href="#reader-main">Skip to chapter</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-bar"></span></div>
+  <header class="reader-bar">
+    <a class="reader-brand" href="/" aria-label="Back to the encyclopedia"><span class="brand-seal">蛊</span><span class="brand-copy"><strong>GU ZHEN REN</strong><small>THE READING ROOM</small></span></a>
+    <div class="reader-bar-center"><span>VOLUME I</span><span class="bar-divider"></span><strong id="bar-chapter">CHAPTER 01</strong></div>
+    <div class="reader-actions"><a class="reader-home" href="/wiki/chapters/">Chapter guide</a><button id="settings-toggle" class="reader-button" type="button" aria-expanded="false" aria-controls="reader-settings"><span aria-hidden="true">Aa</span><span> Reading settings</span></button></div>
+  </header>
+  <main id="reader-main" tabindex="-1">
+    <div class="reader-layout">
+      <aside class="chapter-rail" aria-label="Chapter navigation">
+        <div class="rail-label">THE READING ROOM <span>01 — 11</span></div>
+        <h2>Volume I</h2><p class="rail-subtitle">Demonic Nature Never Changes</p>
+        <p class="rail-heading">PUBLISHED CHAPTERS</p>
+        <nav id="chapter-rail" aria-label="Choose chapter"></nav>
+        <p class="rail-footnote">Reading the original edition? <a id="rail-source" href="https://ri.theomniarch.com.ng/" target="_blank" rel="noopener noreferrer">Open the original reader ↗</a></p>
+      </aside>
+      <div class="reader-content">
+        <div class="reader-toolbar"><a href="/">← Encyclopedia home</a><details class="mobile-chapters"><summary>Chapters <span aria-hidden="true">⌄</span></summary><nav id="mobile-chapters" aria-label="Choose chapter"></nav></details><button id="resume-reading" class="resume-reading" type="button" hidden>Resume reading</button><span id="chapter-count">01 / 11</span></div>
+        <section class="reader-hero" aria-labelledby="chapter-title">
+          <div class="reader-hero-art" aria-hidden="true"></div>
+          <div class="reader-hero-inner"><span class="hero-overline">GU ZHEN REN <i></i> VOLUME ONE</span><div class="chapter-number" id="chapter-number">01</div><div class="chapter-label">CHAPTER <span id="hero-chapter">ONE</span></div><h1 id="chapter-title">Though the Flesh Perish, the Demonic Heart Knows No Regret</h1><div class="hero-rule"><span>蛊</span></div></div>
+          <span class="hero-credit">Artwork · artist uncredited</span>
+        </section>
+        <div class="reading-meta"><span id="reading-estimate">READING TIME</span><span class="meta-divider"></span><span id="reading-words">WORDS</span><span class="meta-spacer"></span><a id="wiki-guide" href="/wiki/chapter-1/">Explore this chapter in the encyclopedia ↗</a></div>
+        <article id="chapter-prose" class="chapter-prose" aria-live="polite"></article>
+        <div class="end-ornament" aria-hidden="true"><span></span> 蛊 <span></span></div>
+        <nav class="chapter-navigation" aria-label="Chapter navigation"><a id="previous-chapter" href="/reader/chapter-1/"><small>← PREVIOUS CHAPTER</small><strong>Beginning</strong></a><a id="next-chapter" href="/reader/chapter-2/"><small>NEXT CHAPTER →</small><strong>Continue reading</strong></a></nav>
+        <p class="reader-attribution">Translation © The Omniarch · <a id="source-chapter" href="https://ri.theomniarch.com.ng/chapter-1" target="_blank" rel="noopener noreferrer">View the original reader edition ↗</a></p>
+      </div>
+    </div>
+  </main>
+  <section id="reader-settings" class="settings-panel" aria-label="Reading settings" hidden>
+    <div class="settings-heading"><div><small>MAKE IT YOURS</small><h2>Reading settings</h2></div><button id="settings-close" type="button" aria-label="Close reading settings">×</button></div>
+    <fieldset><legend>Appearance</legend><div class="settings-choices" id="theme-choices"><button type="button" data-theme="paper"><i class="swatch swatch-paper"></i>Paper</button><button type="button" data-theme="light"><i class="swatch swatch-light"></i>Light</button><button type="button" data-theme="night"><i class="swatch swatch-night"></i>Night</button></div></fieldset>
+    <fieldset><legend>Typeface</legend><div class="settings-choices" id="font-choices"><button type="button" data-font="serif">Serif</button><button type="button" data-font="sans">Sans serif</button></div></fieldset>
+    <fieldset><legend>Text size <output id="size-output">20 px</output></legend><input id="font-size" type="range" min="16" max="28" step="1" value="20" aria-label="Text size"></fieldset>
+    <fieldset><legend>Reading width <output id="width-output">68 ch</output></legend><input id="line-width" type="range" min="48" max="80" step="2" value="68" aria-label="Reading width"></fieldset>
+    <fieldset><legend>Line spacing <output id="leading-output">1.9</output></legend><input id="line-height" type="range" min="1.5" max="2.3" step="0.1" value="1.9" aria-label="Line spacing"></fieldset>
+    <button type="button" id="settings-reset" class="settings-reset">Reset to defaults</button><p>Preferences and reading position are saved in this browser.</p>
+  </section>
+  <noscript><div class="no-script">The reading room needs JavaScript. <a href="https://ri.theomniarch.com.ng/">Read on the original site instead.</a></div></noscript>
+</body>
+</html>

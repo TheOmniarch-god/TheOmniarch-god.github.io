@@ -14,12 +14,14 @@
     width:Math.min(80,Math.max(48,Number(stored.width)||defaults.width)),
     leading:Math.min(2.3,Math.max(1.5,Number(stored.leading)||defaults.leading))
   };
-  var raw=new URLSearchParams(location.search).get('chapter');
+  var pathMatch=location.pathname.match(/^\/reader\/chapter-(\d+)\/?$/);
+  // Existing shared query links remain valid; clean chapter paths take priority.
+  var raw=pathMatch?pathMatch[1]:new URLSearchParams(location.search).get('chapter');
   var number=/^\d+$/.test(raw||'')?Number(raw):1;
   var chapter=chapters.find(function(c){return c.number===number;})||chapters[0];
   var index=chapters.indexOf(chapter),words=['ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN'];
   function pad(n){return String(n).padStart(2,'0');}
-  function chapterUrl(n){return '/reader/?chapter='+n;}
+  function chapterUrl(n){return '/reader/chapter-'+n+'/';}
   function makeLink(c){var a=document.createElement('a'),b=document.createElement('b'),t=document.createElement('span');a.className='chapter-link';a.href=chapterUrl(c.number);if(c.number===chapter.number)a.setAttribute('aria-current','page');b.textContent=pad(c.number);t.textContent=c.title;a.append(b,t);return a;}
   chapters.forEach(function(c){$('chapter-rail').appendChild(makeLink(c));$('mobile-chapters').appendChild(makeLink(c));});
   $('chapter-number').textContent=pad(chapter.number);$('hero-chapter').textContent=words[index]||pad(chapter.number);$('bar-chapter').textContent='CHAPTER '+pad(chapter.number);$('chapter-count').textContent=pad(chapter.number)+' / '+pad(chapters.length);$('chapter-title').textContent=chapter.title;

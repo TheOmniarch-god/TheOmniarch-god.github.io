@@ -3093,3 +3093,17 @@ html[data-theme="dark"] .drawer .drawer-head .wm.logo-light{display:none}
 @media(max-width:850px){.home-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.home-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem .7rem}.home-visual-image{aspect-ratio:4/3}.home-story-grid{grid-template-columns:1fr 1fr}.home-story-card:first-child{grid-column:1/-1}.home-story-card:first-child .home-story-image{aspect-ratio:16/8}}
 @media(max-width:360px){.home-visual-grid{gap:.8rem .5rem}.home-story-grid{grid-template-columns:1fr}.home-story-card:first-child{grid-column:auto}}
+
+/* A shared editorial voice with the reading room; the hero and portal tiles stay intact. */
+.home-visual-heading h2,.home-stories-heading h2,.home-section-head h2,
+.home-chapter-intro h2,.home-panel-heading h3,.home-article-copy h3,
+.wiki-view .wiki-hero h1,.wiki-view h2.sec{
+  font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:.01em;
+}
+.home-visual-heading h2,.home-stories-heading h2{font-size:clamp(1.8rem,3.5vw,2.5rem)}
+.home-section-head h2,.home-chapter-intro h2{font-size:1.75rem;line-height:1.1}
+.home-story-copy strong,.home-visual-card strong{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.15rem;line-height:1.15}
+.home-article-copy p:not(.home-kicker),.wiki-view.is-article .lead p{font-family:'Literata',Georgia,serif;line-height:1.8}
+html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:#fffbf5;--tg-color-surface-2:#f4e7de}
+.read-cta a{display:inline-block;padding:.65rem .9rem;border:1px solid var(--tg-color-progressive);border-radius:6px;color:var(--tg-color-link);text-decoration:none}
+.read-cta a:hover,.read-cta a:focus-visible{background:var(--tg-color-surface-2);text-decoration:none}

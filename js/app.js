@@ -324,7 +324,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var html='';
     if(talk){ html = talkHTML(a,slug); }
     else{
-      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/?chapter='+slug.slice(8)+'">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
+      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
+      if(slug==='chapters') html += '<p class="read-cta"><a href="/reader/chapter-1/">Begin reading in the reading room →</a></p>';
       var lean = a.k==='Index' || a.k==='Category' || a.index;
       var isArt = a.k!=='Index' && a.k!=='Category';
       if(isArt){
