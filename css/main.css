@@ -3016,3 +3016,16 @@ html[data-theme="dark"] .drawer .drawer-head .wm.logo-light{display:none}
 }
 .drawer .drawer-stats > span{white-space:nowrap}
 .drawer .drawer-close{z-index:1}
+
+/* A chapter-bounded starting point, replacing the dated Earth/world panel. */
+.explore-world .tg-card-content{padding:1.25rem}
+.explore-world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1rem}
+.explore-world-grid a{display:flex;flex-direction:column;gap:.3rem;min-width:0;padding:1rem;border:1px solid var(--tg-border-color-base);border-radius:10px;background:var(--tg-color-surface-2);color:var(--tg-color-base);text-decoration:none}
+.explore-world-grid a:hover,.explore-world-grid a:focus-visible{border-color:var(--tg-color-progressive);background:var(--tg-color-surface-3)}
+.explore-world-grid strong{color:var(--tg-color-link);font-size:.95rem}
+.explore-world-grid span{color:var(--tg-color-subtle);font-size:.83rem;line-height:1.45}
+.explore-world-more{margin:1rem 0 0;font-weight:600}
+@media(max-width:480px){.explore-world-grid{grid-template-columns:1fr}}
+
+/* Hidden views must stay hidden even when other layout rules set display. */
+#main-view[hidden],#wiki-view[hidden]{display:none !important}

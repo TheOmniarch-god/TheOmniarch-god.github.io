@@ -75,7 +75,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     'Works': 'Works are the books, volumes and texts that make up the translation and its companion scripture.',
     'Volumes': 'Volumes are the book divisions of the translation, each with its own chapters.',
     'Volume 1': 'Volume 1, Demonic Nature Never Changes, is the opening volume of the translation.',
-    'Gu Zhen Ren': 'Gu Zhen Ren is the novel by Gu Zhen Ren, translated into English by The Omniarch.',
+    'Gu Zhen Ren': 'Gu Zhen Ren is the novel by Gu Zhen Ren.',
     'Front matter': 'Front matter is the material that opens the book: prefaces and the author’s own words.',
     'Portals': 'Portals are index pages that gather articles on a single topic.',
     'Timeline': 'The timeline gathers the events and dates of the story and of the translation.',
@@ -106,12 +106,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   /* ---- growth counters on the main page ---- */
   var typeset = S.chapters.length;
-  var cap = document.getElementById('today-caption');
-  if(cap) cap.innerHTML = 'Today’s date at the translation bench: <b><a href="/wiki/chapters">Chapter '+S.atBench+'</a> typesetting</b> · '+typeset+' of '+fmt(S.total)+' chapters typeset';
-  var now = document.getElementById('now-bullet');
-  if(now) now.innerHTML = '<b><a href="/wiki/timeline">Now</a></b> - <a href="/wiki/the-omniarch">The Omniarch</a> re-translation typesets the opening volume; <a href="/wiki/chapter-'+S.chapters[typeset-1].n+'">Chapter '+S.chapters[typeset-1].n+'</a> is live and Chapter '+S.atBench+' sits at the bench.';
   var stats = document.getElementById('browse-stats');
-  if(stats) stats.textContent = typeset+' chapters typeset of '+fmt(S.total)+' · '+S.parables+' parables of Ren Zu in the companion scripture · curated by The Omniarch';
+  if(stats) stats.textContent = typeset+' chapters typeset of '+fmt(S.total)+' · '+S.parables+' parables of Ren Zu in the companion scripture';
   var list = document.getElementById('dir-chapters-list');
   if(list){
     list.innerHTML = S.chapters.map(function(c){ return '<a href="/wiki/chapter-'+c.n+'">'+c.n+' · '+esc(c.title)+'</a>'; }).join(' · ')
@@ -232,8 +228,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function renderCommunityPortal(slug,a){
     var channels=[
       ['Discord — the clan hall','https://discord.gg/UgwTKn4sQf','Chapter readings, lore threads and translation feedback in real time.'],
-      ['YouTube — @Oudenarch','https://www.youtube.com/@Oudenarch','Philosophical video breakdowns and novel analysis.'],
-      ['X — @Oudenarch','https://x.com/Oudenarch','Updates and short takes.'],
+      ['YouTube','https://www.youtube.com/@Oudenarch','Philosophical video breakdowns and novel analysis.'],
+      ['X','https://x.com/Oudenarch','Updates and short takes.'],
       ['TikTok — @godoffictionofficial','https://www.tiktok.com/@godoffictionofficial','Short-form analysis and updates.']
     ];
     var see=(a.see||[]).filter(function(x){return A[x];});
@@ -294,8 +290,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if(!isArt && a.ib&&a.ib.length) toc.push(['sec-details','Details']);
     
     if(a.see&&a.see.length) toc.push(['sec-see','See also']);
-    return '<div class="side-box"><h4>Last modified</h4><div class="toc"><div class="row"><span><svg style="width:14px;height:14px;vertical-align:-2px;opacity:.7"><use href="#glyph-history"/></svg> Today · The Omniarch</span></div></div></div>'
-      +(toc.length ? '<div class="side-box"><h4>Contents</h4><div class="toc">'+toc.map(function(t){return '<a href="#" data-sec="'+t[0]+'">'+t[1]+'<span class="caret">⌄</span></a>';}).join('')+'</div></div>' : '');
+    return (toc.length ? '<div class="side-box"><h4>Contents</h4><div class="toc">'+toc.map(function(t){return '<a href="#" data-sec="'+t[0]+'">'+t[1]+'<span class="caret">⌄</span></a>';}).join('')+'</div></div>' : '');
   }
 
   function talkHTML(a,slug){
@@ -329,7 +324,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var html='';
     if(talk){ html = talkHTML(a,slug); }
     else{
-      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="https://ri.theomniarch.com.ng/'+slug+'" target="_blank" rel="noopener">Read '+esc(a.t.split(":")[0])+' on The Omniarch Translation →</a></p>';
+      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="https://ri.theomniarch.com.ng/'+slug+'" target="_blank" rel="noopener">Read '+esc(a.t.split(":")[0])+' on the reader →</a></p>';
       var lean = a.k==='Index' || a.k==='Category' || a.index;
       var isArt = a.k!=='Index' && a.k!=='Category';
       if(isArt){
@@ -351,7 +346,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     articleEl.innerHTML = html;
     if((slug==='gallery' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
     sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
-    retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">Last modified</div><div>This page was last edited on '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'.</div></div>'+'<div><div class="pf-h">Copyright</div><div>Content is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0 License</a> unless otherwise noted.</div></div></div>';
+    retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">About this project</div><div>Novel and artwork rights belong to their respective holders.</div></div></div>';
     return true;
   }
 
