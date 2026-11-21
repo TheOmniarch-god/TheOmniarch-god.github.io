@@ -324,7 +324,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var html='';
     if(talk){ html = talkHTML(a,slug); }
     else{
-      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="https://ri.theomniarch.com.ng/'+slug+'" target="_blank" rel="noopener">Read '+esc(a.t.split(":")[0])+' on the reader →</a></p>';
+      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/?chapter='+slug.slice(8)+'">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
       var lean = a.k==='Index' || a.k==='Category' || a.index;
       var isArt = a.k!=='Index' && a.k!=='Category';
       if(isArt){
