@@ -2988,7 +2988,7 @@ html:not([data-theme="dark"]) .collection-tree-group h4{border-bottom-color:rgba
 }
 .drawer .drawer-head .wm{
   display:block;
-  width:min(100%, 205px) !important;
+  width:min(100%, 130px) !important;
   height:auto !important;
   max-width:100%;
 }
