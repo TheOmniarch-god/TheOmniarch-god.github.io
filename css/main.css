@@ -2909,7 +2909,7 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
   pointer-events:none !important}
 
 .tg-footer-art{position:relative !important;z-index:0 !important;margin:0 !important;
-  width:100% !important;aspect-ratio:1678 / 1080 !important;max-height:560px !important;
+  width:100% !important;aspect-ratio:3840 / 1923 !important;max-height:none !important;
   overflow:hidden !important}
 .tg-footer-art img{display:block !important;width:100% !important;height:100% !important;
   object-fit:cover !important;object-position:center 30% !important}
@@ -2969,7 +2969,7 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
   .tg-footer-panel{margin-top:0 !important;
     padding-bottom:calc(8px + env(safe-area-inset-bottom,0px)) !important}
   .tg-footer-panel::after{height:90px !important}
-  .tg-footer-art{aspect-ratio:16 / 11 !important;max-height:none !important}
+  .tg-footer-art{aspect-ratio:3840 / 1923 !important;max-height:none !important}
   .tg-footer-art img{object-position:center 24% !important}
   .tg-footer-art figcaption{left:0.9rem !important;bottom:0.85rem !important;
     font-size:0.6rem !important;padding:0.4rem 0.65rem !important}
