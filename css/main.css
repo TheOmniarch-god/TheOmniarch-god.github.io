@@ -2779,44 +2779,41 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
   color:var(--tg-color-subtle) !important;font-size:0.775rem !important;letter-spacing:0.01em !important}
 .tg-footer-copy,.tg-footer-credits{font-style:normal !important}
 
-/* ===== Footer: the plate, then the cast, joined at a 45deg step =====
+/* ===== Footer: the plate, then the full cast, no longer cut =====
    Format taken from the Evmos footer (Studio Freight, Awwwards SOTD Sep 2023):
    a plate carrying the brand name and two pills, three link columns, a hairline
-   row of small meta, and below it all a full-bleed artwork whose top edge steps
-   into the plate at 45deg on the right.
+   row of small meta, and below it all a full-bleed artwork panel.
 
    Everything here is ours: the plate carries our own name as text (not the
    wordmark image), the pills use the red/cream pair from the header, the meta
    row is the dedication and chapter count we already had, and the artwork is
-   the Cast of Reverend Insanity - the one plate where the whole cast stands
-   together - credited on the image itself.
+   Main Casts - Fang Yuan at the centre of the full cast, with the spirit
+   beasts and Gu behind them - credited on the image itself.
 
-   Three details make the format read rather than just being a footer:
-
-   1. The plate is a deeper cream than the page, because the artwork's own
-      ground is cream. In the reference the nebula is dark, so the plate's pale
-      edge cuts against it; against our pale artwork a pale plate has no seam at
-      all. The extra depth in the plate plus a dark scrim across the top of the
-      artwork is what gives the 45deg cut something to cut against.
-   2. The step is one continuous seam, not two shapes meeting. The plate's
-      bottom-right corner is clipped away at 45deg, and the panel is pulled up
-      underneath it and filled with the plate's own colour, so the diagonal is
-      drawn once and both surfaces belong to it.
-   3. The artwork is a labelled figure with real alt text and a visible credit,
-      because it is somebody's work and the page should say whose. */
+   The reference's plate steps into its panel at a 45deg chamfer, and an
+   earlier pass here did the same: the plate's bottom-right corner was clipped
+   away and the panel pulled up underneath it. That cut was removed by request
+   - the artwork is meant to be seen whole, not stepped into - so the plate is
+   now a plain rectangle, the panel sits directly below it with no overlap, and
+   the artwork's container uses the image's own intrinsic aspect ratio
+   (3227x1440) with no height cap, so object-fit has nothing left to crop: the
+   full picture shows at every viewport width. The artwork remains a labelled
+   figure with real alt text and a visible credit, because it is somebody's
+   work and the page should say whose. */
 
 .tg-footer{position:relative !important;margin-top:3.5rem !important;
   background:var(--tg-color-surface-2) !important}
-/* The plate: a deeper cream than the page (surface-3, not surface-2). */
+/* The plate: a deeper cream than the page (surface-3, not surface-2).
+   No clip-path here any more - the 45deg chamfer that used to cut the plate's
+   bottom-right corner away is gone, at the request that the artwork below be
+   shown in full rather than stepped into. The plate is now a plain rectangle
+   and the panel beneath it abuts it cleanly, with nothing cropped on either
+   side of the seam. */
 .tg-footer-plate{position:relative !important;z-index:2 !important;
-  background:#efe0c6 !important;
-  clip-path:polygon(0 0, 100% 0, 100% calc(100% - 92px), calc(100% - 232px) 100%, 0 100%) !important}
+  background:#efe0c6 !important}
 html[data-theme="dark"] .tg-footer-plate{background:#14100c !important}
-/* The bottom padding is not decoration: the plate's bottom-right corner is
-   clipped away, so anything sitting in that band is cut off with it. Reserving
-   the chamfer's height keeps the meta row clear of the diagonal. */
 .tg-footer .inner{max-width:1180px !important;margin:0 auto !important;
-  padding:2.5rem 2rem calc(92px + 0.4rem) !important}
+  padding:2.5rem 2rem 2rem !important}
 
 /* brand name as text - two lines, our own face, no image object */
 .tg-footer-top{display:flex !important;align-items:flex-start !important;justify-content:space-between !important;
@@ -2890,29 +2887,26 @@ html[data-theme="dark"] .tg-footer-dedication b{color:var(--tg-color-base) !impo
 html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
-/* The panel: full-bleed under the plate, carrying the cast. It is pulled up
-   under the plate's clipped corner and filled with the plate's colour, so the
-   45deg seam is drawn once and belongs to both surfaces. */
-/* The panel is transparent in the overlap band and sits BELOW the plate. The
-   artwork therefore runs up underneath the plate's clipped corner, so the only
-   thing separating the two materials is the 45deg cut itself - one seam, not a
-   shape drawn on top of another. (Filling this band with the plate colour, as
-   a first pass did, simply paints the chamfer out of existence.) */
+/* The panel: full-bleed under the plate, carrying the cast. It used to pull up
+   underneath the plate's clipped corner so a 45deg seam could be drawn - now
+   that the chamfer is gone, the panel simply sits directly below the plate
+   with no overlap, and a plain hairline marks the join instead of a cut. */
 .tg-footer-panel{position:relative !important;z-index:1 !important;
-  margin-top:-92px !important;background:transparent !important;overflow:hidden !important}
-/* A soft shadow along the top of the artwork, so the plate's cut edge has
-   something to read against. The plate is pale and the artwork's own ground is
-   pale, and without this the seam disappears into a wash of cream. */
-.tg-footer-panel::after{content:"" !important;position:absolute !important;z-index:2 !important;
-  top:0 !important;left:0 !important;right:0 !important;height:210px !important;
-  background:linear-gradient(to bottom,rgba(16,9,6,.62) 0%,rgba(16,9,6,.30) 42%,rgba(16,9,6,0) 100%) !important;
-  pointer-events:none !important}
+  margin-top:0 !important;background:#efe0c6 !important;overflow:hidden !important;
+  border-top:1px solid rgba(0,0,0,.12) !important}
+html[data-theme="dark"] .tg-footer-panel{background:#14100c !important;
+  border-top-color:rgba(255,255,255,.1) !important}
 
+/* The container's aspect-ratio is set to the artwork's own intrinsic ratio
+   (3840x1923, the fuller re-export a concurrent pass brought in), not an
+   arbitrary crop box, and max-height is uncapped - so object-fit has nothing
+   to crop: the full image always shows, at any viewport width, with nothing
+   sliced off top, bottom or sides. */
 .tg-footer-art{position:relative !important;z-index:0 !important;margin:0 !important;
   width:100% !important;aspect-ratio:3840 / 1923 !important;max-height:none !important;
   overflow:hidden !important}
 .tg-footer-art img{display:block !important;width:100% !important;height:100% !important;
-  object-fit:cover !important;object-position:center 30% !important}
+  object-fit:contain !important;object-position:center !important}
 .tg-footer-art figcaption{position:absolute !important;z-index:3 !important;
   left:1.5rem !important;bottom:1.4rem !important;right:auto !important;
   margin:0 !important;padding:0.45rem 0.8rem !important;border-radius:999px !important;
@@ -2938,13 +2932,10 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
   pointer-events:none !important;user-select:none !important}
 
 @media(max-width:900px){
-  .tg-footer .inner{padding:2.2rem 1.5rem calc(56px + 0.4rem) !important}
+  .tg-footer .inner{padding:2.2rem 1.5rem 1.8rem !important}
   .tg-footer-top{margin-bottom:2.1rem !important}
   .tg-footer-cols{max-width:none !important;gap:1.5rem !important}
   .tg-footer-meta{margin-top:2.2rem !important}
-  .tg-footer-plate{clip-path:polygon(0 0, 100% 0, 100% calc(100% - 56px), calc(100% - 150px) 100%, 0 100%) !important}
-  .tg-footer-panel{margin-top:-56px !important}
-  .tg-footer-panel::after{height:150px !important}
 }
 @media(max-width:720px){
   .tg-footer{margin-top:2.5rem !important;
@@ -2963,14 +2954,7 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
     flex-direction:column !important;align-items:flex-start !important;font-size:0.63rem !important}
   .tg-footer-dedication{white-space:normal !important;flex:none !important;
     align-self:stretch !important}
-  /* the step would eat most of a phone's plate, so it goes; the full-bleed
-     artwork and the mark are the parts that read at this size */
-  .tg-footer-plate{clip-path:none !important}
-  .tg-footer-panel{margin-top:0 !important;
-    padding-bottom:calc(8px + env(safe-area-inset-bottom,0px)) !important}
-  .tg-footer-panel::after{height:90px !important}
-  .tg-footer-art{aspect-ratio:3840 / 1923 !important;max-height:none !important}
-  .tg-footer-art img{object-position:center 24% !important}
+  .tg-footer-panel{padding-bottom:calc(8px + env(safe-area-inset-bottom,0px)) !important}
   .tg-footer-art figcaption{left:0.9rem !important;bottom:0.85rem !important;
     font-size:0.6rem !important;padding:0.4rem 0.65rem !important}
   .tg-footer-mark{right:0.9rem !important;bottom:0.85rem !important;
