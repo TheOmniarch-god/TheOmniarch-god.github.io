@@ -3330,3 +3330,40 @@ html[data-theme="dark"] #main-view.page::before{background:linear-gradient(165de
   .slide,.editorial-lead-art,.editorial-card-image img,.home-panel-image img,.home-visual-image img,.ed-button,.editorial-card-link,.index-more-grid a{transition:none!important}
   .editorial-lead:hover .editorial-lead-art,.editorial-lead:focus-within .editorial-lead-art,.editorial-card-image:hover img,.home-panel-image:hover img,.home-visual-card:hover img,.ed-button:hover{transform:none}
 }
+
+/* A shared viewport-aligned illustration behind every encyclopedia heading. */
+html:not([data-theme="dark"]) .wiki-view:is(.is-article,.is-index,.wide) .wiki-hero::before,html[data-theme="dark"] .wiki-view:is(.is-article,.is-index,.wide) .wiki-hero::before{display:block!important;top:calc(-1 * var(--hero-top, 0px))!important;left:calc(-1 * var(--hero-left, 0px))!important;right:auto!important;width:100vw!important;height:360px!important;background:linear-gradient(180deg,rgba(249,244,238,.58),rgba(249,244,238,.74) 57%,rgba(249,244,238,.94)),url('/assets/bg-light-4k.webp') center 30%/cover no-repeat!important;-webkit-mask-image:linear-gradient(#000 40%,transparent 100%)!important;mask-image:linear-gradient(#000 40%,transparent 100%)!important}
+html[data-theme="dark"] .wiki-view:is(.is-article,.is-index,.wide) .wiki-hero::before{background:linear-gradient(180deg,rgba(10,10,14,.57),rgba(10,10,14,.75) 57%,rgba(10,10,14,.94)),url('/assets/bg-dark-4k.webp') center 30%/cover no-repeat!important}
+
+/* Floating, softly rounded navigation; the existing rail and logo remain. */
+.site-header{position:absolute;z-index:20;top:.5rem;left:max(68px,2vw);right:max(12px,2vw);min-height:54px;display:flex;align-items:center;gap:1.5rem;padding:.55rem 1.15rem;border:1px solid rgba(112,48,46,.12);border-radius:0 0 19px 19px;background:rgba(250,241,235,.88);box-shadow:0 10px 32px rgba(59,25,22,.12);backdrop-filter:blur(16px)}
+html[data-theme="dark"] .site-header{background:rgba(29,25,22,.88);border-color:rgba(225,189,118,.18);box-shadow:0 10px 32px #0005}
+.site-header-brand{display:flex;align-items:center;gap:.55rem;white-space:nowrap;color:var(--tg-color-emphasized);font-size:.71rem;font-weight:700;letter-spacing:.05em;text-decoration:none!important;line-height:1.15}.site-header-brand small{display:block;font-size:.48rem;letter-spacing:.17em}.site-seal{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#8e2622;color:white;font-size:1rem}html[data-theme="dark"] .site-seal{background:#c29b50;color:#17120d}
+.site-header-links{display:flex;align-items:center;gap:clamp(.8rem,2.4vw,2.2rem);margin-left:auto}.site-header-links a,.site-header-action{color:var(--tg-color-emphasized);font-size:.73rem;font-weight:600;text-decoration:none!important}.site-header-links a:hover{color:var(--tg-color-link)}.site-header-action{padding:.6rem .9rem;border:1px solid var(--tg-border-color-base);border-radius:99px;white-space:nowrap}
+.site-header a:focus-visible,.shelf-arrows button:focus-visible,.home-visual-grid:focus-visible{outline:3px solid var(--tg-color-link);outline-offset:3px}
+.tg-mainpage-header{padding-top:5.1rem!important}
+.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:6.4rem!important}
+@media(max-width:720px){.site-header{left:.5rem;right:.5rem;top:.35rem;gap:.6rem;min-height:50px;padding:.5rem .7rem}.site-header-brand{font-size:.62rem}.site-header-brand small{font-size:.43rem}.site-header-links{gap:.75rem;overflow-x:auto;scrollbar-width:none}.site-header-links a{font-size:.65rem;white-space:nowrap}.site-header-action{display:none}.tg-mainpage-header{padding-top:4.8rem!important}.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:5.5rem!important}}
+
+/* Colours drift across the page as the reader moves through it. */
+body{background:radial-gradient(ellipse at var(--colour-x,25%) var(--colour-y,25%),rgba(177,61,58,.20),transparent 55%),radial-gradient(ellipse at 85% 65%,rgba(177,61,58,.15),transparent 56%),#f4eee6;background-attachment:fixed}
+html[data-theme="dark"] body{background:radial-gradient(ellipse at var(--colour-x,25%) var(--colour-y,25%),rgba(151,110,45,.23),transparent 55%),radial-gradient(ellipse at 85% 65%,rgba(120,77,33,.16),transparent 56%),#101014;background-attachment:fixed}
+#main-view.page::before{display:none}
+
+/* A horizontal editorial shelf, not a food-only treatment. */
+.home-shelf-controls{display:flex;align-items:center;justify-content:space-between;gap:1rem}.shelf-arrows{display:flex;gap:.45rem}.shelf-arrows button{width:38px;height:38px;border-radius:50%;border:1px solid var(--tg-border-color-base);background:var(--tg-color-surface-1);color:var(--tg-color-link);font-size:1rem;cursor:pointer}.shelf-arrows button:hover{background:var(--tg-color-surface-2)}
+.home-visual-grid{display:grid!important;grid-auto-flow:column;grid-auto-columns:clamp(180px,22vw,260px);grid-template-columns:none!important;gap:1rem;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;scrollbar-width:thin;padding:.4rem .2rem 1rem;scroll-padding-inline:.2rem}
+.home-visual-card{scroll-snap-align:start}.home-visual-image{aspect-ratio:4/5!important}.home-visual-card:nth-child(even){padding-top:1.5rem}.home-visual-card strong{margin-top:.65rem}.home-visual-grid:active{cursor:grabbing}
+@media(max-width:600px){.home-visual-grid{grid-auto-columns:min(65vw,240px)}.home-visual-card:nth-child(even){padding-top:.8rem}}
+
+/* Quick text reveals retain the original accessible text and never loop. */
+.type-reveal{clip-path:inset(0 100% 0 0)}
+.type-reveal.type-visible{animation:type-arrive .48s steps(18,end) both}
+@keyframes type-arrive{to{clip-path:inset(0)}}
+.footer-intro{max-width:34rem;margin:-1.1rem 0 2rem;color:var(--tg-color-subtle);font-size:.88rem;line-height:1.7}
+.tg-footer-plate{border-radius:28px 28px 0 0!important}
+.tg-footer-cols{max-width:none!important;gap:clamp(1.4rem,4vw,4rem)!important}.tg-footer-col h4{letter-spacing:.12em!important;text-transform:uppercase;font-size:.68rem!important}.tg-footer-meta{gap:1rem!important}
+@media(max-width:600px){.footer-intro{margin:0 0 1.7rem}.tg-footer-cols .tg-footer-col:last-of-type{grid-column:1 / -1!important;display:flex!important}}
+@media(prefers-reduced-motion:reduce){.type-reveal,.type-reveal.type-visible{clip-path:none;animation:none}.home-visual-grid{scroll-behavior:auto!important}}
+
+@media(max-width:720px){.site-header-brand small{display:none}.site-header-brand{font-size:.58rem}.site-seal{width:25px;height:25px}.site-header-links{gap:.55rem}.site-header-links a{font-size:.61rem}}
