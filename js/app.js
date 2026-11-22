@@ -324,21 +324,22 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
      slugs and on-page labels are branded as "Articles".) */
   function newsList(){ return (window.OMNIARCH_NEWS||[]).slice().sort(function(x,y){ return (y.date||'').localeCompare(x.date||''); }); }
   function newsTagChips(tags){ return (tags&&tags.length) ? '<div class="news-tags">'+tags.map(function(t){return '<span class="news-tag">'+esc(t)+'</span>';}).join('')+'</div>' : ''; }
-  function newsByline(n){ return n.author ? '<a class="news-byline" href="/wiki/community-omniarch/">By '+esc(n.author)+'</a>' : ''; }
+  function newsByline(n){ return !n.author ? '' : n.author==='The Omniarch' ? '<a class="news-byline" href="/wiki/community-omniarch/">By '+esc(n.author)+'</a>' : '<span class="news-byline">'+esc(n.author)+'</span>'; }
   function newsMetaHTML(n){ return '<div class="news-meta">'+newsByline(n)+(n.author?'<span class="news-meta-sep">·</span>':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></div>'; }
-  function newsCardHTML(n){
-    // The card is a single link: never nest the linked article-page byline inside it.
+  function newsCardHTML(n,i){
+    // One accessible link per story, with no nested byline link.
+    var number=String((i||0)+1).padStart(2,'0');
     return '<a class="news-card" href="/wiki/'+esc(n.slug)+'/">'
-      +(n.cover?'<span class="news-card-image"><img src="'+esc(n.cover)+'" alt="" loading="lazy"></span>':'')
-      +'<span class="news-card-body">'+(n.tags&&n.tags.length?'<span class="news-card-category">'+esc(n.tags[0])+'</span>':'')+'<h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||n.dek||'')+'</p>'
-      +'<span class="news-card-meta">'+(n.author?'By '+esc(n.author)+' · ':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></span></span></a>';
+      +(n.cover?'<span class="news-card-image"><img src="'+esc(n.cover)+'" alt="" loading="lazy"><span class="news-image-number" aria-hidden="true">'+number+'</span></span>':'')
+      +'<div class="news-card-body">'+(n.tags&&n.tags.length?'<span class="news-card-category">'+esc(n.tags[0])+'</span>':'')+'<h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||n.dek||'')+'</p>'
+      +'<span class="news-card-meta">'+(n.author?esc(n.author)+' · ':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></span>'+(n.spoiler?'<span class="news-card-spoiler">'+esc(n.spoiler)+'</span>':'')+'</div></a>';
   }
   function newsArticleHTML(a){
     var n=a.news; if(!n) return '';
     return '<article class="news-article">'
       +'<header class="news-article-head">'+newsTagChips(n.tags)+'<h1 class="news-article-title">'+esc(n.title)+'</h1>'
-      +(n.dek?'<p class="news-dek">'+esc(n.dek)+'</p>':'')+newsMetaHTML(n)+'</header>'
-      +(n.cover?'<figure class="news-cover"><img src="'+esc(n.cover)+'" alt="'+esc(n.coverCaption||n.title)+'" loading="lazy">'
+      +(n.dek?'<p class="news-dek">'+esc(n.dek)+'</p>':'')+newsMetaHTML(n)+(n.spoiler?'<p class="news-spoiler">'+esc(n.spoiler)+'</p>':'')+'</header>'
+      +(n.cover?'<figure class="news-cover"><img src="'+esc(n.cover)+'" alt="'+esc(n.coverCaption||n.coverCredit||n.title)+'" loading="lazy">'
         +(n.coverCaption?'<figcaption>'+esc(n.coverCaption)+'</figcaption>':'')
         +(n.coverCredit?'<small class="news-cover-credit">'+esc(n.coverCredit)+'</small>':'')+'</figure>':'')
       +'<div class="news-body">'+(n.body||[]).join('')+'</div>'
@@ -351,7 +352,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if(!items.length) return '<p class="stub-note">No articles yet. Check back soon.</p>';
     var visible=items.slice(0,8), more=items.slice(8);
     return '<div class="news-portal"><div class="news-grid">'+visible.map(newsCardHTML).join('')+'</div>'
-      +(more.length?'<div class="news-grid news-grid-more" hidden>'+more.map(newsCardHTML).join('')+'</div><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
+      +(more.length?'<div class="news-grid news-grid-more" hidden>'+more.map(function(n,i){return newsCardHTML(n,i+visible.length);}).join('')+'</div><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
       +'</div>';
   }
   function renderHomeNewsHTML(){

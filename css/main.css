@@ -3591,3 +3591,20 @@ html[data-theme="dark"] .wiki-view .lead a,html[data-theme="dark"] .wiki-view .s
 @media(max-width:600px){.home-news-grid,.news-portal .news-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem .8rem}.home-news-grid .news-card h3,.news-portal .news-card h3{font-size:1.1rem}.home-news-grid .news-card p,.news-portal .news-card p{display:none}.news-card-category{font-size:.58rem}}
 /* Keep the subject visible in the portrait used by the first dispatch. */
 .news-card-image img[src="/assets/inline/sun-tuo-chair-misattribution.jpg"]{object-position:center 28%}
+
+/* A compact magazine index: numbered images, a ruled grid and clear story metadata. */
+.home-news-grid,.news-portal .news-grid{gap:1.5rem 1.2rem}
+.home-news-grid .news-card,.news-portal .news-card{border-top:1px solid var(--tg-border-color-base);padding-top:.7rem}
+.home-news-grid .news-card-image,.news-portal .news-card-image{position:relative;aspect-ratio:16/9;border-radius:3px;background:var(--tg-color-surface-3)}
+.news-card-image::after{content:'';position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(8,10,13,.65));pointer-events:none}
+.news-image-number{position:absolute;z-index:1;right:.7rem;bottom:.35rem;color:#fff;font:500 italic 2rem/1 var(--editorial-display,Georgia,serif);text-shadow:0 1px 8px #0008}
+.home-news-grid .news-card-body,.news-portal .news-card-body{padding:.8rem 0 .2rem}
+.news-card-category{display:flex;align-items:center;gap:.45rem;letter-spacing:.1em}
+.news-card-category::before{content:'';display:block;width:1.1rem;height:2px;background:currentColor}
+.home-news-grid .news-card h3,.news-portal .news-card h3{font-size:clamp(1.2rem,1.4vw,1.48rem);line-height:1.08;margin:.45rem 0 .55rem}
+.news-card-meta{border-top:1px solid var(--tg-border-color-base);padding-top:.55rem;margin-top:.65rem}
+.news-card-spoiler{display:block;font-size:.61rem;line-height:1.45;color:var(--tg-color-subtle);margin-top:.3rem}
+.news-spoiler{display:inline-block;margin:.9rem 0 0;padding:.45rem .7rem;border-left:2px solid var(--tg-color-progressive);background:var(--tg-color-surface-2);color:var(--tg-color-base);font-size:.76rem;line-height:1.5}
+html[data-theme="dark"] .news-card-category,html[data-theme="dark"] .news-byline{color:#eee!important}
+@media(max-width:600px){.home-news-grid,.news-portal .news-grid{gap:1.4rem .8rem}.home-news-grid .news-card h3,.news-portal .news-card h3{font-size:1.14rem}.news-image-number{font-size:1.5rem}.news-card-meta{font-size:.59rem}.news-card-spoiler{font-size:.58rem}}
+@media(prefers-reduced-motion:reduce){.news-card-image img{transition:none}}
