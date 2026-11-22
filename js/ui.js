@@ -107,16 +107,16 @@
     e.preventDefault(); e.stopPropagation();
     var cur=sc.querySelector('.slide.on'); if(cur && cur.getAttribute('data-link')) window.open(cur.getAttribute('data-link'),'_blank','noopener'); }, true); })();
 
-// Third-party video is loaded only after the visitor chooses to play it.
+// Load the third-party player only after an explicit click.
 (function(){
-  var button=document.getElementById('play-infinite-video');
+  var button=document.getElementById('play-donghua');
   if(!button)return;
   button.addEventListener('click',function(){
     var frame=document.createElement('iframe');
-    frame.title='Infinite Aperture fan game preview on YouTube';
-    frame.src='https://www.youtube-nocookie.com/embed/lSFNtn0N0_s?autoplay=1';
+    frame.title='Gu Zhen Ren fan-made donghua episode 5 on YouTube';
+    frame.src='https://www.youtube-nocookie.com/embed/e8SkqCzoqDs?autoplay=1';
     frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     frame.allowFullscreen=true;
-    document.getElementById('infinite-video').replaceChildren(frame);
+    document.getElementById('donghua-video').replaceChildren(frame);
   });
 })();
