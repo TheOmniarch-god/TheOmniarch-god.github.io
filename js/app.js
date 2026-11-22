@@ -258,7 +258,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   }
   function renderCommunityProfile(slug){
     var p=COMMUNITY_PROFILES[slug];
-    var links=[['Visit website',p.site]].concat(p.socials||[]);
+    var primaryLabel = p.site.indexOf('https://discord.com/channels/') === 0 ? 'Discord channel' : p.site.indexOf('https://discord.gg/') === 0 ? 'Join Discord' : p.site.indexOf('reddit.com/') >= 0 ? 'Visit Reddit' : 'Visit website';
+    var links=[[primaryLabel,p.site]].concat((p.socials||[]).filter(function(l){return l[1]!==p.site;}));
     return portalTabs('community')+'<section class="community-profile"><a class="community-back" href="/wiki/community/">← Community Hub</a><div class="community-profile-head"><div class="community-profile-copy"><small>'+esc(p.type)+'</small><h2>'+esc(p.title)+'</h2><p>'+esc(p.description)+'</p><div class="community-profile-links">'+links.map(function(l){return '<a href="'+esc(l[1])+'" target="_blank" rel="noopener noreferrer">'+esc(l[0])+' ↗</a>';}).join('')+'</div></div><img src="'+esc(p.image)+'" alt="'+esc(p.title)+'" loading="lazy"></div><h3 class="community-hub-label">Explore</h3><div class="community-project-grid">'+p.projects.map(function(item){return '<a class="community-project" href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer"><span class="community-project-image"><img src="'+esc(item.image)+'" alt="" loading="lazy"></span><small>'+esc(item.type)+'</small><strong>'+esc(item.title)+'</strong>'+(item.credit?'<span>'+esc(item.credit)+'</span>':'')+'</a>';}).join('')+'</div><p class="community-hub-note">External links may contain spoilers. Discord channels require server access.</p></section>';
   }
 
