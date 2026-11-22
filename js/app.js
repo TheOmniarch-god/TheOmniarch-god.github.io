@@ -326,10 +326,12 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function newsTagChips(tags){ return (tags&&tags.length) ? '<div class="news-tags">'+tags.map(function(t){return '<span class="news-tag">'+esc(t)+'</span>';}).join('')+'</div>' : ''; }
   function newsByline(n){ return n.author ? '<a class="news-byline" href="/wiki/community-omniarch/">By '+esc(n.author)+'</a>' : ''; }
   function newsMetaHTML(n){ return '<div class="news-meta">'+newsByline(n)+(n.author?'<span class="news-meta-sep">·</span>':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></div>'; }
-  function newsCardHTML(n,featured){
-    return '<a class="news-card'+(featured?' news-card-featured':'')+'" href="/wiki/'+esc(n.slug)+'/">'
+  function newsCardHTML(n){
+    // The card is a single link: never nest the linked article-page byline inside it.
+    return '<a class="news-card" href="/wiki/'+esc(n.slug)+'/">'
       +(n.cover?'<span class="news-card-image"><img src="'+esc(n.cover)+'" alt="" loading="lazy"></span>':'')
-      +'<span class="news-card-body">'+newsTagChips(n.tags)+'<h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||n.dek||'')+'</p>'+newsMetaHTML(n)+'</span></a>';
+      +'<span class="news-card-body">'+(n.tags&&n.tags.length?'<span class="news-card-category">'+esc(n.tags[0])+'</span>':'')+'<h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||n.dek||'')+'</p>'
+      +'<span class="news-card-meta">'+(n.author?'By '+esc(n.author)+' · ':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></span></span></a>';
   }
   function newsArticleHTML(a){
     var n=a.news; if(!n) return '';
@@ -347,22 +349,15 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function renderNewsPortal(){
     var items=newsList();
     if(!items.length) return '<p class="stub-note">No articles yet. Check back soon.</p>';
-    var lead=items[0], rest=items.slice(1), visible=rest.slice(0,5), more=rest.slice(5);
-    return '<div class="news-portal">'
-      +'<section class="news-lead">'+newsCardHTML(lead,true)+'</section>'
-      +(visible.length?'<section class="news-grid">'+visible.map(function(n){return newsCardHTML(n,false);}).join('')+'</section>':'')
-      +(more.length?'<section class="news-grid news-grid-more" hidden>'+more.map(function(n){return newsCardHTML(n,false);}).join('')+'</section><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
+    var visible=items.slice(0,8), more=items.slice(8);
+    return '<div class="news-portal"><div class="news-grid">'+visible.map(newsCardHTML).join('')+'</div>'
+      +(more.length?'<div class="news-grid news-grid-more" hidden>'+more.map(newsCardHTML).join('')+'</div><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
       +'</div>';
   }
   function renderHomeNewsHTML(){
     var items=newsList();
-    if(!items.length) return '';
-    var lead=items[0], rest=items.slice(1,3);
-    return '<div class="news-portal home-news-portal">'
-      +'<section class="news-lead">'+newsCardHTML(lead,true)+'</section>'
-      +(rest.length?'<section class="news-grid">'+rest.map(function(n){return newsCardHTML(n,false);}).join('')+'</section>':'')
-      +(items.length>1?'<p class="news-see-all"><a href="/wiki/articles/">See more articles →</a></p>':'')
-      +'</div>';
+    if(!items.length) return '<p class="stub-note">No articles yet. Check back soon.</p>';
+    return '<div class="news-grid home-news-grid">'+items.slice(0,4).map(newsCardHTML).join('')+'</div>';
   }
   window.renderHomeNewsHTML = renderHomeNewsHTML;
   // The main index is a curated door into the story, not a gallery-file dump.
