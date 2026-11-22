@@ -264,10 +264,22 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function communityTile(slug){var p=COMMUNITY_PROFILES[slug], direct=['community-gu-art','community-immortal-gu-land','community-readers-discord'].indexOf(slug)>=0;return '<a class="community-tile" href="'+(direct?esc(p.site):'/wiki/'+slug+'/')+'"'+(direct?' target="_blank" rel="noopener noreferrer"':'')+'><span class="community-tile-art community-brand '+esc(slug)+'"><img src="'+esc(p.image)+'" alt="" loading="lazy"></span><strong>'+esc(p.title)+'</strong><small>'+esc(slug==='community-readers-discord'?'Join the Translation Team':slug==='community-immortal-gu-land'?'Visit the first translators of Gu Zhen Ren: Skyfarrow & ChibiGeneral':p.type)+(direct?' · Discord ↗':' →')+'</small></a>';}
   function renderCommunityPortal(slug,a){
     var artists=['limitless','footless-bird','volume-one-duel','ordinary-abyss'];
-    return portalTabs(slug)+'<p class="discussion-portal-link"><a href="/wiki/discussion-center/">Visit the Discussion Center →</a></p><section class="community-hub"><h2 class="community-hub-label">Featured</h2><div class="community-tiles">'
-      + ['community-webnovel','community-omniarch','community-kodoku','community-reddit'].map(communityTile).join('')
-      + '</div><h2 class="community-hub-label">Communities</h2><div class="community-tiles">'
-      + ['community-infinite-aperture','community-saga-of-gu','community-gu-art','community-readers-discord','community-immortal-gu-land'].map(communityTile).join('')
+    // Links are independent creators, not endorsements or claims of affiliation.
+    var creators=[
+      ['Maxwell Rak','YouTube · commentary','https://www.youtube.com/@maxwellrak','MR'],
+      ['Beyond Morality','YouTube · analysis','https://www.youtube.com/@BeyondMorality-o2w','BM'],
+      ['Yore','YouTube · chapter analysis','https://www.youtube.com/@yore-77','Y'],
+      ['FictionFixer3','TikTok · fan creations','https://www.tiktok.com/@fiction0fixer3','FF'],
+      ['KenKaizen','TikTok · reading reactions','https://www.tiktok.com/@kenkaizen','KK'],
+      ['Hobbit','TikTok · webnovels','https://www.tiktok.com/@hobbit.webnovels','H']
+    ];
+    function creatorTile(c){return '<a class="community-tile creator-tile" href="'+esc(c[2])+'" target="_blank" rel="noopener noreferrer"><span class="community-tile-art community-monogram" aria-hidden="true">'+esc(c[3])+'</span><strong>'+esc(c[0])+'</strong><small>'+esc(c[1])+' ↗</small></a>';}
+    return portalTabs(slug)+'<p class="discussion-portal-link"><a href="/wiki/discussion-center/">Visit the Discussion Center →</a></p><section class="community-hub"><header class="community-hub-heading"><span>THE WORLD BEYOND THE PAGE</span><h2>Find your community.</h2><p>Discover independent projects, readers and creators inspired by Gu Zhen Ren. External links may contain later-story spoilers.</p></header><h2 class="community-hub-label">Websites &amp; projects</h2><div class="community-tiles">'
+      + ['community-webnovel','community-omniarch','community-kodoku','community-infinite-aperture','community-saga-of-gu'].map(communityTile).join('')
+      + '</div><h2 class="community-hub-label">Servers &amp; groups</h2><div class="community-tiles">'
+      + ['community-reddit','community-gu-art','community-readers-discord','community-immortal-gu-land'].map(communityTile).join('')
+      + '</div><h2 class="community-hub-label">Creators</h2><p class="community-section-intro">A selection of voices making videos, analysis and fan creations. Their work is independent and may contain spoilers.</p><div class="community-tiles">'
+      + creators.map(creatorTile).join('')
       + '</div><h2 class="community-hub-label">Artists</h2><div class="community-tiles"><a class="community-tile" href="/wiki/gallery-artists/"><span class="community-tile-art community-art-grid">'
       + artists.map(function(id){return '<img src="/assets/collection/'+id+'.webp" alt="" loading="lazy">';}).join('')+'</span><strong>Featured artists</strong><small>Explore all artists →</small></a></div><p class="community-hub-note">Artist artwork: 轮回画室丶不修, OSOT, TOUZI and Ullasseu. External spaces may contain spoilers.</p></section>';
   }

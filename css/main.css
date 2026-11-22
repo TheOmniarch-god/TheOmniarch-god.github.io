@@ -3562,3 +3562,12 @@ html[data-theme="dark"] .tg-mainpage-header::before{background:radial-gradient(e
 .tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg{background:linear-gradient(90deg,rgba(19,18,20,.97),rgba(28,25,26,.88) 42%,rgba(41,37,36,.55)),var(--img) center top/cover no-repeat!important}
 .tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg::before{background:var(--img) 78% top/auto 190% no-repeat!important;mask-image:linear-gradient(90deg,transparent 40%,#000 54%,#000 72%,transparent 88%);-webkit-mask-image:linear-gradient(90deg,transparent 40%,#000 54%,#000 72%,transparent 88%)}
 .tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg svg{display:none}
+/* Return the Reader tile to the same image-led treatment as its neighbours. */
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg{background:var(--img) center/cover no-repeat!important}
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg::before{background:radial-gradient(80% 130% at 88% 20%,rgba(255,255,255,.14),transparent 60%),linear-gradient(to right,rgba(0,0,0,.36),rgba(0,0,0,.15) 55%,transparent)!important;mask-image:none;-webkit-mask-image:none}
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg svg{display:block}
+/* The page remains deeply dark; reserve gold for small accents rather than body links. */
+html[data-theme="dark"]{--tg-color-link:#f1f0ed;--tg-color-emphasized:#f6f5f2;--tg-color-base:#e5e5e3;--tg-color-subtle:#b4b4b7}
+html[data-theme="dark"] .wiki-view .lead a,html[data-theme="dark"] .wiki-view .sec-body a,html[data-theme="dark"] .info-content a,html[data-theme="dark"] .info-toc a[aria-current="location"]{color:#eeedeb}
+.community-section-intro{font-size:.8rem;color:var(--tg-color-subtle);line-height:1.65;margin:-.3rem 0 1.2rem}.creator-tile .community-monogram{font-size:clamp(2.5rem,5vw,4rem)}
+@media(max-width:500px){.index-features{grid-template-columns:repeat(2,minmax(0,1fr))}.index-feature{display:block;padding:.55rem}.index-feature img{width:100%;aspect-ratio:1.35;object-fit:cover}.index-feature div{padding:.55rem .15rem .15rem}.index-feature strong{overflow-wrap:anywhere}.index-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem 1rem}.index-letter li a{overflow-wrap:anywhere}}
