@@ -3234,3 +3234,14 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 @media(max-width:700px){.community-project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:480px){.community-profile-head{flex-direction:column-reverse;align-items:flex-start}.community-profile-head>img{width:130px}.community-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.community-project-image img{transition:none}}
+
+/* Visual community profiles and destination marks. */
+.community-profile-head{position:relative;overflow:hidden;isolation:isolate}
+.community-profile-head::before{content:"";position:absolute;inset:-24px;z-index:-1;background:linear-gradient(110deg,color-mix(in srgb,var(--tg-color-surface-2) 94%,transparent),color-mix(in srgb,var(--tg-color-surface-2) 74%,transparent)),var(--community-cover) center/cover;filter:blur(12px)}
+.community-profile-links .community-social-icon{width:18px;height:18px;object-fit:contain;margin-right:.45rem;filter:invert(42%)}
+.community-brand.community-saga-of-gu img,.community-tile-art img[src$="saga-of-gu.svg"]{object-fit:cover;padding:0;background:#b23a22}
+.community-brand.community-infinite-aperture,.community-project-image:has(img[src$="tiktok.svg"]){background:#17131a}.community-brand.community-infinite-aperture img,.community-project-image img[src$="tiktok.svg"]{object-fit:contain;padding:23%}
+.community-brand.community-infinite-aperture img,.community-project-image img[src$="tiktok.svg"],.tiktok-showcase img{filter:invert(1)}
+.tiktok-showcase{background:#17131a;display:flex!important;align-items:center;justify-content:center;gap:1rem}.tiktok-showcase img{width:25%!important;height:auto!important;object-fit:contain!important}.tiktok-showcase-copy{color:#fff;font-size:1rem;font-weight:700}.tiktok-showcase-copy strong{display:block;font-size:.72rem;margin-top:.4rem}
+.community-tiktok button{padding:.75rem 1rem;border-radius:12px;border:1px solid var(--tg-border-color-base);background:var(--tg-color-surface-2);color:var(--tg-color-base);cursor:pointer}.community-tiktok p,.reddit-feed p{font-size:.8rem;color:var(--tg-color-subtle)}
+.reddit-feed{margin-top:2rem}.reddit-feed h4{margin:1.5rem 0 .25rem}.reddit-post-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem}.reddit-post{min-height:150px;display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid var(--tg-border-color-base);border-radius:18px;background:var(--tg-color-surface-2);text-decoration:none!important}.reddit-post small{color:var(--tg-color-link);font-size:.65rem}.reddit-post strong{font-size:.85rem;line-height:1.4}.reddit-post:hover{border-color:var(--tg-color-link)}.chapter-reference{text-decoration:underline;text-underline-offset:2px}
