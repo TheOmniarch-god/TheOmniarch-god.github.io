@@ -135,8 +135,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     'community-infinite-aperture': {title:'Infinite Aperture', type:'Fan game', image:'/assets/community/social/tiktok.svg', site:'https://discord.com/channels/1542846232815341569/1549502947027583046', description:'A Roblox fan project in development.', projects:[{title:'Infinite Aperture on TikTok', type:'FAN GAME · TIKTOK', image:'/assets/community/social/tiktok.svg', url:'https://www.tiktok.com/@infiniteaperturee'}],socials:[['Discord channel','https://discord.com/channels/1542846232815341569/1549502947027583046'],['TikTok','https://www.tiktok.com/@infiniteaperturee']]},
     'community-saga-of-gu': {title:'Saga of Gu', type:'Companion wiki', image:'/assets/inline/saga-of-gu.svg', site:'https://sagaofgu.com', description:'A companion wiki for the Gu world.', projects:[{title:'Saga of Gu', type:'WIKI', image:'/assets/inline/saga-of-gu.svg', url:'https://sagaofgu.com'}],socials:[['Discord channel','https://discord.com/channels/1533739700941095036/1564533989736456244']]},
     'community-gu-art': {title:'Gu Zhen Ren Art', type:'Art community', image:'/assets/inline/art-gu-zhen-ren.webp', site:'https://discord.com/channels/1408047207575453796/1408076789582135307', description:'A community for Gu Zhen Ren art.', projects:[{title:'Gu Zhen Ren Art', type:'DISCORD CHANNEL', image:'/assets/inline/art-gu-zhen-ren.webp', url:'https://discord.com/channels/1408047207575453796/1408076789582135307',credit:'Artwork: mc人祖'}]},
-    'community-readers-discord': {title:'Heaven', type:'The Omniarch community', image:'/assets/inline/discord-heaven.webp', site:'https://discord.gg/UgwTKn4sQf', description:'Join The Omniarch community to discuss chapters and help with translation.', projects:[{title:'Heaven', type:'THE OMNIARCH COMMUNITY', image:'/assets/inline/discord-heaven.webp', url:'https://discord.gg/UgwTKn4sQf'}],socials:[['YouTube','https://www.youtube.com/@Oudenarch']]},
-    'community-immortal-gu-land': {title:'Immortal Gu Land', type:'Translation community', image:'https://cdn.discordapp.com/icons/344030613663252481/a_59f546468f2c4c709c5ed6c936277a25.png?size=512', site:'https://discord.com/channels/344030613663252481/390202548121894912', description:'Skyfarrow and ChibiGeneral contributed to the early English translation.', projects:[{title:'Reverend Insanity', type:'ZELSKY TRANSLATIONS', image:'/assets/inline/ri-cover.jpg', url:'https://zelskytranslations.wordpress.com/novels/reverend-insanity/'}],socials:[['Discord channel','https://discord.com/channels/344030613663252481/390202548121894912']]}
+    'community-readers-discord': {title:'Heaven', type:'The Omniarch community', image:'/assets/inline/discord-heaven.webp', site:'https://discord.gg/UgwTKn4sQf', description:'Join the translation team and meet The Omniarch community.', projects:[{title:'Heaven', type:'THE OMNIARCH COMMUNITY', image:'/assets/inline/discord-heaven.webp', url:'https://discord.gg/UgwTKn4sQf'}],socials:[['YouTube','https://www.youtube.com/@Oudenarch']]},
+    'community-immortal-gu-land': {title:'Immortal Gu Land', type:'Translation community', image:'https://cdn.discordapp.com/icons/344030613663252481/a_59f546468f2c4c709c5ed6c936277a25.png?size=512', site:'https://discord.com/channels/344030613663252481/390202548121894912', description:'Visit Skyfarrow and ChibiGeneral, the first translators of Gu Zhen Ren.', projects:[{title:'Reverend Insanity', type:'ZELSKY TRANSLATIONS', image:'/assets/inline/ri-cover.jpg', url:'https://zelskytranslations.wordpress.com/novels/reverend-insanity/'}],socials:[['Discord channel','https://discord.com/channels/344030613663252481/390202548121894912']]}
   };
   Object.keys(COMMUNITY_PROFILES).forEach(function(slug){var p=COMMUNITY_PROFILES[slug];A[slug]={t:p.title,k:'Index',index:'community-profile',b:[p.description],ib:[],see:['community'],cat:[]};});
 
@@ -261,13 +261,13 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   /* Community Hub, modelled on a wiki community portal: the portal rail first,
      then a short welcome, then the ways to get involved. Channel handles are the
      ones the community shares; the Discord invite matches the Talk banner. */
-  function communityTile(slug){var p=COMMUNITY_PROFILES[slug], direct=['community-gu-art','community-immortal-gu-land','community-readers-discord'].indexOf(slug)>=0;return '<a class="community-tile" href="'+(direct?esc(p.site):'/wiki/'+slug+'/')+'"'+(direct?' target="_blank" rel="noopener noreferrer"':'')+'><span class="community-tile-art community-brand '+esc(slug)+'"><img src="'+esc(p.image)+'" alt="" loading="lazy"></span><strong>'+esc(p.title)+'</strong><small>'+esc(p.type)+(direct?' · Discord ↗':' →')+'</small></a>';}
+  function communityTile(slug){var p=COMMUNITY_PROFILES[slug], direct=['community-gu-art','community-immortal-gu-land','community-readers-discord'].indexOf(slug)>=0;return '<a class="community-tile" href="'+(direct?esc(p.site):'/wiki/'+slug+'/')+'"'+(direct?' target="_blank" rel="noopener noreferrer"':'')+'><span class="community-tile-art community-brand '+esc(slug)+'"><img src="'+esc(p.image)+'" alt="" loading="lazy"></span><strong>'+esc(p.title)+'</strong><small>'+esc(slug==='community-readers-discord'?'Join the Translation Team':slug==='community-immortal-gu-land'?'Visit the first translators of Gu Zhen Ren: Skyfarrow & ChibiGeneral':p.type)+(direct?' · Discord ↗':' →')+'</small></a>';}
   function renderCommunityPortal(slug,a){
     var artists=['limitless','footless-bird','volume-one-duel','ordinary-abyss'];
     return portalTabs(slug)+'<p class="discussion-portal-link"><a href="/wiki/discussion-center/">Visit the Discussion Center →</a></p><section class="community-hub"><h2 class="community-hub-label">Featured</h2><div class="community-tiles">'
       + ['community-webnovel','community-omniarch','community-kodoku','community-reddit'].map(communityTile).join('')
       + '</div><h2 class="community-hub-label">Communities</h2><div class="community-tiles">'
-      + ['community-infinite-aperture','community-saga-of-gu','community-gu-art','community-immortal-gu-land','community-readers-discord'].map(communityTile).join('')
+      + ['community-infinite-aperture','community-saga-of-gu','community-gu-art','community-readers-discord','community-immortal-gu-land'].map(communityTile).join('')
       + '</div><h2 class="community-hub-label">Artists</h2><div class="community-tiles"><a class="community-tile" href="/wiki/gallery-artists/"><span class="community-tile-art community-art-grid">'
       + artists.map(function(id){return '<img src="/assets/collection/'+id+'.webp" alt="" loading="lazy">';}).join('')+'</span><strong>Featured artists</strong><small>Explore all artists →</small></a></div><p class="community-hub-note">Artist artwork: 轮回画室丶不修, OSOT, TOUZI and Ullasseu. External spaces may contain spoilers; Discord channels require access.</p></section>';
   }
@@ -387,20 +387,67 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   // Information pages are documents, not encyclopedia articles with infoboxes.
   function informationHTML(slug){
     var sections = slug==='privacy' ? [
-      ['storage','Browser storage','This site uses browser storage to remember settings such as the selected theme, reading preferences and mature-gallery preference. You can clear this information in your browser settings.'],
-      ['hosting','Hosting','Your browser and the hosting provider may process technical information such as your IP address when serving the site.'],
-      ['external-services','External services','The site loads fonts from Google, video thumbnails from YouTube and a comic cover from Webnovel. Playing the community video loads an embedded YouTube player. Reddit rankings request data from Reddit and may be cached in browser storage for a week. Loading the TikTok profile connects to TikTok; the Immortal Gu Land image is served by Discord. These services may process technical information under their own policies. External links, including the reader and community services, are governed by those services’ own policies.'],
-      ['advertising','Advertising and analytics','This site does not currently include Google advertising code. If advertising or analytics is added, this notice and any required consent controls will be updated.'],
-      ['privacy-contact','Questions','Contact the project via its Discord community.']
+      ['scope','About this notice',[
+        'This notice describes how the Gu Zhen Ren Encyclopedia works and the information that may be involved when you use it. It covers this site, not the independent services we link to. Features and providers can change, so this notice will be updated as the site develops.'
+      ]],
+      ['hosting','Information involved in a visit',[
+        'When your browser requests a page, image or other file, the hosting provider and network services may receive technical information such as your IP address, request time, browser information and the address requested. This information is used to deliver and protect the service; the hosting provider determines its own logging and retention practices.',
+        'The encyclopedia does not currently provide its own user accounts or a form for posting discussions. Following a link or contacting us on a third-party service is subject to that service’s own practices.'
+      ]],
+      ['storage','Browser storage and preferences',[
+        'The site uses local browser storage to remember appearance settings, the gallery’s mature-content preference, and Reader settings and reading progress. Reader settings can include your chosen theme, font, text size, width and line spacing. These preferences remain in the browser on the device where they are saved; they are not an account or a cross-device sync service.',
+        'The Reddit community feature may cache public post information locally for up to a week before requesting a refresh. Your browser may retain older cache entries until they are replaced or cleared. You can remove this site’s stored data through your browser settings; doing so also resets saved preferences and reading progress. Blocking storage may prevent these features from remembering your choices.'
+      ]],
+      ['external-services','External services and embeds',[
+        'Some pages request resources from other providers: Google Fonts, YouTube video thumbnails, a Webnovel comic cover and a Discord-hosted community image. These requests can disclose your IP address and other technical request information to those providers. Playing an embedded video connects to YouTube. The TikTok profile embed loads when you choose to load it and connects to TikTok.',
+        'The Reddit community feature requests public rankings from Reddit without sending credentials in that request. Links to Discord, Reddit, YouTube, TikTok, Webnovel, Google Drive, the translation reader and other sites take you to services operated independently of this encyclopedia. Those services may use their own cookies, accounts and analytics; review their privacy notices and settings before using them.'
+      ]],
+      ['sharing','Sharing and community contact',[
+        'The Share and copy-link controls use your device’s sharing or clipboard features where available, with a manual fallback. An article topic may be included in the Discussion Center URL so the center can identify the page; avoid adding personal information to a shared link.',
+        'If you contact the project through Discord, the information you send is visible to the people and services involved in that conversation. Do not share sensitive personal information in public channels. Discord’s own privacy practices and community rules apply.'
+      ]],
+      ['advertising','Advertising, analytics and changes',[
+        'The site does not currently include Google advertising code. Third-party services may have their own advertising or analytics practices. If the encyclopedia adds advertising or analytics, we will revise this notice and provide any consent controls required for the implementation.'
+      ]],
+      ['privacy-contact','Questions and requests',[
+        'For questions about this notice or a privacy concern relating to the encyclopedia, contact the project through its Discord community. Please avoid posting private details in a public channel; ask how to communicate them privately instead. For data held by an external provider, contact that provider directly.'
+      ]]
     ] : [
-      ['our-project','Our project','The Gu Zhen Ren Encyclopedia is a reader-built guide to the novel, its world and its community. Its story articles aim to follow the terminology and progress of the linked reader; the artwork gallery may contain later-story spoilers.'],
-      ['sources','Sources and coverage','Story entries refer to the available translation. The reader and chapter guides are separate: guides connect readers to people, places and ideas from the story.'],
-      ['rights','Rights and credits','This is an independent fan project. The original novel and artwork belong to their respective rights holders. Artwork credits are shown alongside images where known.'],
-      ['get-in-touch','Get in touch','Questions or corrections? Contact the project through its Discord community.']
+      ['our-project','An encyclopedia for the Gu world',[
+        'Gu Zhen Ren Encyclopedia, also known as Reverend Insanity Encyclopedia, is a wiki and information center devoted to Gu Zhen Ren and the community around it. Created by The Omniarch, it brings the novel’s people, places, ideas and creative community together in a considered, accessible home.',
+        'At its heart is a simple ambition: to make a vast and intricate world inviting to explore without losing the detail that gives it life. Whether you have just opened the first chapter or are returning to a familiar idea, the encyclopedia is designed to offer a path into the story and room to look more closely.'
+      ]],
+      ['the-work','The novel and its translation',[
+        'Gu Zhen Ren (蛊真人), widely known in English as Reverend Insanity, is a xianxia novel by the author Gu Zhen Ren. It follows Fang Yuan through a world shaped by Gu, cultivation, ambition and consequence. The encyclopedia follows the literary translation published by The Omniarch Translations, using its terminology and its published progress as the foundation for story coverage.',
+        'Translation is an act of interpretation as well as language. Names and terms may differ from those used by other translations. Skyfarrow and ChibiGeneral helped introduce the novel to English readers through the early translation; their contribution is part of the wider community’s history.'
+      ]],
+      ['explore','What you can explore',[
+        'The encyclopedia connects character profiles, Gu, cultivation, clans, locations, the Glossary and other guides through a searchable, browsable structure. Chapter and volume guides offer a companion to reading: they gather context and connections without replacing the prose itself.',
+        'The Reader presents the published translation with adjustable typography, appearance and reading preferences. The Author’s Preface has its own reading page, distinct from its encyclopedia summary. The gallery brings together artwork and artists, while the community pages point toward conversations, adaptations and independent creative projects.'
+      ]],
+      ['editorial','Our approach to coverage',[
+        'We aim for clear, useful entries grounded in the available translation. Story guides grow progressively with the chapters published in the Reader rather than pretending that unpublished material has already been covered. References to chapters help readers find the passages behind a claim; omissions, interpretations and terminology can be improved as the project grows.',
+        'The encyclopedia is a guide, not a substitute for reading the novel. Some sections, especially artwork, community links and adaptations, can depict later events or fan interpretations. External communities may contain unmarked spoilers. Readers who want to discover the story in order should browse with care.'
+      ]],
+      ['design','Made for discovery',[
+        'The site pairs a structured reference work with an editorial reading experience: considered typography, artwork, navigation and responsive layouts are intended to make exploration as rewarding as the information itself. From a chapter to a concept, and from an artist to a community, each connection is an invitation to see the world from another angle.',
+        'This is a living project, not a finished catalogue. Its guides, presentation and coverage will continue to develop, with attention to accuracy, readability and the many ways readers encounter the story.'
+      ]],
+      ['community','A community of readers and creators',[
+        'The story’s reach extends beyond its pages. Readers discuss theories and translations; artists, translators and creators bring their own perspectives to the Gu world. The community hub highlights some of these spaces and projects, and the Discussion Center points readers to conversations on Discord and Reddit. Posting directly on this site is not currently available.',
+        'Heaven is The Omniarch’s community and a place to join the translation team. Corrections, thoughtful discussion and contributions help the encyclopedia grow; external communities have their own rules and are independently operated.'
+      ]],
+      ['rights','Independence, rights and credits',[
+        'The encyclopedia is an independent fan project. The original novel and its characters belong to their respective rights holders; translations, artwork and adaptations belong to their respective creators or rights holders. Inclusion here is not a claim of ownership or an endorsement by those creators.',
+        'We show artwork credits and source information where known. Some gallery attributions or classifications remain provisional. If you are a creator or rights holder and wish to discuss a credit, correction or use of material, please contact the project.'
+      ]],
+      ['get-in-touch','Help the encyclopedia grow',[
+        'Found a mistake, a missing credit or a passage that deserves a closer look? Share the page and the relevant chapter or source when contacting us. Questions, corrections and constructive feedback are welcome through the community.'
+      ]]
     ];
     var title=slug==='privacy'?'Privacy Policy':'About the Encyclopedia';
     var intro=slug==='privacy'?'How this site uses browser storage and connects to other services.':'A guide to the story, its world and the community around it.';
-    return '<div class="info-page"><div class="info-heading"><span>GU ZHEN REN ENCYCLOPEDIA / INFORMATION</span><h1>'+esc(title)+'</h1><p>'+esc(intro)+'</p></div><div class="info-layout"><nav class="info-toc" aria-label="On this page"><strong>ON THIS PAGE</strong>'+sections.map(function(x){return '<a href="#'+x[0]+'">'+esc(x[1])+'</a>';}).join('')+'</nav><div class="info-content">'+sections.map(function(x){return '<section id="'+x[0]+'"><h2>'+esc(x[1])+'</h2><p>'+esc(x[2])+'</p>'+((x[0]==='privacy-contact'||x[0]==='get-in-touch')?'<a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Contact via Discord ↗</a>':'')+'</section>';}).join('')+'<div class="info-more"><a href="/wiki/'+(slug==='privacy'?'about':'privacy')+'/">'+(slug==='privacy'?'About the encyclopedia':'Privacy policy')+' →</a><a href="/wiki/contents/">Encyclopedia index →</a></div></div></div></div>';
+    return '<div class="info-page"><div class="info-heading"><span>GU ZHEN REN ENCYCLOPEDIA / INFORMATION</span><h1>'+esc(title)+'</h1><p>'+esc(intro)+'</p></div><div class="info-layout"><nav class="info-toc" aria-label="On this page"><strong>ON THIS PAGE</strong>'+sections.map(function(x){return '<a href="#'+x[0]+'">'+esc(x[1])+'</a>';}).join('')+'</nav><div class="info-content">'+sections.map(function(x){return '<section id="'+x[0]+'"><h2>'+esc(x[1])+'</h2>'+x[2].map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+((x[0]==='privacy-contact'||x[0]==='get-in-touch')?'<a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Contact via Discord ↗</a>':'')+'</section>';}).join('')+'<div class="info-more"><a href="/wiki/'+(slug==='privacy'?'about':'privacy')+'/">'+(slug==='privacy'?'About the encyclopedia':'Privacy policy')+' →</a><a href="/wiki/contents/">Encyclopedia index →</a></div></div></div></div>';
   }
 
   function render(slug){
