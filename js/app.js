@@ -303,6 +303,56 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     });
   }
   function chapterRefs(text){return esc(text).replace(/\b(Chapter|Chp\.?|Ch\.)\s*(\d+)\b/gi,function(match,kind,num){return S.chapters.some(function(c){return c.n===Number(num);})?'<a class="chapter-reference" href="/reader/chapter-'+Number(num)+'/">'+match+'</a>':match;}).replace(/\(Preface\)/g,'(<a class="chapter-reference" href="/reader/preface/">Preface</a>)');}
+
+  /* Articles desk: long-read dispatches distinct from wiki/gallery articles.
+     Data lives in js/news-data.js, which merges Article-kind entries straight
+     into A (OMNIARCH_ARTICLES) and registers the 'articles' portal slug; this
+     section is just the rendering for those two shapes, newest-first
+     throughout. (Internal identifiers below still say "news" — only the
+     slugs and on-page labels are branded as "Articles".) */
+  function newsList(){ return (window.OMNIARCH_NEWS||[]).slice().sort(function(x,y){ return (y.date||'').localeCompare(x.date||''); }); }
+  function newsTagChips(tags){ return (tags&&tags.length) ? '<div class="news-tags">'+tags.map(function(t){return '<span class="news-tag">'+esc(t)+'</span>';}).join('')+'</div>' : ''; }
+  function newsByline(n){ return n.author ? '<a class="news-byline" href="/wiki/community-omniarch/">By '+esc(n.author)+'</a>' : ''; }
+  function newsMetaHTML(n){ return '<div class="news-meta">'+newsByline(n)+(n.author?'<span class="news-meta-sep">·</span>':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></div>'; }
+  function newsCardHTML(n,featured){
+    return '<a class="news-card'+(featured?' news-card-featured':'')+'" href="/wiki/'+esc(n.slug)+'/">'
+      +(n.cover?'<span class="news-card-image"><img src="'+esc(n.cover)+'" alt="" loading="lazy"></span>':'')
+      +'<span class="news-card-body">'+newsTagChips(n.tags)+'<h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||n.dek||'')+'</p>'+newsMetaHTML(n)+'</span></a>';
+  }
+  function newsArticleHTML(a){
+    var n=a.news; if(!n) return '';
+    return '<article class="news-article">'
+      +'<header class="news-article-head">'+newsTagChips(n.tags)+'<h1 class="news-article-title">'+esc(n.title)+'</h1>'
+      +(n.dek?'<p class="news-dek">'+esc(n.dek)+'</p>':'')+newsMetaHTML(n)+'</header>'
+      +(n.cover?'<figure class="news-cover"><img src="'+esc(n.cover)+'" alt="'+esc(n.coverCaption||n.title)+'" loading="lazy">'
+        +(n.coverCaption?'<figcaption>'+esc(n.coverCaption)+'</figcaption>':'')
+        +(n.coverCredit?'<small class="news-cover-credit">'+esc(n.coverCredit)+'</small>':'')+'</figure>':'')
+      +'<div class="news-body">'+(n.body||[]).join('')+'</div>'
+      +((n.sources&&n.sources.length)?'<section class="news-sources"><h2>Sources &amp; further reading</h2><ul>'+n.sources.map(function(s){return '<li><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label)+' ↗</a></li>';}).join('')+'</ul></section>':'')
+      +'<p class="news-back"><a href="/wiki/articles/">← Back to Articles</a></p>'
+      +'</article>';
+  }
+  function renderNewsPortal(){
+    var items=newsList();
+    if(!items.length) return '<p class="stub-note">No articles yet. Check back soon.</p>';
+    var lead=items[0], rest=items.slice(1), visible=rest.slice(0,5), more=rest.slice(5);
+    return '<div class="news-portal">'
+      +'<section class="news-lead">'+newsCardHTML(lead,true)+'</section>'
+      +(visible.length?'<section class="news-grid">'+visible.map(function(n){return newsCardHTML(n,false);}).join('')+'</section>':'')
+      +(more.length?'<section class="news-grid news-grid-more" hidden>'+more.map(function(n){return newsCardHTML(n,false);}).join('')+'</section><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
+      +'</div>';
+  }
+  function renderHomeNewsHTML(){
+    var items=newsList();
+    if(!items.length) return '';
+    var lead=items[0], rest=items.slice(1,3);
+    return '<div class="news-portal home-news-portal">'
+      +'<section class="news-lead">'+newsCardHTML(lead,true)+'</section>'
+      +(rest.length?'<section class="news-grid">'+rest.map(function(n){return newsCardHTML(n,false);}).join('')+'</section>':'')
+      +(items.length>1?'<p class="news-see-all"><a href="/wiki/articles/">See more articles →</a></p>':'')
+      +'</div>';
+  }
+  window.renderHomeNewsHTML = renderHomeNewsHTML;
   // The main index is a curated door into the story, not a gallery-file dump.
   function encyclopediaIndex(){
     var subjects=[
@@ -483,9 +533,12 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(slug==='authors-preface') html += '<p class="read-cta"><a href="/reader/preface/">Read the complete Author’s Preface →</a></p>';
       if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reader →</a></p>';
       if(slug==='chapters') html += '<p class="read-cta"><a href="/reader/preface/">Read the Author’s Preface →</a> &nbsp; <a href="/reader/chapter-1/">Begin Chapter 1 →</a></p>';
-      var lean = a.k==='Index' || a.k==='Category' || a.index;
-      var isArt = a.k!=='Index' && a.k!=='Category';
-      if(isArt){
+      var isNews = a.k==='Article';
+      var lean = a.k==='Index' || a.k==='Category' || a.index || isNews;
+      var isArt = a.k!=='Index' && a.k!=='Category' && !isNews;
+      if(isNews){
+        html += newsArticleHTML(a);
+      } else if(isArt){
         html += infoboxHTML(a);
         html += '<div class="lead">'+a.b.map(function(p){return '<p>'+chapterRefs(p)+'</p>';}).join('')+'</div>';
       } else {
@@ -497,6 +550,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       else if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
       else if(a.index==='discussion-center') html += discussionCenterHTML();
       else if(a.index==='community-profile') html += renderCommunityProfile(slug);
+      else if(a.index==='news-portal') html += renderNewsPortal();
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(slug==='volume-1'){
@@ -573,6 +627,12 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     render(curSlug);
   });
 
+  document.addEventListener('click', function(e){
+    var more=e.target.closest('[data-news-more]'); if(!more) return;
+    var hidden=more.previousElementSibling;
+    if(hidden && hidden.classList.contains('news-grid-more')){ hidden.hidden=false; more.remove(); }
+  });
+
   wikiView.addEventListener('click', function(e){
     var caret=e.target.closest('h2.sec .caret');
     if(caret){ caret.parentElement.classList.toggle('collapsed'); e.preventDefault(); return; }
@@ -604,9 +664,11 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(render(slug)){
         setPageMeta(slug);
         mainView.hidden = true; wikiView.hidden = false; setSkipTarget(wikiView);
-        wikiView.classList.toggle('wide', A[slug].k==='Index' || A[slug].k==='Category');
-        wikiView.classList.toggle('is-index', A[slug].k==='Index');
+        wikiView.classList.toggle('wide', (A[slug].k==='Index' || A[slug].k==='Category') && A[slug].k!=='Article');
+        wikiView.classList.toggle('is-index', A[slug].k==='Index' && A[slug].index!=='news-portal');
+        wikiView.classList.toggle('is-news-portal', A[slug].index==='news-portal');
         wikiView.classList.toggle('is-article', A[slug].k!=='Index' && A[slug].k!=='Category');
+        wikiView.classList.toggle('is-news', A[slug].k==='Article');
         wikiView.classList.toggle('is-information', (slug==='about' || slug==='privacy') && routeMode!=='talk');
         window.scrollTo(0,0);
         return;
@@ -732,6 +794,8 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var si=document.getElementById('stat-imgs'); if(si) si.textContent=10;
   var sc=document.getElementById('stat-ch'); if(sc) sc.textContent=S.chapters.length;
   var spar=document.getElementById('stat-par'); if(spar) spar.textContent=S.parables;
+
+  var newsHome=document.getElementById('home-news-feed'); if(newsHome) newsHome.innerHTML=renderHomeNewsHTML();
 
   /* ---- live date ---- */
   (function(){
