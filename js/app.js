@@ -236,15 +236,21 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if(see.indexOf('gallery')===-1 && A.gallery) see.push('gallery');
     return portalTabs(slug)
       + '<div class="lead">'+a.b.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>'
+      + '<section class="community-intro"><span class="feed-kicker">READERS · CREATORS · PROJECTS</span><h2>Many paths, one community.</h2><p>Find fellow readers, independent fan projects and the people creating around the story. These are separate communities, not official partners.</p><a href="/#community-feed-title">Visit the community feed →</a></section>'
       + '<div class="tg-section-divider"><span>Get involved</span></div>'
-      + '<div class="portal-boxes"><div class="portal-box"><h4>Official channels</h4><ul>'
+      + '<div class="portal-boxes"><div class="portal-box"><h4>Community channels</h4><ul>'
       + channels.map(function(c){return '<li><a href="'+c[1]+'" target="_blank" rel="noopener noreferrer">'+esc(c[0])+'</a> — '+esc(c[2])+'</li>';}).join('')
       + '</ul></div><div class="portal-box"><h4>Start here</h4><ul>'
       + '<li>Read the latest chapter, then join the Discord and introduce yourself.</li>'
-      + '<li>Spotted a typo or a line that reads off? Flag it on the channel or on the Talk page of any article.</li>'
+      + '<li>Spotted a typo or a line that reads off? Share feedback in the Discord community.</li>'
       + '<li>Enjoy the artwork? The '+link('gallery','Gallery')+' credits every artist and tracks their collections.</li>'
-      + '<li>Questions about cultivation, gu or chronology? The portal pages above are the map — start with Cultivation System or Volumes &amp; Chapters.</li>'
+      + '<li>Questions about cultivation, gu or chronology? The portal pages above are the map — start with Cultivation System or the chapter guides.</li>'
       + '</ul></div></div>'
+      + '<div class="tg-section-divider"><span>Across the community</span></div><div class="community-directory">'
+      + '<a href="https://www.youtube.com/watch?v=lSFNtn0N0_s" target="_blank" rel="noopener noreferrer"><small>FAN GAME · VIDEO</small><strong>Infinite Aperture</strong><span>A Roblox fan project, seen in a community video preview. Status may have changed. ↗</span></a>'
+      + '<a href="https://kodokustudio.com/manga-artist/kodoku-studio/" target="_blank" rel="noopener noreferrer"><small>FAN MANHUA · STUDIO</small><strong>Kodoku Studio</strong><span>Explore the independent adaptation on the studio’s website. ↗</span></a>'
+      + '<a href="https://www.reddit.com/r/ReverendInsanity/" target="_blank" rel="noopener noreferrer"><small>DISCUSSION · REDDIT</small><strong>r/ReverendInsanity</strong><span>Reader conversations, theories and creative work. May contain spoilers. ↗</span></a>'
+      + '<a href="/wiki/gallery-artists/"><small>ART · ENCYCLOPEDIA</small><strong>Artists &amp; artwork</strong><span>Explore the credited collection. Later-story spoilers possible. →</span></a></div>'
       + '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'
       + see.map(function(x){return '<li>'+link(x)+'</li>';}).join('')
       + '</ul></div>';
