@@ -32,8 +32,8 @@
   function makePrefaceLink(){var a=document.createElement('a'),b=document.createElement('b'),t=document.createElement('span');a.className='chapter-link';a.href='/reader/preface/';if(isPreface)a.setAttribute('aria-current','page');b.textContent='✦';t.textContent='Author’s Preface';a.append(b,t);return a;}
   $('chapter-rail').appendChild(makePrefaceLink());$('mobile-chapters').appendChild(makePrefaceLink());
   chapters.forEach(function(c){$('chapter-rail').appendChild(makeLink(c));$('mobile-chapters').appendChild(makeLink(c));});
-  if(isPreface){$('chapter-number').hidden=true;$('chapter-label').textContent='AUTHOR’S PREFACE';$('bar-chapter').textContent='AUTHOR’S PREFACE';$('chapter-count').textContent='BEFORE CHAPTER 01';document.title='Author’s Preface: '+chapter.title+' · Reading Room';}
-  else{$('chapter-number').textContent=pad(chapter.number);$('hero-chapter').textContent=words[index]||pad(chapter.number);$('bar-chapter').textContent='CHAPTER '+pad(chapter.number);$('chapter-count').textContent=pad(chapter.number)+' / '+pad(chapters.length);document.title='Chapter '+chapter.number+': '+chapter.title+' · Reading Room';}
+  if(isPreface){$('chapter-number').hidden=true;$('chapter-label').textContent='AUTHOR’S PREFACE';$('bar-chapter').textContent='AUTHOR’S PREFACE';$('chapter-count').textContent='BEFORE CHAPTER 01';document.title='Author’s Preface: '+chapter.title+' · Reader';}
+  else{$('chapter-number').textContent=pad(chapter.number);$('hero-chapter').textContent=words[index]||pad(chapter.number);$('bar-chapter').textContent='CHAPTER '+pad(chapter.number);$('chapter-count').textContent=pad(chapter.number)+' / '+pad(chapters.length);document.title='Chapter '+chapter.number+': '+chapter.title+' · Reader';}
   $('chapter-title').textContent=chapter.title;
   var prose=$('chapter-prose');
   chapter.paragraphs.forEach(function(p){var el=document.createElement('p');if(p.scene)el.classList.add('scene-break');if(p.poem)el.classList.add('prose-poem');el.innerHTML=p.html;prose.appendChild(el);});
@@ -42,7 +42,7 @@
   if(isPreface) $('wiki-guide').textContent='Explore the preface in the encyclopedia ↗';
   $('source-chapter').href=isPreface?'https://ri.theomniarch.com.ng/preface':'https://ri.theomniarch.com.ng/chapter-'+chapter.number;$('rail-source').href=$('source-chapter').href;
   function nav(id,offset){var el=$(id),next=chapters[index+offset];if(!next){el.setAttribute('aria-disabled','true');el.removeAttribute('href');el.querySelector('strong').textContent=offset<0?'Beginning of Volume I':'You’re caught up';return;}el.href=chapterUrl(next.number);el.querySelector('strong').textContent=next.title;}
-  if(isPreface){var prev=$('previous-chapter'),next=$('next-chapter');prev.href='/reader/';prev.querySelector('small').textContent='← READING ROOM';prev.querySelector('strong').textContent='All chapters';next.href=chapterUrl(chapters[0].number);next.querySelector('strong').textContent=chapters[0].title;}
+  if(isPreface){var prev=$('previous-chapter'),next=$('next-chapter');prev.href='/reader/';prev.querySelector('small').textContent='← READER';prev.querySelector('strong').textContent='All chapters';next.href=chapterUrl(chapters[0].number);next.querySelector('strong').textContent=chapters[0].title;}
   else{nav('previous-chapter',-1);nav('next-chapter',1);if(index===0){var previous=$('previous-chapter');previous.removeAttribute('aria-disabled');previous.href='/reader/preface/';previous.querySelector('small').textContent='← BEFORE CHAPTER 1';previous.querySelector('strong').textContent='Author’s Preface';}}
   function apply(){var root=document.documentElement;root.dataset.readerTheme=prefs.theme;root.dataset.readerFont=prefs.font;root.style.setProperty('--reader-size',prefs.size+'px');root.style.setProperty('--reader-width',prefs.width+'ch');root.style.setProperty('--reader-leading',prefs.leading);$('size-output').textContent=prefs.size+' px';$('width-output').textContent=prefs.width+' ch';$('leading-output').textContent=Number(prefs.leading).toFixed(1);$('font-size').value=prefs.size;$('line-width').value=prefs.width;$('line-height').value=prefs.leading;document.querySelectorAll('[data-theme]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.theme===prefs.theme));});document.querySelectorAll('[data-font]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.font===prefs.font));});save(prefsKey,prefs);}
   document.querySelectorAll('[data-theme]').forEach(function(b){b.addEventListener('click',function(){prefs.theme=b.dataset.theme;apply();});});
@@ -53,7 +53,7 @@
   $('settings-toggle').addEventListener('click',function(){openSettings($('reader-settings').hidden);});$('settings-close').addEventListener('click',function(){openSettings(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('reader-settings').hidden)openSettings(false);});
   var savedProgress=get(progressKey,{});
   if(isLibrary){
-    document.title='Reading Room · Gu Zhen Ren Encyclopedia';
+    document.title='Reader · Gu Zhen Ren Encyclopedia';
     $('library-count').textContent=chapters.length+' chapters available · Translation in progress';
     chapters.forEach(function(c){var a=document.createElement('a'), num=document.createElement('span'), title=document.createElement('strong'), arrow=document.createElement('span');a.className='library-chapter';a.href=chapterUrl(c.number);num.textContent=pad(c.number);title.textContent=c.title;arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');a.append(num,title,arrow);$('library-chapter-list').appendChild(a);});
     var savedChapter=chapters.find(function(c){return c.number===savedProgress.chapter;});

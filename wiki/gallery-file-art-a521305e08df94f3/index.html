@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/main.css?v=8a7b1d5449">
+<link rel="stylesheet" href="/css/main.css?v=8f9af25015">
 
 <link rel="canonical" href="https://www.reverendinsanity.com.ng/wiki/gallery-file-art-a521305e08df94f3"></head>
 <body>
@@ -96,6 +96,7 @@
       <a href="#main">Main Page</a>
       <a href="#" id="drawer-random">Random page</a>
       <a href="/wiki/community">Community Portal</a>
+      <a href="/wiki/discussion-center/">Discussion Center</a>
       <a href="/wiki/chapters">To-do · the bench</a>
       <a href="/wiki/glossary">Help · Glossary</a>
     </div>
@@ -155,7 +156,7 @@
 
   <nav class="tg-mainpage-navigation" aria-label="Portals" id="explore">
     <div class="template-navpills">
-      <div class="template-navpill" style="--pill:#3a3230;--img:url('/assets/inline/ri-cover.jpg')"><div class="pill-bg"><svg><use href="#glyph-book"/></svg></div><a href="/reader/" title="Open the reading room">Reader</a></div>
+      <div class="template-navpill" style="--pill:#3a3230;--img:url('/assets/inline/ri-cover.jpg')"><div class="pill-bg"><svg><use href="#glyph-book"/></svg></div><a href="/reader/" title="Open the reader">Reader</a></div>
       <div class="template-navpill" style="--pill:#33402c;--img:url('/assets/inline/tile-characters.webp')"><div class="pill-bg"><svg><use href="#glyph-person"/></svg></div><a href="/wiki/characters" title="Characters of the translation">Characters</a></div>
       <div class="template-navpill" style="--pill:#2f3a3f;--img:url('/assets/inline/tile-gu.webp')"><div class="pill-bg"><svg><use href="#glyph-gu-jar"/></svg></div><a href="/wiki/gu" title="Gu of the translation">Gu Worms</a></div>
       <div class="template-navpill" style="--pill:#403a45;--img:url('/assets/inline/tile-cultivation.webp')"><div class="pill-bg"><svg><use href="#glyph-ranks"/></svg></div><a href="/wiki/cultivation" title="Ranks and paths of the translation">Cultivation System</a></div>
@@ -266,7 +267,7 @@
       <div class="watch-copy"><span class="editorial-kicker"><i></i> FAN ANIMATION / EPISODE 23</span><h2 id="watch-title">Fan-made<br><em>donghua.</em></h2><p>Watch The Omniarch’s subtitled fan edit. Original animation by 纵横AIGC; contains AI-generated content.</p><div class="editorial-actions"><a class="ed-button ed-button-light" href="https://www.youtube.com/playlist?list=PLMSNfaCG3cUk" target="_blank" rel="noopener noreferrer">View the playlist ↗</a></div><small>Episode 23 · Spoilers beyond the first 11 chapters · Not an official adaptation</small></div>
       <span class="watch-credit">Fan animation: 纵横AIGC · Subtitles: The Omniarch · Fallback art: 轮回画室丶不修</span>
     </section>
-    <section class="editorial-reader" aria-labelledby="ed-reader-title"><div class="reader-promo-art" role="img" aria-label="Gu Zhen Ren cover artwork"></div><div class="reader-promo-copy"><span class="editorial-kicker"><i></i> THE READING ROOM</span><h2 id="ed-reader-title">The reading<br><em>room.</em></h2><p>Your story. Your settings.</p><div class="editorial-actions"><a class="ed-button ed-button-light" href="/reader/">Enter the reading room →</a><a class="ed-text-link" href="/wiki/chapters/">Explore chapter guides →</a></div></div></section>
+    <section class="editorial-reader" aria-labelledby="ed-reader-title"><div class="reader-promo-art" role="img" aria-label="Gu Zhen Ren cover artwork"></div><div class="reader-promo-copy"><span class="editorial-kicker"><i></i> THE READER</span><h2 id="ed-reader-title">The<br><em>reader.</em></h2><p>Your story. Your settings.</p><div class="editorial-actions"><a class="ed-button ed-button-light" href="/reader/">Enter the reader →</a><a class="ed-text-link" href="/wiki/chapters/">Explore chapter guides →</a></div></div></section>
     <div class="editorial-community-link"><p><strong>Explore the community.</strong></p><a href="/wiki/community/">Enter the community hub →</a></div>
   </div>
 
@@ -377,11 +378,10 @@
   <div class="meta-two">
     <div><h4>About this encyclopedia</h4><p><i>Gu Zhen Ren</i> (蛊真人) is a work by Gu Zhen Ren. Artwork remains with its respective creators.</p></div>
   </div>
-  <div class="action-tabs">
-    <a href="#main" aria-label="Back to the main page"><svg><use href="#glyph-share"/></svg></a>
-    <a href="#main"><svg><use href="#glyph-history"/></svg> View history</a>
-    <a href="#main"><svg><use href="#glyph-talk"/></svg> Discussion</a>
-    <a href="#main" class="dots" aria-label="More"><svg><use href="#glyph-dots"/></svg></a>
+  <div class="action-tabs" aria-label="Page actions">
+    <button class="share-action" type="button" data-share-page><svg aria-hidden="true"><use href="#glyph-share"/></svg><span>Share</span></button>
+    <a href="/wiki/discussion-center/"><svg aria-hidden="true"><use href="#glyph-talk"/></svg> Discussion Center</a>
+    <span class="share-status" role="status" aria-live="polite"></span>
   </div>
 </div>
 
@@ -396,7 +396,7 @@
     <div class="wiki-hero-inner">
       <h1 id="wiki-title">Article</h1>
       <div class="wiki-sub" id="wiki-sub">From the Gu Zhen Ren Encyclopedia</div>
-      <div class="page-tools" id="page-tools"><a data-act="share" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5l7 7-7 7v-4c-5 0-8 1.5-10 6 1-6 4-10 10-11z" fill="currentColor"/></svg><span class="lbl">Share</span></a><a data-act="talk" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H8l-5 4z" fill="currentColor"/></svg><span class="lbl">Discussion</span></a><a data-act="search" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl">Search</span></a><a class="more" aria-hidden="true" tabindex="-1">&hellip;</a></div>
+      <div class="page-tools" id="page-tools"><a data-act="share" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5l7 7-7 7v-4c-5 0-8 1.5-10 6 1-6 4-10 10-11z" fill="currentColor"/></svg><span class="lbl">Share</span></a><a data-act="talk" href="/wiki/discussion-center/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H8l-5 4z" fill="currentColor"/></svg><span class="lbl">Discussion</span></a><a data-act="search" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl">Search</span></a></div>
     </div>
     <div class="wiki-actions" aria-hidden="true">
       <a id="talk-tab" title="Discussion"><svg><use href="#glyph-talk"/></svg> <span id="talk-tab-label">Discussion</span></a>
@@ -425,8 +425,8 @@
       <p class="footer-intro">An independent guide to the world of <i>Gu Zhen Ren</i> and the community around it.</p>
       <div class="tg-footer-cols">
         <nav class="tg-footer-col" aria-label="Explore the encyclopedia"><h4>Explore</h4><a href="/wiki/contents/">Encyclopedia index</a><a href="/wiki/characters/">Characters</a><a href="/wiki/gu/">Gu worms</a><a href="/wiki/locations/">Places</a><a href="/wiki/the-legends-of-ren-zu/">The Legends of Ren Zu</a></nav>
-        <nav class="tg-footer-col" aria-label="Read and discover"><h4>Read &amp; discover</h4><a href="/reader/">Reading room</a><a href="/wiki/chapters/">Chapter guides</a><a href="/wiki/gallery/">Artwork gallery</a><a href="/wiki/adaptations/">Adaptations</a><a href="/wiki/glossary/">Glossary</a></nav>
-        <nav class="tg-footer-col" aria-label="Community and information"><h4>Community &amp; information</h4><a href="/wiki/community/">Community hub</a><a href="https://theomniarch.com.ng/" target="_blank" rel="noopener noreferrer">The Omniarch’s projects ↗</a><a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Contact via Discord ↗</a><a href="/wiki/about">About this site</a><a href="/wiki/privacy">Privacy policy</a></nav>
+        <nav class="tg-footer-col" aria-label="Read and discover"><h4>Read &amp; discover</h4><a href="/reader/">Reader</a><a href="/wiki/chapters/">Chapter guides</a><a href="/wiki/gallery/">Artwork gallery</a><a href="/wiki/adaptations/">Adaptations</a><a href="/wiki/glossary/">Glossary</a></nav>
+        <nav class="tg-footer-col" aria-label="Community and information"><h4>Community &amp; information</h4><a href="/wiki/community/">Community hub</a><a href="/wiki/discussion-center/">Discussion Center</a><a href="https://theomniarch.com.ng/" target="_blank" rel="noopener noreferrer">The Omniarch’s projects ↗</a><a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Contact via Discord ↗</a><a href="/wiki/about">About this site</a><a href="/wiki/privacy">Privacy policy</a></nav>
       </div>
       <div class="tg-footer-meta"><span class="tg-footer-dedication">Independent fan project · Not affiliated with the author or rights holders.</span><span class="tg-footer-copy">© 2026 Gu Zhen Ren Encyclopedia</span></div>
     </div>
@@ -489,6 +489,7 @@ window.OMNIARCH_ARTICLES = {
  see:["volume-1","reverend-insanity"],cat:["Indexes","Chapters"],index:"chapters"},
 "about":{t:"About the Encyclopedia",k:"Information",ib:[],b:["The Gu Zhen Ren Encyclopedia is a reader-built guide to the novel, its world and its community. Its story articles aim to follow the terminology and progress of the linked reader; the artwork gallery may contain later-story spoilers.","The encyclopedia is an independent fan project. The original novel and artwork belong to their respective rights holders."],see:["community","contents"],cat:[]},
 "privacy":{t:"Privacy Policy",k:"Information",ib:[],b:["This site uses browser storage to remember settings such as the selected theme and mature-gallery preference. Your browser and the hosting provider may process technical information such as your IP address when serving the site.","The site loads fonts from Google. External links, including the reader and community services, are governed by those services’ own policies. The site loads video thumbnails from YouTube and a comic cover from Webnovel. Playing the community video loads an embedded YouTube player. Reddit rankings request data from Reddit and may be cached in browser storage for a week. Loading the TikTok profile connects to TikTok; the Immortal Gu Land image is served by Discord. These services may process technical information under their own policies. This site does not currently include Google advertising code. If advertising or analytics is added, this notice and any required consent controls will be updated."],see:["about","community"],cat:[]},
+"discussion-center":{t:"Discussion Center",k:"Index",index:"discussion-center",ib:[],b:["A place to find community conversations, ask questions and share corrections. Conversations currently take place on Discord and Reddit."],see:["community","chapters"],cat:["Community"]},
 "community":{t:"Community Hub",k:"Index",index:"community",ib:[],
  b:["Readers of the translation gather to discuss chapters, lore nuances and phrasing feedback. The Discord server is the clan hall; philosophical video breakdowns and novel analysis flow through the YouTube and TikTok channels.","Speak friend and read."],
  see:["gallery"],cat:["Portals","Community"]},
@@ -646,7 +647,7 @@ window.OMNIARCH_ARTICLES = {
 <script src="/js/gallery-variants.js?v=4055cdc40a"></script>
 <script src="/js/gallery-data.js?v=3392967884"></script>
 <script src="/js/gallery.js?v=cda062b929"></script>
-<script src="/js/app.js?v=f738bc3500"></script>
+<script src="/js/app.js?v=c49c5e47d7"></script>
 <script src="/js/ui.js?v=6ce7553fc8"></script>
 </body>
 </html>

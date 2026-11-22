@@ -264,13 +264,22 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function communityTile(slug){var p=COMMUNITY_PROFILES[slug], direct=['community-gu-art','community-immortal-gu-land','community-readers-discord'].indexOf(slug)>=0;return '<a class="community-tile" href="'+(direct?esc(p.site):'/wiki/'+slug+'/')+'"'+(direct?' target="_blank" rel="noopener noreferrer"':'')+'><span class="community-tile-art community-brand '+esc(slug)+'"><img src="'+esc(p.image)+'" alt="" loading="lazy"></span><strong>'+esc(p.title)+'</strong><small>'+esc(p.type)+(direct?' · Discord ↗':' →')+'</small></a>';}
   function renderCommunityPortal(slug,a){
     var artists=['limitless','footless-bird','volume-one-duel','ordinary-abyss'];
-    return portalTabs(slug)+'<section class="community-hub"><h2 class="community-hub-label">Featured</h2><div class="community-tiles">'
+    return portalTabs(slug)+'<p class="discussion-portal-link"><a href="/wiki/discussion-center/">Visit the Discussion Center →</a></p><section class="community-hub"><h2 class="community-hub-label">Featured</h2><div class="community-tiles">'
       + ['community-webnovel','community-omniarch','community-kodoku','community-reddit'].map(communityTile).join('')
       + '</div><h2 class="community-hub-label">Communities</h2><div class="community-tiles">'
       + ['community-infinite-aperture','community-saga-of-gu','community-gu-art','community-immortal-gu-land','community-readers-discord'].map(communityTile).join('')
       + '</div><h2 class="community-hub-label">Artists</h2><div class="community-tiles"><a class="community-tile" href="/wiki/gallery-artists/"><span class="community-tile-art community-art-grid">'
       + artists.map(function(id){return '<img src="/assets/collection/'+id+'.webp" alt="" loading="lazy">';}).join('')+'</span><strong>Featured artists</strong><small>Explore all artists →</small></a></div><p class="community-hub-note">Artist artwork: 轮回画室丶不修, OSOT, TOUZI and Ullasseu. External spaces may contain spoilers; Discord channels require access.</p></section>';
   }
+  function discussionCenterHTML(){
+    var topic=new URLSearchParams(location.search).get('topic');
+    var item=topic && /^[a-z0-9-]+$/.test(topic) && A[topic] && topic!=='discussion-center' ? A[topic] : null;
+    var context=item ? '<div class="discussion-context"><span>YOUR TOPIC</span><h2>'+esc(item.t)+'</h2><p>Share this encyclopedia page in a community conversation so others know what you’re discussing.</p><div class="discussion-context-actions"><a href="/wiki/'+topic+'/">Return to the article →</a><button type="button" class="discussion-copy" data-share-url="/wiki/'+topic+'/">Copy article link</button><span class="share-status" role="status" aria-live="polite"></span></div></div>' : '';
+    return '<div class="discussion-hub"><div class="discussion-intro"><span>THE GU ZHEN REN COMMUNITY</span><h2>Every path begins<br><em>with a conversation.</em></h2><p>Questions, theories, favorite moments or a correction for the encyclopedia—there’s room for all of it here.</p><div class="discussion-actions"><a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Join the Discord ↗</a><a href="/wiki/community/">Explore the community →</a></div></div>'+context+
+      '<div class="discussion-heading"><span>FIND YOUR PEOPLE</span><h2>Where conversations happen</h2><p>This center connects you to existing communities. Posts and replies happen on those services, not on this page.</p></div><div class="discussion-cards"><a class="discussion-card" href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer"><small>THE OMNIARCH COMMUNITY</small><strong>Heaven on Discord</strong><p>Talk with readers, ask questions and share corrections with the community.</p><span>Join the server ↗</span></a><a class="discussion-card" href="https://www.reddit.com/r/ReverendInsanity/" target="_blank" rel="noopener noreferrer"><small>COMMUNITY FORUM</small><strong>Reverend Insanity on Reddit</strong><p>Browse ongoing conversations and fan theories in the wider community.</p><span>Visit the subreddit ↗</span></a></div>'+
+      '<div class="discussion-notes"><div><h3>Start a thoughtful conversation</h3><p>Share your question or the page you’re referring to. For story discussions, say which chapter you have reached and mark spoilers for other readers.</p></div><div><h3>On-site discussions</h3><p>Posting directly on the encyclopedia is not available yet. It needs a discussion service and moderation setup; for now, use the community links above.</p></div></div></div>';
+  }
+
   function renderCommunityProfile(slug){
     var p=COMMUNITY_PROFILES[slug];
     var primaryLabel = p.site.indexOf('https://discord.com/channels/') === 0 ? 'Discord channel' : p.site.indexOf('https://discord.gg/') === 0 ? 'Join Discord' : p.site.indexOf('reddit.com/') >= 0 ? 'Visit Reddit' : 'Visit website';
@@ -311,7 +320,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var keys=Object.keys(A).filter(function(k){return A[k].k!=='Category' && excluded.indexOf(k)<0 && !/^gallery-/.test(k) && !/^community-/.test(k);});
     var groups={};keys.sort(function(a,b){return A[a].t.localeCompare(A[b].t);}).forEach(function(k){var letter=A[k].t.charAt(0).toUpperCase();(groups[letter]=groups[letter]||[]).push(k);});
     var letters=Object.keys(groups).sort();
-    return portalTabs('contents')+'<div class="encyclopedia-index"><header class="encyclopedia-intro"><span>THE GU ZHEN REN ENCYCLOPEDIA</span><h2>Explore the Gu world.</h2><p>Characters, Gu, places and ideas from the translation so far.</p><a href="/reader/">Open the reading room →</a></header>'
+    return portalTabs('contents')+'<div class="encyclopedia-index"><header class="encyclopedia-intro"><span>THE GU ZHEN REN ENCYCLOPEDIA</span><h2>Explore the Gu world.</h2><p>Characters, Gu, places and ideas from the translation so far.</p><a href="/reader/">Open the reader →</a></header>'
       +'<section aria-labelledby="index-subjects"><div class="index-heading"><div><small>EXPLORE BY SUBJECT</small><h2 id="index-subjects">Browse the encyclopedia</h2></div></div><div class="index-subjects">'+subjects.map(function(item){return '<a class="index-subject" href="/wiki/'+item[0]+'/"><div class="index-subject-image"><img src="'+item[3]+'" alt="" loading="lazy"><span>'+esc(item[4]==='Artist not credited'?item[4]:'Art: '+item[4])+'</span></div><strong>'+esc(item[1])+'</strong><small>'+esc(item[2])+' →</small></a>';}).join('')+'</div></section>'
       +'<section aria-labelledby="index-featured"><div class="index-heading"><div><small>START HERE</small><h2 id="index-featured">Featured articles</h2></div></div><div class="index-features">'+feature.filter(function(k){return A[k]&&A[k].img;}).map(function(k){var a=A[k];return '<a class="index-feature" href="/wiki/'+k+'/"><img src="'+esc(a.img)+'" alt="" loading="lazy"><div><small>'+esc(a.k)+' · '+esc(a.art||'Artist not credited')+'</small><strong>'+esc(a.t)+'</strong><span>Read article →</span></div></a>';}).join('')+'</div></section>'
       +'<section class="index-directory" aria-labelledby="index-directory-title"><div class="index-heading"><div><small>FIND A PAGE</small><h2 id="index-directory-title">Encyclopedia A–Z</h2></div><span>'+keys.length+' pages</span></div><label for="index-filter">Filter pages by title</label><input type="search" id="index-filter" placeholder="Search the index" autocomplete="off"><p id="index-filter-status" role="status">'+keys.length+' pages</p><nav class="index-alphabet" aria-label="Browse index by letter">'+letters.map(function(c){return '<a href="#index-letter-'+esc(c)+'" data-index-letter="'+esc(c)+'">'+esc(c)+'</a>';}).join('')+'</nav><div class="index-directory-grid">'+letters.map(function(c){return '<section class="index-letter" id="index-letter-'+esc(c)+'"><h3>'+esc(c)+'</h3><ul>'+groups[c].map(function(k){return '<li data-index-title="'+esc(A[k].t.toLowerCase())+'">'+link(k)+'</li>';}).join('')+'</ul></section>';}).join('')+'</div><p id="index-no-results" hidden>No pages match your search.</p></section>'
@@ -385,7 +394,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       ['privacy-contact','Questions','Contact the project via its Discord community.']
     ] : [
       ['our-project','Our project','The Gu Zhen Ren Encyclopedia is a reader-built guide to the novel, its world and its community. Its story articles aim to follow the terminology and progress of the linked reader; the artwork gallery may contain later-story spoilers.'],
-      ['sources','Sources and coverage','Story entries refer to the available translation. The reading room and chapter guides are separate: guides connect readers to people, places and ideas from the story.'],
+      ['sources','Sources and coverage','Story entries refer to the available translation. The reader and chapter guides are separate: guides connect readers to people, places and ideas from the story.'],
       ['rights','Rights and credits','This is an independent fan project. The original novel and artwork belong to their respective rights holders. Artwork credits are shown alongside images where known.'],
       ['get-in-touch','Get in touch','Questions or corrections? Contact the project through its Discord community.']
     ];
@@ -425,7 +434,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if(talk){ html = talkHTML(a,slug); }
     else{
       if(slug==='authors-preface') html += '<p class="read-cta"><a href="/reader/preface/">Read the complete Author’s Preface →</a></p>';
-      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
+      if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reader →</a></p>';
       if(slug==='chapters') html += '<p class="read-cta"><a href="/reader/preface/">Read the Author’s Preface →</a> &nbsp; <a href="/reader/chapter-1/">Begin Chapter 1 →</a></p>';
       var lean = a.k==='Index' || a.k==='Category' || a.index;
       var isArt = a.k!=='Index' && a.k!=='Category';
@@ -439,11 +448,12 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       }
       if(a.index && slug==='contents') html += encyclopediaIndex();
       else if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
+      else if(a.index==='discussion-center') html += discussionCenterHTML();
       else if(a.index==='community-profile') html += renderCommunityProfile(slug);
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(slug==='volume-1'){
-        html += '<div class="volume-guide"><p class="guide-status"><strong>In progress · Chapters 1–11</strong><br>This guide covers only the chapters currently published in the reading room, not the completed volume. The sections below contain spoilers through Chapter 11.</p><div class="volume-guide-actions"><a href="/reader/">Open the reading room →</a><a href="/wiki/chapters/">Browse chapter guides →</a></div>';
+        html += '<div class="volume-guide"><p class="guide-status"><strong>In progress · Chapters 1–11</strong><br>This guide covers only the chapters currently published in the reader, not the completed volume. The sections below contain spoilers through Chapter 11.</p><div class="volume-guide-actions"><a href="/reader/">Open the reader →</a><a href="/wiki/chapters/">Browse chapter guides →</a></div>';
         var volumeSections=[
           ['Return to Qing Mao Mountain','Fang Yuan is besieged over the Spring Autumn Cicada, then finds himself five hundred years in the past. The clan is preparing to test its youths, while his memories give him a very different view of the village and his family (Ch. 1, Ch. 2, Ch. 3).'],
           ['The opening ceremony','The clan’s hopes are fixed on its next generation of Gu Masters. Fang Yuan opens his aperture with Grade C aptitude, while Fang Zheng discovers Grade A aptitude and becomes the focus of the clan leaders’ attention (Ch. 4, Ch. 5, Ch. 6).'],
@@ -471,11 +481,24 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return true;
   }
 
+  // Report success only after the clipboard operation succeeds; offer a manual fallback.
+  function shareLink(url,label,status){
+    var text=label && label.textContent;
+    function success(){if(status) status.textContent='Link copied.';if(label){label.textContent='Copied';setTimeout(function(){label.textContent=text;},1800);}}
+    function fallback(){if(status)status.textContent='Copy the link from the dialog.';window.prompt('Copy this link:',url);}
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(success,fallback);else fallback();
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-share-page],[data-share-url]');if(!b)return;
+    var url=b.hasAttribute('data-share-page')?location.href:new URL(b.getAttribute('data-share-url'),location.origin).href;
+    var status=b.parentElement.querySelector('.share-status');shareLink(url,b.querySelector('span'),status);
+  });
+
   wikiView.addEventListener('click', function(e){
     var b=e.target.closest('#page-tools a[data-act]'); if(!b) return; e.preventDefault();
     var act=b.getAttribute('data-act');
-    if(act==='share'){ if(navigator.clipboard) navigator.clipboard.writeText(location.href); var l=b.querySelector('.lbl')||b; l.textContent='Copied'; setTimeout(function(){ l.textContent='Share'; },1200); }
-    if(act==='talk' && talkTab) talkTab.click();
+    if(act==='share') shareLink(location.href, b.querySelector('.lbl'));
+    if(act==='talk') goTo('/wiki/discussion-center/?topic='+encodeURIComponent(curSlug));
     if(act==='search') toggleSearch();
   });
 
