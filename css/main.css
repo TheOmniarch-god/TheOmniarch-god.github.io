@@ -2895,20 +2895,26 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
 /* The panel: the cast art runs behind the whole strip in its own full
-   colour, at nearly its full sharpness - just the faintest touch of softness
-   (not the heavy, obviously-blurred backdrop tried earlier) so it reads as a
-   deliberately composed background rather than a sharp stray photo
-   competing with the logo on top. The blur is baked into the image itself
-   at build time (assets/inline/footer-blur-light.webp / -dark.webp,
-   generated once from the source art at a 2px radius on the full 3840px
-   original - which becomes barely perceptible once the browser displays it
-   at the panel's much smaller rendered width) rather than applied as a live
-   CSS filter: large background images run through a runtime filter get
-   rasterised by the browser at a reduced internal resolution in several
-   engines, which reads as a stronger, less predictable blur than intended.
-   Baking it into a real file keeps the softness exact and consistent across
-   browsers. The masked logo sits on top at its own full, un-blurred
-   strength, lifted further by its own drop-shadow. */
+   colour, softened with a moderate blur - enough that the backdrop clearly
+   reads as a soft, out-of-focus field rather than a second sharp copy of
+   the art, which is what actually makes the masked logo on top legible: a
+   first pass at a near-zero blur (2px) made the logo invisible, because a
+   sharp logo window made of the same artwork sitting on an equally sharp
+   background of the same artwork reads as one continuous image with no
+   "window" to see - the mask technically existed but nothing on screen
+   showed it. This amount (baked at a 24px radius on the full 3840px
+   original, landing around a 9px effective blur once the browser displays
+   it at the panel's smaller rendered width) is well short of the earlier
+   34px treatment that was rejected as "too much", but it is enough
+   separation for the sharp, full-colour logo to clearly pop off the soft
+   backdrop. The blur is baked into the image itself at build time
+   (assets/inline/footer-blur-light.webp / -dark.webp) rather than applied
+   as a live CSS filter: large background images run through a runtime
+   filter get rasterised by the browser at a reduced internal resolution in
+   several engines, which reads as a stronger, less predictable blur than
+   intended. Baking it into a real file keeps the softness exact and
+   consistent across browsers. The masked logo sits on top at its own full,
+   un-blurred strength, lifted further by its own drop-shadow. */
 .tg-footer-panel{position:relative !important;z-index:1 !important;
   margin-top:0 !important;background-color:#2a1410 !important;overflow:hidden !important;
   border-top:1px solid rgba(0,0,0,.12) !important;
