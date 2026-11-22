@@ -171,7 +171,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return keys;
   }
 
-  var PORTALS = [['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
+  var PORTALS = [['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary'],['adaptations','Adaptations & Media'],['community','Community Hub']];
   function portalTabs(slug){
     return '<div class="tabs-wrap"><button class="tab-arrow" data-dir="-1" aria-label="Scroll tabs left">&#8249;</button><div class="portal-tabs">'+PORTALS.map(function(t){return '<a href="/wiki/'+t[0]+'" class="'+(t[0]===slug?'on':'')+'">'+t[1]+'</a>';}).join('')+'</div><button class="tab-arrow" data-dir="1" aria-label="Scroll tabs right">&#8250;</button></div>';
   }
@@ -288,7 +288,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       ['locations','Locations & World','Places of the story','/assets/inline/qing-mao-mountain.webp','Artist not credited'],
       ['clans','Factions & Clans','Clans and paths','/assets/inline/tile-clans.webp','Artist not credited'],
       ['the-legends-of-ren-zu','Legends of Ren Zu','The ancestral stories','/assets/inline/art-ren-zu.webp','mc人祖'],
-      ['glossary','Glossary & Concepts','Terms and ideas','/assets/inline/tile-glossary.webp','Artist not credited'],
+      ['glossary','Glossary','Terms and ideas','/assets/inline/tile-glossary.webp','Artist not credited'],
       ['chapters','Chapters','Guides to the story','/assets/inline/ri-cover.jpg','Artist not credited']
     ];
     var feature=['fang-yuan','spring-autumn-cicada','ren-zu','fang-zheng','bai-ning-bing','qing-mao-mountain'];
@@ -682,7 +682,7 @@ document.addEventListener('click', function(e){
 /* Mobile/desktop menu: all 12 categories, a blurred backdrop behind the open menu, and labelled header figures */
 (function(){
   var d=document.getElementById('drawer'); if(!d) return;
-  var P=[['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary & Concepts'],['adaptations','Adaptations & Media'],['community','Community Hub']];
+  var P=[['chapters','Volumes & Chapters'],['characters','Characters'],['gu','Gu Worms'],['cultivation','Cultivation System'],['the-legends-of-ren-zu','Legends of Ren Zu'],['locations','Locations & World'],['clans','Factions & Clans'],['timeline','Timeline & History'],['gallery','Gallery'],['glossary','Glossary'],['adaptations','Adaptations & Media'],['community','Community Hub']];
   var cols=d.querySelectorAll('.drawer-cols > div');
   if(cols[1]) cols[1].innerHTML='<h4>Categories</h4>'+P.map(function(t){return '<a href="/wiki/'+t[0]+'">'+t[1]+'</a>';}).join('');
   d.querySelectorAll('.drawer-stats span[title]').forEach(function(sp){

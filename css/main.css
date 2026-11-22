@@ -3288,7 +3288,7 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 .wiki-view .wiki-hero .wiki-sub .wiki-kind{color:var(--tg-color-base)}
 .wiki-view .wiki-hero .wiki-sub .wiki-source{color:var(--tg-color-progressive);font-style:italic}
 html[data-theme="dark"] .wiki-view .wiki-hero .wiki-sub .wiki-source{color:var(--tg-color-link)}
-html[data-theme="dark"] .wiki-view.is-index .wiki-hero .wiki-sub .wiki-source{color:#ef8a88}
+html[data-theme="dark"] .wiki-view.is-index .wiki-hero .wiki-sub .wiki-source{color:var(--tg-color-link)}
 
 /* Clear lettering, not outlined lettering. Keep keyboard focus outlines intact. */
 body,body *{text-shadow:none!important;-webkit-text-stroke-width:0!important}
@@ -3348,8 +3348,7 @@ html[data-theme="dark"] .site-header{background:rgba(29,25,22,.88);border-color:
 @media(max-width:720px){.site-header{left:.5rem;right:.5rem;top:.35rem;gap:.6rem;min-height:50px;padding:.5rem .7rem}.site-header-brand{font-size:.62rem}.site-header-brand small{font-size:.43rem}.site-header-links{gap:.75rem;overflow-x:auto;scrollbar-width:none}.site-header-links a{font-size:.65rem;white-space:nowrap}.site-header-action{display:none}.tg-mainpage-header{padding-top:4.8rem!important}.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:5.5rem!important}}
 
 /* Colours drift across the page as the reader moves through it. */
-body{background:radial-gradient(ellipse at var(--colour-x,25%) var(--colour-y,25%),rgba(177,61,58,.20),transparent 55%),radial-gradient(ellipse at 85% 65%,rgba(177,61,58,.15),transparent 56%),#f4eee6;background-attachment:fixed}
-html[data-theme="dark"] body{background:radial-gradient(ellipse at var(--colour-x,25%) var(--colour-y,25%),rgba(151,110,45,.23),transparent 55%),radial-gradient(ellipse at 85% 65%,rgba(120,77,33,.16),transparent 56%),#101014;background-attachment:fixed}
+/* Homepage-only glow is layered separately below; other pages use their normal surface. */
 #main-view.page::before{display:none}
 
 /* A horizontal editorial shelf, not a food-only treatment. */
@@ -3359,9 +3358,9 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse at var(--colour-
 @media(max-width:600px){.home-visual-grid{grid-auto-columns:min(65vw,240px)}.home-visual-card:nth-child(even){padding-top:.8rem}}
 
 /* Quick text reveals retain the original accessible text and never loop. */
-.type-reveal{clip-path:inset(0 100% 0 0)}
+.type-reveal{clip-path:none}
 .type-reveal.type-visible{animation:type-arrive .48s steps(18,end) both}
-@keyframes type-arrive{to{clip-path:inset(0)}}
+@keyframes type-arrive{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
 .footer-intro{max-width:34rem;margin:-1.1rem 0 2rem;color:var(--tg-color-subtle);font-size:.88rem;line-height:1.7}
 .tg-footer-plate{border-radius:28px 28px 0 0!important}
 .tg-footer-cols{max-width:none!important;gap:clamp(1.4rem,4vw,4rem)!important}.tg-footer-col h4{letter-spacing:.12em!important;text-transform:uppercase;font-size:.68rem!important}.tg-footer-meta{gap:1rem!important}
@@ -3369,3 +3368,22 @@ html[data-theme="dark"] body{background:radial-gradient(ellipse at var(--colour-
 @media(prefers-reduced-motion:reduce){.type-reveal,.type-reveal.type-visible{clip-path:none;animation:none}.home-visual-grid{scroll-behavior:auto!important}}
 
 @media(max-width:720px){.site-header-brand small{display:none}.site-header-brand{font-size:.58rem}.site-seal{width:25px;height:25px}.site-header-links{gap:.55rem}.site-header-links a{font-size:.61rem}}
+
+/* The floating navigation belongs to inner pages only. It clears away while
+   scrolling down, and returns on upward scroll or keyboard focus. */
+body:has(#wiki-view[hidden]) .site-header{display:none}
+.site-header{position:fixed;background:rgba(249,244,238,.55);border-color:rgba(142,38,34,.12);box-shadow:0 8px 30px rgba(24,17,16,.08);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);transition:transform .25s ease,opacity .25s ease}
+html[data-theme="dark"] .site-header{background:rgba(12,15,22,.56);border-color:rgba(222,192,130,.16);box-shadow:0 8px 30px #0004}
+.site-header.is-scrolling-away:not(:focus-within){transform:translateY(-130%);opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.site-header{transition:none}}
+/* Restore the landing hero's original composition and fade fully to its
+   underlying surface, so there is no visible rectangular edge. */
+@media(min-width:721px){.tg-mainpage-header{padding-top:2.9rem!important}}
+@media(max-width:720px){.tg-mainpage-header{padding-top:1.35rem!important}}
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,.30) 0%,rgba(249,244,238,.48) 45%,var(--tg-color-surface-0) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat!important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,.38) 0%,rgba(10,10,14,.55) 45%,var(--tg-color-surface-0) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat!important}
+
+/* Small pools of colour at selected home sections, not a site-wide tint. */
+body.home-glow-active:has(#wiki-view[hidden])::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:var(--glow-opacity,0);background:radial-gradient(ellipse 65% 65% at 22% 45%,rgba(174,59,55,.28),transparent 72%),radial-gradient(ellipse 60% 65% at 86% 57%,rgba(142,38,34,.17),transparent 75%)}
+html[data-theme="dark"] body.home-glow-active:has(#wiki-view[hidden])::after{background:radial-gradient(ellipse 70% 70% at 23% 46%,rgba(28,46,72,.72),transparent 74%),radial-gradient(ellipse 65% 65% at 86% 60%,rgba(142,112,54,.19),transparent 74%)}
+@media(prefers-reduced-motion:reduce){body.home-glow-active:has(#wiki-view[hidden])::after{opacity:.3}}

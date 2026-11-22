@@ -139,12 +139,31 @@
   function align(){if(!hero.offsetParent)return;var rect=hero.getBoundingClientRect();hero.style.setProperty('--hero-left',rect.left+'px');hero.style.setProperty('--hero-top',(rect.top+window.scrollY)+'px');}
   window.addEventListener('resize',align,{passive:true});window.addEventListener('route',function(){requestAnimationFrame(align)});requestAnimationFrame(align);
 })();
-/* Scroll shifts the light red / dark gold glow without changing text contrast. */
+/* Restrained glows at a few homepage moments, never on article or index pages. */
 (function(){
-  var media=window.matchMedia('(prefers-reduced-motion: reduce)'),pending=false;
-  function paint(){pending=false;if(media.matches){document.body.style.removeProperty('--colour-x');document.body.style.removeProperty('--colour-y');return;}var max=Math.max(1,document.documentElement.scrollHeight-innerHeight),p=Math.max(0,Math.min(1,scrollY/max));document.body.style.setProperty('--colour-x',(18+p*65)+'%');document.body.style.setProperty('--colour-y',(18+p*60)+'%');}
+  var home=document.getElementById('main-view'),wiki=document.getElementById('wiki-view'),header=document.querySelector('.site-header');
+  if(!home||!wiki||!header)return;
+  var media=window.matchMedia('(prefers-reduced-motion: reduce)'),pending=false,lastY=window.scrollY;
+  var moments=home.querySelectorAll('.editorial-heading,.home-visual-shelf,.home-chapter-guide');
+  function paint(){
+    pending=false;var onHome=!home.hidden;document.body.classList.toggle('home-glow-active',onHome);
+    if(onHome){
+      header.classList.remove('is-scrolling-away');
+      var level=0,center=window.innerHeight*.48;
+      moments.forEach(function(el){var r=el.getBoundingClientRect(),mid=r.top+r.height/2;level=Math.max(level,Math.max(0,1-Math.abs(mid-center)/(window.innerHeight*1.15)));});
+      document.body.style.setProperty('--glow-opacity',(level*.85).toFixed(3));
+    }else{
+      document.body.style.removeProperty('--glow-opacity');
+      if(window.scrollY<30) header.classList.remove('is-scrolling-away');
+      else if(window.scrollY>lastY+2) header.classList.add('is-scrolling-away');
+      else if(window.scrollY<lastY-2) header.classList.remove('is-scrolling-away');
+    }
+    lastY=window.scrollY;
+  }
   function request(){if(!pending){pending=true;requestAnimationFrame(paint)}}
-  window.addEventListener('scroll',request,{passive:true});window.addEventListener('resize',request,{passive:true});if(media.addEventListener)media.addEventListener('change',request);request();
+  window.addEventListener('scroll',request,{passive:true});window.addEventListener('resize',request,{passive:true});
+  window.addEventListener('route',function(){header.classList.remove('is-scrolling-away');lastY=window.scrollY;request()});
+  if(media.addEventListener)media.addEventListener('change',request);request();
 })();
 (function(){
   var shelf=document.getElementById('home-visual-grid');if(!shelf)return;
