@@ -3257,3 +3257,22 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 @media(max-width:800px){.index-subjects{grid-template-columns:repeat(3,minmax(0,1fr))}.index-features{grid-template-columns:repeat(2,minmax(0,1fr))}.index-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){.index-subjects{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.index-features{grid-template-columns:1fr}.index-directory-grid{grid-template-columns:1fr}.index-more-grid{grid-template-columns:1fr}.encyclopedia-intro{margin-top:1rem}}
 @media(prefers-reduced-motion:reduce){.index-subject-image img{transition:none}}
+
+/* Keep page titles and content aligned inside the space beside the desktop rail. */
+@media (min-width:1025px){
+  .wiki-view{box-sizing:border-box;width:calc(100% - 56px);margin-left:max(56px,calc((100% - 1000px + 56px)/2));margin-right:auto;padding-left:1.25rem!important;padding-right:1.25rem!important}
+  .wiki-view.wide:not(.is-index){margin-left:max(56px,calc((100% - 1600px + 56px)/2))}
+  .wiki-view.is-index{width:calc(100% - 56px);margin-left:max(56px,calc((100% - 1080px + 56px)/2))!important;margin-right:auto!important}
+  .wiki-view .tabs-wrap{padding-left:0}
+}
+/* Category pages share the same content edge, rather than a viewport-wide text box. */
+.wiki-view.wide:not(.is-index) .wiki-hero{width:100%;margin-left:0;padding:clamp(3.5rem,6vw,5rem) 0 .9rem;box-sizing:border-box;align-items:flex-start;text-align:left}
+.wiki-view.wide:not(.is-index) .wiki-hero-inner{width:100%;min-width:0}
+.wiki-view.wide:not(.is-index) .wiki-hero::before{left:calc(50% - 50vw);right:auto;width:100vw}
+.wiki-view .wiki-hero h1{min-width:0;overflow-wrap:anywhere}
+@media (max-width:1024px), (hover:none) and (pointer:coarse){
+  .wiki-view,.wiki-view.wide,.wiki-view.is-index{box-sizing:border-box;width:100%;margin-left:auto!important;margin-right:auto!important;padding-left:1.25rem!important;padding-right:1.25rem!important}
+  .wiki-view .tabs-wrap{padding-left:0}
+  .wiki-view.wide:not(.is-index) .wiki-hero{padding-top:3rem}
+  .wiki-view .page-tools{flex-wrap:wrap}
+}
