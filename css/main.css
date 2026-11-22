@@ -3274,3 +3274,53 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
   .wiki-view.wide:not(.is-index) .wiki-hero{padding-top:3rem}
   .wiki-view .page-tools{flex-wrap:wrap}
 }
+
+/* Page bylines: the source is an accent in both themes, including categories. */
+.wiki-view .wiki-hero .wiki-sub{opacity:1}
+.wiki-view .wiki-hero .wiki-sub .wiki-kind{color:var(--tg-color-base)}
+.wiki-view .wiki-hero .wiki-sub .wiki-source{color:var(--tg-color-progressive);font-style:italic}
+html[data-theme="dark"] .wiki-view .wiki-hero .wiki-sub .wiki-source{color:var(--tg-color-link)}
+html[data-theme="dark"] .wiki-view.is-index .wiki-hero .wiki-sub .wiki-source{color:#ef8a88}
+
+/* Clear lettering, not outlined lettering. Keep keyboard focus outlines intact. */
+body,body *{text-shadow:none!important;-webkit-text-stroke-width:0!important}
+.tg-mainpage-header .ring svg,html[data-theme="dark"] .tg-mainpage-header .ring svg{filter:none}
+
+/* A stronger, legible hero image: comparable to the article-page treatment. */
+.tg-mainpage-header{background:linear-gradient(180deg,rgba(249,244,238,.30) 0%,rgba(249,244,238,.48) 48%,rgba(249,244,238,.78) 100%),url('/assets/bg-light-4k.webp') center 32%/cover no-repeat!important}
+html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rgba(10,10,14,.38) 0%,rgba(10,10,14,.55) 48%,rgba(10,10,14,.82) 100%),url('/assets/bg-dark-4k.webp') center 32%/cover no-repeat!important}
+
+/* A continuous, scroll-revealed colour story, restrained to the landing page. */
+#main-view.page{isolation:isolate}
+#main-view.page::before{content:"";position:absolute;z-index:-1;pointer-events:none;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:linear-gradient(165deg,#f4eee6 0%,#f6ebe7 18%,#ead7d3 38%,#f6e9e5 58%,#f3ebe4 79%,#eee1dd 100%)}
+html[data-theme="dark"] #main-view.page::before{background:linear-gradient(165deg,#101014 0%,#1b1819 20%,#2e251c 39%,#171518 60%,#292016 80%,#101014 100%)}
+
+/* Full-width features share a cinematic image-to-surface fade. */
+.editorial-watch,.editorial-reader,.home-chapter-guide{position:relative;isolation:isolate}
+.editorial-watch::before,.editorial-reader::before,.home-chapter-guide::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+.editorial-watch::before{background:linear-gradient(90deg,rgba(22,17,21,.98) 0%,rgba(25,19,23,.91) 38%,rgba(25,19,23,.38) 100%),url('https://i.ytimg.com/vi/e8SkqCzoqDs/maxresdefault.jpg') center/cover}
+.editorial-reader{background:#211a1b}
+.editorial-reader::before{background:linear-gradient(90deg,rgba(36,23,26,.98) 0%,rgba(36,23,26,.88) 40%,rgba(36,23,26,.42) 100%),url('/assets/inline/ri-cover.jpg') center 36%/cover}
+.watch-player::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#211a1e 0%,transparent 32%)}
+.reader-promo-art{background:linear-gradient(90deg,#211a1b 0%,transparent 48%)}
+.home-chapter-guide{background:var(--tg-color-surface-1)}
+.home-chapter-guide::before{background:linear-gradient(90deg,var(--tg-color-surface-1) 4%,color-mix(in srgb,var(--tg-color-surface-1) 88%,transparent) 50%,color-mix(in srgb,var(--tg-color-surface-1) 75%,transparent) 100%),url('/assets/inline/tile-volume-1.webp') center 32%/cover}
+.home-chapter-list a{background:color-mix(in srgb,var(--tg-color-surface-1) 92%,transparent)}
+@media(max-width:800px){.watch-player::after{background:linear-gradient(180deg,#211a1e 0%,transparent 20%)}}
+@media(max-width:560px){.editorial-watch::before,.editorial-reader::before{background-position:center}.reader-promo-art{background:linear-gradient(0deg,#211a1b 0%,transparent 65%)}.home-chapter-guide::before{background:linear-gradient(180deg,color-mix(in srgb,var(--tg-color-surface-1) 82%,transparent),var(--tg-color-surface-1)),url('/assets/inline/tile-volume-1.webp') center/cover}}
+
+/* Small, layered motion: hover, entry reveals, and a drifting artwork crop. */
+.motion-reveal{opacity:.28;transform:translateY(20px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.2,1);transition-delay:var(--reveal-delay,0ms)}
+.motion-reveal.is-revealed,.motion-reveal:focus-within{opacity:1;transform:none}
+.editorial-lead-art{transition:transform 1.2s cubic-bezier(.2,.75,.2,1)}
+.editorial-lead:hover .editorial-lead-art,.editorial-lead:focus-within .editorial-lead-art{transform:scale(1.035)}
+.editorial-card-image img,.home-panel-image img,.home-visual-image img{transition:transform .7s cubic-bezier(.2,.75,.2,1)}
+.editorial-card-image:hover img,.editorial-card-image:focus-visible img,.home-panel-image:hover img,.home-panel-image:focus-visible img,.home-visual-card:hover img,.home-visual-card:focus-visible img{transform:scale(1.05)}
+.ed-button,.editorial-card-link,.index-more-grid a{transition:transform .25s ease,background-color .25s ease,border-color .25s ease}
+.ed-button:hover,.ed-button:focus-visible{transform:translateY(-3px)}
+@media(prefers-reduced-motion:reduce){
+  .motion-reveal,.motion-reveal.is-revealed{opacity:1;transform:none;transition:none}
+  .tg-mainpage-header .ring svg,.quote-track{animation:none!important}
+  .slide,.editorial-lead-art,.editorial-card-image img,.home-panel-image img,.home-visual-image img,.ed-button,.editorial-card-link,.index-more-grid a{transition:none!important}
+  .editorial-lead:hover .editorial-lead-art,.editorial-lead:focus-within .editorial-lead-art,.editorial-card-image:hover img,.home-panel-image:hover img,.home-visual-card:hover img,.ed-button:hover{transform:none}
+}

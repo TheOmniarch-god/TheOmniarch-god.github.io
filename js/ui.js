@@ -7,11 +7,12 @@
   var sc=document.getElementById('slide-card');
   if(sc){ var slides=sc.querySelectorAll('.slide'), dots=sc.querySelectorAll('#slide-dots button'), i=0, t=null;
     function go(n){ i=(n+slides.length)%slides.length; slides.forEach(function(s,k){s.classList.toggle('on',k===i)}); dots.forEach(function(d,k){d.classList.toggle('on',k===i)}); }
-    function auto(){ clearInterval(t); t=setInterval(function(){go(i+1)},7000); }
+    function auto(){ clearInterval(t); if(!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) t=setInterval(function(){go(i+1)},7000); }
     dots.forEach(function(d,k){ d.addEventListener('click',function(e){e.stopPropagation();go(k);auto();}); });
     sc.addEventListener('mouseenter',function(){clearInterval(t)});
     sc.addEventListener('mouseleave',auto);
     auto();
+    if(window.matchMedia){var motion=window.matchMedia('(prefers-reduced-motion: reduce)'); if(motion.addEventListener) motion.addEventListener('change',auto);}
     /* drag or swipe by hand (touch or mouse); a real drag does not count as a tap */
     var sx=null, sy=null, dragging=false;
     sc.addEventListener('pointerdown',function(e){ if(e.button>0) return; if(e.target.closest && e.target.closest('#slide-dots')) return; sx=e.clientX; sy=e.clientY; dragging=false; });
@@ -119,4 +120,15 @@
     frame.allowFullscreen=true;
     document.getElementById('donghua-video').replaceChildren(frame);
   });
+})();
+
+/* Motion is progressive enhancement: content is visible without JS and on reduced motion. */
+(function(){
+  var home=document.getElementById('main-view');
+  if(!home || !('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+  var items=home.querySelectorAll('.featured-row > .template-flexbox-item, .editorial-lead, .editorial-heading, .editorial-card, .editorial-watch, .editorial-reader, .home-visual-heading, .home-visual-card, .home-section-head, .home-library-panel, .home-chapter-guide, .tg-card--discover');
+  var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-revealed');observer.unobserve(entry.target);}});},{threshold:0.08,rootMargin:'0px 0px 40px 0px'});
+  items.forEach(function(el,i){el.style.setProperty('--reveal-delay',Math.min(i%3,2)*65+'ms');el.classList.add('motion-reveal');observer.observe(el);});
+  // Reveal immediately when keyboard focus reaches an element, even before intersection fires.
+  home.addEventListener('focusin',function(e){var el=e.target.closest('.motion-reveal');if(el){el.classList.add('is-revealed');observer.unobserve(el);}});
 })();

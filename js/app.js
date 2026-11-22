@@ -376,7 +376,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     curSlug = slug;
     var talk = routeMode==='talk';
     titleEl.textContent = (talk?'Talk: ':'')+a.t;
-    subEl.textContent = talk ? 'Discussion page of '+a.t  : (a.k && a.k!=='Index' ? a.k+' · From the Gu Zhen Ren Encyclopedia' : 'From the Gu Zhen Ren Encyclopedia');
+    subEl.innerHTML = talk ? 'Discussion page of '+esc(a.t) : (a.k && a.k!=='Index' ? '<span class="wiki-kind">'+esc(a.k)+' · </span>' : '')+'<span class="wiki-source">From the Gu Zhen Ren Encyclopedia</span>';
     talkLabel.textContent = talk ? 'Page' : 'Discussion';
     document.querySelectorAll('[data-act="talk"]').forEach(function(e){ e.style.display = (A[slug].k==='Index' && !talk) ? 'none' : ''; });
     if(talkTab) talkTab.style.display = (A[slug].k==='Index' && !talk) ? 'none' : '';
