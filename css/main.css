@@ -2895,13 +2895,15 @@ html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
 /* The panel: the cast art runs behind the whole strip, softened with a
-   moderate blur (24px baked on the full 3840px original, ~9px effective
-   once displayed - clearly soft, well short of the 34px "too much"
-   treatment) so the backdrop reads as an out-of-focus field rather than a
-   second sharp copy of the art. Blur alone got the logo reading again after
-   an earlier near-zero blur made it invisible, but the backdrop still ran
-   at the same brightness/saturation as the sharp, full-colour logo sitting
-   on it - not enough contrast for the logo to really pop. The backdrop is
+   moderate blur (14px baked on the full 3840px original, ~5px effective
+   once displayed - eased back from an earlier 24px bake so more of the
+   artwork's own brushwork reads through, while still clearly soft and well
+   short of the 34px "too much" treatment) so the backdrop reads as an
+   out-of-focus field rather than a second sharp copy of the art. Blur alone
+   got the logo reading again after an earlier near-zero blur made it
+   invisible, but the backdrop still ran at the same brightness/saturation
+   as the sharp, full-colour logo sitting on it - not enough contrast for
+   the logo to really pop. The backdrop is
    now also dimmed and desaturated a step further than the logo itself
    (brightness x0.8, saturation x0.55 beyond the blur) so it reads as a
    quieter, receded field - still full colour, not grayscale or a dark
