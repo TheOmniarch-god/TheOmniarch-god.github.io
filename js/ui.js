@@ -114,11 +114,12 @@
   if(!button)return;
   button.addEventListener('click',function(){
     var frame=document.createElement('iframe');
-    frame.title='Gu Zhen Ren fan-made donghua episode 5 on YouTube';
-    frame.src='https://www.youtube-nocookie.com/embed/e8SkqCzoqDs?autoplay=1';
+    frame.title='Gu Zhen Ren fan-made donghua episode 23 on YouTube';
+    frame.src='https://www.youtube-nocookie.com/embed/KBN76u1Z3YI?autoplay=1';
     frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     frame.allowFullscreen=true;
     document.getElementById('donghua-video').replaceChildren(frame);
+    document.querySelector('.editorial-watch').classList.add('is-playing');
   });
 })();
 
@@ -167,6 +168,10 @@
 })();
 (function(){
   var shelf=document.getElementById('home-visual-grid');if(!shelf)return;
+  var hint=shelf.parentElement.querySelector('.shelf-drag-hint');
+  if(hint && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var hintObserver=new IntersectionObserver(function(entries){if(entries.some(function(e){return e.isIntersecting})){hint.classList.add('show');setTimeout(function(){hint.classList.remove('show')},1000);hintObserver.disconnect();}},{threshold:.4});hintObserver.observe(shelf);
+  }
   document.querySelectorAll('[data-shelf-dir]').forEach(function(button){button.addEventListener('click',function(){var card=shelf.querySelector('.home-visual-card');var step=card?card.getBoundingClientRect().width+16:240;shelf.scrollBy({left:step*Number(button.dataset.shelfDir),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});});
   var start=null,dragged=false;
   shelf.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse'||e.button!==0)return;start={x:e.clientX,left:shelf.scrollLeft};dragged=false;});

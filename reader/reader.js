@@ -17,6 +17,9 @@
   var pathMatch=location.pathname.match(/^\/reader\/chapter-(\d+)\/?$/);
   // Existing shared query links remain valid; clean chapter paths take priority.
   var raw=pathMatch?pathMatch[1]:new URLSearchParams(location.search).get('chapter');
+  var isLibrary=!pathMatch && raw===null;
+  document.body.classList.toggle('is-library',isLibrary);
+  $('reader-library').hidden=!isLibrary; $('chapter-layout').hidden=isLibrary;
   var number=/^\d+$/.test(raw||'')?Number(raw):1;
   var chapter=chapters.find(function(c){return c.number===number;})||chapters[0];
   var index=chapters.indexOf(chapter),words=['ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN'];
@@ -40,7 +43,17 @@
   function openSettings(open){$('reader-settings').hidden=!open;$('settings-toggle').setAttribute('aria-expanded',String(open));if(open)$('settings-close').focus();else $('settings-toggle').focus();}
   $('settings-toggle').addEventListener('click',function(){openSettings($('reader-settings').hidden);});$('settings-close').addEventListener('click',function(){openSettings(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('reader-settings').hidden)openSettings(false);});
   var savedProgress=get(progressKey,{});
+  if(isLibrary){
+    document.title='Reading Room · Gu Zhen Ren Encyclopedia';
+    $('library-count').textContent=chapters.length+' chapters available · Translation in progress';
+    chapters.forEach(function(c){var a=document.createElement('a'), num=document.createElement('span'), title=document.createElement('strong'), arrow=document.createElement('span');a.className='library-chapter';a.href=chapterUrl(c.number);num.textContent=pad(c.number);title.textContent=c.title;arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');a.append(num,title,arrow);$('library-chapter-list').appendChild(a);});
+    var savedChapter=chapters.find(function(c){return c.number===savedProgress.chapter;});
+    if(savedChapter){var resume=$('library-resume');resume.href=chapterUrl(savedChapter.number);resume.textContent='Continue chapter '+savedChapter.number+' →';resume.hidden=false;}
+    function selectLibrary(guide){$('library-chapters').hidden=guide;$('library-guide').hidden=!guide;$('show-chapters').setAttribute('aria-pressed',String(!guide));$('show-guide').setAttribute('aria-pressed',String(guide));}
+    $('show-chapters').addEventListener('click',function(){selectLibrary(false);});$('show-guide').addEventListener('click',function(){selectLibrary(true);});
+  }
+
   if(savedProgress.chapter===chapter.number && savedProgress.percent>2){$('resume-reading').hidden=false;$('resume-reading').textContent='Resume · '+savedProgress.percent+'%';$('resume-reading').addEventListener('click',function(){var top=prose.getBoundingClientRect().top+window.scrollY;var range=Math.max(0,prose.offsetHeight-window.innerHeight);window.scrollTo({top:top+range*Math.min(100,Math.max(0,savedProgress.percent))/100,behavior:'smooth'});$('resume-reading').hidden=true;});}
   function progress(){var rect=prose.getBoundingClientRect(), total=Math.max(1,prose.offsetHeight-window.innerHeight), traversed=Math.max(0,Math.min(1,-rect.top/total)),percent=Math.round(traversed*100);$('progress-bar').style.width=percent+'%';document.querySelector('.reading-progress').setAttribute('aria-valuenow',percent);if(rect.top<window.innerHeight && rect.bottom>0)save(progressKey,{chapter:chapter.number,percent:percent});}
-  window.addEventListener('scroll',progress,{passive:true});apply();
+  if(!isLibrary) window.addEventListener('scroll',progress,{passive:true});apply();
 })();

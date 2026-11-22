@@ -10,12 +10,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/reader/reader.css?v=0c37d5d59d">
+  <link rel="stylesheet" href="/reader/reader.css?v=c092752e13">
   <script defer src="/reader/chapters.js?v=8504655588"></script>
-  <script defer src="/reader/reader.js?v=b4a4dfa21c"></script>
+  <script defer src="/reader/reader.js?v=fe59be5686"></script>
 </head>
 <body>
-  <a class="skip-link" href="#reader-main">Skip to chapter</a>
+  <a class="skip-link" href="#reader-main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-bar"></span></div>
   <header class="reader-bar">
     <a class="reader-brand" href="/" aria-label="Back to the encyclopedia"><span class="brand-seal">蛊</span><span class="brand-copy"><strong>GU ZHEN REN</strong><small>THE READING ROOM</small></span></a>
@@ -23,7 +23,16 @@
     <div class="reader-actions"><a class="reader-home" href="/wiki/chapters/">Chapter guide</a><button id="settings-toggle" class="reader-button" type="button" aria-expanded="false" aria-controls="reader-settings"><span aria-hidden="true">Aa</span><span> Reading settings</span></button></div>
   </header>
   <main id="reader-main" tabindex="-1">
-    <div class="reader-layout">
+    <div class="library" id="reader-library" hidden>
+      <div class="library-intro"><span class="library-kicker">THE READING ROOM / THE NOVEL</span><h1>A story worth<br><em>taking your time with.</em></h1><p>Read the translation, chapter by chapter, or step into the encyclopedia for a closer look at the world.</p></div>
+      <section class="volume-feature" aria-labelledby="library-volume-title"><div class="volume-feature-art" role="img" aria-label="Volume one artwork"><span>Artwork · artist uncredited</span></div><div class="volume-feature-copy"><span class="library-kicker">VOLUME 01 / IN PROGRESS</span><h2 id="library-volume-title">Demonic Nature<br><em>Never Changes</em></h2><p>On Qing Mao Mountain, Fang Yuan returns to the beginning with five hundred years of experience—and a future to change.</p><p class="volume-count" id="library-count">Chapters available in the reading room</p><div class="library-actions"><a class="library-primary" href="/reader/chapter-1/">Start reading →</a><a class="library-resume" id="library-resume" hidden>Continue reading →</a><a href="/wiki/volume-1/">Explore the volume guide →</a></div></div></section>
+      <div class="library-section-heading"><div><span class="library-kicker">VOLUME 01 / READ &amp; EXPLORE</span><h2>Choose your path.</h2></div><p>Read the story first, or explore the accompanying guides. Guide pages may contain spoilers for their chapters.</p></div>
+      <div class="library-tabs" role="group" aria-label="Volume sections"><button type="button" id="show-chapters" aria-pressed="true" aria-controls="library-chapters">Read chapters</button><button type="button" id="show-guide" aria-pressed="false" aria-controls="library-guide">Explore the guide</button></div>
+      <section id="library-chapters" aria-label="Available chapters"><div class="library-chapter-list" id="library-chapter-list"></div></section>
+      <section class="library-guide" id="library-guide" aria-label="Volume guide" hidden><div><span class="library-kicker">A GROWING COMPANION</span><h2>A world beyond the page.</h2><p>The volume guide follows the published chapters, connecting the story to its people, places and ideas. It is an in-progress guide, not a summary of the complete volume.</p><a class="library-primary" href="/wiki/volume-1/">Open the volume guide →</a></div><div class="guide-links"><a href="/wiki/chapters/">Chapter guides <span>↗</span></a><a href="/wiki/fang-yuan/">Fang Yuan <span>↗</span></a><a href="/wiki/qing-mao-mountain/">Qing Mao Mountain <span>↗</span></a><a href="/wiki/cultivation/">Cultivation system <span>↗</span></a></div></section>
+      <p class="library-note">Translation © The Omniarch · <a href="https://ri.theomniarch.com.ng/" target="_blank" rel="noopener noreferrer">Original reader edition ↗</a></p>
+    </div>
+    <div class="reader-layout" id="chapter-layout">
       <aside class="chapter-rail" aria-label="Chapter navigation">
         <div class="rail-label">THE READING ROOM <span>01 — 11</span></div>
         <h2>Volume I</h2><p class="rail-subtitle">Demonic Nature Never Changes</p>
@@ -32,7 +41,7 @@
         <p class="rail-footnote">Reading the original edition? <a id="rail-source" href="https://ri.theomniarch.com.ng/" target="_blank" rel="noopener noreferrer">Open the original reader ↗</a></p>
       </aside>
       <div class="reader-content">
-        <div class="reader-toolbar"><a href="/">← Encyclopedia home</a><details class="mobile-chapters"><summary>Chapters <span aria-hidden="true">⌄</span></summary><nav id="mobile-chapters" aria-label="Choose chapter"></nav></details><button id="resume-reading" class="resume-reading" type="button" hidden>Resume reading</button><span id="chapter-count">01 / 11</span></div>
+        <div class="reader-toolbar"><a href="/reader/">← Reading room</a><details class="mobile-chapters"><summary>Chapters <span aria-hidden="true">⌄</span></summary><nav id="mobile-chapters" aria-label="Choose chapter"></nav></details><button id="resume-reading" class="resume-reading" type="button" hidden>Resume reading</button><span id="chapter-count">01 / 11</span></div>
         <section class="reader-hero" aria-labelledby="chapter-title">
           <div class="reader-hero-art" aria-hidden="true"></div>
           <div class="reader-hero-inner"><span class="hero-overline">GU ZHEN REN <i></i> VOLUME ONE</span><div class="chapter-number" id="chapter-number">01</div><div class="chapter-label">CHAPTER <span id="hero-chapter">ONE</span></div><h1 id="chapter-title">Though the Flesh Perish, the Demonic Heart Knows No Regret</h1><div class="hero-rule"><span>蛊</span></div></div>

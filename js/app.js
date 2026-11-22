@@ -41,6 +41,21 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     9: "The title gives the tone away: relationships are pulling apart. The narrator keeps the focus on the spaces between characters, so read the silences and the distances as closely as the lines they speak.",
     10: "The title is a warning in itself: heaven does not behave predictably, and refining Gu is hard work that costs something at every step. The narrator asks you to watch what each choice demands, and to read the effort as closely as the outcome that the chapter lets you guess at."
   };
+  // Chapter-by-chapter notes are confined to the sourced translation available here.
+  var CHAPTER_SUMMARIES = {
+    1:'Surrounded by enemies who demand the Spring Autumn Cicada, Fang Yuan faces death without regret. The narrative then turns to the Gu Yue clan preparing for its Aperture Opening Ceremony. Fang Yuan awakens in his younger body and realises the Cicada has carried him five hundred years into the past (Ch. 1).',
+    2:'Fang Yuan considers the price and consequences of the Spring Autumn Cicada and the advantage his memories give him. Back in Gu Yue Village, he reflects on his orphaned childhood, his brother Fang Zheng, and the aunt and uncle who control their inheritance (Ch. 2).',
+    3:'On the morning of the ceremony, Fang Yuan dismisses Shen Cui and observes how differently the household treats the two brothers. With the perspective of his former life, he recognises the discord fostered between them, but chooses to focus on his own aims rather than merely settling old grievances (Ch. 3).',
+    4:'The clan gathers its fifteen-year-olds for the Aperture Opening Ceremony. As candidates are tested, Fang Yuan watches the results and considers the clan’s rival Chi and Mo lineages, including what he remembers about Chi Cheng’s concealed aptitude (Ch. 4).',
+    5:'The ceremony is interwoven with a tale of Ren Zu and the Gu of Strength, Wisdom and Hope. Fang Yuan walks through the field of Hope Gu; at his twenty-seventh step his aperture opens, a first step toward cultivation (Ch. 5).',
+    6:'The elders react with disappointment to Fang Yuan’s Grade C aptitude. Fang Zheng, long overshadowed by his brother, reaches Grade A instead, and the clan’s leading figures compete to claim and nurture him (Ch. 6).',
+    7:'At the academy the elder introduces the nine revolutions of Gu Masters and recounts the clan’s version of the Flower-Wine Monk’s story. Fang Yuan searches for the Liquor Worm associated with the Monk’s hidden inheritance; the students are then tasked with choosing and refining their vital Gu (Ch. 7).',
+    8:'The students visit the Gu chamber to select their first Gu. Fang Yuan continues spending on wine for his search while Fang Zheng adjusts to his new status and struggles with the changing balance between the brothers (Ch. 8).',
+    9:'Their aunt and uncle favour Fang Zheng, giving him resources and drawing him closer to the household. Their conversation reveals their concern over the brothers’ inheritance, while Fang Yuan’s distance from the family grows (Ch. 9).',
+    10:'With his search delayed by rain, Fang Yuan begins refining the Moonlight Gu. The effort shows how aptitude and primeval stones affect refinement: his Grade C reserves and limited money put him at a disadvantage in the academy’s contest. Shen Cui arrives at his door as the rain eases (Ch. 10).',
+    11:'Fang Yuan recognises Shen Cui’s visit as a trap and confronts her before leaving the household. At the inn he weighs the cost of refining Gu against his dwindling stones and decides to continue searching for the Liquor Worm and the Flower-Wine Monk’s inheritance (Ch. 11).'
+  };
+
   /* ---- generate chapter articles + chapter index from the ledger ---- */
   S.chapters.forEach(function(c,i){
     var prev = S.chapters[i-1], next = S.chapters[i+1];
@@ -344,11 +359,13 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return '<aside class="infobox"><div class="ib-name">'+esc(a.t)+'</div><div class="ib-kind">'+esc(a.k||'')+'</div>'+img
       +(rows ? '<div class="ib-gen">General Information</div><table class="ib-table">'+rows+'</table>' : '')+'</aside>';
   }
-  function sideHTML(a){
+  function sideHTML(a,slug){
     var isArt = a.k!=='Index' && a.k!=='Category';
     var toc = (isArt || a.index) ? [] : [['sec-overview','Overview']];
     if(!isArt && a.ib&&a.ib.length) toc.push(['sec-details','Details']);
     
+    if(slug==='volume-1') toc.push(['volume-story','Story so far'],['volume-ideas','Ideas to follow'],['volume-chapters','Chapter by chapter']);
+    if(/^chapter-\d+$/.test(slug)) toc.push(['chapter-summary','Chapter summary']);
     if(a.see&&a.see.length) toc.push(['sec-see','See also']);
     return (toc.length ? '<div class="side-box"><h4>Contents</h4><div class="toc">'+toc.map(function(t){return '<a href="#" data-sec="'+t[0]+'">'+t[1]+'<span class="caret">⌄</span></a>';}).join('')+'</div></div>' : '');
   }
@@ -356,6 +373,25 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function talkHTML(a,slug){
     return '<div class="talk-banner"><h3>Want to talk about '+esc(a.t)+' in real-time?</h3><p>Join the Discord server for discussions, readings and theories between typesettings.</p><a class="tg-button tg-button--progressive" href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noreferrer noopener">Join our Discord</a></div>'
       + '<h2 class="sec" id="sec-overview"><span class="caret">⌃</span>Start a discussion about '+esc(a.t)+'</h2><div class="sec-body"><p>Discussion pages are where readers weigh how to make the encyclopedia the best it can be, corrections, glossary notes, theories. The bench gathers on Discord; pull up a chair and start the thread for '+link(slug)+'.</p><a class="tg-button" href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noreferrer noopener">Start a discussion</a></div>';
+  }
+
+  // Information pages are documents, not encyclopedia articles with infoboxes.
+  function informationHTML(slug){
+    var sections = slug==='privacy' ? [
+      ['storage','Browser storage','This site uses browser storage to remember settings such as the selected theme, reading preferences and mature-gallery preference. You can clear this information in your browser settings.'],
+      ['hosting','Hosting','Your browser and the hosting provider may process technical information such as your IP address when serving the site.'],
+      ['external-services','External services','The site loads fonts from Google, video thumbnails from YouTube and a comic cover from Webnovel. Playing the community video loads an embedded YouTube player. Reddit rankings request data from Reddit and may be cached in browser storage for a week. Loading the TikTok profile connects to TikTok; the Immortal Gu Land image is served by Discord. These services may process technical information under their own policies. External links, including the reader and community services, are governed by those services’ own policies.'],
+      ['advertising','Advertising and analytics','This site does not currently include Google advertising code. If advertising or analytics is added, this notice and any required consent controls will be updated.'],
+      ['privacy-contact','Questions','Contact the project via its Discord community.']
+    ] : [
+      ['our-project','Our project','The Gu Zhen Ren Encyclopedia is a reader-built guide to the novel, its world and its community. Its story articles aim to follow the terminology and progress of the linked reader; the artwork gallery may contain later-story spoilers.'],
+      ['sources','Sources and coverage','Story entries refer to the available translation. The reading room and chapter guides are separate: guides connect readers to people, places and ideas from the story.'],
+      ['rights','Rights and credits','This is an independent fan project. The original novel and artwork belong to their respective rights holders. Artwork credits are shown alongside images where known.'],
+      ['get-in-touch','Get in touch','Questions or corrections? Contact the project through its Discord community.']
+    ];
+    var title=slug==='privacy'?'Privacy Policy':'About the Encyclopedia';
+    var intro=slug==='privacy'?'How this site uses browser storage and connects to other services.':'A guide to the story, its world and the community around it.';
+    return '<div class="info-page"><div class="info-heading"><span>GU ZHEN REN ENCYCLOPEDIA / INFORMATION</span><h1>'+esc(title)+'</h1><p>'+esc(intro)+'</p></div><div class="info-layout"><nav class="info-toc" aria-label="On this page"><strong>ON THIS PAGE</strong>'+sections.map(function(x){return '<a href="#'+x[0]+'">'+esc(x[1])+'</a>';}).join('')+'</nav><div class="info-content">'+sections.map(function(x){return '<section id="'+x[0]+'"><h2>'+esc(x[1])+'</h2><p>'+esc(x[2])+'</p>'+((x[0]==='privacy-contact'||x[0]==='get-in-touch')?'<a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Contact via Discord ↗</a>':'')+'</section>';}).join('')+'<div class="info-more"><a href="/wiki/'+(slug==='privacy'?'about':'privacy')+'/">'+(slug==='privacy'?'About the encyclopedia':'Privacy policy')+' →</a><a href="/wiki/contents/">Encyclopedia index →</a></div></div></div></div>';
   }
 
   function render(slug){
@@ -376,12 +412,16 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     curSlug = slug;
     var talk = routeMode==='talk';
     titleEl.textContent = (talk?'Talk: ':'')+a.t;
+    var headerTitle=document.getElementById('site-header-title'); if(headerTitle) headerTitle.textContent=titleEl.textContent;
     subEl.innerHTML = talk ? 'Discussion page of '+esc(a.t) : (a.k && a.k!=='Index' ? '<span class="wiki-kind">'+esc(a.k)+' · </span>' : '')+'<span class="wiki-source">From the Gu Zhen Ren Encyclopedia</span>';
     talkLabel.textContent = talk ? 'Page' : 'Discussion';
     document.querySelectorAll('[data-act="talk"]').forEach(function(e){ e.style.display = (A[slug].k==='Index' && !talk) ? 'none' : ''; });
     if(talkTab) talkTab.style.display = (A[slug].k==='Index' && !talk) ? 'none' : '';
     crumbEl.textContent = (talk?'Talk · ':'')+((a.k && a.k!=='Category') ? a.k+' · '+a.t : a.t);
     var html='';
+    if(!talk && (slug==='about' || slug==='privacy')){
+      articleEl.innerHTML=informationHTML(slug);sideEl.innerHTML='';retrievedEl.innerHTML='';return true;
+    }
     if(talk){ html = talkHTML(a,slug); }
     else{
       if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
@@ -401,6 +441,20 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       else if(a.index==='community-profile') html += renderCommunityProfile(slug);
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
+      if(slug==='volume-1'){
+        html += '<div class="volume-guide"><p class="guide-status"><strong>In progress · Chapters 1–11</strong><br>This guide covers only the chapters currently published in the reading room, not the completed volume. The sections below contain spoilers through Chapter 11.</p><div class="volume-guide-actions"><a href="/reader/">Open the reading room →</a><a href="/wiki/chapters/">Browse chapter guides →</a></div>';
+        var volumeSections=[
+          ['Return to Qing Mao Mountain','Fang Yuan is besieged over the Spring Autumn Cicada, then finds himself five hundred years in the past. The clan is preparing to test its youths, while his memories give him a very different view of the village and his family (Ch. 1, Ch. 2, Ch. 3).'],
+          ['The opening ceremony','The clan’s hopes are fixed on its next generation of Gu Masters. Fang Yuan opens his aperture with Grade C aptitude, while Fang Zheng discovers Grade A aptitude and becomes the focus of the clan leaders’ attention (Ch. 4, Ch. 5, Ch. 6).'],
+          ['The academy and an inheritance','The students learn the fundamentals of cultivation and must refine a vital Gu. Fang Yuan is drawn instead to the Liquor Worm and the hidden inheritance connected to the Flower-Wine Monk, even as he takes a Moonlight Gu (Ch. 7, Ch. 8).'],
+          ['Family, resources and ambition','Fang Zheng’s rise changes his position within the household. Meanwhile Fang Yuan confronts the costs of cultivation: aptitude affects his primeval essence, and refining Gu consumes stones he can scarcely spare. He leaves the household and continues his search (Ch. 9, Ch. 10, Ch. 11).']
+        ];
+        html += volumeSections.map(function(x,i){return '<section'+(i===0?' id="volume-story"':'')+'><h2>'+esc(x[0])+'</h2><p>'+chapterRefs(x[1])+'</p></section>';}).join('');
+        html += '<section id="volume-ideas"><h2>Ideas to follow</h2><p>The opening chapters contrast public expectations with personal ambition: the clan measures promise through aptitude, while Fang Yuan’s long experience shapes a different idea of opportunity. The brothers’ changing treatment also shows how resources and status shape family relationships (Ch. 3, Ch. 6, Ch. 9, Ch. 10).</p></section>'.replace(/Ch\. (\d+)/g,function(m,n){return chapterRefs(m);});
+        html += '<section id="volume-chapters"><h2>Chapter by chapter</h2><p>Read each chapter or open its guide for a closer look.</p><div class="volume-chapter-grid">'+S.chapters.map(function(c){return '<div><span>CHAPTER '+esc(c.n)+'</span><strong>'+esc(c.title)+'</strong><div><a href="/reader/chapter-'+c.n+'/">Read →</a><a href="/wiki/chapter-'+c.n+'/">Guide →</a></div></div>';}).join('')+'</div></section></div>';
+      }
+      var chapterNo=/^chapter-(\d+)$/.exec(slug);
+      if(chapterNo && CHAPTER_SUMMARIES[chapterNo[1]]) html += '<section class="chapter-summary" id="chapter-summary"><h2>Chapter summary</h2><p class="guide-status">Spoilers for this chapter.</p><p>'+chapterRefs(CHAPTER_SUMMARIES[chapterNo[1]])+'</p></section>';
       if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
       if(a.k==='Category' && a.b&&a.b.length) html += '<div class="category-description">'+a.b.map(function(p){return '<p>'+chapterRefs(p)+'</p>';}).join('')+'</div>';
@@ -411,27 +465,10 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if(!talk && slug==='contents') mountEncyclopediaIndex();
     if(!talk) mountCommunityExtras(slug);
     if((slug==='gallery' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
-    sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
+    sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a,slug);
     retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">About this project</div><div>Novel and artwork rights belong to their respective holders.</div></div></div>';
     return true;
   }
-
-  var stickyEl=document.createElement('div'); stickyEl.className='sticky-head'; stickyEl.id='sticky-head';
-  stickyEl.innerHTML='<div class="sticky-inner"><span class="sticky-title"></span><span class="sticky-tools">'+'<a data-act="share" href="#"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M14 5l7 7-7 7v-4c-5 0-8 1.5-10 6 1-6 4-10 10-11z\" fill=\"currentColor\"/></svg><span class="lbl">Share</span></a>'+'<a data-act="talk" href="#"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 4h18v12H8l-5 4z\" fill=\"currentColor\"/></svg><span class="lbl">Discussion</span></a>'+'<a data-act="search" href="#"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"M16 16l5 5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg><span class="lbl">Search</span></a>'+'</span></div>';
-  document.body.appendChild(stickyEl);
-  stickyEl.addEventListener('click', function(e){
-    var b=e.target.closest('a[data-act]'); if(!b) return; e.preventDefault();
-    var act=b.getAttribute('data-act');
-    if(act==='share'){ if(navigator.clipboard) navigator.clipboard.writeText(location.href); var l=b.querySelector('.lbl')||b; l.textContent='Copied'; setTimeout(function(){ l.textContent='Share'; },1200); }
-    if(act==='talk' && talkTab) talkTab.click();
-    if(act==='search') toggleSearch();
-  });
-  window.addEventListener('scroll', function(){
-    var show = window.scrollY > 170 && !wikiView.hidden;
-    stickyEl.classList.toggle('on', show);
-    stickyEl.querySelector('.sticky-title').textContent = titleEl.textContent;
-    stickyEl.querySelector('[data-act="talk"]').style.display = talkTab ? talkTab.style.display : '';
-  }, {passive:true});
 
   wikiView.addEventListener('click', function(e){
     var b=e.target.closest('#page-tools a[data-act]'); if(!b) return; e.preventDefault();
@@ -482,6 +519,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         wikiView.classList.toggle('wide', A[slug].k==='Index' || A[slug].k==='Category');
         wikiView.classList.toggle('is-index', A[slug].k==='Index');
         wikiView.classList.toggle('is-article', A[slug].k!=='Index' && A[slug].k!=='Category');
+        wikiView.classList.toggle('is-information', (slug==='about' || slug==='privacy') && routeMode!=='talk');
         window.scrollTo(0,0);
         return;
       }
