@@ -2894,24 +2894,34 @@ html[data-theme="dark"] .tg-footer-dedication b{color:var(--tg-color-base) !impo
 html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
-/* The panel: the full cast artwork sits behind the whole strip, dimmed under
-   a plate-colour veil so the credit line stays legible, and the same
-   artwork is masked into the logo's own letterforms on top of it at full
-   strength - a bright, crisp "window" of colour inside the glyphs against
-   the quieter art field around it, rather than either a flat plate colour
-   or a hard photo with a logo chip floating on it. */
+/* The panel: a soft-focus, full-colour rendition of the cast art - blurred,
+   not dimmed. A dark/plate scrim flattened the art back into a near-solid
+   colour; a wide, saturated blur keeps the full hue and energy of the
+   illustration readable as atmosphere while naturally getting out of the
+   way of the credit line, the same "mask + blur" pairing used for text-over-
+   image reveals (see VANA's Image & Text Mask element on Awwwards). A faint
+   warm overlay (blend:overlay, not a flat scrim) ties its colours to the
+   site's own gold/garnet palette. The masked logo sits on top at full sharp
+   strength with its own drop-shadow, so it reads as a crisp window of colour
+   lifted off a quiet, glowing field rather than competing with a sharp photo
+   or vanishing into a flat plate. */
 .tg-footer-panel{position:relative !important;z-index:1 !important;
-  margin-top:0 !important;background-color:#efe0c6 !important;overflow:hidden !important;
-  background-image:linear-gradient(rgba(239,224,198,.88),rgba(239,224,198,.88)),url("/assets/collection/art-a23818c020be2214.webp") !important;
-  background-size:cover !important;background-position:center 28% !important;
-  background-repeat:no-repeat !important;
+  margin-top:0 !important;background-color:#2a2015 !important;overflow:hidden !important;
   border-top:1px solid rgba(0,0,0,.12) !important;
   display:flex !important;flex-direction:column !important;align-items:center !important;
   justify-content:center !important;gap:0.6rem !important;
   padding:clamp(1.8rem,5vw,3.6rem) 1.5rem !important}
-html[data-theme="dark"] .tg-footer-panel{background-color:#14100c !important;
-  background-image:linear-gradient(rgba(20,16,12,.88),rgba(20,16,12,.88)),url("/assets/collection/art-a23818c020be2214.webp") !important;
+html[data-theme="dark"] .tg-footer-panel{background-color:#0c0a08 !important;
   border-top-color:rgba(255,255,255,.1) !important}
+.tg-footer-panel::before{content:"" !important;position:absolute !important;inset:-10% !important;
+  z-index:0 !important;pointer-events:none !important;
+  background-image:url("/assets/collection/art-a23818c020be2214.webp") !important;
+  background-size:cover !important;background-position:center 28% !important;background-repeat:no-repeat !important;
+  filter:blur(34px) saturate(1.25) brightness(1.02) !important;transform:scale(1.08) !important}
+html[data-theme="dark"] .tg-footer-panel::before{filter:blur(34px) saturate(1.1) brightness(.6) !important}
+.tg-footer-panel::after{content:"" !important;position:absolute !important;inset:0 !important;
+  z-index:0 !important;pointer-events:none !important;mix-blend-mode:overlay !important;
+  background:linear-gradient(135deg,rgba(142,38,34,.22),rgba(226,172,78,.16)) !important}
 
 .sr-only{position:absolute !important;width:1px !important;height:1px !important;
   padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0,0,0,0) !important;
@@ -2924,7 +2934,8 @@ html[data-theme="dark"] .tg-footer-panel{background-color:#14100c !important;
    Width is bounded by a conservative vw-based clamp (not open-ended), and
    height follows from the logo's own 753:333 aspect-ratio, so this cannot
    balloon or shrink to nothing at any window width. */
-.tg-footer-masked{margin:0 !important;display:block !important;
+.tg-footer-masked{position:relative !important;z-index:1 !important;
+  margin:0 !important;display:block !important;
   width:clamp(180px,46vw,480px) !important;aspect-ratio:753 / 333 !important;
   background-image:url("/assets/collection/art-a23818c020be2214.webp") !important;
   background-size:220% auto !important;background-position:50% 32% !important;
@@ -2933,15 +2944,19 @@ html[data-theme="dark"] .tg-footer-panel{background-color:#14100c !important;
   mask-image:url("/assets/wordmark-dark-4k.webp") !important;
   -webkit-mask-repeat:no-repeat !important;mask-repeat:no-repeat !important;
   -webkit-mask-size:contain !important;mask-size:contain !important;
-  -webkit-mask-position:center !important;mask-position:center !important}
+  -webkit-mask-position:center !important;mask-position:center !important;
+  filter:drop-shadow(0 10px 22px rgba(0,0,0,.55)) drop-shadow(0 1px 0 rgba(255,255,255,.12)) !important}
 html[data-theme="dark"] .tg-footer-masked{background-color:#3a2e24 !important}
 
-.tg-footer-masked-credit{display:block !important;font-size:0.66rem !important;
-  letter-spacing:0.1em !important;text-transform:uppercase !important;
-  color:#6b5a4c !important;text-align:center !important}
-.tg-footer-masked-credit b{font-weight:700 !important;color:#3a2b22 !important}
-html[data-theme="dark"] .tg-footer-masked-credit{color:var(--tg-color-subtle) !important}
-html[data-theme="dark"] .tg-footer-masked-credit b{color:var(--tg-color-base) !important}
+.tg-footer-masked-credit{position:relative !important;z-index:1 !important;
+  display:inline-flex !important;align-items:center !important;
+  margin:0 auto !important;padding:0.3rem 0.85rem !important;border-radius:999px !important;
+  background:rgba(10,6,3,.45) !important;-webkit-backdrop-filter:blur(6px) !important;backdrop-filter:blur(6px) !important;
+  font-size:0.64rem !important;letter-spacing:0.1em !important;text-transform:uppercase !important;
+  color:rgba(255,250,240,.82) !important;text-align:center !important}
+.tg-footer-masked-credit b{font-weight:700 !important;color:#f0c879 !important}
+html[data-theme="dark"] .tg-footer-masked-credit{background:rgba(0,0,0,.5) !important;color:rgba(255,250,240,.78) !important}
+html[data-theme="dark"] .tg-footer-masked-credit b{color:#e2ac4e !important}
 
 @media(max-width:480px){
   .tg-footer-masked{background-size:280% auto !important}
