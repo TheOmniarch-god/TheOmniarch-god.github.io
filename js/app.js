@@ -279,6 +279,36 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     });
   }
   function chapterRefs(text){return esc(text).replace(/\b(Chapter|Chp\.?|Ch\.)\s*(\d+)\b/gi,function(match,kind,num){return S.chapters.some(function(c){return c.n===Number(num);})?'<a class="chapter-reference" href="/reader/chapter-'+Number(num)+'/">'+match+'</a>':match;});}
+  // The main index is a curated door into the story, not a gallery-file dump.
+  function encyclopediaIndex(){
+    var subjects=[
+      ['characters','Characters','People of the Gu world','/assets/inline/liu-guanyi-fang-yuan.webp','Liu Guanyi'],
+      ['gu','Gu Worms','Refine · nurture · use','/assets/inline/art-spring-autumn-cicada.webp','mc人祖'],
+      ['cultivation','Cultivation','Ranks, apertures and paths','/assets/inline/tile-cultivation.webp','Artist not credited'],
+      ['locations','Locations & World','Places of the story','/assets/inline/qing-mao-mountain.webp','Artist not credited'],
+      ['clans','Factions & Clans','Clans and paths','/assets/inline/tile-clans.webp','Artist not credited'],
+      ['the-legends-of-ren-zu','Legends of Ren Zu','The ancestral stories','/assets/inline/art-ren-zu.webp','mc人祖'],
+      ['glossary','Glossary & Concepts','Terms and ideas','/assets/inline/tile-glossary.webp','Artist not credited'],
+      ['chapters','Chapters','Guides to the story','/assets/inline/ri-cover.jpg','Artist not credited']
+    ];
+    var feature=['fang-yuan','spring-autumn-cicada','ren-zu','fang-zheng','bai-ning-bing','qing-mao-mountain'];
+    var excluded=['contents','community','gallery','adaptations','about','privacy'];
+    var keys=Object.keys(A).filter(function(k){return A[k].k!=='Category' && excluded.indexOf(k)<0 && !/^gallery-/.test(k) && !/^community-/.test(k);});
+    var groups={};keys.sort(function(a,b){return A[a].t.localeCompare(A[b].t);}).forEach(function(k){var letter=A[k].t.charAt(0).toUpperCase();(groups[letter]=groups[letter]||[]).push(k);});
+    var letters=Object.keys(groups).sort();
+    return portalTabs('contents')+'<div class="encyclopedia-index"><header class="encyclopedia-intro"><span>THE GU ZHEN REN ENCYCLOPEDIA</span><h2>Explore the Gu world.</h2><p>Characters, Gu, places and ideas from the translation so far.</p><a href="/reader/">Open the reading room →</a></header>'
+      +'<section aria-labelledby="index-subjects"><div class="index-heading"><div><small>EXPLORE BY SUBJECT</small><h2 id="index-subjects">Browse the encyclopedia</h2></div></div><div class="index-subjects">'+subjects.map(function(item){return '<a class="index-subject" href="/wiki/'+item[0]+'/"><div class="index-subject-image"><img src="'+item[3]+'" alt="" loading="lazy"><span>'+esc(item[4]==='Artist not credited'?item[4]:'Art: '+item[4])+'</span></div><strong>'+esc(item[1])+'</strong><small>'+esc(item[2])+' →</small></a>';}).join('')+'</div></section>'
+      +'<section aria-labelledby="index-featured"><div class="index-heading"><div><small>START HERE</small><h2 id="index-featured">Featured articles</h2></div></div><div class="index-features">'+feature.filter(function(k){return A[k]&&A[k].img;}).map(function(k){var a=A[k];return '<a class="index-feature" href="/wiki/'+k+'/"><img src="'+esc(a.img)+'" alt="" loading="lazy"><div><small>'+esc(a.k)+' · '+esc(a.art||'Artist not credited')+'</small><strong>'+esc(a.t)+'</strong><span>Read article →</span></div></a>';}).join('')+'</div></section>'
+      +'<section class="index-directory" aria-labelledby="index-directory-title"><div class="index-heading"><div><small>FIND A PAGE</small><h2 id="index-directory-title">Encyclopedia A–Z</h2></div><span>'+keys.length+' pages</span></div><label for="index-filter">Filter pages by title</label><input type="search" id="index-filter" placeholder="Search the index" autocomplete="off"><p id="index-filter-status" role="status">'+keys.length+' pages</p><nav class="index-alphabet" aria-label="Browse index by letter">'+letters.map(function(c){return '<a href="#index-letter-'+esc(c)+'" data-index-letter="'+esc(c)+'">'+esc(c)+'</a>';}).join('')+'</nav><div class="index-directory-grid">'+letters.map(function(c){return '<section class="index-letter" id="index-letter-'+esc(c)+'"><h3>'+esc(c)+'</h3><ul>'+groups[c].map(function(k){return '<li data-index-title="'+esc(A[k].t.toLowerCase())+'">'+link(k)+'</li>';}).join('')+'</ul></section>';}).join('')+'</div><p id="index-no-results" hidden>No pages match your search.</p></section>'
+      +'<section class="index-more" aria-labelledby="index-more-title"><div class="index-heading"><div><small>BEYOND THE STORY</small><h2 id="index-more-title">Art & community</h2></div></div><div class="index-more-grid"><a href="/wiki/gallery/"><strong>Artwork gallery →</strong><span>Explore the collection. May contain later-story spoilers.</span></a><a href="/wiki/community/"><strong>Community hub →</strong><span>Meet readers and creators. External spaces may contain spoilers.</span></a></div></section></div>';
+  }
+  function mountEncyclopediaIndex(){
+    var input=document.getElementById('index-filter'), status=document.getElementById('index-filter-status'), empty=document.getElementById('index-no-results');
+    function filter(){var q=input.value.trim().toLocaleLowerCase(), count=0;articleEl.querySelectorAll('.index-letter').forEach(function(group){var shown=0;group.querySelectorAll('li').forEach(function(row){var match=row.getAttribute('data-index-title').indexOf(q)>=0;row.hidden=!match;if(match){shown++;count++;}});group.hidden=!shown;});status.textContent=count+' '+(count===1?'page':'pages');empty.hidden=count!==0;}
+    input.addEventListener('input',filter);
+    articleEl.querySelectorAll('[data-index-letter]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();if(input.value){input.value='';filter();}var target=document.getElementById('index-letter-'+a.getAttribute('data-index-letter'));if(target)target.scrollIntoView({behavior:'smooth',block:'start'});});});
+  }
+
   function portalHTML(slug,a){
     if(slug==='characters'){
       var tabs0=portalTabs(slug);
@@ -289,6 +319,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     }
     if((slug==='gallery' || a.index==='art-library') && window.renderImagesGallery) return portalTabs(slug)+window.renderImagesGallery(slug);
     var kind=a.index, keys=indexKeys(kind).filter(function(k){return k!==slug;});
+    if(!keys.length && a.see) keys=a.see.filter(function(k){return k!==slug && A[k];});
     var tabs=portalTabs(slug);
     if(!keys.length) return tabs+(PORTAL_CATS[slug]?catBoxes(slug):'');
     var gridKeys = keys.filter(function(k){return A[k].img;});
@@ -304,7 +335,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       return '<a href="#" data-sec="az-'+c+'"'+(have[c]?'':' class="az-off"')+'>'+c+'</a>';
     }).join('')+'</div>';
     var all='<div class="tg-section-divider"><span>All pages</span></div>'+letterList(keys,'az-',true);
-    return tabs+az+grid+boxes;
+    return tabs+az+grid+boxes+all;
   }
 
   function infoboxHTML(a){
@@ -365,16 +396,19 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         if(!lean) html += '<h2 class="sec" id="sec-overview"><span class="caret">⌃</span>Overview</h2><div class="sec-body">'+a.b.map(function(p){return '<p>'+chapterRefs(p)+'</p>';}).join('')+'</div>';
         if(!lean && a.ib&&a.ib.length) html += '<h2 class="sec" id="sec-details"><span class="caret">⌃</span>Details</h2><div class="sec-body"><table class="wiki-table">'+a.ib.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+chapterRefs(r[1])+'</td></tr>';}).join('')+'</table></div>';
       }
-      if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
+      if(a.index && slug==='contents') html += encyclopediaIndex();
+      else if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
       else if(a.index==='community-profile') html += renderCommunityProfile(slug);
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
-      if(!lean && a.members&&a.members.length) html += '<h2 class="sec" id="sec-members"><span class="caret">⌃</span>Pages in this category</h2><div class="sec-body">'+letterList(a.members)+'</div>';
+      if(a.k==='Category' && a.b&&a.b.length) html += '<div class="category-description">'+a.b.map(function(p){return '<p>'+chapterRefs(p)+'</p>';}).join('')+'</div>';
+      if(a.members&&a.members.length) html += '<h2 class="sec" id="sec-members"><span class="caret">⌃</span>Pages in this category</h2><div class="sec-body">'+letterList(a.members)+'</div>';
       if(!lean && a.cat&&a.cat.length) html += '<div class="wiki-cats">Categories: '+a.cat.map(function(c){return '<a class="chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join(' ')+'</div>';
     }
     articleEl.innerHTML = html;
+    if(!talk && slug==='contents') mountEncyclopediaIndex();
     if(!talk) mountCommunityExtras(slug);
     if((slug==='gallery' || a.index==='art-library') && !talk && window.mountImagesGallery) window.mountImagesGallery();
     sideEl.innerHTML = (talk || a.k==='Index' || a.k==='Category' || a.index) ? '' : sideHTML(a);
