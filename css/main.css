@@ -3507,3 +3507,9 @@ html[data-theme="dark"] .tg-mainpage-header::before{background:radial-gradient(e
 .tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg{background-image:var(--img),linear-gradient(110deg,#282226,#695f59);background-size:auto 190%,cover;background-position:78% top,center!important;background-repeat:no-repeat}
 @media(min-width:701px){.reader-promo-art{background-size:auto 110%;background-position:85% top;background-color:#211a1b}}
 @media(min-width:701px){.reader-promo-art{mask-image:linear-gradient(90deg,transparent 48%,#000 62%,#000 86%,transparent 96%);-webkit-mask-image:linear-gradient(90deg,transparent 48%,#000 62%,#000 86%,transparent 96%)}}
+/* The navigation is available during scrolling, but never covers the page top. */
+.site-header.is-at-top{transform:translateY(-130%);opacity:0;visibility:hidden;pointer-events:none}
+/* Layer the complete portrait over a softly shaded, full-bleed cover. */
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg{background:linear-gradient(90deg,rgba(19,18,20,.97),rgba(28,25,26,.88) 42%,rgba(41,37,36,.55)),var(--img) center top/cover no-repeat!important}
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg::before{background:var(--img) 78% top/auto 190% no-repeat!important;mask-image:linear-gradient(90deg,transparent 40%,#000 54%,#000 72%,transparent 88%);-webkit-mask-image:linear-gradient(90deg,transparent 40%,#000 54%,#000 72%,transparent 88%)}
+.tg-mainpage-navigation .template-navpill:has(a[href="/reader/"]) .pill-bg svg{display:none}
