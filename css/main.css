@@ -1470,13 +1470,18 @@ html[data-theme="dark"] .tg-mainpage-header{background:linear-gradient(180deg,rg
 .tg-section-divider::after{flex:1 1 auto !important;width:auto !important}
 .tg-section-divider>span{flex:none !important}
 
-/* The directory is a section of the page, not a card competing with the
-   featured row: no border, no watermark, heading on the same margin as the
-   rest. */
-.tg-card--discover{background:none !important;border:0 !important;border-radius:0 !important;
-  box-shadow:none !important}
-.tg-card--discover::before{content:none !important}
-.tg-card--discover .tg-card-content{padding:0 !important}
+/* The directory is its own contained card again. The base .tg-card rules alone
+   are not enough to make the edge visible here: surface-2 (#f6ede0) sits only
+   3 shades off the page's own surface-0 (#f9f4ee), and the shared box-shadow
+   is a 10%-opacity hint meant to read next to a busy image-card row, not
+   alone against a near-identical flat background - so this card gets its own
+   explicit, visible border and a stronger shadow instead of relying on that. */
+.tg-card--discover{margin:2rem auto 0 !important;max-width:1180px !important;
+  border:1px solid rgba(58,43,34,.18) !important;
+  box-shadow:0 22px 48px -20px rgba(20,10,5,.4) !important}
+html[data-theme="dark"] .tg-card--discover{border-color:rgba(255,255,255,.14) !important;
+  box-shadow:0 26px 54px -18px rgba(0,0,0,.65) !important}
+.tg-card--discover .tg-card-content{padding:1.6rem 1.8rem 2rem !important}
 .tg-card--discover .tg-mainpage-browse-header h2{font-size:1.35rem !important;
   letter-spacing:0.01em !important}
 .tg-card--discover .settings-link{margin-top:1rem !important}
@@ -2884,59 +2889,54 @@ html[data-theme="dark"] .tg-footer-dedication b{color:var(--tg-color-base) !impo
 html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
-/* The panel: full-bleed under the plate, carrying the cast. It used to pull up
-   underneath the plate's clipped corner so a 45deg seam could be drawn - now
-   that the chamfer is gone, the panel simply sits directly below the plate
-   with no overlap, and a plain hairline marks the join instead of a cut. */
+/* The panel: the logo itself, filled with the artwork. No full-bleed photo
+   behind it any more - the cast only shows up inside the three characters'
+   strokes (background-clip:text), everything else in the panel is plain
+   plate colour. This is the literal "mask the logo into the image" request:
+   not a photo with a logo chip floating on top of it, but the artwork
+   poured into the glyphs themselves. */
 .tg-footer-panel{position:relative !important;z-index:1 !important;
   margin-top:0 !important;background:#efe0c6 !important;overflow:hidden !important;
-  border-top:1px solid rgba(0,0,0,.12) !important}
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  display:flex !important;flex-direction:column !important;align-items:center !important;
+  justify-content:center !important;gap:0.6rem !important;
+  padding:clamp(1.8rem,5vw,3.6rem) 1.5rem !important}
 html[data-theme="dark"] .tg-footer-panel{background:#14100c !important;
   border-top-color:rgba(255,255,255,.1) !important}
 
-/* The container's aspect-ratio is set to the artwork's own intrinsic ratio
-   (3840x1923, the fuller re-export a concurrent pass brought in), not an
-   arbitrary crop box, and max-height is uncapped - so object-fit has nothing
-   to crop: the full image always shows, at any viewport width, with nothing
-   sliced off top, bottom or sides. */
-.tg-footer-art{position:relative !important;z-index:0 !important;margin:0 !important;
-  width:100% !important;aspect-ratio:3840 / 1923 !important;max-height:none !important;
-  overflow:hidden !important}
-.tg-footer-art img{display:block !important;width:100% !important;height:100% !important;
-  object-fit:contain !important;object-position:center !important}
-.tg-footer-art figcaption{position:absolute !important;z-index:3 !important;
-  left:1.5rem !important;bottom:1.4rem !important;right:auto !important;
-  margin:0 !important;padding:0.45rem 0.8rem !important;border-radius:999px !important;
-  background:rgba(16,9,6,.62) !important;
-  -webkit-backdrop-filter:blur(6px) !important;backdrop-filter:blur(6px) !important;
-  color:rgba(253,246,232,.92) !important;font-size:0.64rem !important;
-  letter-spacing:0.1em !important;text-transform:uppercase !important;text-align:left !important}
-.tg-footer-art figcaption b{font-weight:700 !important;color:#fdf6e8 !important}
+.sr-only{position:absolute !important;width:1px !important;height:1px !important;
+  padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;border:0 !important}
 
-/* Above 1024px the left nav rail is a fixed, opaque 56px-wide sidebar that
-   sits on top of everything, including this full-bleed panel - the credit
-   pill's 1.5rem inset put it almost entirely underneath that rail, hiding
-   its first few letters. Below 1024px the rail relocates to a bottom bar
-   (see the mobile rail rule) and stops intruding on the left edge, so the
-   base inset is fine there. */
-@media(min-width:1025px){
-  .tg-footer-art figcaption{left:calc(56px + 1.5rem) !important}
+/* The real logotype (the same wordmark artwork used in the header), used as a
+   mask stencil over the cast art - not a typed-out character in a display
+   font standing in for it. The alpha channel of wordmark-dark-4k.webp is the
+   mask: the artwork only shows up inside the logo's actual letterforms.
+   Width is bounded by a conservative vw-based clamp (not open-ended), and
+   height follows from the logo's own 753:333 aspect-ratio, so this cannot
+   balloon or shrink to nothing at any window width. */
+.tg-footer-masked{margin:0 !important;display:block !important;
+  width:clamp(180px,46vw,480px) !important;aspect-ratio:753 / 333 !important;
+  background-image:url("/assets/collection/art-a23818c020be2214.webp") !important;
+  background-size:220% auto !important;background-position:50% 32% !important;
+  background-repeat:no-repeat !important;background-color:#5a4938 !important;
+  -webkit-mask-image:url("/assets/wordmark-dark-4k.webp") !important;
+  mask-image:url("/assets/wordmark-dark-4k.webp") !important;
+  -webkit-mask-repeat:no-repeat !important;mask-repeat:no-repeat !important;
+  -webkit-mask-size:contain !important;mask-size:contain !important;
+  -webkit-mask-position:center !important;mask-position:center !important}
+html[data-theme="dark"] .tg-footer-masked{background-color:#3a2e24 !important}
+
+.tg-footer-masked-credit{display:block !important;font-size:0.66rem !important;
+  letter-spacing:0.1em !important;text-transform:uppercase !important;
+  color:#6b5a4c !important;text-align:center !important}
+.tg-footer-masked-credit b{font-weight:700 !important;color:#3a2b22 !important}
+html[data-theme="dark"] .tg-footer-masked-credit{color:var(--tg-color-subtle) !important}
+html[data-theme="dark"] .tg-footer-masked-credit b{color:var(--tg-color-base) !important}
+
+@media(max-width:480px){
+  .tg-footer-masked{background-size:280% auto !important}
 }
-
-/* our two characters, low in the corner, where the reference signs off */
-/* The two characters, in a pill like the credit opposite it. Cream type on
-   cream artwork is invisible however large it is, so it gets its own ground -
-   which also mirrors the reference's logo mark sitting in the corner. */
-.tg-footer-mark{position:absolute !important;z-index:3 !important;
-  right:1.5rem !important;bottom:1.4rem !important;
-  display:inline-flex !important;align-items:center !important;
-  padding:0.3rem 0.7rem 0.42rem !important;border-radius:999px !important;
-  background:rgba(16,9,6,.62) !important;
-  -webkit-backdrop-filter:blur(6px) !important;backdrop-filter:blur(6px) !important;
-  font-family:"Grenze Gotisch",serif !important;font-size:1.05rem !important;
-  line-height:1 !important;letter-spacing:0.14em !important;
-  color:rgba(253,246,232,.92) !important;
-  pointer-events:none !important;user-select:none !important}
 
 @media(max-width:900px){
   .tg-footer .inner{padding:2.2rem 1.5rem 1.8rem !important}
@@ -2960,11 +2960,7 @@ html[data-theme="dark"] .tg-footer-panel{background:#14100c !important;
     flex-direction:column !important;align-items:flex-start !important;font-size:0.63rem !important}
   .tg-footer-dedication{white-space:normal !important;flex:none !important;
     align-self:stretch !important}
-  .tg-footer-panel{padding-bottom:calc(8px + env(safe-area-inset-bottom,0px)) !important}
-  .tg-footer-art figcaption{left:0.9rem !important;bottom:0.85rem !important;
-    font-size:0.6rem !important;padding:0.4rem 0.65rem !important}
-  .tg-footer-mark{right:0.9rem !important;bottom:0.85rem !important;
-    font-size:0.95rem !important;padding:0.28rem 0.55rem 0.38rem !important}
+  .tg-footer-panel{padding-bottom:calc(1.8rem + env(safe-area-inset-bottom,0px)) !important}
 }
 
 /* Light is paper and red; the shared gold accents remain for the dark theme. */

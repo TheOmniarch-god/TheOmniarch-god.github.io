@@ -15,7 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/main.css?v=27cefc5d23">
+<link rel="stylesheet" href="/css/main.css?v=ecbc15dd57">
+
 <link rel="canonical" href="https://www.reverendinsanity.com.ng/wiki/chapter-1"></head>
 <body>
 <a class="skip-link" href="#main-view">Skip to content</a>
@@ -439,9 +440,9 @@
   <div class="tg-footer-plate">
     <div class="inner">
       <div class="tg-footer-top">
-        <a class="tg-footer-brandmark" href="/">
-          <span class="tg-footer-brand-han" aria-hidden="true">蛊真人</span>
-          <span class="tg-footer-brand-lat">Gu Zhen Ren</span>
+        <a class="tg-footer-brandmark" href="/" aria-label="Gu Zhen Ren Encyclopedia">
+          <img class="tg-footer-brandmark-img logo-light" src="/assets/wordmark-light-4k.webp" alt="Gu Zhen Ren">
+          <img class="tg-footer-brandmark-img logo-dark" src="/assets/wordmark-dark-4k.webp" alt="Gu Zhen Ren">
         </a>
         <div class="tg-footer-actions">
           <a class="tg-footer-pill is-ghost" href="/wiki/contents">The Encyclopedia</a>
@@ -481,19 +482,14 @@
       </div>
     </div>
   </div>
-  <!-- Below the plate: the whole cast, full-bleed. The plate's cream edge steps
-       down into it at 45deg on the right - the Evmos footer's device, in our own
-       material. The dark scrim at the top of the artwork is what gives that
-       chamfer something to cut against; without it a cream plate on a pale
-       ground has no seam at all. The cast image is credited to 瑞光Pro by the collection owner. -->
+  <!-- Below the plate: the logo itself, not the image, is the panel - the cast
+       artwork is masked into the three characters' strokes (background-clip:text)
+       instead of running full-bleed behind them. The glyphs are the only place
+       the art shows at all. -->
   <div class="tg-footer-panel">
-    <figure class="tg-footer-art">
-      <img src="/assets/collection/art-a23818c020be2214.webp"
-           alt="Fang Yuan and an ensemble of Reverend Insanity characters and creatures."
-           width="3840" height="1923" loading="lazy" decoding="async">
-      <figcaption>Main Casts — art by <b>瑞光Pro</b></figcaption>
-    </figure>
-    <span class="tg-footer-mark" aria-hidden="true">蛊真人</span>
+    <div class="tg-footer-masked" role="img" aria-label="Gu Zhen Ren"></div>
+    <span class="sr-only">Fang Yuan and an ensemble of Reverend Insanity characters and creatures, masked into the Gu Zhen Ren logotype.</span>
+    <span class="tg-footer-masked-credit">Main Casts — art by <b>瑞光Pro</b></span>
   </div>
 </footer>
 
