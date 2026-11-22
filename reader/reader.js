@@ -23,7 +23,15 @@
   $('reader-library').hidden=!isLibrary; $('chapter-layout').hidden=isLibrary;
   var number=/^\d+$/.test(raw||'')?Number(raw):1;
   var preface=window.READER_PREFACE;
+  // Legacy query links still open the same chapter, but replace the address so
+  // future visits and copies use one clean URL without adding a history entry.
+  if(!pathMatch && !isPreface && raw!==null && /^\d+$/.test(raw) && chapters.some(function(c){return c.number===number;})){
+    var params=new URLSearchParams(location.search);params.delete('chapter');
+    history.replaceState(history.state,'','/reader/chapter-'+number+'/'+(params.toString()?'?'+params.toString():'')+location.hash);
+  }
   var chapter=isPreface ? (preface || {title:'Either Towards Success or Towards Destruction',paragraphs:[{html:'The preface could not be loaded. <a href="https://ri.theomniarch.com.ng/preface">Read it on the original reader</a>.'}]}) : (chapters.find(function(c){return c.number===number;})||chapters[0]);
+  var canonical=document.querySelector('link[rel="canonical"]');
+  if(canonical && !isLibrary) canonical.href=location.origin+(isPreface?'/reader/preface/':'/reader/chapter-'+chapter.number+'/');
   var progressId=isPreface?'preface':chapter.number;
   var index=chapters.indexOf(chapter),words=['ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN'];
   function pad(n){return String(n).padStart(2,'0');}

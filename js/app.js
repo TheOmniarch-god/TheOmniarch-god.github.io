@@ -421,7 +421,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         'Gu Zhen Ren (蛊真人), widely known in English as Reverend Insanity, is a xianxia novel by the author Gu Zhen Ren. It follows Fang Yuan through a world shaped by Gu, cultivation, ambition and consequence. The encyclopedia follows the literary translation published by The Omniarch Translations, using its terminology and its published progress as the foundation for story coverage.',
         'Translation is an act of interpretation as well as language. Names and terms may differ from those used by other translations. Skyfarrow and ChibiGeneral helped introduce the novel to English readers through the early translation; their contribution is part of the wider community’s history.'
       ]],
-      ['explore','What you can explore',[
+      ['explore-encyclopedia','What you can explore',[
         'The encyclopedia connects character profiles, Gu, cultivation, clans, locations, the Glossary and other guides through a searchable, browsable structure. Chapter and volume guides offer a companion to reading: they gather context and connections without replacing the prose itself.',
         'The Reader presents the published translation with adjustable typography, appearance and reading preferences. The Author’s Preface has its own reading page, distinct from its encyclopedia summary. The gallery brings together artwork and artists, while the community pages point toward conversations, adaptations and independent creative projects.'
       ]],
@@ -476,7 +476,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     crumbEl.textContent = (talk?'Talk · ':'')+((a.k && a.k!=='Category') ? a.k+' · '+a.t : a.t);
     var html='';
     if(!talk && (slug==='about' || slug==='privacy')){
-      articleEl.innerHTML=informationHTML(slug);sideEl.innerHTML='';retrievedEl.innerHTML='';return true;
+      articleEl.innerHTML=informationHTML(slug);sideEl.innerHTML='';retrievedEl.innerHTML='';updateInformationNavigation();return true;
     }
     if(talk){ html = talkHTML(a,slug); }
     else{
@@ -517,7 +517,6 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       if(!lean && a.see&&a.see.length) html += '<h2 class="sec" id="sec-see"><span class="caret">⌃</span>See also</h2><div class="sec-body"><ul class="index-list">'+a.see.filter(function(x){return A[x];}).map(function(x){return '<li>'+link(x)+'</li>';}).join('')+'</ul></div>';
       if(a.k==='Category' && a.b&&a.b.length) html += '<div class="category-description">'+a.b.map(function(p){return '<p>'+chapterRefs(p)+'</p>';}).join('')+'</div>';
       if(a.members&&a.members.length) html += '<h2 class="sec" id="sec-members"><span class="caret">⌃</span>Pages in this category</h2><div class="sec-body">'+letterList(a.members)+'</div>';
-      if(!lean && a.cat&&a.cat.length) html += '<div class="wiki-cats">Categories: '+a.cat.map(function(c){return '<a class="chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join(' ')+'</div>';
     }
     articleEl.innerHTML = html;
     if(!talk && slug==='contents') mountEncyclopediaIndex();
@@ -527,6 +526,24 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     retrievedEl.innerHTML = (a.cat&&a.cat.length ? '<div class="pf-h">Categories</div><div class="pf-chips">'+a.cat.map(function(c){return '<a class="pf-chip" href="/wiki/'+catKey(c)+'">'+esc(c)+'</a>';}).join('')+'</div>' : '')+'<div class="pf-cols"><div><div class="pf-h">About this project</div><div>Novel and artwork rights belong to their respective holders.</div></div></div>';
     return true;
   }
+
+  // Track the section at the reading line without changing focus or the URL.
+  function updateInformationNavigation(){
+    var page=articleEl.querySelector('.info-page');
+    if(!page || wikiView.hidden) return;
+    var sections=Array.from(page.querySelectorAll('.info-content section[id]'));
+    var links=page.querySelectorAll('.info-toc a');
+    if(!sections.length)return;
+    var line=Math.max(100,window.innerHeight*.28),current=sections[0];
+    sections.forEach(function(section){if(section.getBoundingClientRect().top<=line)current=section;});
+    if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2)current=sections[sections.length-1];
+    links.forEach(function(link){if(link.getAttribute('href')==='#'+current.id)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+  }
+  var infoScrollPending=false;
+  function requestInformationNavigation(){if(infoScrollPending)return;infoScrollPending=true;requestAnimationFrame(function(){infoScrollPending=false;updateInformationNavigation();});}
+  window.addEventListener('scroll',requestInformationNavigation,{passive:true});
+  window.addEventListener('resize',requestInformationNavigation,{passive:true});
+  window.addEventListener('route',requestInformationNavigation);
 
   // Report success only after the clipboard operation succeeds; offer a manual fallback.
   function shareLink(url,label,status){

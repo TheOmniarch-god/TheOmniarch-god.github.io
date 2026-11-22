@@ -145,7 +145,7 @@
   var home=document.getElementById('main-view'),wiki=document.getElementById('wiki-view'),header=document.querySelector('.site-header');
   if(!home||!wiki||!header)return;
   var media=window.matchMedia('(prefers-reduced-motion: reduce)'),pending=false,lastY=window.scrollY;
-  var moments=home.querySelectorAll('.editorial-heading,.home-visual-shelf,.home-chapter-guide');
+  var moments=home.querySelectorAll('.tg-mainpage-header,.editorial-heading,.home-visual-shelf,.home-chapter-guide');
   function paint(){
     pending=false;var onHome=!home.hidden;document.body.classList.toggle('home-glow-active',onHome);
     if(onHome){
