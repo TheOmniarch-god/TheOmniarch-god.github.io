@@ -2894,34 +2894,36 @@ html[data-theme="dark"] .tg-footer-dedication b{color:var(--tg-color-base) !impo
 html[data-theme="dark"] .tg-footer-progress .n{color:#b8862a !important}
 .tg-footer-dedication,.tg-footer-progress,.tg-footer-copy{font-style:normal !important}
 
-/* The panel: a soft-focus, full-colour rendition of the cast art - blurred,
-   not dimmed. A dark/plate scrim flattened the art back into a near-solid
-   colour; a wide, saturated blur keeps the full hue and energy of the
-   illustration readable as atmosphere while naturally getting out of the
-   way of the credit line, the same "mask + blur" pairing used for text-over-
-   image reveals (see VANA's Image & Text Mask element on Awwwards). A faint
-   warm overlay (blend:overlay, not a flat scrim) ties its colours to the
-   site's own gold/garnet palette. The masked logo sits on top at full sharp
-   strength with its own drop-shadow, so it reads as a crisp window of colour
-   lifted off a quiet, glowing field rather than competing with a sharp photo
-   or vanishing into a flat plate. */
+/* The panel: the cast art runs behind the whole strip fully sharp and at
+   full tonal range (no blur, no darkening scrim) but remapped into a true
+   two-colour duotone of the site's own garnet and gold - every value in the
+   illustration survives, it is just recoloured from its photographic range
+   onto a single brand gradient (deep garnet in the shadows, pale gold in the
+   highlights for light mode; near-black to brand gold for dark mode). The
+   duotone is baked into the image itself at build time (assets/inline/
+   footer-duotone-light.webp / -dark.webp, generated once from the source
+   art - see scripts note in the repo history) rather than applied as a live
+   CSS/SVG filter: large background images run through a runtime filter get
+   rasterised by the browser at a reduced internal resolution in several
+   engines, which reads as unwanted softening/blur even with no blur
+   primitive in the filter chain. Baking the recolour into a real file keeps
+   every brushstroke pixel-sharp with zero runtime filter cost. The masked
+   logo sits on top at its own full, un-recoloured strength, so it reads as
+   the one bright "window" of true colour against the duotone field, lifted
+   further by its own drop-shadow. */
 .tg-footer-panel{position:relative !important;z-index:1 !important;
-  margin-top:0 !important;background-color:#2a2015 !important;overflow:hidden !important;
+  margin-top:0 !important;background-color:#6d1416 !important;overflow:hidden !important;
   border-top:1px solid rgba(0,0,0,.12) !important;
   display:flex !important;flex-direction:column !important;align-items:center !important;
   justify-content:center !important;gap:0.6rem !important;
   padding:clamp(1.8rem,5vw,3.6rem) 1.5rem !important}
-html[data-theme="dark"] .tg-footer-panel{background-color:#0c0a08 !important;
+html[data-theme="dark"] .tg-footer-panel{background-color:#0c0604 !important;
   border-top-color:rgba(255,255,255,.1) !important}
-.tg-footer-panel::before{content:"" !important;position:absolute !important;inset:-10% !important;
+.tg-footer-panel::before{content:"" !important;position:absolute !important;inset:0 !important;
   z-index:0 !important;pointer-events:none !important;
-  background-image:url("/assets/collection/art-a23818c020be2214.webp") !important;
-  background-size:cover !important;background-position:center 28% !important;background-repeat:no-repeat !important;
-  filter:blur(34px) saturate(1.25) brightness(1.02) !important;transform:scale(1.08) !important}
-html[data-theme="dark"] .tg-footer-panel::before{filter:blur(34px) saturate(1.1) brightness(.6) !important}
-.tg-footer-panel::after{content:"" !important;position:absolute !important;inset:0 !important;
-  z-index:0 !important;pointer-events:none !important;mix-blend-mode:overlay !important;
-  background:linear-gradient(135deg,rgba(142,38,34,.22),rgba(226,172,78,.16)) !important}
+  background-image:url("/assets/inline/footer-duotone-light.webp") !important;
+  background-size:cover !important;background-position:center 28% !important;background-repeat:no-repeat !important}
+html[data-theme="dark"] .tg-footer-panel::before{background-image:url("/assets/inline/footer-duotone-dark.webp") !important}
 
 .sr-only{position:absolute !important;width:1px !important;height:1px !important;
   padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0,0,0,0) !important;
