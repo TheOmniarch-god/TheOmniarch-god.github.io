@@ -3216,3 +3216,21 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 @media(max-width:700px){.community-tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}}
 @media(max-width:480px){.community-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.community-tile strong{font-size:.8rem}}
 @media(prefers-reduced-motion:reduce){.community-tile-art{transition:none}.community-tile:hover .community-tile-art{transform:none}}
+
+/* Community pages: visual identities and project shelves. */
+.community-brand.community-webnovel,.community-brand.community-reddit{background:#fff}
+.community-brand.community-webnovel img{object-fit:contain;padding:7%}
+.community-brand.community-reddit img{object-fit:contain;padding:13%;background:#ff4500}
+.community-brand.community-omniarch{background:#0b0b0d}
+.community-brand.community-omniarch img{object-fit:contain}
+.community-brand.community-saga-of-gu img{object-fit:contain;padding:18%;background:#20241c}
+.community-tile-art.community-art-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:2px}
+.community-art-grid img{width:100%;height:100%;min-width:0;min-height:0;object-fit:cover}
+.community-profile{margin:1.5rem 0 3rem}.community-back{display:inline-block;font-size:.75rem;font-weight:600;margin:0 0 1rem}
+.community-profile-head{display:flex;align-items:center;justify-content:space-between;gap:2rem;border:1px solid var(--tg-border-color-base);border-radius:22px;background:var(--tg-color-surface-2);padding:clamp(1.25rem,4vw,2.5rem)}
+.community-profile-copy{min-width:0}.community-profile-copy small{color:var(--tg-color-link);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.community-profile-copy h2{font:700 clamp(2rem,4vw,3.3rem)/1 'Cormorant Garamond',Georgia,serif;margin:.5rem 0}.community-profile-copy p{color:var(--tg-color-subtle);font-size:.85rem;line-height:1.6;margin:.8rem 0}
+.community-profile-head>img{display:block;flex:none;width:clamp(120px,24%,220px);aspect-ratio:1;object-fit:cover;border-radius:24%;background:var(--tg-color-surface-1);box-shadow:0 10px 30px #0003}.community-profile-links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.community-profile-links a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .85rem;border:1px solid var(--tg-border-color-base);border-radius:12px;background:var(--tg-color-surface-1);font-size:.72rem;font-weight:700;text-decoration:none}.community-profile-links a:hover{border-color:var(--tg-color-link)}
+.community-project-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.1rem}.community-project{text-decoration:none!important;min-width:0;color:var(--tg-color-base)}.community-project-image{display:block;overflow:hidden;aspect-ratio:3/4;background:var(--tg-color-surface-2);border:1px solid var(--tg-border-color-base);border-radius:18px}.community-project-image img{width:100%;height:100%;object-fit:cover;transition:transform .2s}.community-project:hover img{transform:scale(1.04)}.community-project small,.community-project strong,.community-project>span:not(.community-project-image){display:block}.community-project small{color:var(--tg-color-link);font-size:.61rem;font-weight:700;letter-spacing:.08em;margin:.7rem 0 .3rem}.community-project strong{font-size:.9rem;line-height:1.35}.community-project>span:not(.community-project-image){color:var(--tg-color-subtle);font-size:.65rem;margin-top:.25rem}
+@media(max-width:700px){.community-project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:480px){.community-profile-head{flex-direction:column-reverse;align-items:flex-start}.community-profile-head>img{width:130px}.community-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.community-project-image img{transition:none}}

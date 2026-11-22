@@ -104,6 +104,27 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       ib:[['Pages', String(mem.length)], ['Name', c]], members: mem, see: [], cat: [] };
   });
 
+  // Community profiles are registered before export so each has a real, shareable route.
+  var COMMUNITY_PROFILES = {
+    'community-webnovel': {title:'Webnovel', type:'Books & comics', image:'/assets/community/webnovel-logo.png', site:'https://www.webnovel.com/', description:'Read Reverend Insanity on Webnovel.', projects:[
+      {title:'Reverend Insanity', type:'COMIC · RANHUI CULTURE', image:'https://book-pic.webnovel.com/bookcover/16914029906866101?imageMogr2/thumbnail/600&imageId=1589359237640', url:'https://www.webnovel.com/comic/reverend-insanity_16914029906866101'},
+      {title:'Reverend Insanity', type:'ENGLISH NOVEL', image:'/assets/inline/ri-cover.jpg', url:'https://www.webnovel.com/book/7996858406002505/'},
+      {title:'Reverend Insanity', type:'GERMAN EDITION', image:'/assets/inline/ri-cover.jpg', url:'https://en.webnovel.com/book/31307176808182105'}]},
+    'community-omniarch': {title:'The Omniarch', type:'Archive & projects', image:'/assets/inline/omniarch-logo-gold.webp', site:'https://theomniarch.com.ng/', description:'A personal archive for fiction, translation and creative projects.', projects:[
+      {title:'The Omniarch', type:'PERSONAL WEBSITE', image:'/assets/inline/omniarch-spotlight.webp', url:'https://theomniarch.com.ng/'},
+      {title:'Reverend Insanity', type:'TRANSLATION READER', image:'/assets/inline/ri-cover.jpg', url:'https://ri.theomniarch.com.ng/'},
+      {title:'The Legends of Ren Zu', type:'COMPANION READER', image:'/assets/inline/art-the-legends-of-ren-zu.webp', url:'https://thelegendsofrenzu.theomniarch.com.ng/', credit:'Artwork: Kodoku Studio'},
+      {title:'Fan-Made Donghua', type:'VIDEO · 纵横AIGC', image:'https://i.ytimg.com/vi/e8SkqCzoqDs/maxresdefault.jpg', url:'https://www.youtube.com/watch?v=e8SkqCzoqDs'}], socials:[['YouTube','https://www.youtube.com/@GodofPeakFiction'],['Discord','https://discord.gg/UgwTKn4sQf']]},
+    'community-kodoku': {title:'Kodoku Studio', type:'Fan manhua', image:'/assets/collection/art-5c74a5ce3b04e09d.webp', site:'https://kodokustudio.com/manhua/reverend-insanity-manhwa-en/', description:'A fan-led Reverend Insanity adaptation.', projects:[{title:'Reverend Insanity', type:'FAN MANHUA', image:'/assets/collection/art-5c74a5ce3b04e09d.webp', url:'https://kodokustudio.com/manhua/reverend-insanity-manhwa-en/',credit:'Artwork: Kodoku Studio'}]},
+    'community-reddit': {title:'Reddit', type:'Discussion', image:'/assets/community/reddit-logo.png', site:'https://www.reddit.com/r/ReverendInsanity/', description:'Community discussion and fan creations.', projects:[{title:'r/ReverendInsanity', type:'COMMUNITY', image:'/assets/community/reddit-logo.png', url:'https://www.reddit.com/r/ReverendInsanity/'},{title:'The manhua discussion', type:'READER DISCUSSION', image:'/assets/inline/art-the-legends-of-ren-zu.webp', url:'https://www.reddit.com/r/ReverendInsanity/comments/1qmw2bv/what_do_you_think_of_the_new_ri_manhua_so_far/',credit:'Artwork: Kodoku Studio'}]},
+    'community-infinite-aperture': {title:'Infinite Aperture', type:'Fan game', image:'https://i.ytimg.com/vi/lSFNtn0N0_s/hqdefault.jpg', site:'https://discord.com/channels/1542846232815341569/1549502947027583046', description:'A Roblox fan project in development.', projects:[{title:'Infinite Aperture', type:'GAME PREVIEW · DOSTOEVSKY, FYODOR', image:'https://i.ytimg.com/vi/lSFNtn0N0_s/hqdefault.jpg', url:'https://www.youtube.com/watch?v=lSFNtn0N0_s'}],socials:[['Discord channel','https://discord.com/channels/1542846232815341569/1549502947027583046'],['TikTok','https://www.tiktok.com/@infiniteaperturee']]},
+    'community-saga-of-gu': {title:'Saga of Gu', type:'Companion wiki', image:'/assets/inline/saga-of-gu.svg', site:'https://sagaofgu.com', description:'A companion wiki for the Gu world.', projects:[{title:'Saga of Gu', type:'WIKI', image:'/assets/inline/saga-of-gu.svg', url:'https://sagaofgu.com'}],socials:[['Discord channel','https://discord.com/channels/1533739700941095036/1564533989736456244']]},
+    'community-gu-art': {title:'Gu Zhen Ren Art', type:'Art community', image:'/assets/inline/art-gu-zhen-ren.webp', site:'https://discord.com/channels/1408047207575453796/1408076789582135307', description:'A community for Gu Zhen Ren art.', projects:[{title:'Gu Zhen Ren Art', type:'DISCORD CHANNEL', image:'/assets/inline/art-gu-zhen-ren.webp', url:'https://discord.com/channels/1408047207575453796/1408076789582135307',credit:'Artwork: mc人祖'}]},
+    'community-readers-discord': {title:'Readers’ Discord', type:'Community', image:'/assets/inline/discord-heaven.webp', site:'https://discord.gg/UgwTKn4sQf', description:'A gathering place for readers.', projects:[{title:'Readers’ Discord', type:'COMMUNITY', image:'/assets/inline/discord-heaven.webp', url:'https://discord.gg/UgwTKn4sQf'}],socials:[['YouTube','https://www.youtube.com/@Oudenarch']]},
+    'community-immortal-gu-land': {title:'Immortal Gu Land', type:'Translation community', image:'/assets/inline/art-spring-autumn-cicada.webp', site:'https://discord.com/channels/344030613663252481/390202548121894912', description:'Skyfarrow and ChibiGeneral contributed to the early English translation.', projects:[{title:'Reverend Insanity', type:'ZELSKY TRANSLATIONS', image:'/assets/inline/ri-cover.jpg', url:'https://zelskytranslations.wordpress.com/novels/reverend-insanity/'}],socials:[['Discord channel','https://discord.com/channels/344030613663252481/390202548121894912']]}
+  };
+  Object.keys(COMMUNITY_PROFILES).forEach(function(slug){var p=COMMUNITY_PROFILES[slug];A[slug]={t:p.title,k:'Index',index:'community-profile',b:[p.description],ib:[],see:['community'],cat:[]};});
+
   /* ---- growth counters on the main page ---- */
   var typeset = S.chapters.length;
   var stats = document.getElementById('browse-stats');
@@ -225,30 +246,20 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   /* Community Hub, modelled on a wiki community portal: the portal rail first,
      then a short welcome, then the ways to get involved. Channel handles are the
      ones the community shares; the Discord invite matches the Talk banner. */
+  function communityTile(slug){var p=COMMUNITY_PROFILES[slug];return '<a class="community-tile" href="/wiki/'+slug+'/"><span class="community-tile-art community-brand '+esc(slug)+'"><img src="'+esc(p.image)+'" alt="" loading="lazy"></span><strong>'+esc(p.title)+'</strong><small>'+esc(p.type)+' →</small></a>';}
   function renderCommunityPortal(slug,a){
-    function direct(title,kind,url,visual){
-      return '<a class="community-tile" href="'+url+'" target="_blank" rel="noopener noreferrer"><span class="community-tile-art">'+visual+'</span><strong>'+esc(title)+'</strong><small>'+esc(kind)+' ↗</small></a>';
-    }
-    function expandable(title,kind,visual,links,note){
-      return '<details class="community-tile community-tile-expand"><summary><span class="community-tile-art">'+visual+'</span><strong>'+esc(title)+'</strong><small>'+esc(kind)+' · Open +</small></summary><div class="community-tile-details">'+(note?'<p>'+esc(note)+'</p>':'')+links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener noreferrer">'+esc(l[0])+' ↗</a>';}).join('')+'</div></details>';
-    }
-    var letter=function(text){return '<span class="community-monogram" aria-hidden="true">'+text+'</span>';};
-    var image=function(src,alt){return '<img src="'+src+'" alt="'+esc(alt)+'" loading="lazy">';};
-    return portalTabs(slug)
-      + '<section class="community-hub" aria-labelledby="community-directory-title"><div class="community-hub-heading"><span>EXPLORE TOGETHER</span><h2 id="community-directory-title">Community Hub</h2><p>Readers, creators and communities.</p></div>'
-      + '<h3 class="community-hub-label">Featured destinations</h3><div class="community-tiles">'
-      + direct('Webnovel','Novel','https://www.webnovel.com/book/7996858406002505/',image('/assets/inline/ri-cover.jpg','Reverend Insanity cover'))
-      + direct('Kodoku Studio','Fan manhua','https://kodokustudio.com/manhua/reverend-insanity-manhwa-en/',image('/assets/collection/art-5c74a5ce3b04e09d.webp','Cover artwork by Kodoku Studio'))
-      + direct('Translation website','Reader','https://ri.theomniarch.com.ng/',image('/assets/inline/tile-volume-1.webp','Illustration; artist uncredited'))
-      + direct('Reddit','Discussion','https://www.reddit.com/r/ReverendInsanity/',letter('r/'))
-      + '</div><div class="community-quicklinks"><strong>Webnovel</strong><a href="https://www.webnovel.com/book/7996858406002505/" target="_blank" rel="noopener noreferrer">Novel ↗</a><a href="https://www.webnovel.com/comic/16914029906866101" target="_blank" rel="noopener noreferrer">Comic by Ranhui Culture ↗</a><a href="https://en.webnovel.com/book/31307176808182105" target="_blank" rel="noopener noreferrer">German edition ↗</a></div>'
-      + '<h3 class="community-hub-label">Communities</h3><p class="community-hub-note">Select a card to see its links. Discord channels require server access; external spaces may contain spoilers.</p><div class="community-tiles">'
-      + expandable('Infinite Aperture','Fan game',letter('∞'),[['Discord channel','https://discord.com/channels/1542846232815341569/1549502947027583046'],['TikTok','https://www.tiktok.com/@infiniteaperturee']],'Roblox fan project in development.')
-      + expandable('Saga of Gu','Companion wiki',image('/assets/inline/saga-of-gu.svg','Saga of Gu emblem'),[['Website','https://sagaofgu.com'],['Discord channel','https://discord.com/channels/1533739700941095036/1564533989736456244']],'')
-      + expandable('Gu Zhen Ren Art','Art community',letter('蛊'),[['Discord channel','https://discord.com/channels/1408047207575453796/1408076789582135307']],'')
-      + expandable('Immortal Gu Land','Translation community',letter('IG'),[['Discord channel','https://discord.com/channels/344030613663252481/390202548121894912'],['Zelsky Translations: Reverend Insanity','https://zelskytranslations.wordpress.com/novels/reverend-insanity/']],'Skyfarrow and ChibiGeneral contributed to the early English translation.')
-      + expandable('Readers’ Discord','Community',image('/assets/inline/discord-heaven.webp','Readers’ Discord artwork'),[['Join Discord','https://discord.gg/UgwTKn4sQf'],['YouTube','https://www.youtube.com/@Oudenarch']],'')
-      + '</div><h3 class="community-hub-label">Artists</h3><div class="community-tiles"><a class="community-tile" href="/wiki/gallery-artists/"><span class="community-tile-art">'+image('/assets/inline/art-gu-zhen-ren.webp','Illustration by mc人祖')+'</span><strong>Explore artists</strong><small>Artwork gallery →</small></a></div><p class="community-hub-note">Artwork: Kodoku Studio; mc人祖; other illustration uncredited. Independent communities and external links are not endorsements.</p></section>';
+    var artists=['limitless','footless-bird','volume-one-duel','ordinary-abyss'];
+    return portalTabs(slug)+'<section class="community-hub"><h2 class="community-hub-label">Featured</h2><div class="community-tiles">'
+      + ['community-webnovel','community-omniarch','community-kodoku','community-reddit'].map(communityTile).join('')
+      + '</div><h2 class="community-hub-label">Communities</h2><div class="community-tiles">'
+      + ['community-infinite-aperture','community-saga-of-gu','community-gu-art','community-immortal-gu-land','community-readers-discord'].map(communityTile).join('')
+      + '</div><h2 class="community-hub-label">Artists</h2><div class="community-tiles"><a class="community-tile" href="/wiki/gallery-artists/"><span class="community-tile-art community-art-grid">'
+      + artists.map(function(id){return '<img src="/assets/collection/'+id+'.webp" alt="" loading="lazy">';}).join('')+'</span><strong>Featured artists</strong><small>Explore all artists →</small></a></div><p class="community-hub-note">Artist artwork: 轮回画室丶不修, OSOT, TOUZI and Ullasseu. External spaces may contain spoilers; Discord channels require access.</p></section>';
+  }
+  function renderCommunityProfile(slug){
+    var p=COMMUNITY_PROFILES[slug];
+    var links=[['Visit website',p.site]].concat(p.socials||[]);
+    return portalTabs('community')+'<section class="community-profile"><a class="community-back" href="/wiki/community/">← Community Hub</a><div class="community-profile-head"><div class="community-profile-copy"><small>'+esc(p.type)+'</small><h2>'+esc(p.title)+'</h2><p>'+esc(p.description)+'</p><div class="community-profile-links">'+links.map(function(l){return '<a href="'+esc(l[1])+'" target="_blank" rel="noopener noreferrer">'+esc(l[0])+' ↗</a>';}).join('')+'</div></div><img src="'+esc(p.image)+'" alt="'+esc(p.title)+'" loading="lazy"></div><h3 class="community-hub-label">Explore</h3><div class="community-project-grid">'+p.projects.map(function(item){return '<a class="community-project" href="'+esc(item.url)+'" target="_blank" rel="noopener noreferrer"><span class="community-project-image"><img src="'+esc(item.image)+'" alt="" loading="lazy"></span><small>'+esc(item.type)+'</small><strong>'+esc(item.title)+'</strong>'+(item.credit?'<span>'+esc(item.credit)+'</span>':'')+'</a>';}).join('')+'</div><p class="community-hub-note">External links may contain spoilers. Discord channels require server access.</p></section>';
   }
 
   function portalHTML(slug,a){
@@ -338,6 +349,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
         if(!lean && a.ib&&a.ib.length) html += '<h2 class="sec" id="sec-details"><span class="caret">⌃</span>Details</h2><div class="sec-body"><table class="wiki-table">'+a.ib.map(function(r){return '<tr><th>'+esc(r[0])+'</th><td>'+esc(r[1])+'</td></tr>';}).join('')+'</table></div>';
       }
       if(a.index && slug==='community') html += renderCommunityPortal(slug,a);
+      else if(a.index==='community-profile') html += renderCommunityProfile(slug);
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(!lean && window.renderArticleArtLinks) html += window.renderArticleArtLinks(a);
