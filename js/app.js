@@ -293,7 +293,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       fetch('https://www.reddit.com/r/ReverendInsanity/top.json?t='+period+'&limit=15',{credentials:'omit'}).then(function(r){if(!r.ok)throw Error('Reddit unavailable');return r.json();}).then(function(data){var posts=data.data.children.map(function(c){return c.data;}).filter(function(p){return !p.over_18 && typeof p.title==='string' && /^\/r\/ReverendInsanity\/comments\/[a-z0-9]+\//i.test(p.permalink);}).slice(0,5).map(function(p){return {title:p.title,permalink:p.permalink,score:p.score};});if(!posts.length)throw Error('No posts');var stamp=Date.now();try{localStorage.setItem(key,JSON.stringify({stamp:stamp,posts:posts}));}catch(e){}show(posts,stamp);}).catch(fail);
     });
   }
-  function chapterRefs(text){return esc(text).replace(/\b(Chapter|Chp\.?|Ch\.)\s*(\d+)\b/gi,function(match,kind,num){return S.chapters.some(function(c){return c.n===Number(num);})?'<a class="chapter-reference" href="/reader/chapter-'+Number(num)+'/">'+match+'</a>':match;});}
+  function chapterRefs(text){return esc(text).replace(/\b(Chapter|Chp\.?|Ch\.)\s*(\d+)\b/gi,function(match,kind,num){return S.chapters.some(function(c){return c.n===Number(num);})?'<a class="chapter-reference" href="/reader/chapter-'+Number(num)+'/">'+match+'</a>':match;}).replace(/\(Preface\)/g,'(<a class="chapter-reference" href="/reader/preface/">Preface</a>)');}
   // The main index is a curated door into the story, not a gallery-file dump.
   function encyclopediaIndex(){
     var subjects=[
@@ -424,8 +424,9 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     }
     if(talk){ html = talkHTML(a,slug); }
     else{
+      if(slug==='authors-preface') html += '<p class="read-cta"><a href="/reader/preface/">Read the complete Author’s Preface →</a></p>';
       if(/^chapter-\d+$/.test(slug)) html += '<p class="read-cta"><a href="/reader/chapter-'+slug.slice(8)+'/">Read '+esc(a.t.split(":")[0])+' in the reading room →</a></p>';
-      if(slug==='chapters') html += '<p class="read-cta"><a href="/reader/chapter-1/">Begin reading in the reading room →</a></p>';
+      if(slug==='chapters') html += '<p class="read-cta"><a href="/reader/preface/">Read the Author’s Preface →</a> &nbsp; <a href="/reader/chapter-1/">Begin Chapter 1 →</a></p>';
       var lean = a.k==='Index' || a.k==='Category' || a.index;
       var isArt = a.k!=='Index' && a.k!=='Category';
       if(isArt){
