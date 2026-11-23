@@ -69,6 +69,7 @@
     var savedChapter=chapters.find(function(c){return c.number===savedProgress.chapter;});
     if(savedChapter || savedProgress.chapter==='preface'){var resume=$('library-resume');resume.href=savedChapter?chapterUrl(savedChapter.number):'/reader/preface/';resume.textContent=savedChapter?'Continue chapter '+savedChapter.number+' →':'Continue the preface →';resume.hidden=false;}
     function selectLibrary(guide){$('library-chapters').hidden=guide;$('library-guide').hidden=!guide;$('show-chapters').setAttribute('aria-pressed',String(!guide));$('show-guide').setAttribute('aria-pressed',String(guide));}
+    $('volume-read').addEventListener('click',function(){selectLibrary(false);});
     $('show-chapters').addEventListener('click',function(){selectLibrary(false);});$('show-guide').addEventListener('click',function(){selectLibrary(true);});
   }
 
