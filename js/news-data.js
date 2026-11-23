@@ -326,7 +326,7 @@ window.OMNIARCH_NEWS = [
     dateLabel: 'November 24, 2026',
     tags: ['Author Q&A', 'Worldbuilding', 'Author Updates'],
     cover: '/assets/inline/gu-zhen-ren-ten-year-qa.jpg',
-    coverCredit: 'Illustration: The Omniarch — commissioned for this article, depicting the Q&A as a glowing chat thread rather than a literal screenshot.',
+    coverCredit: 'No photo or screenshot of the original chat exists — this is a title card, not a recreation of the real thing.',
     coverCaption: 'No recording, no transcript video — just hours of one author typing answers into a chat window, one question at a time.',
     excerpt: 'A decade after Reverend Insanity began, fans crowdsourced questions into a QQ group and Gu Zhen Ren answered them one by one, by hand. The result is the single largest cache of the author’s own words on the record — endgame hints, Infinite Bloodcore’s real design philosophy, and a few lines that are funnier than anything in the books.',
     body: [
@@ -372,7 +372,7 @@ window.OMNIARCH_NEWS = [
     dateLabel: 'November 23, 2026',
     tags: ['Satire', 'Fan Culture', 'Humor'],
     cover: '/assets/inline/gu-zhen-ren-dream-revision-satire.jpg',
-    coverCredit: 'Illustration commissioned for this article, depicting the satirical post\u2019s own punchline: a revision that exists \u201cexclusively in my dreams.\u201d',
+    coverCredit: 'No cover exists for a revision that was never written — this is a title card, not a recreation of a real document.',
     coverCaption: 'Where, according to the joke itself, the only fully revised edition of Reverend Insanity has ever been published.',
     excerpt: 'A Tieba post titled simply \u201cHello everyone, I am Gu Zhen Ren\u201d once described, in loving nine-point detail, the definitive revised edition of Reverend Insanity \u2014 plot holes patched, side stories folded into canon, a beloved character\u2019s backstory deepened. Point ten revealed it was all a joke. This is not news. It is the fandom\u2019s funniest coping mechanism, and it deserves to be read as exactly that.',
     body: [
