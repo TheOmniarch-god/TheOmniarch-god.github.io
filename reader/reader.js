@@ -9,8 +9,12 @@
   function save(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(e){}}
   var stored=get(prefsKey,{}), sitePrefs=get('omniarch-prefs',{});
   var siteDark=sitePrefs.color==='dark'||((!sitePrefs.color||sitePrefs.color==='auto')&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  // Only honor a stored theme if the reader was explicitly set by hand in the
+  // settings panel; otherwise keep following the main site's dark/light mode
+  // on every visit, so switching the site to dark doesn't leave old reader
+  // visits stranded on the red "paper" accent from a prior light-mode session.
   var prefs={
-    theme:['paper','light','night'].includes(stored.theme)?stored.theme:(siteDark?'night':defaults.theme),
+    theme:(stored.themeExplicit && ['paper','light','night'].includes(stored.theme))?stored.theme:(siteDark?'night':defaults.theme),
     font:['serif','sans'].includes(stored.font)?stored.font:defaults.font,
     size:Math.min(28,Math.max(16,Number(stored.size)||defaults.size)),
     width:Math.min(80,Math.max(48,Number(stored.width)||defaults.width)),
@@ -55,7 +59,7 @@
   if(isPreface){var prev=$('previous-chapter'),next=$('next-chapter');prev.href='/reader/';prev.querySelector('small').textContent='← READER';prev.querySelector('strong').textContent='All chapters';next.href=chapterUrl(chapters[0].number);next.querySelector('strong').textContent=chapters[0].title;}
   else{nav('previous-chapter',-1);nav('next-chapter',1);if(index===0){var previous=$('previous-chapter');previous.removeAttribute('aria-disabled');previous.href='/reader/preface/';previous.querySelector('small').textContent='← BEFORE CHAPTER 1';previous.querySelector('strong').textContent='Author’s Preface';}}
   function apply(){var root=document.documentElement;root.dataset.readerTheme=prefs.theme;root.dataset.readerFont=prefs.font;root.style.setProperty('--reader-size',prefs.size+'px');root.style.setProperty('--reader-width',prefs.width+'ch');root.style.setProperty('--reader-leading',prefs.leading);$('size-output').textContent=prefs.size+' px';$('width-output').textContent=prefs.width+' ch';$('leading-output').textContent=Number(prefs.leading).toFixed(1);$('font-size').value=prefs.size;$('line-width').value=prefs.width;$('line-height').value=prefs.leading;document.querySelectorAll('[data-theme]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.theme===prefs.theme));});document.querySelectorAll('[data-font]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.font===prefs.font));});save(prefsKey,prefs);}
-  document.querySelectorAll('[data-theme]').forEach(function(b){b.addEventListener('click',function(){prefs.theme=b.dataset.theme;apply();});});
+  document.querySelectorAll('[data-theme]').forEach(function(b){b.addEventListener('click',function(){prefs.theme=b.dataset.theme;prefs.themeExplicit=true;apply();});});
   document.querySelectorAll('[data-font]').forEach(function(b){b.addEventListener('click',function(){prefs.font=b.dataset.font;apply();});});
   [['font-size','size'],['line-width','width'],['line-height','leading']].forEach(function(pair){$(pair[0]).addEventListener('input',function(e){prefs[pair[1]]=Number(e.target.value);apply();});});
   $('settings-reset').addEventListener('click',function(){prefs=Object.assign({},defaults);apply();});

@@ -265,15 +265,25 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function renderCommunityPortal(slug,a){
     var artists=['limitless','footless-bird','volume-one-duel','ordinary-abyss'];
     // Links are independent creators, not endorsements or claims of affiliation.
+    // Creators who post Reverend Insanity content repeatedly, not a one-off
+    // mention. A still from a creator's own confirmed video (5th field) is
+    // shown as their card image where one has been directly verified against
+    // their own channel; everyone else keeps the lettered monogram rather
+    // than risk a photo pulled from a web search actually being a stranger
+    // who happens to share a name or handle.
     var creators=[
-      ['Maxwell Rak','YouTube · commentary','https://www.youtube.com/@maxwellrak','MR'],
+      ['Maxwell Rak','YouTube · commentary','https://www.youtube.com/@maxwellrak','MR','https://i.ytimg.com/vi/y1Pz-H_pXUE/hqdefault.jpg'],
       ['Beyond Morality','YouTube · analysis','https://www.youtube.com/@BeyondMorality-o2w','BM'],
       ['Yore','YouTube · chapter analysis','https://www.youtube.com/@yore-77','Y'],
       ['FictionFixer3','TikTok · fan creations','https://www.tiktok.com/@fiction0fixer3','FF'],
       ['KenKaizen','TikTok · reading reactions','https://www.tiktok.com/@kenkaizen','KK'],
-      ['Hobbit','TikTok · webnovels','https://www.tiktok.com/@hobbit.webnovels','H']
+      ['Hobbit','TikTok · webnovels','https://www.tiktok.com/@hobbit.webnovels','H'],
+      ['Reverend Insanity (fan channel)','YouTube · fan animation','https://www.youtube.com/@reverendinsanity-anime','RI'],
+      ['revinsanity','TikTok · Fang Yuan edits','https://www.tiktok.com/@revinsanity8','RV'],
+      ['RIGOD','TikTok · novel discussion','https://www.tiktok.com/@reverendinsanitynovel','RG'],
+      ['Nothingness','TikTok · Fang Yuan edits','https://www.tiktok.com/@renzu_31','N']
     ];
-    function creatorTile(c){return '<a class="community-tile creator-tile" href="'+esc(c[2])+'" target="_blank" rel="noopener noreferrer"><span class="community-tile-art community-monogram" aria-hidden="true">'+esc(c[3])+'</span><strong>'+esc(c[0])+'</strong><small>'+esc(c[1])+' ↗</small></a>';}
+    function creatorTile(c){var art=c[4]?'<img src="'+esc(c[4])+'" alt="" loading="lazy">':esc(c[3]);return '<a class="community-tile creator-tile" href="'+esc(c[2])+'" target="_blank" rel="noopener noreferrer"><span class="community-tile-art community-monogram'+(c[4]?' creator-tile-photo':'')+'" aria-hidden="true">'+art+'</span><strong>'+esc(c[0])+'</strong><small>'+esc(c[1])+' ↗</small></a>';}
     return portalTabs(slug)+'<p class="discussion-portal-link"><a href="/wiki/discussion-center/">Visit the Discussion Center →</a></p><section class="community-hub"><header class="community-hub-heading"><span>THE WORLD BEYOND THE PAGE</span><h2>Find your community.</h2><p>Discover independent projects, readers and creators inspired by Gu Zhen Ren. External links may contain later-story spoilers.</p></header><h2 class="community-hub-label">Websites &amp; projects</h2><div class="community-tiles">'
       + ['community-webnovel','community-omniarch','community-kodoku','community-infinite-aperture','community-saga-of-gu'].map(communityTile).join('')
       + '</div><h2 class="community-hub-label">Servers &amp; groups</h2><div class="community-tiles">'
