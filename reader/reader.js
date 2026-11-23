@@ -7,8 +7,10 @@
   var defaults={theme:'paper',font:'serif',size:20,width:68,leading:1.9};
   function get(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback;}catch(e){return fallback;}}
   function save(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(e){}}
-  var stored=get(prefsKey,{}), prefs={
-    theme:['paper','light','night'].includes(stored.theme)?stored.theme:defaults.theme,
+  var stored=get(prefsKey,{}), sitePrefs=get('omniarch-prefs',{});
+  var siteDark=sitePrefs.color==='dark'||((!sitePrefs.color||sitePrefs.color==='auto')&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  var prefs={
+    theme:['paper','light','night'].includes(stored.theme)?stored.theme:(siteDark?'night':defaults.theme),
     font:['serif','sans'].includes(stored.font)?stored.font:defaults.font,
     size:Math.min(28,Math.max(16,Number(stored.size)||defaults.size)),
     width:Math.min(80,Math.max(48,Number(stored.width)||defaults.width)),
