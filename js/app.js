@@ -322,12 +322,28 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
      section is just the rendering for those two shapes, newest-first
      throughout. (Internal identifiers below still say "news" — only the
      slugs and on-page labels are branded as "Articles".) */
-  function newsList(){ return (window.OMNIARCH_NEWS||[]).slice().sort(function(x,y){ return (y.date||'').localeCompare(x.date||''); }); }
+  function newsList(){
+    // Featured/pinned articles (see js/news-data.js header) always lead,
+    // ordered by their `featured` rank (lower first); everything else
+    // follows, newest-first by date.
+    return (window.OMNIARCH_NEWS||[]).slice().sort(function(x,y){
+      var fx = x.featured, fy = y.featured;
+      if(fx!=null || fy!=null){
+        if(fx!=null && fy!=null) return fx-fy;
+        return fx!=null ? -1 : 1;
+      }
+      return (y.date||'').localeCompare(x.date||'');
+    });
+  }
   function newsTagChips(tags){ return (tags&&tags.length) ? '<div class="news-tags">'+tags.map(function(t){return '<span class="news-tag">'+esc(t)+'</span>';}).join('')+'</div>' : ''; }
   function newsByline(n){ return !n.author ? '' : n.author==='The Omniarch' ? '<a class="news-byline" href="/wiki/community-omniarch/">By '+esc(n.author)+'</a>' : '<span class="news-byline">'+esc(n.author)+'</span>'; }
   function newsMetaHTML(n){ return '<div class="news-meta">'+newsByline(n)+(n.author?'<span class="news-meta-sep">·</span>':'')+'<time datetime="'+esc(n.date||'')+'">'+esc(n.dateLabel||n.date||'')+'</time></div>'; }
+  function newsCategory(n){ return n.category || (n.tags&&n.tags.length?n.tags[0]:'') || 'More'; }
+  var NEWS_CATEGORY_ORDER = ['Author Updates','Mythbusting','Fan Culture','Satire'];
   function newsCardHTML(n,i){
-    // One accessible link per story, with no nested byline link.
+    // One accessible link per story, with no nested byline link. The small
+    // chip stays flavorful (tags[0]); `category` is only used to group
+    // cards into portal sections, see newsCategory()/renderNewsPortal().
     var number=String((i||0)+1).padStart(2,'0');
     return '<a class="news-card" href="/wiki/'+esc(n.slug)+'/">'
       +(n.cover?'<span class="news-card-image"><img src="'+esc(n.cover)+'" alt="" loading="lazy"><span class="news-image-number" aria-hidden="true">'+number+'</span></span>':'')
@@ -350,9 +366,38 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function renderNewsPortal(){
     var items=newsList();
     if(!items.length) return '<p class="stub-note">No articles yet. Check back soon.</p>';
-    var visible=items.slice(0,8), more=items.slice(8);
-    return '<div class="news-portal"><div class="news-grid">'+visible.map(newsCardHTML).join('')+'</div>'
-      +(more.length?'<div class="news-grid news-grid-more" hidden>'+more.map(function(n,i){return newsCardHTML(n,i+visible.length);}).join('')+'</div><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
+    // Group into topic sections (see CATEGORY ORDER in js/news-data.js), keeping each
+    // article's overall rank (for the card number badge) stable across the whole portal.
+    var buckets={}, catOrder=[];
+    items.forEach(function(n){
+      var cat=newsCategory(n);
+      if(!buckets[cat]){ buckets[cat]=[]; catOrder.push(cat); }
+      buckets[cat].push(n);
+    });
+    catOrder.sort(function(a,b){
+      var ia=a==='More'?999:NEWS_CATEGORY_ORDER.indexOf(a); if(ia<0) ia=NEWS_CATEGORY_ORDER.length;
+      var ib=b==='More'?999:NEWS_CATEGORY_ORDER.indexOf(b); if(ib<0) ib=NEWS_CATEGORY_ORDER.length;
+      return ia-ib;
+    });
+    var flat=[];
+    catOrder.forEach(function(cat){ buckets[cat].forEach(function(n){ flat.push({n:n,cat:cat}); }); });
+    var visible=flat.slice(0,8), more=flat.slice(8);
+    function renderChunk(chunk){
+      var html='', curCat=null, buf=[];
+      function flush(){
+        if(!buf.length) return;
+        html += '<div class="tg-section-divider"><span>'+esc(curCat)+'</span></div><div class="news-grid">'
+          +buf.map(function(f){return newsCardHTML(f.n,f.i);}).join('')+'</div>';
+        buf=[];
+      }
+      chunk.forEach(function(f){ if(f.cat!==curCat){ flush(); curCat=f.cat; } buf.push(f); });
+      flush();
+      return html;
+    }
+    visible.forEach(function(f,i){ f.i=i; });
+    more.forEach(function(f,i){ f.i=i+visible.length; });
+    return '<div class="news-portal">'+renderChunk(visible)
+      +(more.length?'<div class="news-grid-more" hidden>'+renderChunk(more)+'</div><button type="button" class="news-see-more" data-news-more>See more articles ('+more.length+') ↓</button>':'')
       +'</div>';
   }
   function renderHomeNewsHTML(){

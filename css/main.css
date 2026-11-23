@@ -3419,7 +3419,7 @@ html[data-theme="dark"] body.home-glow-active:has(#wiki-view[hidden])::after{bac
 @media(max-width:700px){.news-grid{grid-template-columns:1fr}.news-card-featured .news-card-body h3{font-size:1.3rem}}
 
 /* Individual news article */
-.wiki-view.is-news .wiki-article{max-width:760px}
+.wiki-view.is-news .wiki-article{max-width:900px}
 .news-article-head{margin-bottom:1rem}
 .news-article-title{font-family:var(--tg-font-family-heading);font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.1;margin:.4rem 0 .5rem;color:var(--tg-color-emphasized)}
 .news-dek{font-size:1.05rem;line-height:1.5;color:var(--tg-color-subtle);margin:0 0 .5rem}

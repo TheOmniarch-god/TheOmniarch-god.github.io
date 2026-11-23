@@ -22,6 +22,9 @@
  *   dek: 'One-sentence standfirst shown under the headline.',
  *   date: '2026-11-16',                 // ISO yyyy-mm-dd, drives sort order
  *   dateLabel: 'November 16, 2026',     // human-readable date shown on the page
+ *   category: 'Author Updates',         // optional: which section of the Articles portal this
+ *                                       // appears under (see CATEGORY ORDER below). Omit to
+ *                                       // fall back to tags[0], or leave both out for "More".
  *   tags: ['Tag One', 'Tag Two'],       // shown as chips; grouping only, not nav categories
  *   cover: '/assets/inline/example.jpg',
  *   coverCredit: 'Art: credit line or misattribution note',
@@ -39,10 +42,33 @@
  *   ],
  *   related: ['fang-yuan','gallery']    // optional: wiki slugs for a sidebar "See also"
  * }
+ *
+ * FEATURED / PINNED ORDERING
+ * --------------------------
+ * By default articles are shown newest-first by `date`. To pin an article
+ * ahead of that normal sort (e.g. a fandom-defining classic, or breaking
+ * author news that matters more than its publish date suggests), add:
+ *
+ *   featured: 1   // lower numbers rank higher; pinned articles always
+ *                 // come before any unpinned (non-featured) article,
+ *                 // then unpinned articles follow sorted newest-first.
+ *
+ * Leave `featured` out entirely for normal date-ordered articles.
+ *
+ * CATEGORY ORDER
+ * ---------------
+ * The Articles portal (/wiki/articles/) groups cards under section
+ * dividers by `category`, in this fixed order:
+ *   Author Updates → Mythbusting → Fan Culture → Satire → More
+ * ("More" catches any category string not in that list, and anything
+ * missing a category entirely.) Add a new category by adding its name
+ * to NEWS_CATEGORY_ORDER in js/app.js.
  * ====================================================================== */
 window.OMNIARCH_NEWS = [
   {
     slug: 'articles-legendary-chair-guy',
+    featured: 1,
+    category: 'Fan Culture',
     title: 'The Legendary Chair Guy',
     spoiler: 'Contains major later-story spoilers.',
     author: 'The Omniarch',
@@ -95,6 +121,8 @@ window.OMNIARCH_NEWS = [
   },
   {
     slug: 'articles-the-hiatus-letter',
+    featured: 2,
+    category: 'Author Updates',
     title: 'The Hiatus Letter: What Gu Zhen Ren Told Readers About His Depression',
     author: 'The Omniarch',
     dek: 'On September 23, 2026, after a month of silence, Reverend Insanity’s anonymous author finally told readers where he had gone — and the fandom that has spent years quietly worrying about him got the most honest answer it has ever received.',
@@ -142,6 +170,7 @@ window.OMNIARCH_NEWS = [
   },
   {
     slug: 'articles-the-vote-that-wasnt-about-the-book',
+    category: 'Author Updates',
     title: 'The Vote That Wasn’t About The Book: How a Banned Novel Won Qidian’s 20th Anniversary Poll Anyway',
     author: 'The Omniarch',
     dek: 'Reverend Insanity could not appear on the ballot for Qidian’s own 20-year “greatest work” vote — it had been banned off the platform since 2019. So its fans voted for something else instead, and won.',
@@ -195,6 +224,7 @@ window.OMNIARCH_NEWS = [
   },
   {
     slug: 'articles-infinite-bloodcore-profile',
+    category: 'Author Updates',
     title: 'Infinite Bloodcore: The Novel Gu Zhen Ren Wrote With Everything Except Fang Yuan',
     author: 'The Omniarch',
     dek: 'Between the ban that erased Reverend Insanity and the vote that made Xian Gong Kai Wu famous, Gu Zhen Ren spent four years writing a shipwreck survival epic with a moral knight for a protagonist — the strangest, least-discussed book of his career.',
@@ -238,6 +268,7 @@ window.OMNIARCH_NEWS = [
   },
   {
     slug: 'articles-mythbusting-gu-zhen-ren-rumors',
+    category: 'Mythbusting',
     title: 'Mythbusting Gu Zhen Ren: Six Rumors the Tieba Faithful Keep Having to Debunk',
     author: 'The Omniarch',
     dek: 'When an author and his most famous book both get erased from search results, the vacuum fills with something — and for Reverend Insanity, it filled with secret endings, Japanese knockoffs, and a conspiracy theory involving the author of Soul Land.',
@@ -285,7 +316,54 @@ window.OMNIARCH_NEWS = [
     related: ['gu-zhen-ren', 'articles-the-hiatus-letter', 'articles-the-vote-that-wasnt-about-the-book']
   },
   {
+    slug: 'articles-the-ten-year-author-qa',
+    category: 'Author Updates',
+    title: 'The Ten-Year Q&A: What Gu Zhen Ren Actually Said, In His Own Words',
+    spoiler: 'Contains endgame hints and setting spoilers the author himself tried to limit.',
+    author: 'The Omniarch',
+    dek: 'On December 15, 2022 — ten years after Reverend Insanity began — Gu Zhen Ren sat in a QQ group chat and typed out answers to dozens of fan questions by hand. No livestream, no PR filter, just a tired author and a wall of text. Here is what actually got said.',
+    date: '2026-11-24',
+    dateLabel: 'November 24, 2026',
+    tags: ['Author Q&A', 'Worldbuilding', 'Author Updates'],
+    cover: '/assets/inline/gu-zhen-ren-ten-year-qa.jpg',
+    coverCredit: 'Illustration: The Omniarch — commissioned for this article, depicting the Q&A as a glowing chat thread rather than a literal screenshot.',
+    coverCaption: 'No recording, no transcript video — just hours of one author typing answers into a chat window, one question at a time.',
+    excerpt: 'A decade after Reverend Insanity began, fans crowdsourced questions into a QQ group and Gu Zhen Ren answered them one by one, by hand. The result is the single largest cache of the author’s own words on the record — endgame hints, Infinite Bloodcore’s real design philosophy, and a few lines that are funnier than anything in the books.',
+    body: [
+      '<p>Most of what the fandom knows about Gu Zhen Ren in his own voice does not come from interviews, press releases, or a publisher’s media kit — because none of those really exist for him. It comes from nights like December 15, 2022, when the tenth anniversary of <em>Reverend Insanity</em>’s serialization quietly passed and a fan group on QQ decided to mark it by crowdsourcing a list of questions and handing them to the author directly. He answered dozens of them, typed out one at a time, over what reads like hours. Readers later transcribed and reposted the exchange across Baidu Tieba, where it has been copied, archived, and cross-referenced by the fandom’s own rumor-control effort ever since — it is, in fact, one of the primary sources this encyclopedia already leaned on for <a href="/wiki/articles-mythbusting-gu-zhen-ren-rumors">debunking the “Ten Venerables vs. Fang Yuan” and “secret finished ending” myths</a>. This article is the rest of that transcript: the parts that are not about killing a rumor, but about an author just talking.</p>',
+
+      '<h3>“打字回答问题，太累啦” — why there has never been a podcast</h3>',
+      '<p>A fan asked, simply, if they could ever hear Gu Zhen Ren’s actual voice. His answer doubles as an explanation for why nearly everything we have from him is text: <em>“哈哈哈，有机会直播吧。一个个打字回答问题，太累啦。需要找个有效率的方式，去进行沟通。”</em> — “Haha, maybe I’ll livestream sometime. Typing out answers one by one is exhausting. I need a more efficient way to communicate.” He never did livestream. Three years later, the closest thing to his voice the fandom has ever gotten in writing is still this: a wall of typed answers, question by question, because the efficient alternative never happened. It is a small detail that explains a lot about how opaque this author has remained even to his most dedicated readers — not secrecy, just the sheer unsustainable effort of answering everyone by hand.</p>',
+
+      '<h3>On the ending: confirmed, vague, and deliberately so</h3>',
+      '<p>Asked whether every major character — across every era of the story, down to figures like Bai Ningbing, Hei Loulan and Feng Jiuge — would get a resolution, the answer was unambiguous: <em>“是的，会有。基本上每个角色都有自己的下场。”</em> — “Yes, there will be. Basically every character has their own fate.” But he was careful to puncture the assumption that the story, stalled where it is, must be close to finished: <em>“《蛊真人》目前停更的地方，看似离大结局不远，其实不是这样的，后面还有一大段剧情呢。”</em> — “Where Reverend Insanity currently stands looks close to the grand finale, but it is not — there is still a large stretch of plot left.” Pressed on Fang Yuan’s own talent relative to the Venerables, he deflected the ranking question entirely in favor of a thesis statement about the whole character: <em>“方源的人物特质，并不是在才情上的，他的执着、坚持更出众。”</em> — “Fang Yuan’s defining trait was never raw talent. What stands out is his persistence, his refusal to stop.” Asked directly about the endgame Immortal Gu, he confirmed it ties to “和最终全世界挑战大boss方源有关” — the eventual world-versus-Fang-Yuan confrontation — while again explicitly rejecting the fan shorthand for it: <em>“这里并非所谓的‘十尊战方源’，请勿谣传”</em> — not the so-called “Ten Venerables vs. Fang Yuan.”</p>',
+
+      '<h3>The side stories that got away</h3>',
+      '<p>One exchange quietly explains a loose thread that still shows up in fan wishlists and, more recently, in jokes: whether under-explored characters like Taibai Yunsheng, Wu Yong or the Dragon Duke would ever get their own spin-off arcs. Gu Zhen Ren’s answer was wistful rather than dismissive: <em>“我记得本来写过狂蛮传的，可惜断掉了，狂蛮传其实已经有大纲了。”</em> — “I remember I actually started writing Kuang Yu Man Zhuan once, but sadly it got cut off — it already had an outline.” He added that side-story updates would resume if the main novel were ever allowed to update normally again, but that policy and copyright complications currently rule them out: <em>“现在由于政策、版权问题，这些外传也不能写啊。唉……”</em> — “Because of policy and copyright issues right now, I can’t even write these spin-offs. Sigh…” He did leave one deliberately cryptic thread dangling — that previously-exited characters would resurface later, and that “这和大梦仙尊有关” (“this is connected to the Great Dream Venerable”) — which is, incidentally, the exact kind of line that gives <a href="/wiki/articles-the-perfect-revision-satire">a certain piece of 2024 fan satire</a> its punchline.</p>',
+
+      '<h3>On Infinite Bloodcore: the book he built to not be easy</h3>',
+      '<p>Several answers amount to the clearest design statement Gu Zhen Ren has ever given about <em>Infinite Bloodcore</em>, the Western-fantasy serialization he wrote in the years <em>Reverend Insanity</em> sat banned. Asked whether the cast would keep adventuring as one fixed party, he ruled it out on principle: <em>“这个不会。《无限血核》不是常规的冒险，也不是传统的团体文。它是群像剧，时散时聚。”</em> — “No. Infinite Bloodcore isn’t a conventional adventure or a traditional party-based story. It’s an ensemble drama — people scatter and regroup.” He went further, previewing a climax bigger in scale than anything in his most famous book: a final volume where every surviving character converges into “一场囊括全世界的动荡战争” — a war engulfing the entire world — that he explicitly called larger in scope than <em>Reverend Insanity</em>’s own Heavenly Court battle. Asked why the protagonist is written without a revealed name for most of the story, he described it as a deliberate structural choice, not a gimmick: <em>“当初设定的时候，是想突出主题。这里面有一个发现自我的哲学渐变的过程。当他发现自己的姓名的时候，是这场哲学渐变的一个节点，但不是终点。”</em> — “The intent was thematic: there is a gradual philosophical process of self-discovery built into it. The moment he learns his own name is a milestone in that process, not its endpoint.”</p>',
+
+      '<h3>The golden-finger question, answered like a craft essay</h3>',
+      '<p>The sharpest answer in the whole transcript responds to a reader asking what happens to the protagonist’s advantage if his signature power source could simply be mass-produced. Gu Zhen Ren treated it as worth answering properly rather than brushing off: <em>“这个问题要好好回答一下。无限血核的深沉主题，先不说。单说网文金手指这一块，就从未有过很多人都有和主角一样金手指的情况。所以这本书设计的时候，就想打破这个常规。我一向认为，金手指只是工具，真正的关键是使用的人。”</em> — “Let me actually answer this properly. Setting the deeper themes aside for a moment: in web-fiction ‘golden finger’ tropes, it is almost unheard of for many other people to share the protagonist’s exact advantage. When designing this book, I specifically wanted to break that convention. I have always believed a golden finger is just a tool — what actually matters is the person using it.” It is as close as he has come, on the record, to stating his own writing philosophy outright.</p>',
+
+      '<h3>On fame, platforms, and not wanting the easy version</h3>',
+      '<p>Asked how it felt watching <em>Reverend Insanity</em> suddenly go viral on Douyin years after its ban, while he was in the middle of writing something slower and stranger, his answer reads less like a complaint and more like an artist explaining a career choice: <em>“嗯，实话实说，就像一个演员，想突破自己，在新的戏路上获得新的成果。我如果写类似《蛊真人》风格的东西，其实很容易，驾轻就熟。更不需要像《无限血核》这样大修了。但是我写书主要还是为了兴趣，喜欢挑战吧。”</em> — “Honestly, it’s like an actor trying to break out of their usual roles to find something new. If I wrote something in the same style as Reverend Insanity, it would genuinely be easy — I could do it on autopilot, and I wouldn’t need to overhaul Infinite Bloodcore the way I did. But I write mainly for the sake of interest. I like a challenge.” Elsewhere he was blunter about the toll of just being a working author in his forties: <em>“中年了，日常精力、时间也有限了”</em> — “I’m middle-aged now; my daily energy and time are limited too” — a line that, read next to <a href="/wiki/articles-the-hiatus-letter">the 2026 hiatus letter</a> describing his diagnosed depression and anxiety, lands differently in hindsight than it did in 2022.</p>',
+
+      '<h3>And a few answers that are just funny</h3>',
+      '<p>Not everything in the transcript is worldbuilding or introspection. Asked whether the famous “Top 10 Strange Gu” ranking was now fully revealed, he got visibly exasperated at his own setting: <em>“十大奇蛊你们都有了？我这都还没全，还差一只呢，就离谱啊！！！”</em> — “You readers already have all ten Strange Gu? I don’t even have the full list myself, I’m still missing one — that’s ridiculous!!!” Asked when the ban might lift, rather than offering false hope he gave the fandom its own in-joke, deadpan: <em>“等待解禁蛊！（努力）”</em> — roughly, “Awaiting-the-Unban Gu! (working hard on it)” — a nonsense Gu name invented on the spot that the fandom has quietly treasured ever since. And in a smaller, stranger aside, a reader mentioned that Arabic-speaking fans had found their way into the fandom through a comic adaptation, with at least one overseas reader reportedly tattooing an English line from the novel on their arm. Gu Zhen Ren’s entire response: <em>“？”</em> — one question mark, the most honest reaction an author has ever had to learning how far his banned book had traveled without him.</p>'
+    ],
+    sources: [
+      {label: '百度贴吧 — "（2022.12.15）《蛊真人》十周年相关访谈" (primary transcript)', url: 'https://tieba.baidu.com/p/9226427897'},
+      {label: '百度贴吧 — "（2022.12.15）《蛊真人》十周年相关访谈" (archived repost)', url: 'https://tieba.baidu.com/p/8186114243'},
+      {label: '百度贴吧 — "蛊真人十周年访谈（补档）" (backup archive of the same Q&A)', url: 'https://tieba.baidu.com/p/9142023616'},
+      {label: '百度贴吧 — "【情报】书外的作者访谈、书友回答汇总" (compiled author-interview index, cites this Q&A)', url: 'https://tieba.baidu.com/p/9086632794'}
+    ],
+    related: ['gu-zhen-ren', 'articles-mythbusting-gu-zhen-ren-rumors', 'articles-the-hiatus-letter', 'articles-infinite-bloodcore-profile']
+  },
+  {
     slug: 'articles-the-perfect-revision-satire',
+    category: 'Satire',
     title: 'SATIRE: Someone on Tieba Wrote the “Perfect Revision” of Reverend Insanity. It Exists Only in His Dreams. Literally.',
     spoiler: 'This article is a commentary on a piece of fan satire. It describes no real changes to the novel. Contains spoilers for Xie Hanmo\u2019s established storyline.',
     author: 'The Omniarch',
