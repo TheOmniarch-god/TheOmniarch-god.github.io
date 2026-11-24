@@ -81,3 +81,17 @@ html[data-reader-theme="night"] .brand-seal{background:#383d43;color:#f4e6ca}
 
 /* Chapter discovery begins at Volume I, not in the entrance header. */
 .is-library .reader-home{display:none}
+
+/* The entrance follows the selected reading theme, including Paper. */
+html:not([data-reader-theme="night"]) .book-opening{background:#f2e9dd;color:#292522}
+html:not([data-reader-theme="night"]) .opening-art{background-image:url('/assets/bg-light-pure.webp');opacity:.22;filter:grayscale(.55)}
+html:not([data-reader-theme="night"]) .book-opening::after{background:linear-gradient(90deg,rgba(249,245,238,.97) 0%,rgba(249,245,238,.92) 48%,rgba(249,245,238,.78) 100%)}
+html:not([data-reader-theme="night"]) .opening-eyebrow,html:not([data-reader-theme="night"]) .opening-edition,html:not([data-reader-theme="night"]) .opening-chinese,html:not([data-reader-theme="night"]) .book-opening .book-byline,html:not([data-reader-theme="night"]) .opening-bottom,html:not([data-reader-theme="night"]) .cover-overline,html:not([data-reader-theme="night"]) .book-cover .cover-caption{color:#554a41}
+html:not([data-reader-theme="night"]) .opening-chinese span{color:#77695d}
+html:not([data-reader-theme="night"]) .opening-period{color:var(--accent)}
+html:not([data-reader-theme="night"]) .opening-eyebrow::before,html:not([data-reader-theme="night"]) .cover-overline i{background:#8b786a}
+html:not([data-reader-theme="night"]) .opening-bottom{border-color:#b8a99a}
+html:not([data-reader-theme="night"]) .cover-frame{border-color:#b8a99a;box-shadow:0 30px 80px #4c392321}
+html:not([data-reader-theme="night"]) .book-opening .book-actions .library-primary{background:#342a26;color:#fffaf4}
+html[data-reader-theme="light"] .book-opening{background:#f8f7f3}
+html[data-reader-theme="light"] .book-opening::after{background:linear-gradient(90deg,rgba(255,254,250,.97) 0%,rgba(255,254,250,.93) 48%,rgba(255,254,250,.80) 100%)}
