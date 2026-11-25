@@ -434,23 +434,56 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var credit=v.creator?'<small>by '+esc(v.creator)+(typeof v.views==='number'?' · '+formatViews(v.views):'')+'</small>':(v.channel?'<small>'+esc(v.channel)+'</small>':'');
     return '<a class="donghua-card" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer"><span class="donghua-card-thumb"><img src="'+esc(v.thumbnail||('https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg'))+'" alt="" loading="lazy"><span class="donghua-card-play" aria-hidden="true">▶</span><span class="donghua-card-tag'+(v.kind==='own'?' donghua-card-tag-own':'')+'">'+tag+'</span></span><strong>'+esc(v.title)+'</strong>'+credit+'</a>';
   }
+  // The full, deduplicated video pool behind "See all videos": the homepage
+  // strip (own channel picks + a few community highlights) unioned with the
+  // larger community "trending" list, own picks first, then by views. Shared
+  // by the homepage carousel (for an accurate count) and the dedicated
+  // /wiki/videos/ page (for the actual grid).
+  function donghuaPool(){
+    var d=window.OMNIARCH_DONGHUA;
+    if(!d) return [];
+    var seen={}, pool=[];
+    (d.videos||[]).concat(d.trending||[]).forEach(function(v){
+      if(seen[v.id]) return;
+      seen[v.id]=1; pool.push(v);
+    });
+    pool.sort(function(a,b){
+      if((a.kind==='own')!==(b.kind==='own')) return a.kind==='own'?-1:1;
+      return (b.views||0)-(a.views||0);
+    });
+    return pool;
+  }
   function renderDonghuaCarouselHTML(){
     var d=window.OMNIARCH_DONGHUA;
     if(!d||!d.featured) return '<p class="stub-note">Fan donghua coming soon.</p>';
     var f=d.featured, cards=(d.videos||[]).map(donghuaCardHTML).join('');
-    // Highest views first, so the trending list actually reads top-to-bottom by popularity.
-    var trendingSorted=(d.trending||[]).slice().sort(function(a,b){return (b.views||0)-(a.views||0);});
-    var trending=trendingSorted.map(donghuaCardHTML).join('');
+    var poolCount=donghuaPool().length;
     var updated=d.updatedAt?new Date(d.updatedAt):null;
     var updatedLabel=updated && !isNaN(updated)?updated.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'recently';
     var featuredCredit=f.creator||f.channel||'纵横AIGC';
     return '<div class="editorial-heading"><div><span class="editorial-section-kicker">THE COMMUNITY EDIT</span><h2 id="watch-title">Watch &amp; discover<span>.</span></h2></div></div><p class="editorial-disclaimer">The latest fan-made donghua update, The Omniarch’s picks, and what the wider community is watching — a rotating selection, not the full list. Updated automatically roughly every day. The worldbuilding reference, translation and lore write-ups across this site are The Omniarch’s own; each video below keeps its own creator credit.</p>'
       +'<div class="editorial-watch"><div class="watch-player" id="donghua-video"><img src="'+esc(f.thumbnail||'')+'" alt="" loading="lazy" onerror="this.hidden=true"><button type="button" id="play-donghua" data-video-id="'+esc(f.id)+'" aria-label="Play '+esc(f.title)+' on YouTube"><span aria-hidden="true">▶</span> Play episode</button></div><div class="watch-copy"><span class="editorial-kicker">LATEST EPISODE</span><h3>'+esc(f.title)+'</h3><p>Watch the latest fan-made episode. Animation by '+esc(featuredCredit)+'; contains AI-generated content.</p>'+(f.playlistUrl?'<div class="editorial-actions"><a class="ed-button ed-button-light" href="'+esc(f.playlistUrl)+'" target="_blank" rel="noopener noreferrer">View the playlist ↗</a></div>':'')+'<small>Spoilers beyond the first 11 chapters · Not an official adaptation</small></div><span class="watch-credit">Credit: '+esc(featuredCredit)+' · Fallback art: 轮回画室丶不修</span></div>'
       +(cards?'<div class="donghua-track" tabindex="0" aria-label="More Gu Zhen Ren videos, scrollable"><div class="donghua-track-inner">'+cards+cards+'</div></div>':'')
-      +(trending?'<div class="donghua-more"><button type="button" id="donghua-see-more" aria-expanded="false" aria-controls="donghua-trending">See more Reverend Insanity videos <span aria-hidden="true">↓</span></button><div class="donghua-trending" id="donghua-trending" hidden><p class="donghua-trending-heading">Most-watched Reverend Insanity videos right now, by views</p><div class="donghua-trending-grid">'+trending+'</div></div></div>':'')
+      +(poolCount?'<div class="donghua-more"><a class="donghua-see-more" id="donghua-see-more" href="/wiki/videos/">See more <span aria-hidden="true">→</span></a></div>':'')
       +'<p class="donghua-carousel-note">Community videos are independently produced and surfaced from YouTube search; inclusion is not an endorsement or a confirmed affiliation. Last updated '+esc(updatedLabel)+'.</p>';
   }
   window.renderDonghuaCarouselHTML = renderDonghuaCarouselHTML;
+  // The dedicated page behind "See all videos" (/wiki/videos/, index:"donghua-videos"
+  // in OMNIARCH_ARTICLES): every video in the pool as one grid, instead of the
+  // homepage's small rotating strip. Own-channel picks lead, then community
+  // videos ranked by views.
+  function renderDonghuaVideosPortal(){
+    var d=window.OMNIARCH_DONGHUA;
+    var pool=donghuaPool();
+    if(!pool.length) return '<p class="stub-note">No videos yet. Check back soon.</p>';
+    var updated=d&&d.updatedAt?new Date(d.updatedAt):null;
+    var updatedLabel=updated && !isNaN(updated)?updated.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'recently';
+    return '<div class="editorial-heading"><div><span class="editorial-section-kicker">THE COMMUNITY EDIT</span><h2>Trending Reverend Insanity videos<span>.</span></h2></div></div>'
+      +'<p class="editorial-disclaimer">Fan-made donghua episodes, AI animation, edits, chapter recaps, audiobooks and analysis videos about Gu Zhen Ren and Reverend Insanity, '+pool.length+' tracked so far and refreshed every few days. The worldbuilding reference, translation and lore write-ups across this site are The Omniarch’s own; each video below keeps its own creator credit, and inclusion here is not an endorsement or a confirmed affiliation.</p>'
+      +'<div class="donghua-trending-grid donghua-portal-grid">'+pool.map(donghuaCardHTML).join('')+'</div>'
+      +'<p class="donghua-carousel-note">Community videos are independently produced and surfaced from YouTube search. The pool refreshes every few days as new videos are found. Last updated '+esc(updatedLabel)+'.</p>';
+  }
+  window.renderDonghuaVideosPortal = renderDonghuaVideosPortal;
   // The main index is a curated door into the story, not a gallery-file dump.
   function encyclopediaIndex(){
     var subjects=[
@@ -649,6 +682,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
       else if(a.index==='discussion-center') html += discussionCenterHTML();
       else if(a.index==='community-profile') html += renderCommunityProfile(slug);
       else if(a.index==='news-portal') html += renderNewsPortal();
+      else if(a.index==='donghua-videos') html += renderDonghuaVideosPortal();
       else if(a.index && (slug==='gallery' || a.index==='art-library')) html += portalHTML(slug,a);
       else if(a.index) html += '<h2 class="sec" id="sec-portal"><span class="caret">⌃</span>Explore</h2><div class="sec-body">'+portalHTML(slug,a)+'</div>';
       if(slug==='volume-1'){

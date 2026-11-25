@@ -127,20 +127,6 @@
   });
 })();
 
-// "See more" reveals the fuller/most-trending video list (window.OMNIARCH_DONGHUA.trending,
-// rendered by js/app.js into #donghua-trending) without leaving the homepage.
-(function(){
-  var btn=document.getElementById('donghua-see-more');
-  if(!btn)return;
-  var panel=document.getElementById('donghua-trending');
-  btn.addEventListener('click',function(){
-    var open=btn.getAttribute('aria-expanded')==='true';
-    btn.setAttribute('aria-expanded',open?'false':'true');
-    if(panel)panel.hidden=open;
-    btn.innerHTML=open?'See more Reverend Insanity videos <span aria-hidden="true">↓</span>':'Show fewer videos <span aria-hidden="true">↑</span>';
-  });
-})();
-
 /* Motion is progressive enhancement: content is visible without JS and on reduced motion. */
 (function(){
   var home=document.getElementById('main-view');

@@ -3185,6 +3185,10 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 .editorial-actions{display:flex;align-items:center;flex-wrap:wrap;gap:1.2rem}.ed-button{display:inline-flex;align-items:center;justify-content:center;gap:1rem;padding:.85rem 1.2rem;border-radius:3px;font-size:.75rem;font-weight:700;text-decoration:none!important}.ed-button-light{background:#fffaf5;color:#302326}.ed-button-light:hover{background:#f1d7ca}.ed-text-link{color:#fff6ef!important;font-size:.72rem;font-weight:600;text-decoration:underline;text-underline-offset:4px}
 .editorial-art-credit{position:absolute;bottom:.7rem;right:1rem;color:#fff;font-size:.59rem;text-shadow:0 1px 4px #000}
 .editorial-heading{display:flex;justify-content:space-between;align-items:end;gap:1rem;margin-top:4rem}.editorial-section-kicker,.editorial-card-tag{color:var(--tg-color-link);font-size:.65rem;font-weight:700;letter-spacing:.15em}
+/* On a wiki page the heading/kicker is the first thing in the article body,
+   right under the page's own hero title — it doesn't need the homepage's
+   4rem gap meant to separate one editorial section from the next above it. */
+.wiki-view.is-index .wiki-article>.editorial-heading:first-child{margin-top:0}
 .editorial-heading h2{font:700 clamp(2.4rem,4vw,4rem)/1 'Cormorant Garamond',Georgia,serif;letter-spacing:-.025em;margin:.35rem 0;color:var(--tg-color-emphasized)}.editorial-heading h2 span{color:var(--tg-color-link)}.editorial-heading>a{font-weight:700;font-size:.73rem;white-space:nowrap}
 .editorial-disclaimer{margin:.35rem 0 1.4rem;color:var(--tg-color-subtle);font-size:.7rem;line-height:1.6}
 .editorial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem}.editorial-card{min-width:0}.editorial-card-image{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;background:#292b30}.editorial-card-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s}.editorial-card-manhua img{object-position:50% 26%}.editorial-card-voices img{object-position:50% 35%}.editorial-card-image:hover img{transform:scale(1.04)}
@@ -3348,8 +3352,8 @@ html[data-theme="dark"] .site-header{background:rgba(29,25,22,.88);border-color:
 .site-header-links{display:flex;align-items:center;gap:clamp(.8rem,2.4vw,2.2rem);margin-left:auto}.site-header-links a,.site-header-action{color:var(--tg-color-emphasized);font-size:.73rem;font-weight:600;text-decoration:none!important}.site-header-links a:hover{color:var(--tg-color-link)}.site-header-action{padding:.6rem .9rem;border:1px solid var(--tg-border-color-base);border-radius:99px;white-space:nowrap}
 .site-header a:focus-visible,.shelf-arrows button:focus-visible,.home-visual-grid:focus-visible{outline:3px solid var(--tg-color-link);outline-offset:3px}
 .tg-mainpage-header{padding-top:5.1rem!important}
-.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:6.4rem!important}
-@media(max-width:720px){.site-header{left:.5rem;right:.5rem;top:.35rem;gap:.6rem;min-height:50px;padding:.5rem .7rem}.site-header-brand{font-size:.62rem}.site-header-brand small{font-size:.43rem}.site-header-links{gap:.75rem;overflow-x:auto;scrollbar-width:none}.site-header-links a{font-size:.65rem;white-space:nowrap}.site-header-action{display:none}.tg-mainpage-header{padding-top:4.8rem!important}.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:5.5rem!important}}
+.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:5.6rem!important}
+@media(max-width:720px){.site-header{left:.5rem;right:.5rem;top:.35rem;gap:.6rem;min-height:50px;padding:.5rem .7rem}.site-header-brand{font-size:.62rem}.site-header-brand small{font-size:.43rem}.site-header-links{gap:.75rem;overflow-x:auto;scrollbar-width:none}.site-header-links a{font-size:.65rem;white-space:nowrap}.site-header-action{display:none}.tg-mainpage-header{padding-top:4.8rem!important}.wiki-view.is-index .wiki-hero,.wiki-view.is-article .wiki-hero,.wiki-view.wide:not(.is-index) .wiki-hero{padding-top:4.8rem!important}}
 
 /* Colours drift across the page as the reader moves through it. */
 /* Homepage-only glow is layered separately below; other pages use their normal surface. */
@@ -3376,8 +3380,8 @@ html[data-theme="dark"] .site-header{background:rgba(29,25,22,.88);border-color:
 /* The floating navigation belongs to inner pages only. It clears away while
    scrolling down, and returns on upward scroll or keyboard focus. */
 body:has(#wiki-view[hidden]) .site-header{display:none}
-.site-header{position:fixed;background:rgba(249,244,238,.55);border-color:rgba(142,38,34,.12);box-shadow:0 8px 30px rgba(24,17,16,.08);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);transition:transform .25s ease,opacity .25s ease}
-html[data-theme="dark"] .site-header{background:rgba(12,15,22,.56);border-color:rgba(222,192,130,.16);box-shadow:0 8px 30px #0004}
+.site-header{position:fixed;background:rgba(249,244,238,.97);border-color:rgba(142,38,34,.12);box-shadow:0 8px 30px rgba(24,17,16,.08);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);transition:transform .25s ease,opacity .25s ease}
+html[data-theme="dark"] .site-header{background:rgba(12,15,22,.97);border-color:rgba(222,192,130,.16);box-shadow:0 8px 30px #0004}
 .site-header.is-scrolling-away:not(:focus-within){transform:translateY(-130%);opacity:0;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.site-header{transition:none}}
 /* Restore the landing hero's original composition and fade fully to its
@@ -3481,12 +3485,12 @@ html[data-theme="dark"] body.home-glow-active:has(#wiki-view[hidden])::after{bac
 .donghua-card small{display:block;margin:.3rem .75rem .75rem;font-size:.63rem;color:var(--tg-color-subtle)}
 .donghua-carousel-note{margin-top:.9rem;font-size:.66rem;line-height:1.5;color:var(--tg-color-subtle)}
 .donghua-more{margin-top:1.4rem;text-align:center}
-#donghua-see-more{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:99px;border:1px solid var(--tg-color-border);background:transparent;color:var(--tg-color-emphasized);font-size:.72rem;font-weight:700;letter-spacing:.04em;cursor:pointer}
-#donghua-see-more:hover{background:var(--tg-color-surface-2)}
-.donghua-trending{margin-top:1.4rem}
-.donghua-trending-heading{margin:0 0 .9rem;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tg-color-subtle)}
+.donghua-see-more{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:99px;border:1px solid var(--tg-color-border);background:transparent;color:var(--tg-color-emphasized);font-size:.72rem;font-weight:700;letter-spacing:.04em;cursor:pointer;text-decoration:none}
+.donghua-see-more:hover{background:var(--tg-color-surface-2)}
 .donghua-trending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
 .donghua-trending-grid .donghua-card{flex:unset}
+.donghua-portal-grid{margin-top:1rem}
+.wiki-view.is-index .donghua-portal-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.1rem}
 @media(hover:none){.donghua-track-inner{animation:none;gap:.8rem}.donghua-track{scroll-snap-type:x proximity}.donghua-card{flex-basis:70vw;max-width:260px;scroll-snap-align:start}}
 @media(prefers-reduced-motion:reduce){.donghua-track-inner{animation:none}}
 @media(max-width:560px){.donghua-card{flex-basis:78vw}}
