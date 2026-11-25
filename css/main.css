@@ -2831,6 +2831,10 @@ html[data-theme="dark"] .tg-footer-plate{background:#14100c !important}
   gap:1.2rem !important;margin-bottom:2.7rem !important}
 .tg-footer-brandmark{display:inline-flex !important;align-items:center !important;
   text-decoration:none !important}
+.tg-footer-seal-img{height:clamp(30px,3.6vw,40px) !important;width:auto !important;
+  display:inline-block !important;margin-right:.6rem !important;border-radius:22% !important;
+  filter:drop-shadow(0 1px 2px rgba(20,8,4,0.25)) !important}
+html[data-theme="dark"] .tg-footer-seal-img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6)) !important}
 .tg-footer-brandmark-img{height:clamp(40px,5vw,56px) !important;width:auto !important;
   display:inline-block !important;filter:drop-shadow(0 1px 2px rgba(20,8,4,0.25)) !important}
 html[data-theme="dark"] .tg-footer-brandmark-img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6)) !important}
