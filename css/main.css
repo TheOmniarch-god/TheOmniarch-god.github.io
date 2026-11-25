@@ -160,7 +160,7 @@
   .tg-mainpage-featured-quote p{margin:0}
   .tg-quote-footer{margin-top:1.1rem}
   .tg-quote-footer cite{color:var(--tg-color-quote);font-size:var(--tg-font-size-x-small);font-style:normal}
-  .tg-quote-footer cite::before{content:"— "}
+
 
   .tg-button{display:inline-flex}
   a.tg-button{border:1px solid var(--tg-border-color-interactive);border-radius:var(--tg-border-radius-small);height:36px;padding:0 1rem;color:var(--tg-color-emphasized);display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;font-size:var(--tg-font-size-small);font-weight:var(--tg-font-weight-medium);text-decoration:none;background:var(--tg-color-surface-2);cursor:pointer}
@@ -3178,7 +3178,7 @@ html:not([data-theme="dark"]){--tg-color-surface-0:#f4eee6;--tg-color-surface-1:
 .editorial-lead-art{position:absolute;inset:0;z-index:-2;background:url('/assets/collection/art-3da0d7b23134289b.webp') center/cover no-repeat}
 .editorial-lead::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(20,17,22,.95) 0%,rgba(22,19,25,.8) 38%,rgba(22,19,25,.08) 100%),linear-gradient(0deg,rgba(15,12,18,.4),transparent 42%)}
 .editorial-lead-copy{max-width:680px;padding:clamp(2rem,6vw,5rem)}
-.editorial-kicker{display:inline-flex;align-items:center;gap:.65rem;color:#f2d8d2;font-size:.67rem;letter-spacing:.17em;font-weight:700}.editorial-kicker i{display:block;width:26px;height:2px;background:#c25c62}
+.editorial-kicker{display:inline-flex;align-items:center;gap:.65rem;color:#f2d8d2;font-size:.67rem;letter-spacing:.17em;font-weight:700}
 .editorial-lead h2,.watch-copy h2,.reader-promo-copy h2{margin:1.1rem 0;font:700 clamp(3.1rem,6.4vw,6.2rem)/.86 'Cormorant Garamond',Georgia,serif;letter-spacing:-.035em;color:#fffaf5}
 .editorial-lead h2 em,.watch-copy h2 em,.reader-promo-copy h2 em{font-weight:500;color:#f1d7ca}
 .editorial-lead-copy p,.watch-copy p,.reader-promo-copy p{max-width:42ch;margin:1.4rem 0;color:#f2e4df;font-size:clamp(.9rem,1.3vw,1.03rem);line-height:1.75}
@@ -3463,6 +3463,34 @@ html[data-theme="dark"] body.home-glow-active:has(#wiki-view[hidden])::after{bac
 .editorial-watch.is-playing .watch-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media(max-width:700px){.editorial-watch,.editorial-reader{min-height:520px;align-items:end}.editorial-watch::after,.editorial-reader::after{background:linear-gradient(0deg,rgba(14,13,19,.98),rgba(17,15,21,.82) 40%,rgba(17,15,21,.1) 100%)}.watch-copy,.reader-promo-copy{padding:2rem 1.4rem 3.2rem}.watch-player button{top:26%;right:1.4rem;transform:translateY(-50%)}.watch-credit{left:1.4rem;right:auto}.reader-promo-art{background-position:center 25%}}
 
+/* Fan animation & community video carousel: the featured episode (.editorial-watch,
+   styled above) plus a scrolling row of The Omniarch's picks and community videos. */
+.donghua-carousel .editorial-watch{margin-top:1.4rem}
+.donghua-track{margin-top:1.6rem;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.donghua-track::-webkit-scrollbar{display:none}
+.donghua-track-inner{display:flex;gap:1rem;width:max-content;animation:donghua-scroll 55s linear infinite}
+.donghua-track:hover .donghua-track-inner,.donghua-track:focus-within .donghua-track-inner{animation-play-state:paused}
+@keyframes donghua-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.donghua-card{display:block;flex:0 0 220px;color:inherit;text-decoration:none;border-radius:14px;overflow:hidden;background:var(--tg-color-surface-2)}
+.donghua-card-thumb{position:relative;display:block;aspect-ratio:16/9;background:#171315;overflow:hidden}
+.donghua-card-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.donghua-card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;border-radius:99px;background:rgba(10,8,10,.55);color:#fff;font-size:.8rem}
+.donghua-card-tag{position:absolute;top:.5rem;left:.5rem;max-width:calc(100% - 1rem);padding:.22rem .5rem;border-radius:3px;background:rgba(26,15,16,.8);color:#f0d5bd;font-size:.56rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.donghua-card-tag-own{background:var(--tg-color-progressive);color:#fff7ec}
+.donghua-card strong{display:block;margin:.6rem .75rem 0;font-size:.78rem;line-height:1.35;color:var(--tg-color-emphasized);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.donghua-card small{display:block;margin:.3rem .75rem .75rem;font-size:.63rem;color:var(--tg-color-subtle)}
+.donghua-carousel-note{margin-top:.9rem;font-size:.66rem;line-height:1.5;color:var(--tg-color-subtle)}
+.donghua-more{margin-top:1.4rem;text-align:center}
+#donghua-see-more{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:99px;border:1px solid var(--tg-color-border);background:transparent;color:var(--tg-color-emphasized);font-size:.72rem;font-weight:700;letter-spacing:.04em;cursor:pointer}
+#donghua-see-more:hover{background:var(--tg-color-surface-2)}
+.donghua-trending{margin-top:1.4rem}
+.donghua-trending-heading{margin:0 0 .9rem;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tg-color-subtle)}
+.donghua-trending-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.donghua-trending-grid .donghua-card{flex:unset}
+@media(hover:none){.donghua-track-inner{animation:none;gap:.8rem}.donghua-track{scroll-snap-type:x proximity}.donghua-card{flex-basis:70vw;max-width:260px;scroll-snap-align:start}}
+@media(prefers-reduced-motion:reduce){.donghua-track-inner{animation:none}}
+@media(max-width:560px){.donghua-card{flex-basis:78vw}}
+
 /* A compact, internally scrollable menu even on short and narrow devices. */
 .drawer{max-height:calc(100dvh - 24px);overscroll-behavior:contain}
 @media(max-width:720px){.drawer{width:min(90vw,360px)!important;max-height:calc(100dvh - 84px)!important;overflow-x:hidden!important;overflow-y:auto!important}.drawer .drawer-head{padding:.75rem 2.8rem .65rem 1rem;gap:.35rem .6rem}.drawer .drawer-head .wm{width:min(100%,105px)!important;height:auto!important}.drawer .drawer-stats{gap:.25rem .65rem}.drawer-cols{padding:.4rem 1rem .5rem!important}.drawer-cols a{padding:.3rem 0!important;font-size:.88rem!important}.drawer-social{padding:.7rem 1rem!important}}
@@ -3618,7 +3646,6 @@ html[data-theme="dark"] .wiki-view .lead a,html[data-theme="dark"] .wiki-view .s
 .news-image-number{position:absolute;z-index:1;right:.7rem;bottom:.35rem;color:#fff;font:500 italic 2rem/1 var(--editorial-display,Georgia,serif);text-shadow:0 1px 8px #0008}
 .news-portal .news-card-body{padding:.8rem 0 .2rem}
 .news-card-category{display:flex;align-items:center;gap:.45rem;letter-spacing:.1em}
-.news-card-category::before{content:'';display:block;width:1.1rem;height:2px;background:currentColor}
 .home-news-grid .news-card h3,.news-portal .news-card h3{font-size:clamp(1.2rem,1.4vw,1.48rem);line-height:1.08;margin:.45rem 0 .55rem}
 .news-card-meta{border-top:1px solid var(--tg-border-color-base);padding-top:.55rem;margin-top:.65rem}
 .news-card-spoiler{display:block;font-size:.61rem;line-height:1.45;color:var(--tg-color-subtle);margin-top:.3rem}

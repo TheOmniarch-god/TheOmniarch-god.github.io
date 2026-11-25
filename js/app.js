@@ -297,7 +297,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     var topic=new URLSearchParams(location.search).get('topic');
     var item=topic && /^[a-z0-9-]+$/.test(topic) && A[topic] && topic!=='discussion-center' ? A[topic] : null;
     var context=item ? '<div class="discussion-context"><span>YOUR TOPIC</span><h2>'+esc(item.t)+'</h2><p>Share this encyclopedia page in a community conversation so others know what you’re discussing.</p><div class="discussion-context-actions"><a href="/wiki/'+topic+'/">Return to the article →</a><button type="button" class="discussion-copy" data-share-url="/wiki/'+topic+'/">Copy article link</button><span class="share-status" role="status" aria-live="polite"></span></div></div>' : '';
-    return '<div class="discussion-hub"><div class="discussion-intro"><span>THE GU ZHEN REN COMMUNITY</span><h2>Every path begins<br><em>with a conversation.</em></h2><p>Questions, theories, favorite moments or a correction for the encyclopedia—there’s room for all of it here.</p><div class="discussion-actions"><a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Join the Discord ↗</a><a href="/wiki/community/">Explore the community →</a></div></div>'+context+
+    return '<div class="discussion-hub"><div class="discussion-intro"><span>THE GU ZHEN REN COMMUNITY</span><h2>Every path begins<br><em>with a conversation.</em></h2><p>Questions, theories, favorite moments or a correction for the encyclopedia, there’s room for all of it here.</p><div class="discussion-actions"><a href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer">Join the Discord ↗</a><a href="/wiki/community/">Explore the community →</a></div></div>'+context+
       '<div class="discussion-heading"><span>FIND YOUR PEOPLE</span><h2>Where conversations happen</h2><p>This center connects you to existing communities. Posts and replies happen on those services, not on this page.</p></div><div class="discussion-cards"><a class="discussion-card" href="https://discord.gg/UgwTKn4sQf" target="_blank" rel="noopener noreferrer"><small>THE OMNIARCH COMMUNITY</small><strong>Heaven on Discord</strong><p>Talk with readers, ask questions and share corrections with the community.</p><span>Join the server ↗</span></a><a class="discussion-card" href="https://www.reddit.com/r/ReverendInsanity/" target="_blank" rel="noopener noreferrer"><small>COMMUNITY FORUM</small><strong>Reverend Insanity on Reddit</strong><p>Browse ongoing conversations and fan theories in the wider community.</p><span>Visit the subreddit ↗</span></a></div>'+
       '<div class="discussion-notes"><div><h3>Start a thoughtful conversation</h3><p>Share your question or the page you’re referring to. For story discussions, say which chapter you have reached and mark spoilers for other readers.</p></div><div><h3>On-site discussions</h3><p>Posting directly on the encyclopedia is not available yet. It needs a discussion service and moderation setup; for now, use the community links above.</p></div></div></div>';
   }
@@ -416,6 +416,41 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
     return '<div class="news-grid home-news-grid">'+items.slice(0,4).map(newsCardHTML).join('')+'</div>';
   }
   window.renderHomeNewsHTML = renderHomeNewsHTML;
+
+  /* Fan animation & community video carousel. window.OMNIARCH_DONGHUA (js/donghua-data.js)
+     is a plain data file a scheduled workflow can overwrite with live YouTube results
+     without touching this markup; see js/donghua-data.js for the refresh contract. */
+  function formatViews(n){
+    n=Number(n)||0;
+    if(n>=1000000) return (Math.round(n/100000)/10)+'M views';
+    if(n>=1000) return (Math.round(n/100)/10)+'K views';
+    return n+' views';
+  }
+  function donghuaCardHTML(v){
+    // The badge names the actual person/channel behind the video (even for community
+    // uploads) instead of a generic "COMMUNITY" label — only The Omniarch's own
+    // channel gets the fixed "THE OMNIARCH" badge.
+    var tag=v.kind==='own'?'THE OMNIARCH':esc(v.channel||v.creator||'Community');
+    var credit=v.creator?'<small>by '+esc(v.creator)+(typeof v.views==='number'?' · '+formatViews(v.views):'')+'</small>':(v.channel?'<small>'+esc(v.channel)+'</small>':'');
+    return '<a class="donghua-card" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer"><span class="donghua-card-thumb"><img src="'+esc(v.thumbnail||('https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg'))+'" alt="" loading="lazy"><span class="donghua-card-play" aria-hidden="true">▶</span><span class="donghua-card-tag'+(v.kind==='own'?' donghua-card-tag-own':'')+'">'+tag+'</span></span><strong>'+esc(v.title)+'</strong>'+credit+'</a>';
+  }
+  function renderDonghuaCarouselHTML(){
+    var d=window.OMNIARCH_DONGHUA;
+    if(!d||!d.featured) return '<p class="stub-note">Fan donghua coming soon.</p>';
+    var f=d.featured, cards=(d.videos||[]).map(donghuaCardHTML).join('');
+    // Highest views first, so the trending list actually reads top-to-bottom by popularity.
+    var trendingSorted=(d.trending||[]).slice().sort(function(a,b){return (b.views||0)-(a.views||0);});
+    var trending=trendingSorted.map(donghuaCardHTML).join('');
+    var updated=d.updatedAt?new Date(d.updatedAt):null;
+    var updatedLabel=updated && !isNaN(updated)?updated.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'recently';
+    var featuredCredit=f.creator||f.channel||'纵横AIGC';
+    return '<div class="editorial-heading"><div><span class="editorial-section-kicker">THE COMMUNITY EDIT</span><h2 id="watch-title">Watch &amp; discover<span>.</span></h2></div></div><p class="editorial-disclaimer">The latest fan-made donghua update, The Omniarch’s picks, and what the wider community is watching — a rotating selection, not the full list. Updated automatically roughly every day. The worldbuilding reference, translation and lore write-ups across this site are The Omniarch’s own; each video below keeps its own creator credit.</p>'
+      +'<div class="editorial-watch"><div class="watch-player" id="donghua-video"><img src="'+esc(f.thumbnail||'')+'" alt="" loading="lazy" onerror="this.hidden=true"><button type="button" id="play-donghua" data-video-id="'+esc(f.id)+'" aria-label="Play '+esc(f.title)+' on YouTube"><span aria-hidden="true">▶</span> Play episode</button></div><div class="watch-copy"><span class="editorial-kicker">LATEST EPISODE</span><h3>'+esc(f.title)+'</h3><p>Watch the latest fan-made episode. Animation by '+esc(featuredCredit)+'; contains AI-generated content.</p>'+(f.playlistUrl?'<div class="editorial-actions"><a class="ed-button ed-button-light" href="'+esc(f.playlistUrl)+'" target="_blank" rel="noopener noreferrer">View the playlist ↗</a></div>':'')+'<small>Spoilers beyond the first 11 chapters · Not an official adaptation</small></div><span class="watch-credit">Credit: '+esc(featuredCredit)+' · Fallback art: 轮回画室丶不修</span></div>'
+      +(cards?'<div class="donghua-track" tabindex="0" aria-label="More Gu Zhen Ren videos, scrollable"><div class="donghua-track-inner">'+cards+cards+'</div></div>':'')
+      +(trending?'<div class="donghua-more"><button type="button" id="donghua-see-more" aria-expanded="false" aria-controls="donghua-trending">See more Reverend Insanity videos <span aria-hidden="true">↓</span></button><div class="donghua-trending" id="donghua-trending" hidden><p class="donghua-trending-heading">Most-watched Reverend Insanity videos right now, by views</p><div class="donghua-trending-grid">'+trending+'</div></div></div>':'')
+      +'<p class="donghua-carousel-note">Community videos are independently produced and surfaced from YouTube search; inclusion is not an endorsement or a confirmed affiliation. Last updated '+esc(updatedLabel)+'.</p>';
+  }
+  window.renderDonghuaCarouselHTML = renderDonghuaCarouselHTML;
   // The main index is a curated door into the story, not a gallery-file dump.
   function encyclopediaIndex(){
     var subjects=[
@@ -859,6 +894,7 @@ if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   var spar=document.getElementById('stat-par'); if(spar) spar.textContent=S.parables;
 
   var newsHome=document.getElementById('home-news-feed'); if(newsHome) newsHome.innerHTML=renderHomeNewsHTML();
+  var donghuaHome=document.getElementById('donghua-carousel'); if(donghuaHome) donghuaHome.innerHTML=renderDonghuaCarouselHTML();
 
   /* ---- live date ---- */
   (function(){

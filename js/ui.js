@@ -108,18 +108,36 @@
     e.preventDefault(); e.stopPropagation();
     var cur=sc.querySelector('.slide.on'); if(cur && cur.getAttribute('data-link')) window.open(cur.getAttribute('data-link'),'_blank','noopener'); }, true); })();
 
-// Load the third-party player only after an explicit click.
+// Load the third-party player only after an explicit click. The video id comes
+// from the button's data attribute (set from window.OMNIARCH_DONGHUA at render
+// time, see js/app.js and js/donghua-data.js) so this keeps working as the
+// featured episode changes, instead of a single id baked into this file.
 (function(){
   var button=document.getElementById('play-donghua');
   if(!button)return;
   button.addEventListener('click',function(){
+    var vid=button.getAttribute('data-video-id')||'KBN76u1Z3YI';
     var frame=document.createElement('iframe');
-    frame.title='Gu Zhen Ren fan-made donghua episode 23 on YouTube';
-    frame.src='https://www.youtube-nocookie.com/embed/KBN76u1Z3YI?autoplay=1';
+    frame.title='Gu Zhen Ren fan-made donghua on YouTube';
+    frame.src='https://www.youtube-nocookie.com/embed/'+vid+'?autoplay=1';
     frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     frame.allowFullscreen=true;
     document.getElementById('donghua-video').replaceChildren(frame);
     document.querySelector('.editorial-watch').classList.add('is-playing');
+  });
+})();
+
+// "See more" reveals the fuller/most-trending video list (window.OMNIARCH_DONGHUA.trending,
+// rendered by js/app.js into #donghua-trending) without leaving the homepage.
+(function(){
+  var btn=document.getElementById('donghua-see-more');
+  if(!btn)return;
+  var panel=document.getElementById('donghua-trending');
+  btn.addEventListener('click',function(){
+    var open=btn.getAttribute('aria-expanded')==='true';
+    btn.setAttribute('aria-expanded',open?'false':'true');
+    if(panel)panel.hidden=open;
+    btn.innerHTML=open?'See more Reverend Insanity videos <span aria-hidden="true">↓</span>':'Show fewer videos <span aria-hidden="true">↑</span>';
   });
 })();
 
